@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsHorizonLightPass.css into your app.
+ * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port with Reanimated/Moti — transforms/opacity/color, custom delay per index.
  */
@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsHorizonLightPass.module.css'
 
 interface TextEffectsHorizonLightPassProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -21,6 +22,19 @@ function TextEffectsHorizonLightPassComponent({
 }: TextEffectsHorizonLightPassProps) {
   const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
+
+  const reducedContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { duration: 0.3 },
+    },
+  }
+
+  const reducedLetterVariants: Variants = {
+    hidden: { opacity: 1 },
+    show: { opacity: 1 },
+  }
 
   const containerVariants: Variants = {
     hidden: { opacity: 0, scaleY: 0.995 },
@@ -37,14 +51,6 @@ function TextEffectsHorizonLightPassComponent({
     settle: {
       scale: [1, 1.008, 1],
       transition: { duration: 0.28, ease: [0.2, 0, 0, 1] as const, delay: 0.85 },
-    },
-  }
-
-  const reducedContainerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { duration: 0.3 },
     },
   }
 
@@ -76,14 +82,9 @@ function TextEffectsHorizonLightPassComponent({
     },
   }
 
-  const reducedLetterVariants: Variants = {
-    hidden: { opacity: 1 },
-    show: { opacity: 1 },
-  }
-
   return (
     <m.div
-      className="pf-horizon-light"
+      className={styles['pf-horizon-light-fm']}
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
       variants={prefersReducedMotion ? reducedContainerVariants : containerVariants}
@@ -93,11 +94,11 @@ function TextEffectsHorizonLightPassComponent({
         color !== undefined ? ({ '--pf-hlp-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-horizon-light__line" aria-hidden="true">
+      <div className={styles['pf-horizon-light-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-horizon-light__letter"
+            className={styles['pf-horizon-light-fm__letter']}
             variants={prefersReducedMotion ? reducedLetterVariants : letterVariants}
             custom={i}
           >

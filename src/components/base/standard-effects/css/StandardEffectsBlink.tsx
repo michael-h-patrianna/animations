@@ -1,9 +1,9 @@
 /**
  * Catalog display for the Blink CSS effect.
- * Consumer product: StandardEffectsBlink.css — apply .pf-blink to any element.
+ * Consumer product: StandardEffectsBlink.module.css — import styles and apply styles['pf-blink'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsBlink.css'
+import styles from './StandardEffectsBlink.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsBlinkProps {
@@ -21,7 +21,7 @@ function StandardEffectsBlinkComponent({ children, duration = 1000 }: StandardEf
       : ({ display: 'inline-flex' } as CSSProperties)
 
   return (
-    <div className="pf-blink" data-animation-id="standard-effects__blink" style={style}>
+    <div className={styles['pf-blink']} data-animation-id="standard-effects__blink" style={style}>
       {children ?? <DemoBox label="Blink" />}
     </div>
   )

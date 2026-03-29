@@ -24,7 +24,6 @@ function StandardEffectsWiggleComponent({ children, duration = 1000 }: StandardE
   return (
     <m.div
       data-animation-id="standard-effects__wiggle"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { rotate: [0, -1, 1, -0.5, 0.5, 0], x: [0, -1, 1, -0.5, 0.5, 0] }

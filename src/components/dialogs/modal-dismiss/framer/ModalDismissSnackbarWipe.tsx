@@ -97,15 +97,10 @@ function ModalDismissSnackbarWipeComponent({
       className={children === undefined ? 'pf-dismiss-stage' : undefined}
       style={{ overflow: 'hidden' }}
     >
-      <m.div
-        variants={outerVariants}
-        initial="hidden"
-        animate={animatePhase}
-        style={{ animation: 'none' }}
-      >
+      <m.div variants={outerVariants} initial="hidden" animate={animatePhase}>
         <m.div
           className={className}
-          style={{ ...style, animation: 'none' }}
+          style={style}
           variants={innerVariants}
           initial="hidden"
           animate={animatePhase}

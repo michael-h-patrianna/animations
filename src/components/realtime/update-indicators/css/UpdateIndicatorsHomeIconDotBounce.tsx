@@ -1,7 +1,7 @@
 /**
  * Notification dot — elastic bounce entrance with idle bob. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsHomeIconDotBounce.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotBounce.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsHomeIconDotBounce dotColor="#ff0000"><MyIcon /></UpdateIndicatorsHomeIconDotBounce>
@@ -9,7 +9,7 @@
 import { memo } from 'react'
 import { DOT_COLOR, ringTint } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
-import './UpdateIndicatorsHomeIconDotBounce.css'
+import styles from './UpdateIndicatorsHomeIconDotBounce.module.css'
 
 function UpdateIndicatorsHomeIconDotBounceComponent({
   children,
@@ -29,7 +29,7 @@ function UpdateIndicatorsHomeIconDotBounceComponent({
 
   const dot = (
     <span
-      className="pf-update-indicator__dot pf-update-indicator__dot--bounce pf-dot-bounce-enter"
+      className={`pf-update-indicator__dot pf-update-indicator__dot--bounce ${styles['pf-dot-bounce-enter']}`}
       style={dotStyle}
     />
   )

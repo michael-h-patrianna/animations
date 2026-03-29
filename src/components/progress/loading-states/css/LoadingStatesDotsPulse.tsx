@@ -1,14 +1,14 @@
 /**
  * Three dots scaling up with a staggered opacity pulse — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesDotsPulse.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesDotsPulse.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 
 import { memo } from 'react'
 
 import { DOTS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesDotsPulse.css'
+import styles from './LoadingStatesDotsPulse.module.css'
 
 interface LoadingStatesDotsPulseProps {
   /** Dot color. */
@@ -41,7 +41,11 @@ function LoadingStatesDotsPulseComponent({
   return (
     <div
       data-animation-id="loading-states__dots-pulse"
-      className={className !== undefined ? `pf-dots-pulse ${className}` : 'pf-dots-pulse'}
+      className={
+        className !== undefined
+          ? `${styles['pf-dots-pulse']} ${className}`
+          : styles['pf-dots-pulse']
+      }
       style={
         {
           '--pf-dp-dot-size': `${dotSize}px`,
@@ -56,7 +60,7 @@ function LoadingStatesDotsPulseComponent({
       {Array.from({ length: DOT_COUNT }, (_, i) => (
         <span
           key={i}
-          className="pf-dots-pulse__dot"
+          className={styles['pf-dots-pulse__dot']}
           style={{ animationDelay: `${(i * 0.15) / safeSpeed}s` }}
         />
       ))}

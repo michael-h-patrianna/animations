@@ -25,7 +25,7 @@
  * - `--milestone-active-color`   — active marker color
  * - `--milestone-label-color`    — label text color
  *
- * Files to copy: this file + ProgressBarsProgressMilestones.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressMilestones.module.css + ../SharedTypes.ts
  */
 import { easeOut, useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
@@ -34,6 +34,7 @@ import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsProgressMilestones.module.css'
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
   { position: 0, label: 'Start' },
@@ -108,14 +109,16 @@ export function ProgressBarsProgressMilestones({
 
   return (
     <div
-      className={`pf-progress-milestones${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-progress-milestones-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__progress-milestones"
+      data-testid="progress-milestones"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track">
+        <div className={styles['pf-progress-track-fm']}>
           <div
-            className="pf-progress-fill"
+            className={styles['pf-progress-fill-fm']}
+            data-testid="progress-fill"
             style={{ transformOrigin: 'left center', transform: `scaleX(${displayProgress})` }}
           />
         </div>

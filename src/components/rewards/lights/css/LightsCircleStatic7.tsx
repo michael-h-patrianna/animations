@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { useMemo } from 'react'
-import './LightsCircleStatic7.css'
+import styles from './LightsCircleStatic7.module.css'
 import { calculateBulbColors } from '@/utils/colors'
 
 interface LightsCircleStatic7Props {
@@ -25,7 +25,7 @@ function LightsCircleStatic7({
         return (
           <div
             key={i}
-            className="lights-circle-static-7__bulb-wrapper"
+            className={styles['lights-circle-static-7__bulb-wrapper']}
             style={
               {
                 transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
@@ -34,8 +34,8 @@ function LightsCircleStatic7({
               } as CSSProperties
             }
           >
-            <div className="lights-circle-static-7__glow" />
-            <div className="lights-circle-static-7__bulb" />
+            <div className={styles['lights-circle-static-7__glow']} />
+            <div className={styles['lights-circle-static-7__bulb']} />
           </div>
         )
       }),
@@ -44,7 +44,7 @@ function LightsCircleStatic7({
 
   return (
     <div
-      className="lights-circle-static-7"
+      className={styles['lights-circle-static-7']}
       data-animation-id="lights__circle-static-7"
       style={
         {
@@ -63,7 +63,7 @@ function LightsCircleStatic7({
         } as CSSProperties
       }
     >
-      <div className="lights-circle-static-7__container">{bulbs}</div>
+      <div className={styles['lights-circle-static-7__container']}>{bulbs}</div>
     </div>
   )
 }

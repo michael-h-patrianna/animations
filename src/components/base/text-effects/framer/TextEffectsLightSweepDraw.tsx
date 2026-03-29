@@ -1,12 +1,13 @@
 /**
- * Standalone: Copy this file + TextEffectsLightSweepDraw.css into your app.
+ * Standalone: Copy this file + TextEffectsLightSweepDraw.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port variants/timing to Reanimated/Moti — transforms/opacity/color only.
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
+import { easeInOut, easeOut, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsLightSweepDraw.module.css'
 
 interface TextEffectsLightSweepDrawProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -19,7 +20,6 @@ function TextEffectsLightSweepDrawComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsLightSweepDrawProps) {
-  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
@@ -63,30 +63,22 @@ function TextEffectsLightSweepDrawComponent({
 
   return (
     <m.div
-      className="pf-light-sweep-draw"
+      className={styles['pf-light-sweep-draw-fm']}
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
-      variants={
-        prefersReducedMotion
-          ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3 } } }
-          : containerVariants
-      }
+      variants={containerVariants}
       initial="hidden"
-      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
+      animate={['show', 'settle']}
       style={
         color !== undefined ? ({ '--pf-lsd-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-light-sweep-draw__line" aria-hidden="true">
+      <div className={styles['pf-light-sweep-draw-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-light-sweep-draw__letter"
-            variants={
-              prefersReducedMotion
-                ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-                : letterVariants
-            }
+            className={styles['pf-light-sweep-draw-fm__letter']}
+            variants={letterVariants}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>

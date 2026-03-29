@@ -1,7 +1,7 @@
 /**
  * Sequential slide-from-right stagger entrance for a list of panels — CSS variant.
  *
- * Copy-paste files: this file + ModalOrchestrationWizardSlideStack.css
+ * Copy-paste files: this file + ModalOrchestrationWizardSlideStack.module.css
  * Runtime deps: react
  *
  * @example
@@ -13,7 +13,7 @@
 
 import { memo } from 'react'
 import type { ReactNode } from 'react'
-import './ModalOrchestrationWizardSlideStack.css'
+import styles from './ModalOrchestrationWizardSlideStack.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 3
@@ -45,12 +45,15 @@ function ModalOrchestrationWizardSlideStackComponent({
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   return (
-    <div className="pf-wizard-slide" data-animation-id="modal-orchestration__wizard-slide-stack">
-      <div className="pf-wizard-slide__panels">
+    <div
+      className={styles['pf-wizard-slide']}
+      data-animation-id="modal-orchestration__wizard-slide-stack"
+    >
+      <div className={styles['pf-wizard-slide__panels']}>
         {renderItems.map((child, i) => (
           <div
             key={i}
-            className="pf-wizard-slide__panel pf-wizard-slide__panel--visible"
+            className={`${styles['pf-wizard-slide__panel']} ${styles['pf-wizard-slide__panel--visible']}`}
             style={
               {
                 animationDelay: `${(i * stagger) / 1000}s`,

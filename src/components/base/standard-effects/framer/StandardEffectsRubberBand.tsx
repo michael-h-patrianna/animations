@@ -27,7 +27,6 @@ function StandardEffectsRubberBandComponent({
   return (
     <m.div
       data-animation-id="standard-effects__rubber-band"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { scaleX: [1, 1.03, 0.98, 1], scaleY: [1, 0.98, 1.02, 1] }

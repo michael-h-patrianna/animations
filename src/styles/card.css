@@ -16,21 +16,21 @@
   }
 }
 
-.pf-card-grid {
+[data-demo-ui] .pf-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: var(--pf-grid-gap);
 }
 
 @media (width <= 389px) {
-  .pf-card-grid {
+  [data-demo-ui] .pf-card-grid {
     display: flex;
     flex-direction: column;
     gap: var(--pf-grid-gap);
   }
 }
 
-.pf-card {
+[data-demo-ui] .pf-card {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -44,11 +44,11 @@
     transform var(--pf-transition-base) ease;
 }
 
-.pf-card--selectable {
+[data-demo-ui] .pf-card--selectable {
   cursor: pointer;
 }
 
-.pf-card--selectable:hover {
+[data-demo-ui] .pf-card--selectable:hover {
   transform: translateY(-2px);
   border-color: color-mix(in oklch, var(--theme-accent) 18%, var(--border-subtle));
   box-shadow:
@@ -58,7 +58,7 @@
     inset 0 0 0 1px oklch(100% 0 0deg / 3%);
 }
 
-.pf-card--selectable:focus-visible {
+[data-demo-ui] .pf-card--selectable:focus-visible {
   border-color: color-mix(in oklch, var(--theme-accent) 30%, var(--border-subtle));
   box-shadow:
     var(--shadow-soft),
@@ -68,7 +68,7 @@
     inset 0 0 0 1px oklch(100% 0 0deg / 3%);
 }
 
-.pf-card--selected {
+[data-demo-ui] .pf-card--selected {
   background-color: color-mix(in oklch, var(--bg-glass) 90%, white 10%);
   border-color: color-mix(in oklch, var(--theme-accent) 35%, var(--border-subtle));
   box-shadow:
@@ -80,7 +80,7 @@
   animation: pf-selection-glow 4s ease-in-out infinite;
 }
 
-.pf-card__overlay {
+[data-demo-ui] .pf-card__overlay {
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -90,18 +90,18 @@
   transition: opacity var(--pf-transition-base) ease;
 }
 
-.pf-card--selected .pf-card__overlay {
+[data-demo-ui] .pf-card--selected .pf-card__overlay {
   opacity: 0.55;
 }
 
-.pf-card__header {
+[data-demo-ui] .pf-card__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
 }
 
-.pf-card__title {
+[data-demo-ui] .pf-card__title {
   font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
@@ -109,7 +109,7 @@
 
 /* ── Tier Badge ──────────────────────────────────────────────────────── */
 
-.pf-tier-badge {
+[data-demo-ui] .pf-tier-badge {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -131,12 +131,12 @@
     color 0.15s ease;
 }
 
-.pf-tier-badge:hover {
+[data-demo-ui] .pf-tier-badge:hover {
   border-color: var(--text-secondary);
   color: var(--text-primary);
 }
 
-.pf-tier-badge__tooltip {
+[data-demo-ui] .pf-tier-badge__tooltip {
   position: absolute;
   bottom: calc(100% + 6px);
   left: 0;
@@ -158,7 +158,7 @@
   white-space: normal;
 }
 
-.pf-tier-badge__tooltip::after {
+[data-demo-ui] .pf-tier-badge__tooltip::after {
   content: '';
   position: absolute;
   top: 100%;
@@ -167,7 +167,7 @@
   border-top-color: var(--border-default);
 }
 
-.pf-card__meta {
+[data-demo-ui] .pf-card__meta {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -177,39 +177,39 @@
   margin-top: 6px;
 }
 
-.pf-card__meta span {
+[data-demo-ui] .pf-card__meta span {
   padding: 4px 10px;
   border-radius: var(--pf-radius-pill);
   background: var(--bg-hover);
   border: 1px solid var(--border-subtle);
 }
 
-.pf-tag-pill {
+[data-demo-ui] .pf-tag-pill {
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
 
-.pf-card__description {
+[data-demo-ui] .pf-card__description {
   font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.55;
 }
 
-.pf-card__actions {
+[data-demo-ui] .pf-card__actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
 }
 
-.pf-card__controls {
+[data-demo-ui] .pf-card__controls {
   display: flex;
   gap: 8px;
 }
 
-.pf-card__replay {
+[data-demo-ui] .pf-card__replay {
   color: var(--theme-accent);
   border: 1.5px solid color-mix(in oklch, var(--theme-accent) 60%, transparent);
   background: color-mix(in oklch, var(--theme-accent) 6%, transparent);
@@ -225,13 +225,13 @@
     box-shadow 0.2s ease;
 }
 
-.pf-card__replay:hover {
+[data-demo-ui] .pf-card__replay:hover {
   background: color-mix(in oklch, var(--theme-accent) 15%, transparent);
   border-color: var(--theme-accent);
   box-shadow: 0 0 12px color-mix(in oklch, var(--theme-accent) 20%, transparent);
 }
 
-.pf-card__placeholder {
+[data-demo-ui] .pf-card__placeholder {
   color: var(--text-secondary);
   font-size: 14px;
   text-align: center;

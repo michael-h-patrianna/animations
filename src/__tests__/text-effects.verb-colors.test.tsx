@@ -15,14 +15,13 @@ import { TextEffectsVerbJump as FramerVerbJump } from '@/components/base/text-ef
 import { TextEffectsVerbTwirl as FramerVerbTwirl } from '@/components/base/text-effects/framer/TextEffectsVerbTwirl'
 import { toHex } from '@/utils/colors'
 
-// Framer components rely on group-level CSS side effects in production, so tests
-// import the matching layout CSS directly to exercise their rendered character styles.
-import '@/components/base/text-effects/framer/TextEffectsVerbFall.css'
-import '@/components/base/text-effects/framer/TextEffectsVerbFlip.css'
-import '@/components/base/text-effects/framer/TextEffectsVerbFloat.css'
-import '@/components/base/text-effects/framer/TextEffectsVerbJog.css'
-import '@/components/base/text-effects/framer/TextEffectsVerbJump.css'
-import '@/components/base/text-effects/framer/TextEffectsVerbTwirl.css'
+// CSS module imports for layout styles needed by getComputedStyle
+import '@/components/base/text-effects/framer/TextEffectsVerbFall.module.css'
+import '@/components/base/text-effects/framer/TextEffectsVerbFlip.module.css'
+import '@/components/base/text-effects/framer/TextEffectsVerbFloat.module.css'
+import '@/components/base/text-effects/framer/TextEffectsVerbJog.module.css'
+import '@/components/base/text-effects/framer/TextEffectsVerbJump.module.css'
+import '@/components/base/text-effects/framer/TextEffectsVerbTwirl.module.css'
 
 type VerbColorComponent = React.ComponentType<{
   text?: string
@@ -38,66 +37,68 @@ interface VerbColorCase {
 const DEFAULT_COLOR = '#e8e4da'
 const CUSTOM_COLOR = '#ff6600'
 
+// CSS modules hash class names but always include the original name.
+// Use [class*="name"] attribute selectors to match hashed classes.
 const CASES: VerbColorCase[] = [
   {
     name: 'CSS jump',
     Component: CssVerbJump,
-    charSelector: '.tfx-jump-char',
+    charSelector: '[class*="tfx-jump-char"]',
   },
   {
     name: 'CSS jog',
     Component: CssVerbJog,
-    charSelector: '.tfx-jog-char',
+    charSelector: '[class*="tfx-jog-char"]',
   },
   {
     name: 'CSS float',
     Component: CssVerbFloat,
-    charSelector: '.tfx-float-char',
+    charSelector: '[class*="tfx-float-char"]',
   },
   {
     name: 'CSS flip',
     Component: CssVerbFlip,
-    charSelector: '.tfx-flip-char',
+    charSelector: '[class*="tfx-flip-char"]',
   },
   {
     name: 'CSS fall',
     Component: CssVerbFall,
-    charSelector: '.tfx-fall-char',
+    charSelector: '[class*="tfx-fall-char"]',
   },
   {
     name: 'CSS twirl',
     Component: CssVerbTwirl,
-    charSelector: '.tfx-twirl-char',
+    charSelector: '[class*="tfx-twirl-char"]',
   },
   {
     name: 'Framer jump',
     Component: FramerVerbJump,
-    charSelector: '.pf-verb-jump__char',
+    charSelector: '[class*="pf-verb-jump-fm__char"]',
   },
   {
     name: 'Framer jog',
     Component: FramerVerbJog,
-    charSelector: '.pf-verb-jog__char',
+    charSelector: '[class*="pf-verb-jog-fm__char"]',
   },
   {
     name: 'Framer float',
     Component: FramerVerbFloat,
-    charSelector: '.pf-verb-float__char',
+    charSelector: '[class*="pf-verb-float-fm__char"]',
   },
   {
     name: 'Framer flip',
     Component: FramerVerbFlip,
-    charSelector: '.pf-verb-flip__char',
+    charSelector: '[class*="pf-verb-flip-fm__char"]',
   },
   {
     name: 'Framer fall',
     Component: FramerVerbFall,
-    charSelector: '.pf-verb-fall__char',
+    charSelector: '[class*="pf-verb-fall-fm__char"]',
   },
   {
     name: 'Framer twirl',
     Component: FramerVerbTwirl,
-    charSelector: '.pf-verb-twirl__char',
+    charSelector: '[class*="pf-verb-twirl-fm__char"]',
   },
 ]
 

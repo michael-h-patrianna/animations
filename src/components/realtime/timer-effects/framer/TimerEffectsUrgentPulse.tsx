@@ -3,7 +3,7 @@
  * Two-layer gradient (amber base + red overlay) with scale pulse and opacity crossfade.
  * Pulse parameters match the original fixed values — intensity does not change with time.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsUrgentPulse.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsUrgentPulse.module.css
  * Runtime deps: react, motion
  */
 
@@ -17,6 +17,7 @@ import {
   resolveTimerProps,
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
+import styles from './TimerEffectsUrgentPulse.module.css'
 
 const DEFAULT_START = 5
 const DEFAULT_WARNING = 3
@@ -62,9 +63,12 @@ function TimerEffectsUrgentPulseComponent(props: TimerEffectProps) {
   }
 
   return (
-    <div className="timer-urgent-pulse-demo" data-animation-id="timer-effects__urgent-pulse">
+    <div
+      className={styles['timer-urgent-pulse-demo-fm']}
+      data-animation-id="timer-effects__urgent-pulse"
+    >
       <m.div
-        className="timer-urgent-pulse"
+        className={styles['timer-urgent-pulse-fm']}
         animate={{ scale: scaleValues }}
         transition={{
           duration,
@@ -72,22 +76,20 @@ function TimerEffectsUrgentPulseComponent(props: TimerEffectProps) {
           ease: 'easeInOut',
         }}
         style={{
-          animation: 'none',
           ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
         }}
       >
-        <div className="timer-urgent-pulse__gradient-base" />
+        <div className={styles['timer-urgent-pulse-fm__gradient-base']} />
         <m.div
-          className="timer-urgent-pulse__gradient-top"
+          className={styles['timer-urgent-pulse-fm__gradient-top']}
           animate={{ opacity: opacityValues }}
           transition={{
             duration,
             repeat: Infinity,
             ease: 'easeInOut',
           }}
-          style={{ animation: 'none' }}
         />
-        <span className="timer-urgent-pulse__value" style={valueStyle}>
+        <span className={styles['timer-urgent-pulse-fm__value']} style={valueStyle}>
           {formatTime(seconds)}
         </span>
       </m.div>

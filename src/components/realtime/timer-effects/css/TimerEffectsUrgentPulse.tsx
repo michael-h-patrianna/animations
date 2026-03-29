@@ -2,7 +2,7 @@
  * Urgent pulsing countdown pill with gradient color shift — CSS variant.
  * Uses CSS keyframe animation with phase-driven classes.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsUrgentPulse.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsUrgentPulse.module.css
  * Runtime deps: react
  */
 
@@ -15,7 +15,8 @@ import {
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
 
-import './TimerEffectsUrgentPulse.css'
+import './shared.css'
+import styles from './TimerEffectsUrgentPulse.module.css'
 
 const DEFAULT_START = 5
 const DEFAULT_WARNING = 3
@@ -54,12 +55,15 @@ function TimerEffectsUrgentPulseComponent(props: TimerEffectProps) {
   }
 
   return (
-    <div className="timer-urgent-pulse-demo" data-animation-id="timer-effects__urgent-pulse">
+    <div
+      className={styles['timer-urgent-pulse-demo']}
+      data-animation-id="timer-effects__urgent-pulse"
+    >
       <div
-        className={`timer-urgent-pulse timer-urgent-pulse--${phase}`}
+        className={`${styles['timer-urgent-pulse']} timer-urgent-pulse--${phase}`}
         style={phaseColor !== undefined ? { backgroundColor: phaseColor } : undefined}
       >
-        <span className="timer-urgent-pulse__value" style={valueStyle}>
+        <span className={styles['timer-urgent-pulse__value']} style={valueStyle}>
           {formatTime(seconds)}
         </span>
       </div>

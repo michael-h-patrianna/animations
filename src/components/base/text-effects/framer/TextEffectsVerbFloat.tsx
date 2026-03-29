@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFloat.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbFloat.module.css into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbFloat.module.css'
 
 interface TextEffectsVerbFloatProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -24,7 +25,7 @@ function TextEffectsVerbFloatComponent({
 
   return (
     <div
-      className="pf-verb-float"
+      className={styles['pf-verb-float-fm']}
       data-animation-id="text-effects__verb-floating"
       aria-label={text}
       style={
@@ -33,11 +34,11 @@ function TextEffectsVerbFloatComponent({
           : undefined
       }
     >
-      <div className="pf-verb-float__line" aria-hidden="true">
+      <div className={styles['pf-verb-float-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-float__char"
+            className={styles['pf-verb-float-fm__char']}
             initial={prefersReducedMotion ? undefined : { y: 0, opacity: 1 }}
             animate={
               prefersReducedMotion

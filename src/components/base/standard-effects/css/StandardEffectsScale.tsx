@@ -1,9 +1,9 @@
 /**
  * Catalog display for the Scale CSS effect.
- * Consumer product: StandardEffectsScale.css — apply .pf-scale to any element.
+ * Consumer product: StandardEffectsScale.module.css — import styles and apply styles['pf-scale'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsScale.css'
+import styles from './StandardEffectsScale.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsScaleProps {
@@ -18,7 +18,7 @@ function StandardEffectsScaleComponent({ children, duration = 600 }: StandardEff
   } as CSSProperties
 
   return (
-    <div className="pf-scale" data-animation-id="standard-effects__scale" style={style}>
+    <div className={styles['pf-scale']} data-animation-id="standard-effects__scale" style={style}>
       {children ?? <DemoBox label="Scale" />}
     </div>
   )

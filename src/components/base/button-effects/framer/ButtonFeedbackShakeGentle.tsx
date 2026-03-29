@@ -52,7 +52,6 @@ function ButtonFeedbackShakeGentleComponent({
       type="button"
       className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__shake-gentle"
-      style={{ animation: 'none' }}
       initial={{ x: 0, scale: 1, opacity: 1 }}
       animate={
         isAnimating

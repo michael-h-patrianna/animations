@@ -1,14 +1,14 @@
 /**
  * A colored border-top arc spinning continuously — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesSpinner.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSpinner.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 
 import { memo } from 'react'
 
 import { SPINNER_COLOR } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesSpinner.css'
+import styles from './LoadingStatesSpinner.module.css'
 
 interface LoadingStatesSpinnerProps {
   /** Diameter of the spinner in px. */
@@ -39,7 +39,9 @@ function LoadingStatesSpinnerComponent({
   return (
     <div
       data-animation-id="loading-states__spinner"
-      className={className !== undefined ? `pf-spinner ${className}` : 'pf-spinner'}
+      className={
+        className !== undefined ? `${styles['pf-spinner']} ${className}` : styles['pf-spinner']
+      }
       style={
         {
           '--pf-spinner-size': `${size}px`,

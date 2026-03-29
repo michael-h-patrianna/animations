@@ -2,7 +2,7 @@
  * Tab panel container with pop-scale tab entrance and sliding content transitions.
  * Supports controlled (activeIndex + onTabChange) or uncontrolled (internal state) usage.
  *
- * Copy-paste files: this file + ModalOrchestrationTabMorph.css
+ * Copy-paste files: this file + ModalOrchestrationTabMorph.module.css
  * Runtime deps: react, motion
  *
  * @example
@@ -18,6 +18,7 @@ import { AnimatePresence, useReducedMotion } from 'motion/react'
 import { memo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationTabMorph.module.css'
 
 const DEFAULT_TAB_COUNT = 4
 
@@ -117,38 +118,35 @@ function ModalOrchestrationTabMorphComponent({
 
   return (
     <m.div
-      className="pf-tab-morph"
+      className={styles['pf-tab-morph-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__tab-morph"
-      style={{ animation: 'none' }}
     >
-      <div className="pf-tab-morph__nav">
+      <div className={styles['pf-tab-morph-fm__nav']}>
         {tabLabels.map((label, i) => (
           <m.div
             key={i}
-            className={`pf-tab-morph__tab${i === safeIndex ? ' pf-tab-morph__tab--active' : ''}`}
+            className={`${styles['pf-tab-morph-fm__tab']}${i === safeIndex ? ` ${styles['pf-tab-morph-fm__tab--active']}` : ''}`}
             variants={tabVariants}
             onClick={() => handleTabClick(i)}
             data-testid={`tab-morph-tab-${i}`}
-            style={{ animation: 'none' }}
           >
             {label}
           </m.div>
         ))}
       </div>
 
-      <div className="pf-tab-morph__content">
+      <div className={styles['pf-tab-morph-fm__content']}>
         <AnimatePresence mode="wait">
           <m.div
             key={safeIndex}
-            className="pf-tab-morph__panel"
+            className={styles['pf-tab-morph-fm__panel']}
             variants={panelVariants}
             initial="initial"
             animate="animate"
             exit="exit"
-            style={{ animation: 'none' }}
           >
             {renderItems[safeIndex]}
           </m.div>

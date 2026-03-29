@@ -24,7 +24,7 @@ function StandardEffectsSlideComponent({ children, duration = 700 }: StandardEff
   return (
     <m.div
       data-animation-id="standard-effects__slide"
-      style={{ transformOrigin: 'center left', animation: 'none' }}
+      style={{ transformOrigin: 'center left' }}
       initial={
         prefersReducedMotion ? { opacity: 0 } : { x: '-100%', scale: 0.8, rotate: -5, opacity: 0 }
       }

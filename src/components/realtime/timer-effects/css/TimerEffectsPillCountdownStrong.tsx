@@ -2,7 +2,7 @@
  * Pill countdown with aggressive snap emphasis and double-tap at critical seconds — CSS variant.
  * Color transitions through normal → caution → danger phases.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownStrong.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownStrong.module.css
  * Runtime deps: react
  */
 
@@ -16,7 +16,7 @@ import {
 } from '@/components/realtime/timer-effects/SharedTypes'
 
 import './shared.css'
-import './TimerEffectsPillCountdownStrong.css'
+import styles from './TimerEffectsPillCountdownStrong.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -106,7 +106,7 @@ function TimerEffectsPillCountdownStrongComponent(props: TimerEffectProps) {
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-strong">
       <div
         key={animationKey}
-        className={`pf-pill-timer__pill pf-pill-timer__pill--strong pf-pill-timer--${phase}`}
+        className={`pf-pill-timer__pill ${styles['pf-pill-timer__pill--strong']} pf-pill-timer--${phase}`}
         style={pillStyle}
       >
         <span className="pf-pill-timer__glow" aria-hidden="true" />

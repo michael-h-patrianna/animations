@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFall.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbFall.module.css into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbFall.module.css'
 
 interface TextEffectsVerbFallProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -27,18 +28,18 @@ function TextEffectsVerbFallComponent({
 
   return (
     <div
-      className="pf-verb-fall"
+      className={styles['pf-verb-fall-fm']}
       data-animation-id="text-effects__verb-falling"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-fall-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-verb-fall__line" aria-hidden="true">
+      <div className={styles['pf-verb-fall-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-fall__char"
+            className={styles['pf-verb-fall-fm__char']}
             initial={prefersReducedMotion ? { opacity: 0 } : { y: -12, scaleY: 0.96, opacity: 0.9 }}
             animate={
               prefersReducedMotion

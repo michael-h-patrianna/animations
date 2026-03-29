@@ -35,7 +35,7 @@ function ModalBaseTvTurnOnComponent({
           ease: [0.34, 1.56, 0.64, 1],
         }}
         onAnimationComplete={onAnimationComplete}
-        style={{ ...style, animation: 'none' }}
+        style={style}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </m.div>

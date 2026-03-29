@@ -1,7 +1,7 @@
 /**
  * Animated badge — continuous glowing pulse to signal unseen content. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsBadgePulse.css + ../shared.css
+ * Copy-paste files: this file + UpdateIndicatorsBadgePulse.module.css + ../shared.css
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsBadgePulse color="#ff6b6b" textColor="#fff" glowColor="rgba(255,100,100,0.4)">5</UpdateIndicatorsBadgePulse>
@@ -12,7 +12,7 @@ import {
   BADGE_GLOW,
   BADGE_TEXT_COLOR,
 } from '@/components/realtime/update-indicators/SharedDefaults'
-import './UpdateIndicatorsBadgePulse.css'
+import styles from './UpdateIndicatorsBadgePulse.module.css'
 
 interface BadgePulseProps {
   /** Badge content. Default: 'New' */
@@ -37,7 +37,7 @@ function UpdateIndicatorsBadgePulseComponent({
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
       <div
-        className="pf-update-indicator__badge pf-badge-pulse"
+        className={`pf-update-indicator__badge ${styles['pf-badge-pulse']}`}
         style={{
           ['--pf-badge-pulse-glow' as string]: glowColor,
           ['--pf-badge-pulse-dur' as string]: `${duration}ms`,

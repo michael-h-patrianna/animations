@@ -1,11 +1,11 @@
 /**
  * Spring-physics stagger entrance with interactive hover-lift and tap-press gestures.
  *
- * Copy-paste files: this file + ModalOrchestrationSpringPhysics.css
+ * Copy-paste files: this file + ModalOrchestrationSpringPhysics.module.css
  * Runtime deps: react, motion
  *
  * @example
- * <ModalOrchestrationSpringPhysics stagger={100} stiffness={200} damping={15}>
+ * <ModalOrchestrationSpringPhysics stagger={100} stiffness={300} damping={10}>
  *   <ProductCard>...</ProductCard>
  *   <ProductCard>...</ProductCard>
  * </ModalOrchestrationSpringPhysics>
@@ -16,6 +16,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationSpringPhysics.module.css'
 
 const DEFAULT_COUNT = 6
 
@@ -24,11 +25,11 @@ interface ModalOrchestrationSpringPhysicsProps {
   children?: ReactNode
   /** Delay between each item's entrance in ms. Default 100. */
   stagger?: number
-  /** Spring stiffness. Higher = snappier. Default 200. */
+  /** Spring stiffness. Higher = snappier. Default 300. */
   stiffness?: number
-  /** Spring damping. Lower = more oscillation. Default 15. */
+  /** Spring damping. Lower = more oscillation. Default 10. */
   damping?: number
-  /** Spring mass. Higher = more inertia. Default 1.2. */
+  /** Spring mass. Higher = more inertia. Default 1. */
   mass?: number
   /** Number of grid columns. Default 3. */
   columns?: number
@@ -45,9 +46,9 @@ function generatePlaceholders(count: number): ReactNode[] {
 function ModalOrchestrationSpringPhysicsComponent({
   children,
   stagger = 100,
-  stiffness = 200,
-  damping = 15,
-  mass = 1.2,
+  stiffness = 300,
+  damping = 10,
+  mass = 1,
   columns = 3,
 }: ModalOrchestrationSpringPhysicsProps) {
   const prefersReducedMotion = useReducedMotion()
@@ -76,7 +77,11 @@ function ModalOrchestrationSpringPhysicsComponent({
       opacity: 1,
       transition: noMotion
         ? { duration: 0.15 }
-        : { type: 'spring' as const, stiffness, damping, mass },
+        : {
+            scale: { type: 'spring' as const, stiffness, damping, mass, restDelta: 0.005 },
+            y: { type: 'spring' as const, stiffness, damping, mass, restDelta: 0.5 },
+            opacity: { duration: 0.2 },
+          },
     },
   }
 
@@ -85,33 +90,32 @@ function ModalOrchestrationSpringPhysicsComponent({
     : {
         scale: 1.05,
         y: -8,
-        transition: { type: 'spring' as const, stiffness: 400, damping: 20, mass: 0.8 },
+        transition: { type: 'spring' as const, stiffness: 300, damping: 12, mass: 0.8 },
       }
 
   const tapAnimation = noMotion
     ? undefined
     : {
         scale: 0.95,
-        transition: { type: 'spring' as const, stiffness: 600, damping: 25 },
+        transition: { type: 'spring' as const, stiffness: 400, damping: 15 },
       }
 
   return (
     <m.div
-      className="pf-spring-physics"
+      className={styles['pf-spring-physics-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__spring-physics"
-      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, animation: 'none' }}
+      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
       {renderItems.map((child, i) => (
         <m.div
           key={i}
-          className="pf-spring-physics__item"
+          className={styles['pf-spring-physics-fm__item']}
           variants={itemVariants}
           whileHover={hoverAnimation}
           whileTap={tapAnimation}
-          style={{ animation: 'none' }}
         >
           {child}
         </m.div>

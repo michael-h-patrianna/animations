@@ -8,7 +8,7 @@ export const metadata: AnimationMetadata = {
   description:
     'Modal launches upward from trigger, pauses at apex, then slams down to center with aftershock bounces. Props: from, duration, impactForce, contentRevealAt, children.',
   tier: 3,
-  tags: ['lrc'],
+  tags: [],
   props: [
     {
       type: 'string',
@@ -26,15 +26,6 @@ export const metadata: AnimationMetadata = {
       max: 2000,
       step: 50,
       unit: 'ms',
-    },
-    {
-      type: 'number',
-      name: 'overlayOpacity',
-      label: 'Overlay Opacity',
-      default: 0.5,
-      min: 0,
-      max: 1,
-      step: 0.05,
     },
     {
       type: 'number',

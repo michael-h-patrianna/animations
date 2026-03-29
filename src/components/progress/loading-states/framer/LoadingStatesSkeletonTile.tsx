@@ -12,6 +12,7 @@ import { memo } from 'react'
 
 import { Skeleton } from '@/components/progress/loading-states/SharedSkeleton'
 import type { SkeletonProps } from '@/components/progress/loading-states/SharedSkeleton'
+import styles from './LoadingStatesSkeletonTile.module.css'
 
 interface LoadingStatesSkeletonTileProps {
   /** Overall width in px. */
@@ -63,13 +64,16 @@ function LoadingStatesSkeletonTileComponent({
   return (
     <div
       data-animation-id="loading-states__skeleton-tile"
-      className={className !== undefined ? `pf-skeleton-tile ${className}` : 'pf-skeleton-tile'}
+      className={
+        className !== undefined
+          ? `${styles['pf-skeleton-tile-fm']} ${className}`
+          : styles['pf-skeleton-tile-fm']
+      }
       style={
         {
           width,
           gap,
           '--pf-skeleton-tile-cols': `repeat(${columns}, 1fr)`,
-          animation: 'none',
         } as React.CSSProperties
       }
       role="status"

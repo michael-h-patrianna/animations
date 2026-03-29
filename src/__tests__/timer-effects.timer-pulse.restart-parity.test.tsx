@@ -2,7 +2,9 @@ import { act, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { TimerEffectsTimerPulse as CssTimerEffectsTimerPulse } from '@/components/realtime/timer-effects/css/TimerEffectsTimerPulse'
+import cssTimerPulseStyles from '@/components/realtime/timer-effects/css/TimerEffectsTimerPulse.module.css'
 import { TimerEffectsTimerPulse as FramerTimerEffectsTimerPulse } from '@/components/realtime/timer-effects/framer/TimerEffectsTimerPulse'
+import fmTimerPulseStyles from '@/components/realtime/timer-effects/framer/TimerEffectsTimerPulse.module.css'
 
 beforeEach(() => {
   vi.useFakeTimers()
@@ -14,11 +16,15 @@ afterEach(() => {
 })
 
 function getCssValue(container: HTMLElement) {
-  return Number(container.querySelector('.pf-timer-pulse__value')?.textContent ?? '')
+  return Number(
+    container.querySelector(`.${cssTimerPulseStyles['pf-timer-pulse__value']}`)?.textContent ?? ''
+  )
 }
 
 function getFramerValue(container: HTMLElement) {
-  return Number(container.querySelector('.pf-timer__value')?.textContent ?? '')
+  return Number(
+    container.querySelector(`.${fmTimerPulseStyles['pf-timer-fm__value']}`)?.textContent ?? ''
+  )
 }
 
 describe('timer-effects timer-pulse countdown behavior', () => {
@@ -72,7 +78,9 @@ describe('timer-effects timer-pulse behavioral correctness', () => {
   it('CSS variant displays progress CSS custom property', () => {
     const { container } = render(<CssTimerEffectsTimerPulse />)
 
-    const underline = container.querySelector('.pf-timer-pulse__underline')
+    const underline = container.querySelector(
+      `.${cssTimerPulseStyles['pf-timer-pulse__underline']}`
+    )
     expect(underline).toBeInTheDocument()
 
     // Initially progress is 0

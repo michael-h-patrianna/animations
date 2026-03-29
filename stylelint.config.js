@@ -1,3 +1,4 @@
+import { requireFramerClassSuffixRule } from './stylelint-rules/require-framer-class-suffix.js'
 import { noBlurRule } from './stylelint-rules/no-blur.js'
 import { noConicGradientRule } from './stylelint-rules/no-conic-gradient.js'
 import { noHardcodedColorsRule } from './stylelint-rules/no-hardcoded-colors.js'
@@ -39,6 +40,7 @@ export default enforceNoWarnings({
   extends: ['stylelint-config-standard'],
   plugins: [
     // Project-specific rules
+    requireFramerClassSuffixRule,
     noBlurRule,
     noConicGradientRule,
     noHardcodedColorsRule,
@@ -53,6 +55,9 @@ export default enforceNoWarnings({
     // =====================================================================
     // PROJECT-SPECIFIC RULES
     // =====================================================================
+    // Framer CSS class naming: -fm suffix required to prevent CSS variant bleed.
+    // Disabled globally — enabled per-group via overrides as groups are migrated.
+    'animation-rules/require-framer-class-suffix': null,
     'animation-rules/no-blur': true,
     'animation-rules/no-radial-angular-gradient': true,
     'animation-rules/no-hardcoded-colors': true,
@@ -124,6 +129,16 @@ export default enforceNoWarnings({
     'defensive-css/no-unsafe-will-change': true,
 
     // =====================================================================
+    // CSS MODULES COMPATIBILITY
+    // =====================================================================
+    'selector-pseudo-class-no-unknown': [
+      true,
+      {
+        ignorePseudoClasses: ['global', 'local'],
+      },
+    ],
+
+    // =====================================================================
     // TAILWIND / AT-RULE COMPATIBILITY
     // =====================================================================
     'at-rule-no-unknown': [
@@ -165,4 +180,107 @@ export default enforceNoWarnings({
     'custom-property-pattern': null,
     'import-notation': null,
   },
+  overrides: [
+    // ── Layer 1: Framer CSS — layout-only ──
+    // Enforce -fm class suffix to prevent CSS variant bleed.
+    // Ban animation/transition/keyframes — Motion handles animation.
+    {
+      files: ['src/components/**/framer/*.css'],
+      rules: {
+        'animation-rules/require-framer-class-suffix': true,
+        'at-rule-disallowed-list': ['keyframes'],
+        'property-disallowed-list': [
+          [
+            'animation',
+            'animation-name',
+            'animation-duration',
+            'animation-delay',
+            'animation-timing-function',
+            'animation-iteration-count',
+            'animation-direction',
+            'animation-fill-mode',
+            'animation-play-state',
+            'animation-composition',
+            'transition',
+            'transition-property',
+            'transition-duration',
+            'transition-delay',
+            'transition-timing-function',
+            'transition-behavior',
+          ],
+          {
+            message: (prop) =>
+              `"${prop}" is banned in framer CSS — framer variants use Motion for animation. CSS files in framer/ are layout-only.`,
+          },
+        ],
+      },
+    },
+    // ── All shared.css files — structural/visual foundation only ──
+    // No animation code in any shared.css, including css/shared.css.
+    // Animation code belongs in each component's own CSS file.
+    {
+      files: ['src/components/**/shared.css'],
+      rules: {
+        'at-rule-disallowed-list': ['keyframes'],
+        'property-disallowed-list': [
+          [
+            'animation',
+            'animation-name',
+            'animation-duration',
+            'animation-delay',
+            'animation-timing-function',
+            'animation-iteration-count',
+            'animation-direction',
+            'animation-fill-mode',
+            'animation-play-state',
+            'animation-composition',
+            'transition',
+            'transition-property',
+            'transition-duration',
+            'transition-delay',
+            'transition-timing-function',
+            'transition-behavior',
+          ],
+          {
+            message: (prop) =>
+              `"${prop}" is banned in group-level shared.css — these files are layout/structure only. Animation code belongs in component CSS files.`,
+          },
+        ],
+      },
+    },
+    // ── Layer 3: Demo-blocks shared CSS — no animations ──
+    // Demo-blocks are portable content primitives. Functional component
+    // animations (e.g. toast countdown) live in component-specific CSS
+    // files like DemoToast.css, not in the shared demo-blocks.css.
+    {
+      files: ['src/components/demo-blocks/demo-blocks.css'],
+      rules: {
+        'at-rule-disallowed-list': ['keyframes'],
+        'property-disallowed-list': [
+          [
+            'animation',
+            'animation-name',
+            'animation-duration',
+            'animation-delay',
+            'animation-timing-function',
+            'animation-iteration-count',
+            'animation-direction',
+            'animation-fill-mode',
+            'animation-play-state',
+            'animation-composition',
+            'transition',
+            'transition-property',
+            'transition-duration',
+            'transition-delay',
+            'transition-timing-function',
+            'transition-behavior',
+          ],
+          {
+            message: (prop) =>
+              `"${prop}" is banned in demo-blocks.css — demo-blocks are content primitives with no animations. Functional animations belong in component-specific CSS files (e.g. DemoToast.css).`,
+          },
+        ],
+      },
+    },
+  ],
 })

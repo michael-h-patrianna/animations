@@ -4,6 +4,7 @@ import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { DemoButton } from '@/components/demo-blocks'
 import { useCountUp } from '@/hooks/useCountUp'
 
+import styles from './PrizeRevealChestGcSc.module.css'
 import dailyRewardFreeSpinsImage from '@/assets/daily-reward/free-spins.webp'
 import dailyRewardGcImage from '@/assets/daily-reward/gc.webp'
 import dailyRewardRandomRewardImage from '@/assets/daily-reward/random-reward.webp'
@@ -46,7 +47,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: dailyRewardGcImage,
     value: 1500,
     decimals: 0,
-    modifier: 'pf-chest-gc-sc__prize--gc',
+    modifier: 'pf-chest-gc-sc-fm__prize--gc',
   },
   {
     id: 'sc',
@@ -54,7 +55,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: dailyRewardScImage,
     value: 2.5,
     decimals: 2,
-    modifier: 'pf-chest-gc-sc__prize--sc',
+    modifier: 'pf-chest-gc-sc-fm__prize--sc',
   },
   {
     id: 'fs',
@@ -62,7 +63,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: dailyRewardFreeSpinsImage,
     value: 50,
     decimals: 0,
-    modifier: 'pf-chest-gc-sc__prize--fs',
+    modifier: 'pf-chest-gc-sc-fm__prize--fs',
   },
   {
     id: 'rr',
@@ -70,7 +71,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: dailyRewardRandomRewardImage,
     value: null,
     decimals: 0,
-    modifier: 'pf-chest-gc-sc__prize--rr',
+    modifier: 'pf-chest-gc-sc-fm__prize--rr',
   },
 ]
 
@@ -127,7 +128,7 @@ function createBurstSparkles(): SparkleData[] {
 function BurstFlash() {
   return (
     <m.div
-      className="pf-chest-gc-sc__burst"
+      className={styles['pf-chest-gc-sc-fm__burst']}
       initial={{ opacity: 0, scale: 0.15, x: '-50%', y: '50%' }}
       animate={{ opacity: [0, 0.9, 0], scale: [0.15, 1, 1.5] }}
       transition={{ duration: 0.65, times: [0, 0.22, 1] as const, ease: 'easeOut' }}
@@ -137,11 +138,11 @@ function BurstFlash() {
 
 function BurstSparkles({ sparkles }: { sparkles: SparkleData[] }) {
   return (
-    <div className="pf-chest-gc-sc__sparkles">
+    <div className={styles['pf-chest-gc-sc-fm__sparkles']}>
       {sparkles.map((s) => (
         <m.div
           key={s.id}
-          className="pf-chest-gc-sc__sparkle"
+          className={styles['pf-chest-gc-sc-fm__sparkle']}
           style={{ '--size': `${s.size}px` } as CSSProperties}
           initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
           animate={{ opacity: [0, 1, 0], x: s.tx, y: s.ty, scale: [0, 1.2, 0] }}
@@ -159,7 +160,7 @@ function BurstSparkles({ sparkles }: { sparkles: SparkleData[] }) {
 function ClaimBurst() {
   return (
     <m.div
-      className="pf-chest-gc-sc__claim-burst"
+      className={styles['pf-chest-gc-sc-fm__claim-burst']}
       initial={{ opacity: 0, scale: 0.15, x: '-50%', y: '50%' }}
       animate={{ opacity: [0, 0.8, 0], scale: [0.15, 1.5, 2.5] }}
       transition={{ duration: 0.5, times: [0, 0.2, 1] as const, ease: 'easeOut' }}
@@ -169,9 +170,9 @@ function ClaimBurst() {
 
 function PrizeRays() {
   return (
-    <div className="pf-chest-gc-sc__prize-rays-wrap">
+    <div className={styles['pf-chest-gc-sc-fm__prize-rays-wrap']}>
       <m.div
-        className="pf-chest-gc-sc__prize-rays-spin"
+        className={styles['pf-chest-gc-sc-fm__prize-rays-spin']}
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1, rotate: 360 }}
         transition={{
@@ -181,14 +182,14 @@ function PrizeRays() {
         }}
       >
         <m.div
-          className="pf-chest-gc-sc__prize-rays"
+          className={styles['pf-chest-gc-sc-fm__prize-rays']}
           animate={{ opacity: [0.45, 0.82, 0.45], scale: [0.96, 1.06, 0.96] }}
           transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
         >
           {RAY_INDICES.map((i) => (
             <span
               key={i}
-              className="pf-chest-gc-sc__prize-ray"
+              className={styles['pf-chest-gc-sc-fm__prize-ray']}
               style={{ '--ray-rotation': `${i * (360 / RAY_COUNT)}deg` } as CSSProperties}
             />
           ))}
@@ -201,7 +202,7 @@ function PrizeRays() {
 function PrizeGlow({ delay }: { delay: number }) {
   return (
     <m.div
-      className="pf-chest-gc-sc__prize-glow"
+      className={styles['pf-chest-gc-sc-fm__prize-glow']}
       initial={{ opacity: 0, scale: 0.3 }}
       animate={{ opacity: [0, 0.85, 0.6], scale: [0.3, 1.15, 1] }}
       transition={{
@@ -217,13 +218,13 @@ function PrizeGlow({ delay }: { delay: number }) {
 function PrizeText({ label, amount, delay }: { label: string; amount: string; delay: number }) {
   return (
     <m.div
-      className="pf-chest-gc-sc__prize-text"
+      className={styles['pf-chest-gc-sc-fm__prize-text']}
       initial={{ opacity: 0, y: 10, scale: 0.85 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.45, delay: delay + 0.55, ease: [0.16, 0.84, 0.32, 1] as const }}
     >
-      <span className="pf-chest-gc-sc__prize-label">{label}</span>
-      <span className="pf-chest-gc-sc__prize-amount">{amount}</span>
+      <span className={styles['pf-chest-gc-sc-fm__prize-label']}>{label}</span>
+      <span className={styles['pf-chest-gc-sc-fm__prize-amount']}>{amount}</span>
     </m.div>
   )
 }
@@ -251,7 +252,7 @@ function Prize({
 
   return (
     <m.div
-      className={`pf-chest-gc-sc__prize ${config.modifier}`}
+      className={`${styles['pf-chest-gc-sc-fm__prize']} ${styles[config.modifier]}`}
       initial={{ x: 0, y: 160, scale: 0, opacity: 0 }}
       animate={
         claimed
@@ -279,10 +280,15 @@ function Prize({
             }
       }
     >
-      <div className="pf-chest-gc-sc__prize-icon-wrap">
+      <div className={styles['pf-chest-gc-sc-fm__prize-icon-wrap']}>
         <PrizeGlow delay={position.delay} />
         <PrizeRays />
-        <img src={config.src} alt="" aria-hidden="true" className="pf-chest-gc-sc__prize-icon" />
+        <img
+          src={config.src}
+          alt=""
+          aria-hidden="true"
+          className={styles['pf-chest-gc-sc-fm__prize-icon']}
+        />
       </div>
       {hasText && <PrizeText label={config.label!} amount={amount} delay={position.delay} />}
     </m.div>
@@ -292,7 +298,7 @@ function Prize({
 function Chest({ phase }: { phase: RevealPhase }) {
   return (
     <m.div
-      className="pf-chest-gc-sc__chest"
+      className={styles['pf-chest-gc-sc-fm__chest']}
       initial={{ y: 64, opacity: 0, scale: 0.82 }}
       animate={{
         y: 0,
@@ -321,7 +327,7 @@ function Chest({ phase }: { phase: RevealPhase }) {
         src={phase === 'reveal' ? pirateChestOpenImage : pirateChestClosedImage}
         alt=""
         aria-hidden="true"
-        className="pf-chest-gc-sc__chest-image"
+        className={styles['pf-chest-gc-sc-fm__chest-image']}
       />
     </m.div>
   )
@@ -345,14 +351,14 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
   const handleClaim = () => setClaimed(true)
 
   return (
-    <div className="pf-chest-gc-sc__stage">
+    <div className={styles['pf-chest-gc-sc-fm__stage']}>
       <Chest phase={phase} />
       {phase === 'reveal' && (
         <>
           <BurstFlash />
           <BurstSparkles sparkles={sparkles} />
           {claimed && <ClaimBurst />}
-          <div className="pf-chest-gc-sc__prizes">
+          <div className={styles['pf-chest-gc-sc-fm__prizes']}>
             {prizes.map((prize, i) => (
               <Prize
                 key={prize.id}
@@ -384,7 +390,7 @@ function PrizeRevealChestGcScComponent({
   return (
     <MotionConfig reducedMotion="user">
       <div
-        className="pf-modal-celebration pf-chest-gc-sc"
+        className={`pf-modal-celebration ${styles['pf-chest-gc-sc-fm']}`}
         data-animation-id="prize-reveal__chest-gc-sc"
         data-prize-count={prizeCount}
       >

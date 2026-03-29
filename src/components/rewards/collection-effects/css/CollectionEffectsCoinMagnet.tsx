@@ -7,13 +7,13 @@
  * 3. Pull (25-92%): particles accelerate along curves toward target
  * 4. Impact (92-100%): particles shrink to zero and disappear at the target
  *
- * Copy-paste files: this file + CollectionEffectsCoinMagnet.css + SharedTypes.ts +
+ * Copy-paste files: this file + CollectionEffectsCoinMagnet.module.css + SharedTypes.ts +
  * SharedParticleUtils.ts + SharedFallbackParticle.tsx + SharedImagePreloader.ts
  * Runtime deps: react
  */
 
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import './CollectionEffectsCoinMagnet.css'
+import styles from './CollectionEffectsCoinMagnet.module.css'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
 import {
@@ -159,15 +159,15 @@ function CollectionEffectsCoinMagnetComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-coin-magnet"
+      className={styles['pf-coin-magnet']}
       data-animation-id="collection-effects__coin-magnet"
       style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && fromPt !== null && toPt !== null && (
-        <div className="pf-coin-magnet__stage" aria-hidden="true">
+        <div className={styles['pf-coin-magnet__stage']} aria-hidden="true">
           {!isBurst && (
             <div
-              className="pf-coin-magnet__arrival-flash"
+              className={styles['pf-coin-magnet__arrival-flash']}
               style={{ left: toPt.x, top: toPt.y, animationDelay: `${duration * 0.8}ms` }}
             />
           )}
@@ -181,7 +181,7 @@ function CollectionEffectsCoinMagnetComponent({
               return (
                 <div
                   key={particle.id}
-                  className="pf-coin-magnet__particle pf-coin-magnet__particle--burst"
+                  className={`${styles['pf-coin-magnet__particle']} ${styles['pf-coin-magnet__particle--burst']}`}
                   style={
                     {
                       left: fromPt.x,
@@ -197,7 +197,7 @@ function CollectionEffectsCoinMagnetComponent({
                     <img
                       src={particle.imageSrc}
                       alt=""
-                      className="pf-coin-magnet__particle-image"
+                      className={styles['pf-coin-magnet__particle-image']}
                     />
                   ) : (
                     <FallbackParticle
@@ -216,7 +216,7 @@ function CollectionEffectsCoinMagnetComponent({
             return (
               <div
                 key={particle.id}
-                className="pf-coin-magnet__particle pf-coin-magnet__particle--magnet"
+                className={`${styles['pf-coin-magnet__particle']} ${styles['pf-coin-magnet__particle--magnet']}`}
                 style={
                   {
                     left: 0,
@@ -239,7 +239,11 @@ function CollectionEffectsCoinMagnetComponent({
                 }
               >
                 {particle.imageSrc ? (
-                  <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
+                  <img
+                    src={particle.imageSrc}
+                    alt=""
+                    className={styles['pf-coin-magnet__particle-image']}
+                  />
                 ) : (
                   <FallbackParticle
                     shape={particle.fallback.shape}

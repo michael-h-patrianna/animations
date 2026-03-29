@@ -16,11 +16,12 @@
  * - `--circular-dash-text`      — center text color
  * - `--circular-dash-size`      — ring diameter (default: 120px)
  *
- * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsCircularDash.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsCircularDash.module.css'
 
 interface CircularDashProps extends ProgressBarProps {
   /** Number of dash segments in the ring. Default: 12. */
@@ -40,19 +41,19 @@ export function ProgressBarsCircularDash({
 
   return (
     <div
-      className={`circular-dash-container${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-circular-dash-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__circular-dash"
     >
-      <div className="circular-dash-wrapper">
+      <div className={styles['pf-circular-dash-fm__wrapper']}>
         {Array.from({ length: segments }, (_, i) => (
           <div
             key={i}
-            className="circular-dash-segment-container"
+            className={styles['pf-circular-dash-fm__segment']}
             style={{ transform: `rotate(${(i / segments) * 360}deg)` }}
           >
             <m.div
-              className="circular-dash-pill"
+              className={styles['pf-circular-dash-fm__pill']}
               animate={{
                 opacity: i < activeSegments ? 1 : 0.2,
                 backgroundColor:
@@ -61,11 +62,10 @@ export function ProgressBarsCircularDash({
                     : 'var(--circular-dash-inactive)',
               }}
               transition={prefersReducedMotion ? { duration: 0.1 } : undefined}
-              style={{ animation: 'none' }}
             />
           </div>
         ))}
-        <div className="circular-dash-center">{percent}%</div>
+        <div className={styles['pf-circular-dash-fm__center']}>{percent}%</div>
       </div>
     </div>
   )

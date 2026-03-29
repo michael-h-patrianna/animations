@@ -23,6 +23,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
+import './ModalContentListVerticalWipe.module.css'
 import { generateMockListItems } from '@/components/dialogs/modal-content/MockContentItems'
 import {
   MODAL_ENTRANCE,
@@ -64,7 +65,6 @@ function ModalContentListVerticalWipeComponent({
                 ease: [0.4, 0, 0.2, 1] as const,
               }
         }
-        style={{ animation: 'none' }}
       >
         {child}
       </m.div>
@@ -88,22 +88,14 @@ function ModalContentListVerticalWipeComponent({
   const mockItems = generateMockListItems(DEFAULT_COUNT)
 
   return (
-    <div className="pf-demo-overlay" data-animation-id="modal-content__list-vertical-wipe">
-      <m.div
-        className="pf-demo-modal"
-        {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}
-        style={{ animation: 'none' }}
-      >
+    <div className="pf-demo-overlay-fm" data-animation-id="modal-content__list-vertical-wipe">
+      <m.div className="pf-demo-modal" {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}>
         <DemoModalHeader title="Setup Complete" />
         <DemoModalBody>
           <DemoList>{mockItems.map((item, i) => animateWipeItem(item, i, 0.3))}</DemoList>
         </DemoModalBody>
         <DemoModalFooter>
-          <m.div
-            {...buttonBounceProps(0.7, reduced)}
-            onAnimationComplete={onAnimationComplete}
-            style={{ animation: 'none' }}
-          >
+          <m.div {...buttonBounceProps(0.7, reduced)} onAnimationComplete={onAnimationComplete}>
             <DemoButton label="Continue" />
           </m.div>
         </DemoModalFooter>

@@ -24,7 +24,6 @@ function StandardEffectsSpinComponent({ children, duration = 800 }: StandardEffe
   return (
     <m.div
       data-animation-id="standard-effects__spin"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { scale: [1, 1.04, 1], opacity: [1, 0.85, 1] }

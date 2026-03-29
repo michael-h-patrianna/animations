@@ -3,7 +3,7 @@
  * Background shifts from yellow to red with easeInOut curve.
  * Glow and pulse intensify as time runs out.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.module.css
  * Runtime deps: react, motion
  */
 
@@ -22,6 +22,7 @@ import {
   resolveTimerProps,
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
+import styles from './TimerEffectsTimerFlash.module.css'
 
 const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
@@ -97,14 +98,13 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
   }
 
   return (
-    <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
+    <div className={styles['pf-timer-flash-fm']} data-animation-id="timer-effects__timer-flash">
       <m.div
-        className="pf-timer-flash__pill"
+        className={styles['pf-timer-flash-fm__pill']}
         style={
           {
             backgroundColor: bgColor,
             '--pill-glow-color': `color-mix(in srgb, ${bgColor} 45%, transparent)`,
-            animation: 'none',
           } as React.CSSProperties
         }
         animate={
@@ -122,14 +122,13 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
       >
         {!prefersReducedMotion && (
           <m.span
-            className="pf-timer-flash__glow"
+            className={styles['pf-timer-flash-fm__glow']}
             aria-hidden="true"
             animate={glowAnimation}
             transition={{ duration: pulseSpeed, repeat: Infinity, ease: easeInOut }}
-            style={{ animation: 'none' }}
           />
         )}
-        <div className="pf-timer-flash__time" style={timeStyle}>
+        <div className={styles['pf-timer-flash-fm__time']} style={timeStyle}>
           {formatTime(seconds)}
         </div>
       </m.div>

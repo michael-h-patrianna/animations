@@ -1,5 +1,0 @@
-/* Layout-only styles for framer BadgePulse — animation driven by Motion */
-
-.pf-update-indicator__badge-glow {
-  box-shadow: var(--pf-badge-glow, none);
-}

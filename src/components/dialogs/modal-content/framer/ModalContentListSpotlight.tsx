@@ -65,7 +65,6 @@ function ModalContentListSpotlightComponent({
               times: [0, 0.5, 1],
             }
       }
-      style={{ animation: 'none' }}
     >
       {child}
     </m.div>
@@ -89,12 +88,8 @@ function ModalContentListSpotlightComponent({
   const buttonStaggerBase = 0.3 + staggerS * DEFAULT_COUNT + 0.05
 
   return (
-    <div className="pf-demo-overlay" data-animation-id="modal-content__list-spotlight">
-      <m.div
-        className="pf-demo-modal"
-        {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}
-        style={{ animation: 'none' }}
-      >
+    <div className="pf-demo-overlay-fm" data-animation-id="modal-content__list-spotlight">
+      <m.div className="pf-demo-modal" {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}>
         <DemoModalHeader />
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
@@ -102,13 +97,12 @@ function ModalContentListSpotlightComponent({
           <DemoList>{mockItems.map((item, i) => animateListItem(item, i, 0.3))}</DemoList>
         </DemoModalBody>
         <DemoModalFooter>
-          <m.div {...buttonBounceProps(buttonStaggerBase, reduced)} style={{ animation: 'none' }}>
+          <m.div {...buttonBounceProps(buttonStaggerBase, reduced)}>
             <DemoButton label="Accept" />
           </m.div>
           <m.div
             {...buttonBounceProps(buttonStaggerBase + 0.07, reduced)}
             onAnimationComplete={onAnimationComplete}
-            style={{ animation: 'none' }}
           >
             <DemoButton label="Later" variant="secondary" />
           </m.div>

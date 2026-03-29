@@ -3,7 +3,7 @@ import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
 import { buildGroupExport } from '@/lib/groupBuilder'
 
 // Side-effect: load framer-variant CSS (layout only — animation CSS banned by lint)
-import.meta.glob('./framer/*.css', { eager: true })
+import.meta.glob(['./framer/*.css', '!./framer/*.module.css'], { eager: true })
 
 const metadata: GroupMetadata = {
   id: 'realtime-data',

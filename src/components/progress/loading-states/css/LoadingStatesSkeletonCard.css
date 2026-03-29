@@ -1,6 +1,0 @@
-/* Layout for LoadingStatesSkeletonCard (CSS variant) — shimmer from shared.css */
-
-.pf-skeleton-card {
-  display: flex;
-  flex-direction: column;
-}

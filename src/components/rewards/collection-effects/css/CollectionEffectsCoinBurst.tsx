@@ -1,13 +1,13 @@
 /**
  * Radial particle burst from a configurable origin — CSS variant.
  *
- * Copy-paste files: this file + CollectionEffectsCoinBurst.css + SharedTypes.ts +
+ * Copy-paste files: this file + CollectionEffectsCoinBurst.module.css + SharedTypes.ts +
  * SharedParticleUtils.ts + SharedFallbackParticle.tsx + SharedImagePreloader.ts
  * Runtime deps: react
  */
 
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import './CollectionEffectsCoinBurst.css'
+import styles from './CollectionEffectsCoinBurst.module.css'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
 import {
@@ -114,17 +114,24 @@ function CollectionEffectsCoinBurstComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-coin-burst"
+      className={styles['pf-coin-burst']}
       data-animation-id="collection-effects__coin-burst"
       style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && origin !== null && (
-        <div className="pf-coin-burst__stage pf-coin-burst__stage--anticipation" aria-hidden="true">
-          <div className="pf-coin-burst__flash" style={{ left: origin.x, top: origin.y }} />
+        <div
+          className={`${styles['pf-coin-burst__stage']} ${styles['pf-coin-burst__stage--anticipation']}`}
+          aria-hidden="true"
+        >
+          <div
+            className={styles['pf-coin-burst__flash']}
+            style={{ left: origin.x, top: origin.y }}
+          />
           {particles.map((particle) => (
             <div
               key={particle.id}
-              className="pf-coin-burst__particle"
+              className={styles['pf-coin-burst__particle']}
+              data-testid="coin-burst-particle"
               style={
                 {
                   left: origin.x,
@@ -138,7 +145,11 @@ function CollectionEffectsCoinBurstComponent({
               }
             >
               {particle.imageSrc ? (
-                <img src={particle.imageSrc} alt="" className="pf-coin-burst__particle-image" />
+                <img
+                  src={particle.imageSrc}
+                  alt=""
+                  className={styles['pf-coin-burst__particle-image']}
+                />
               ) : (
                 <FallbackParticle
                   shape={particle.fallback.shape}

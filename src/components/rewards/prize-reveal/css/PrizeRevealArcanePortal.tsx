@@ -9,7 +9,7 @@ import arcanePortalRingImage from '@/assets/arcane-portal/portal-ring.webp'
 import arcanePortalRunicSigilImage from '@/assets/arcane-portal/runic-sigil.webp'
 import arcanePortalScImage from '@/assets/arcane-portal/sc.webp'
 
-import './PrizeRevealArcanePortal.css'
+import styles from './PrizeRevealArcanePortal.module.css'
 
 /* ─── Types ─── */
 
@@ -45,7 +45,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalGcImage,
     value: 1500,
     decimals: 0,
-    modifier: 'pf-arcane-portal-css__prize--gc',
+    modifier: styles['pf-arcane-portal-css__prize--gc'] ?? '',
   },
   {
     id: 'sc',
@@ -53,7 +53,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalScImage,
     value: 2.5,
     decimals: 2,
-    modifier: 'pf-arcane-portal-css__prize--sc',
+    modifier: styles['pf-arcane-portal-css__prize--sc'] ?? '',
   },
   {
     id: 'fs',
@@ -61,7 +61,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalFreeSpinsImage,
     value: 50,
     decimals: 0,
-    modifier: 'pf-arcane-portal-css__prize--fs',
+    modifier: styles['pf-arcane-portal-css__prize--fs'] ?? '',
   },
   {
     id: 'rr',
@@ -69,7 +69,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalRandomRewardImage,
     value: null,
     decimals: 0,
-    modifier: 'pf-arcane-portal-css__prize--rr',
+    modifier: styles['pf-arcane-portal-css__prize--rr'] ?? '',
   },
 ]
 
@@ -139,11 +139,11 @@ function createOrbitMotes(): MoteData[] {
 
 function ConvergeParticles({ particles }: { particles: ParticleData[] }) {
   return (
-    <div className="pf-arcane-portal-css__particles">
+    <div className={styles['pf-arcane-portal-css__particles']}>
       {particles.map((p) => (
         <div
           key={p.id}
-          className="pf-arcane-portal-css__particle"
+          className={styles['pf-arcane-portal-css__particle']}
           style={
             {
               '--size': `${p.size}px`,
@@ -161,7 +161,7 @@ function ConvergeParticles({ particles }: { particles: ParticleData[] }) {
 function OrbitingRunes() {
   const radius = 105
   return (
-    <div className="pf-arcane-portal-css__runes">
+    <div className={styles['pf-arcane-portal-css__runes']}>
       {Array.from({ length: RUNE_COUNT }, (_, i) => {
         const startAngle = (i / RUNE_COUNT) * 360
         const a0 = startAngle
@@ -171,7 +171,7 @@ function OrbitingRunes() {
         return (
           <span
             key={i}
-            className="pf-arcane-portal-css__rune"
+            className={styles['pf-arcane-portal-css__rune']}
             style={
               {
                 '--rune-delay': `${i * 0.05}s`,
@@ -197,13 +197,13 @@ function OrbitingRunes() {
 function OrbitingMotesCss({ motes, delay }: { motes: MoteData[]; delay: number }) {
   return (
     <div
-      className="pf-arcane-portal-css__motes-orbit"
+      className={styles['pf-arcane-portal-css__motes-orbit']}
       style={{ '--mote-orbit-delay': `${delay + 0.35}s` } as CSSProperties}
     >
       {motes.map((mote) => (
         <div
           key={mote.id}
-          className="pf-arcane-portal-css__mote"
+          className={styles['pf-arcane-portal-css__mote']}
           style={
             {
               '--mote-size': `${mote.size}px`,
@@ -234,7 +234,7 @@ function Prize({
 
   return (
     <div
-      className={`pf-arcane-portal-css__prize ${config.modifier}${claimed ? ' is-claiming' : ''}`}
+      className={`${styles['pf-arcane-portal-css__prize']} ${config.modifier}${claimed ? ` ${styles['is-claiming']}` : ''}`}
       style={
         {
           '--slot-x': `${slot.x}px`,
@@ -253,15 +253,15 @@ function Prize({
         } as CSSProperties
       }
     >
-      <div className="pf-arcane-portal-css__prize-aura" />
-      <div className="pf-arcane-portal-css__prize-icon-wrap">
-        <div className="pf-arcane-portal-css__materialize-ring" />
-        <div className="pf-arcane-portal-css__sigil-wrap">
+      <div className={styles['pf-arcane-portal-css__prize-aura']} />
+      <div className={styles['pf-arcane-portal-css__prize-icon-wrap']}>
+        <div className={styles['pf-arcane-portal-css__materialize-ring']} />
+        <div className={styles['pf-arcane-portal-css__sigil-wrap']}>
           <img
             src={arcanePortalRunicSigilImage}
             alt=""
             aria-hidden="true"
-            className="pf-arcane-portal-css__sigil-image"
+            className={styles['pf-arcane-portal-css__sigil-image']}
           />
         </div>
         <OrbitingMotesCss motes={motes} delay={slot.delay} />
@@ -269,13 +269,13 @@ function Prize({
           src={config.src}
           alt=""
           aria-hidden="true"
-          className="pf-arcane-portal-css__prize-icon"
+          className={styles['pf-arcane-portal-css__prize-icon']}
         />
       </div>
       {hasText && (
-        <div className="pf-arcane-portal-css__prize-text">
-          <span className="pf-arcane-portal-css__prize-label">{config.label}</span>
-          <span className="pf-arcane-portal-css__prize-amount">{amount}</span>
+        <div className={styles['pf-arcane-portal-css__prize-text']}>
+          <span className={styles['pf-arcane-portal-css__prize-label']}>{config.label}</span>
+          <span className={styles['pf-arcane-portal-css__prize-amount']}>{amount}</span>
         </div>
       )}
     </div>
@@ -304,30 +304,30 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
     setShowClaim(false)
   }
 
-  const ringClass = `pf-arcane-portal-css__ring-wrap${phase === 'charge' ? ' is-charge' : ''}${phase === 'erupt' ? ' is-erupt' : ''}`
-  const vortexClass = `pf-arcane-portal-css__vortex${phase === 'charge' ? ' is-charge' : ''}${phase === 'erupt' ? ' is-erupt' : ''}`
+  const ringClass = `${styles['pf-arcane-portal-css__ring-wrap']}${phase === 'charge' ? ` ${styles['is-charge']}` : ''}${phase === 'erupt' ? ` ${styles['is-erupt']}` : ''}`
+  const vortexClass = `${styles['pf-arcane-portal-css__vortex']}${phase === 'charge' ? ` ${styles['is-charge']}` : ''}${phase === 'erupt' ? ` ${styles['is-erupt']}` : ''}`
 
   return (
-    <div className="pf-arcane-portal-css__stage">
-      <div className="pf-arcane-portal-css__ambient" />
+    <div className={styles['pf-arcane-portal-css__stage']}>
+      <div className={styles['pf-arcane-portal-css__ambient']} />
       <ConvergeParticles particles={particles} />
       <div className={vortexClass} />
       <div className={ringClass}>
-        <div className="pf-arcane-portal-css__ring-glow" />
+        <div className={styles['pf-arcane-portal-css__ring-glow']} />
         <img
           src={arcanePortalRingImage}
           alt=""
           aria-hidden="true"
-          className="pf-arcane-portal-css__ring-image"
+          className={styles['pf-arcane-portal-css__ring-image']}
         />
       </div>
       {phase === 'charge' && <OrbitingRunes />}
       {phase === 'erupt' && (
         <>
-          <div className="pf-arcane-portal-css__shockwave" />
-          <div className="pf-arcane-portal-css__burst" />
-          {claimed && <div className="pf-arcane-portal-css__claim-burst" />}
-          <div className="pf-arcane-portal-css__prizes">
+          <div className={styles['pf-arcane-portal-css__shockwave']} />
+          <div className={styles['pf-arcane-portal-css__burst']} />
+          {claimed && <div className={styles['pf-arcane-portal-css__claim-burst']} />}
+          <div className={styles['pf-arcane-portal-css__prizes']}>
             {prizes.map((prize, i) => (
               <Prize
                 key={prize.id}
@@ -358,7 +358,7 @@ function PrizeRevealArcanePortalComponent({
 }) {
   return (
     <div
-      className="pf-modal-celebration pf-arcane-portal-css"
+      className={`pf-modal-celebration ${styles['pf-arcane-portal-css']}`}
       data-animation-id="prize-reveal__arcane-portal"
       data-prize-count={prizeCount}
     >

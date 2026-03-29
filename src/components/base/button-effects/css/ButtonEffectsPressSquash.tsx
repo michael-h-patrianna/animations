@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Press Squash CSS effect.
- * Consumer product: ButtonEffectsPressSquash.css — apply .pf-press-squash + toggle --active.
+ * Consumer product: ButtonEffectsPressSquash.module.css — import styles and apply styles['pf-press-squash'], toggle --active.
  */
 import {
   cloneElement,
@@ -13,7 +13,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
-import './ButtonEffectsPressSquash.css'
+import styles from './ButtonEffectsPressSquash.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface ButtonEffectsPressSquashProps {
@@ -40,7 +40,7 @@ function ButtonEffectsPressSquashComponent({
     return () => clearTimeout(timer)
   }, [duration, isAnimating])
 
-  const sharedClassName = `pf-press-squash${isAnimating ? ' pf-press-squash--active' : ''}`
+  const sharedClassName = `${styles['pf-press-squash']}${isAnimating ? ` ${styles['pf-press-squash--active']}` : ''}`
   const sharedStyle = {
     ['--pf-press-squash-duration' as string]: `${duration}ms`,
   } as CSSProperties

@@ -35,7 +35,7 @@ function ModalBaseUnfoldOrigamiComponent({
     <div data-animation-id="modal-base__unfold-origami" style={{ perspective }}>
       <m.div
         className={className}
-        style={{ ...style, transformStyle: 'preserve-3d', animation: 'none' }}
+        style={{ ...style, transformStyle: 'preserve-3d' }}
         initial={prefersReducedMotion ? { opacity: 0 } : { rotateX: -180, scale: 0, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { rotateX: 0, scale: 1, opacity: 1 }}
         transition={{

@@ -4,7 +4,7 @@
  * SVG ring progress with level-up detection, CSS transition-driven fill,
  * and CSS keyframe aura burst. Center text interpolated via rAF.
  *
- * Copy-paste files: this file + ProgressBarsCircularLevel.css
+ * Copy-paste files: this file + ProgressBarsCircularLevel.module.css
  * Runtime deps: react
  */
 import {
@@ -16,7 +16,7 @@ import {
   useState,
   type CSSProperties,
 } from 'react'
-import './ProgressBarsCircularLevel.css'
+import styles from './ProgressBarsCircularLevel.module.css'
 
 interface ProgressBarsCircularLevelProps {
   progress?: number
@@ -207,28 +207,32 @@ function ProgressBarsCircularLevelCssComponent({
 
   return (
     <div
-      className={`pf-circular-level-css${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-circular-level-css']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__circular-level"
     >
-      <div className="pf-circular-level-css__wrapper">
+      <div className={styles['pf-circular-level-css__wrapper']}>
         {bursts.map((id) => (
-          <div key={id} className="pf-circular-level-css__aura-host">
-            <div className="pf-circular-level-css__aura pf-circular-level-css__aura--primary" />
-            <div className="pf-circular-level-css__aura pf-circular-level-css__aura--secondary" />
+          <div key={id} className={styles['pf-circular-level-css__aura-host']}>
+            <div
+              className={`${styles['pf-circular-level-css__aura']} ${styles['pf-circular-level-css__aura--primary']}`}
+            />
+            <div
+              className={`${styles['pf-circular-level-css__aura']} ${styles['pf-circular-level-css__aura--secondary']}`}
+            />
           </div>
         ))}
 
-        <svg className="pf-circular-level-css__ring" viewBox="0 0 100 100">
+        <svg className={styles['pf-circular-level-css__ring']} viewBox="0 0 100 100">
           <circle
-            className="pf-circular-level-css__track"
+            className={styles['pf-circular-level-css__track']}
             cx="50"
             cy="50"
             r={radius}
             strokeWidth={svgStroke}
           />
           <circle
-            className="pf-circular-level-css__fill"
+            className={styles['pf-circular-level-css__fill']}
             cx="50"
             cy="50"
             r={radius}
@@ -238,7 +242,7 @@ function ProgressBarsCircularLevelCssComponent({
           />
         </svg>
 
-        <span ref={textRef} className="pf-circular-level-css__text" />
+        <span ref={textRef} className={styles['pf-circular-level-css__text']} />
       </div>
     </div>
   )

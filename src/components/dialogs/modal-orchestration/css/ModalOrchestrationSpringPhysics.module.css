@@ -1,0 +1,84 @@
+/* Styles for ModalOrchestrationSpringPhysics (CSS variant) */
+.pf-spring-physics {
+  width: 100%;
+  display: grid;
+  gap: 16px;
+  position: relative;
+}
+
+.pf-spring-physics__item {
+  /* Animation wrapper only — visual card styling comes from children */
+  cursor: grab;
+  user-select: none;
+  opacity: 0;
+  transform: scale(0) translateY(-100px);
+  will-change: transform, opacity;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+@keyframes pf-spring-bounce {
+  0% {
+    opacity: 0;
+    transform: scale(0) translateY(-100px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) translateY(10px);
+  }
+  75% {
+    transform: scale(0.95) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.pf-spring-physics__item--visible {
+  animation-name: pf-spring-bounce;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-fill-mode: both;
+}
+
+/* After entrance completes, release animation lock so hover transitions work */
+.pf-spring-physics__item--landed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.pf-spring-physics__item--landed:hover {
+  transform: scale(1.05) translateY(-8px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pf-spring-physics__item--landed:active {
+  cursor: grabbing;
+  transform: scale(0.95);
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-spring-physics__item {
+    transform: none;
+    transition: none;
+  }
+
+  .pf-spring-physics__item--visible {
+    animation: pf-spring-physics-reduced 150ms ease-out both;
+  }
+
+  .pf-spring-physics__item--landed:hover {
+    transition: none;
+  }
+
+  @keyframes pf-spring-physics-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

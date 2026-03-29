@@ -13,14 +13,15 @@
  * Styleable CSS custom properties:
  * - `--liquid-tube-border`  — tube border color
  * - `--liquid-tube-bg`      — tube background
- * - `--liquid-tube-fill`    — liquid color
+ * - `--pf-liquid-tube-fm__fill`    — liquid color
  * - `--liquid-tube-bubble`  — bubble color
  *
- * Files to copy: this file + ProgressBarsLiquidTube.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsLiquidTube.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsLiquidTube.module.css'
 
 export function ProgressBarsLiquidTube({ progress, className, style }: ProgressBarProps) {
   const prefersReducedMotion = useReducedMotion()
@@ -29,35 +30,34 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
 
   return (
     <div
-      className={`liquid-tube-container${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-liquid-tube-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__liquid-tube"
     >
-      <div className="liquid-tube-glass">
+      <div className={styles['pf-liquid-tube-fm__glass']}>
         <m.div
-          className="liquid-tube-fill"
+          className={styles['pf-liquid-tube-fm__fill']}
           animate={{ y: `${100 - percent}%` }}
           transition={
             prefersReducedMotion ? { duration: 0.1 } : { type: 'spring', bounce: 0, duration: 0.5 }
           }
-          style={{ height: '100%', animation: 'none' }}
+          style={{ height: '100%' }}
         >
-          <div className="liquid-tube-surface">
+          <div className={styles['pf-liquid-tube-fm__surface']}>
             <m.div
-              className="liquid-wave"
+              className={styles['pf-liquid-tube-fm__wave']}
               animate={prefersReducedMotion ? undefined : { x: ['-50%', '0%'] }}
               transition={
                 prefersReducedMotion ? undefined : { duration: 2, repeat: Infinity, ease: 'linear' }
               }
-              style={{ animation: 'none' }}
             />
           </div>
           {!prefersReducedMotion &&
             [1, 2, 3].map((i) => (
               <m.div
                 key={i}
-                className="liquid-bubble"
-                style={{ left: `${20 + i * 20}%`, animation: 'none' }}
+                className={styles['pf-liquid-tube-fm__bubble']}
+                style={{ left: `${20 + i * 20}%` }}
                 animate={{ y: [0, -100], opacity: [0, 1, 0] }}
                 transition={{
                   duration: 2 + i,

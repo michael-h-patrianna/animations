@@ -2,6 +2,7 @@ import { fireEvent, render } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
 import { ModalBaseScaleGentlePop as CssModalBaseScaleGentlePop } from '@/components/dialogs/modal-base/css/ModalBaseScaleGentlePop'
+import cssScalePopStyles from '@/components/dialogs/modal-base/css/ModalBaseScaleGentlePop.module.css'
 import { metadata as cssMetadata } from '@/components/dialogs/modal-base/css/ModalBaseScaleGentlePop.meta'
 import { metadata as framerMetadata } from '@/components/dialogs/modal-base/framer/ModalBaseScaleGentlePop.meta'
 
@@ -25,7 +26,7 @@ describe('modal-base scale gentle pop parity', () => {
       <CssModalBaseScaleGentlePop onAnimationComplete={onAnimationComplete} />
     )
 
-    const wrapper = container.querySelector('.pf-modal-scale-pop')
+    const wrapper = container.querySelector(`.${cssScalePopStyles['pf-modal-scale-pop']}`)
 
     expect(wrapper).toBeInTheDocument()
 

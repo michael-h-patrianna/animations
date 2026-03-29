@@ -1,0 +1,12 @@
+/* Structural: badge glow overlay (moved from shared.css — single-consumer) */
+:global(.pf-update-indicator-fm__badge-glow) {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Layout-only styles for framer BadgePulse — animation driven by Motion */
+.pf-update-indicator-fm__badge-glow {
+  box-shadow: var(--pf-badge-glow, none);
+}

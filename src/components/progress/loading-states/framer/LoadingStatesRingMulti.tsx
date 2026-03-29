@@ -1,7 +1,7 @@
 /**
  * Three concentric rings spinning at different speeds and directions.
  *
- * Copy-paste files: this file + LoadingStatesRingMulti.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesRingMulti.module.css + ../SharedDefaults.ts
  * Runtime deps: react, motion
  */
 
@@ -10,6 +10,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 import { RING_MULTI_COLORS } from '@/components/progress/loading-states/SharedDefaults'
+import styles from './LoadingStatesRingMulti.module.css'
 
 interface LoadingStatesRingMultiProps {
   /** Outermost ring diameter in px. */
@@ -48,8 +49,12 @@ function LoadingStatesRingMultiComponent({
   return (
     <div
       data-animation-id="loading-states__ring-multi"
-      className={className !== undefined ? `pf-ring-multi ${className}` : 'pf-ring-multi'}
-      style={{ width: size, height: size, animation: 'none' }}
+      className={
+        className !== undefined
+          ? `${styles['pf-ring-multi-fm']} ${className}`
+          : styles['pf-ring-multi-fm']
+      }
+      style={{ width: size, height: size }}
       role="status"
       aria-label="Loading"
     >
@@ -58,7 +63,7 @@ function LoadingStatesRingMultiComponent({
         return (
           <m.span
             key={i}
-            className="pf-ring-multi__segment"
+            className={styles['pf-ring-multi-fm__segment']}
             style={{
               width: ringSize,
               height: ringSize,
@@ -69,7 +74,6 @@ function LoadingStatesRingMultiComponent({
               left: '50%',
               x: '-50%',
               y: '-50%',
-              animation: 'none',
             }}
             animate={prefersReducedMotion ? { opacity: [1, 0.4, 1] } : { rotate: ring.dir * 360 }}
             transition={

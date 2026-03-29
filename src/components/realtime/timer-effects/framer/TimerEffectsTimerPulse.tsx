@@ -2,7 +2,7 @@
  * Large countdown number with continuous pulse and depleting underline bar.
  * The number pulses rhythmically while the underline shrinks to zero.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerPulse.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerPulse.module.css
  * Runtime deps: react, motion
  */
 
@@ -15,6 +15,7 @@ import {
   resolveTimerProps,
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
+import styles from './TimerEffectsTimerPulse.module.css'
 
 const DEFAULT_START = 10
 const DEFAULT_WARNING = 6
@@ -71,7 +72,6 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
   const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
 
   const valueStyle: React.CSSProperties = {
-    animation: 'none',
     ...(resolvedTextColor !== undefined
       ? { color: resolvedTextColor }
       : phaseColor !== undefined
@@ -81,9 +81,9 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
   }
 
   return (
-    <div className="pf-timer" data-animation-id="timer-effects__timer-pulse">
+    <div className={styles['pf-timer-fm']} data-animation-id="timer-effects__timer-pulse">
       <m.div
-        className={`pf-timer__value pf-timer--${phase}`}
+        className={`${styles['pf-timer-fm__value']} ${styles[`pf-timer-fm--${phase}`] ?? ''}`}
         variants={prefersReducedMotion ? undefined : pulseVariants}
         animate={prefersReducedMotion ? undefined : 'pulse'}
         style={valueStyle}
@@ -92,12 +92,11 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
       </m.div>
       {showUnderline && (
         <m.div
-          className="pf-timer__underline"
+          className={styles['pf-timer-fm__underline']}
           animate={{ scaleX: 1 - progress }}
           transition={{ duration: prefersReducedMotion ? 0.05 : 0.1, ease: 'linear' }}
           style={{
             transformOrigin: 'left center',
-            animation: 'none',
             ...(barColor !== undefined ? { background: barColor } : {}),
           }}
         />

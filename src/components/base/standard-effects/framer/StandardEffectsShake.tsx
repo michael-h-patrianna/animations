@@ -24,7 +24,6 @@ function StandardEffectsShakeComponent({ children, duration = 500 }: StandardEff
   return (
     <m.div
       data-animation-id="standard-effects__shake"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { x: [0, -2, 2, -1, 0] }

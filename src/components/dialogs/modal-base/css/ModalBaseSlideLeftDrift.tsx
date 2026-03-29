@@ -1,7 +1,7 @@
 /**
  * Modal entrance — drifts in from the right with subtle scale and fade. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseSlideLeftDrift.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseSlideLeftDrift.module.css + SharedTypes.ts
  * Runtime deps: react
  */
 
@@ -9,7 +9,7 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
-import './ModalBaseSlideLeftDrift.css'
+import styles from './ModalBaseSlideLeftDrift.module.css'
 
 const DEFAULT_DURATION = 420
 const DEFAULT_DISTANCE = 68
@@ -34,7 +34,7 @@ function ModalBaseSlideLeftDriftComponent({
   return (
     <div data-animation-id="modal-base__slide-left-drift">
       <div
-        className={`pf-modal-slide-left${className ? ` ${className}` : ''}`}
+        className={`${styles['pf-modal-slide-left']}${className ? ` ${className}` : ''}`}
         style={{ ...style, ...cssVars }}
         onAnimationEnd={(event) => {
           if (event.target !== event.currentTarget) return

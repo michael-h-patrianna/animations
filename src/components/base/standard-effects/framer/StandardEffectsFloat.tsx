@@ -24,7 +24,7 @@ function StandardEffectsFloatComponent({ children, duration = 6000 }: StandardEf
   return (
     <m.div
       data-animation-id="standard-effects__float"
-      style={{ transformOrigin: 'center 20%', animation: 'none' }}
+      style={{ transformOrigin: 'center 20%' }}
       animate={
         prefersReducedMotion
           ? undefined

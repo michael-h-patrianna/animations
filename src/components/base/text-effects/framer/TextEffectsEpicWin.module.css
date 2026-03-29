@@ -1,0 +1,120 @@
+/* Epic Win — Framer Motion layout (no keyframes) */
+.pf-epic-win-fm {
+  --pf-epic-win-shadow-1: rgb(0 0 0 / 8%);
+  --pf-epic-win-shadow-2: rgb(0 0 0 / 15%);
+  --pf-epic-win-highlight: rgb(255 255 255 / 40%);
+  --pf-epic-win-char-shadow: rgb(0 0 0 / 30%);
+  --pf-epic-win-color: #ffd700;
+  --pf-epic-win-glow-bg: color-mix(in srgb, var(--pf-epic-win-color), transparent 80%);
+  --pf-epic-win-gold-100: color-mix(in srgb, var(--pf-epic-win-color), white 85%);
+  --pf-epic-win-gold-200: var(--pf-epic-win-color);
+  --pf-epic-win-gold-300: color-mix(in srgb, var(--pf-epic-win-color), black 20%);
+  --pf-epic-win-gold-400: color-mix(in srgb, var(--pf-epic-win-color), black 40%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+  position: relative;
+}
+
+.pf-epic-win-fm__text-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  white-space: nowrap;
+}
+
+.pf-epic-win-fm__shadow-far {
+  position: absolute;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: var(--pf-epic-win-shadow-1);
+  z-index: 0;
+  transform: scale(1.1);
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+.pf-epic-win-fm__shadow-mid {
+  position: absolute;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: var(--pf-epic-win-shadow-2);
+  z-index: 1;
+  transform: scale(1.05);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.pf-epic-win-fm__main-text {
+  position: relative;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  z-index: 3;
+  perspective: 200px;
+  white-space: nowrap;
+}
+
+.pf-epic-win-fm__char {
+  display: inline-block;
+  transform-origin: center center;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.pf-epic-win-fm__char-inner {
+  display: inline-block;
+  position: relative;
+}
+
+.pf-epic-win-fm__char-text {
+  display: inline-block;
+  background: linear-gradient(
+    170deg,
+    var(--pf-epic-win-gold-100) 0%,
+    var(--pf-epic-win-gold-100) 10%,
+    var(--pf-epic-win-gold-200) 30%,
+    var(--pf-epic-win-gold-300) 50%,
+    var(--pf-epic-win-gold-400) 70%,
+    var(--pf-epic-win-gold-200) 90%,
+    var(--pf-epic-win-gold-100) 100%
+  );
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pf-epic-win-fm__char-highlight {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  color: var(--pf-epic-win-highlight);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.pf-epic-win-fm__char-shadow {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  color: var(--pf-epic-win-char-shadow);
+  z-index: -2;
+  pointer-events: none;
+}
+
+.pf-epic-win-fm__char-glow {
+  position: absolute;
+  inset: -8px;
+  background: linear-gradient(180deg, var(--pf-epic-win-glow-bg), transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.8;
+  transform: scale(1.1);
+}

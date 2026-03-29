@@ -1,0 +1,29 @@
+/* Coin Trail — Framer Motion Variant (layout only) */
+
+.pf-coin-trail-fm {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+}
+
+.pf-coin-trail-fm__stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pf-coin-trail-fm__particle {
+  position: absolute;
+  width: var(--pf-particle-size, 24px);
+  height: var(--pf-particle-size, 24px);
+  translate: -50% -50%;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.pf-coin-trail-fm__particle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}

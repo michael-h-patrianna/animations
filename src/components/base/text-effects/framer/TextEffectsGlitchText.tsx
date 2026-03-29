@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsGlitchText.css into your app.
+ * Standalone: Copy this file + TextEffectsGlitchText.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port RGB layers with Moti absolute-positioned MotiText views.
  */
@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
+import styles from './TextEffectsGlitchText.module.css'
 
 interface TextEffectsGlitchTextProps {
   /** @default 'SYSTEM ERROR' */
@@ -30,7 +31,7 @@ function TextEffectsGlitchTextComponent({
 
   return (
     <div
-      className={`pf-glitch ${className}`.trim()}
+      className={`${styles['pf-glitch-fm']} ${className}`.trim()}
       data-animation-id="text-effects__tfx-glitchtext"
       style={
         color !== undefined
@@ -40,7 +41,7 @@ function TextEffectsGlitchTextComponent({
     >
       {/* Main text */}
       <m.div
-        className="pf-glitch__base"
+        className={styles['pf-glitch-fm__base']}
         animate={
           prefersReducedMotion
             ? undefined
@@ -63,7 +64,7 @@ function TextEffectsGlitchTextComponent({
 
       {/* Cyan RGB offset layer — hidden in reduced motion */}
       <m.div
-        className="pf-glitch__layer pf-glitch__layer--cyan"
+        className={`${styles['pf-glitch-fm__layer']} ${styles['pf-glitch-fm__layer--cyan']}`}
         aria-hidden="true"
         animate={
           prefersReducedMotion
@@ -85,7 +86,7 @@ function TextEffectsGlitchTextComponent({
 
       {/* Magenta RGB offset layer — hidden in reduced motion */}
       <m.div
-        className="pf-glitch__layer pf-glitch__layer--magenta"
+        className={`${styles['pf-glitch-fm__layer']} ${styles['pf-glitch-fm__layer--magenta']}`}
         aria-hidden="true"
         animate={
           prefersReducedMotion
@@ -107,7 +108,7 @@ function TextEffectsGlitchTextComponent({
 
       {/* Distortion bars — hidden in reduced motion */}
       <m.div
-        className="pf-glitch__bars"
+        className={styles['pf-glitch-fm__bars']}
         aria-hidden="true"
         animate={
           prefersReducedMotion

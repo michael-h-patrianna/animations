@@ -62,6 +62,7 @@ vi.mock('motion/react-m', async () => {
 
 import { metadata as cssCoinMagnetMetadata } from '@/components/rewards/collection-effects/css/CollectionEffectsCoinMagnet.meta'
 import { CollectionEffectsCoinMagnet } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinMagnet'
+import fmCoinMagnetStyles from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinMagnet.module.css'
 import { metadata as framerCoinMagnetMetadata } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinMagnet.meta'
 
 function getDurationDefault(
@@ -97,12 +98,14 @@ describe('collection effects coin magnet parity', () => {
 
     await waitFor(() => {
       expect(
-        recordedMotionDivs.some((entry) => entry.className === 'pf-coin-magnet__particle')
+        recordedMotionDivs.some(
+          (entry) => entry.className === fmCoinMagnetStyles['pf-coin-magnet-fm__particle']
+        )
       ).toBe(true)
     })
 
     const particle = recordedMotionDivs.find(
-      (entry) => entry.className === 'pf-coin-magnet__particle'
+      (entry) => entry.className === fmCoinMagnetStyles['pf-coin-magnet-fm__particle']
     )
     const transition = particle?.transition as CoinMagnetTransition | undefined
 

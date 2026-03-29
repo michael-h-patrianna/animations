@@ -1,0 +1,57 @@
+/* Extreme intensity: wobble + strobe */
+.pf-pill-timer-fm {
+  --timer-effects-pill-countdown-extreme-border: rgb(255 255 255 / 26%);
+  --timer-effects-pill-countdown-extreme-bg: rgb(255 255 255 / 25%);
+  --timer-effects-pill-countdown-extreme-color-1: rgb(0 0 0 / 92%);
+  --timer-effects-pill-countdown-extreme-text-shadow: rgb(255 255 255 / 22%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+}
+
+.pf-pill-timer-fm__pill {
+  --pill-bg: #ffb300;
+  --pill-flash: #ffd447;
+  min-width: 96px;
+  min-height: 30px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background-color: var(--pill-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 2px solid var(--timer-effects-pill-countdown-extreme-border);
+}
+.pf-pill-timer-fm--warning {
+  --pill-bg: #ff7a00;
+  --pill-flash: #ffb347;
+}
+
+.pf-pill-timer-fm--critical {
+  --pill-bg: #dc3545;
+  --pill-flash: #ff6478;
+}
+
+.pf-pill-timer-fm__pill .pf-pill-timer-fm__glow {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.pf-pill-timer-fm__pill--extreme .pf-pill-timer-fm__glow {
+  inset: -6px;
+  background-color: var(--timer-effects-pill-countdown-extreme-bg);
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.pf-pill-timer-fm__time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  font-size: 13px;
+  color: var(--timer-effects-pill-countdown-extreme-color-1);
+  text-shadow: 0 1px 1px var(--timer-effects-pill-countdown-extreme-text-shadow);
+}

@@ -1,7 +1,7 @@
 /**
  * Stagger-reveals child elements one by one on mount.
  *
- * Copy-paste files: this file + ModalOrchestrationStaggerInview.css
+ * Copy-paste files: this file + ModalOrchestrationStaggerInview.module.css
  * Runtime deps: react, motion
  *
  * @example
@@ -16,6 +16,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationStaggerInview.module.css'
 
 const DEFAULT_COUNT = 12
 
@@ -78,21 +79,19 @@ function ModalOrchestrationStaggerInviewComponent({
   }
 
   return (
-    <div className="pf-stagger-inview" data-animation-id="modal-orchestration__stagger-inview">
+    <div
+      className={styles['pf-stagger-inview-fm']}
+      data-animation-id="modal-orchestration__stagger-inview"
+    >
       <m.div
-        className="pf-stagger-inview__grid"
-        style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, animation: 'none' }}
+        className={styles['pf-stagger-inview-fm__grid']}
+        style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {renderItems.map((child, i) => (
-          <m.div
-            key={i}
-            className="pf-stagger-inview__item"
-            variants={itemVariants}
-            style={{ animation: 'none' }}
-          >
+          <m.div key={i} className={styles['pf-stagger-inview-fm__item']} variants={itemVariants}>
             {child}
           </m.div>
         ))}

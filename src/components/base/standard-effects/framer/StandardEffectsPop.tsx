@@ -24,7 +24,6 @@ function StandardEffectsPopComponent({ children, duration = 500 }: StandardEffec
   return (
     <m.div
       data-animation-id="standard-effects__pop"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { opacity: [0, 1] }

@@ -1,9 +1,9 @@
 /**
  * Catalog display for the Swing CSS effect.
- * Consumer product: StandardEffectsSwing.css — apply .pf-swing to any element.
+ * Consumer product: StandardEffectsSwing.module.css — import styles and apply styles['pf-swing'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsSwing.css'
+import styles from './StandardEffectsSwing.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsSwingProps {
@@ -18,7 +18,7 @@ function StandardEffectsSwingComponent({ children, duration = 1000 }: StandardEf
   } as CSSProperties
 
   return (
-    <div className="pf-swing" data-animation-id="standard-effects__swing" style={style}>
+    <div className={styles['pf-swing']} data-animation-id="standard-effects__swing" style={style}>
       {children ?? <DemoBox label="Swing" />}
     </div>
   )

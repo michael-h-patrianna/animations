@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsXpNumberPop.css into your app.
+ * Standalone: Copy this file + TextEffectsXpNumberPop.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port with Moti — useMotionValue → useSharedValue, AnimatePresence → exitTransition.
  */
@@ -15,6 +15,7 @@ import {
   useTransform,
 } from 'motion/react'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import styles from './TextEffectsXpNumberPop.module.css'
 
 interface CountUpParticle {
   id: number
@@ -141,8 +142,9 @@ function TextEffectsXpNumberPopComponent({
 
   return (
     <div
-      className="pf-xp-pop"
+      className={styles['pf-xp-pop-fm']}
       data-animation-id="text-effects__xp-number-pop"
+      data-testid="xp-pop"
       style={
         color !== undefined ? ({ '--pf-xp-pop-color': color } as React.CSSProperties) : undefined
       }
@@ -166,7 +168,7 @@ function TextEffectsXpNumberPopComponent({
                 ease: easeOut,
                 times: [0, 0.4, 1],
               }}
-              className="pf-xp-pop__particle"
+              className={styles['pf-xp-pop-fm__particle']}
               style={{
                 position: 'absolute',
                 left: '50%',
@@ -184,10 +186,24 @@ function TextEffectsXpNumberPopComponent({
           ))}
       </AnimatePresence>
 
-      <m.div className="pf-xp-pop__number-wrapper" animate={numberControls}>
-        {prefix !== undefined && <span className="pf-xp-pop__label">{prefix}</span>}
-        <m.span className="pf-xp-pop__number-value">{displayValue}</m.span>
-        {suffix !== undefined && <span className="pf-xp-pop__label">{suffix}</span>}
+      <m.div
+        className={styles['pf-xp-pop-fm__number-wrapper']}
+        data-testid="xp-number-wrapper"
+        animate={numberControls}
+      >
+        {prefix !== undefined && (
+          <span className={styles['pf-xp-pop-fm__label']} data-testid="xp-label">
+            {prefix}
+          </span>
+        )}
+        <m.span className={styles['pf-xp-pop-fm__number-value']} data-testid="xp-number-value">
+          {displayValue}
+        </m.span>
+        {suffix !== undefined && (
+          <span className={styles['pf-xp-pop-fm__label']} data-testid="xp-label">
+            {suffix}
+          </span>
+        )}
       </m.div>
     </div>
   )

@@ -39,7 +39,7 @@ function ModalBaseZoomElasticComponent({
           ease: [0.68, -0.55, 0.265, 1.55],
         }}
         onAnimationComplete={onAnimationComplete}
-        style={{ ...style, animation: 'none' }}
+        style={style}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </m.div>

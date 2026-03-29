@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsCounterIncrement.css into your app.
+ * Standalone: Copy this file + TextEffectsCounterIncrement.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port pop variants + float variants to Moti useAnimatedStyle.
  */
@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import styles from './TextEffectsCounterIncrement.module.css'
 
 const numberPopVariants = {
   idle: { scale: 1, rotate: 0, opacity: 1 },
@@ -199,7 +200,7 @@ function TextEffectsCounterIncrementComponent({
 
   return (
     <div
-      className="pf-counter-showcase"
+      className={styles['pf-counter-showcase-fm']}
       data-animation-id="text-effects__counter-increment"
       style={
         color !== undefined
@@ -207,9 +208,9 @@ function TextEffectsCounterIncrementComponent({
           : undefined
       }
     >
-      <div className="pf-counter-showcase__target">
+      <div className={styles['pf-counter-showcase-fm__target']}>
         <m.span
-          className="pf-counter-showcase__value"
+          className={styles['pf-counter-showcase-fm__value']}
           variants={prefersReducedMotion ? undefined : numberPopVariants}
           initial="idle"
           animate={
@@ -223,10 +224,14 @@ function TextEffectsCounterIncrementComponent({
           }
           transition={prefersReducedMotion ? { duration: 0.3, ease: 'easeInOut' } : undefined}
         >
-          <span className="pf-counter-showcase__value-text">
-            {prefix !== undefined && <span className="pf-counter-showcase__label">{prefix}</span>}
+          <span className={styles['pf-counter-showcase-fm__value-text']}>
+            {prefix !== undefined && (
+              <span className={styles['pf-counter-showcase-fm__label']}>{prefix}</span>
+            )}
             {formatRef.current(count)}
-            {suffix !== undefined && <span className="pf-counter-showcase__label">{suffix}</span>}
+            {suffix !== undefined && (
+              <span className={styles['pf-counter-showcase-fm__label']}>{suffix}</span>
+            )}
           </span>
         </m.span>
 
@@ -234,7 +239,7 @@ function TextEffectsCounterIncrementComponent({
           particles.map((particle) => (
             <m.span
               key={particle.id}
-              className="pf-update-indicator__counter"
+              className={styles['pf-update-indicator-fm__counter']}
               variants={counterFloatVariants}
               initial="hidden"
               animate="float"

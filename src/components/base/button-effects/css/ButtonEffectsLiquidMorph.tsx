@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Liquid Morph CSS effect.
- * Consumer product: ButtonEffectsLiquidMorph.css — apply .pf-liquid-morph + toggle --active.
+ * Consumer product: ButtonEffectsLiquidMorph.module.css — import styles and apply styles['pf-liquid-morph'], toggle --active.
  */
 import {
   cloneElement,
@@ -13,7 +13,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
-import './ButtonEffectsLiquidMorph.css'
+import styles from './ButtonEffectsLiquidMorph.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface ButtonEffectsLiquidMorphProps {
@@ -40,7 +40,7 @@ function ButtonEffectsLiquidMorphComponent({
     return () => clearTimeout(timer)
   }, [duration, isAnimating])
 
-  const sharedClassName = `pf-liquid-morph${isAnimating ? ' pf-liquid-morph--active' : ''}`
+  const sharedClassName = `${styles['pf-liquid-morph']}${isAnimating ? ` ${styles['pf-liquid-morph--active']}` : ''}`
   const sharedStyle = {
     ['--pf-liquid-morph-duration' as string]: `${duration}ms`,
   } as CSSProperties

@@ -1,6 +1,6 @@
 /* ── Preview overlay ─────────────────────────────────────────────────── */
 
-.preview-overlay {
+[data-demo-ui].preview-overlay {
   position: fixed;
   inset: 0;
   z-index: 100;
@@ -12,17 +12,17 @@
 }
 
 /* Opaque mode: solid black, no UI chrome — used for automated visual testing */
-.preview-overlay--opaque {
+[data-demo-ui].preview-overlay--opaque {
   background: var(--preview-overlay-bg, rgb(0 0 0 / 80%));
   --preview-overlay-bg: rgb(0 0 0 / 100%);
 }
 
-.preview-overlay--opaque .preview-toolbar,
-.preview-overlay--opaque .preview-mode-switch {
+[data-demo-ui].preview-overlay--opaque .preview-toolbar,
+[data-demo-ui].preview-overlay--opaque .preview-mode-switch {
   display: none;
 }
 
-.preview-overlay--opaque .preview-mobile-frame {
+[data-demo-ui].preview-overlay--opaque .preview-mobile-frame {
   border-color: transparent;
   background: var(--preview-frame-bg, #1a1a1a);
   --preview-frame-bg: rgb(0 0 0 / 100%);
@@ -33,12 +33,12 @@
   border-radius: 0;
 }
 
-.preview-overlay--opaque .preview-mobile-frame::before,
-.preview-overlay--opaque .preview-mobile-frame::after {
+[data-demo-ui].preview-overlay--opaque .preview-mobile-frame::before,
+[data-demo-ui].preview-overlay--opaque .preview-mobile-frame::after {
   display: none;
 }
 
-.preview-overlay--opaque .preview-mobile-screen {
+[data-demo-ui].preview-overlay--opaque .preview-mobile-screen {
   border-radius: 0;
 }
 
@@ -53,7 +53,7 @@
 
 /* ── Toolbar (replay + close) floating top-right ────────────────────── */
 
-.preview-toolbar {
+[data-demo-ui] .preview-toolbar {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -64,7 +64,7 @@
 
 /* ── Mode switcher (desktop / mobile toggle) ────────────────────────── */
 
-.preview-mode-switch {
+[data-demo-ui] .preview-mode-switch {
   position: absolute;
   top: 16px;
   left: 50%;
@@ -78,7 +78,7 @@
   border-radius: 8px;
 }
 
-.preview-mode-switch__btn {
+[data-demo-ui] .preview-mode-switch__btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,18 +97,18 @@
     background 0.15s ease;
 }
 
-.preview-mode-switch__btn:hover {
+[data-demo-ui] .preview-mode-switch__btn:hover {
   color: var(--text-secondary);
 }
 
-.preview-mode-switch__btn--active {
+[data-demo-ui] .preview-mode-switch__btn--active {
   color: var(--text-primary);
   background: var(--preview-switch-active-bg, rgb(255 255 255 / 12%));
 }
 
 /* ── Desktop animation container ────────────────────────────────────── */
 
-.preview-animation {
+[data-demo-ui] .preview-animation {
   position: absolute;
   inset: 0;
   display: flex;
@@ -120,7 +120,7 @@
 }
 
 /* Desktop: constrain to 960px centered, no overflow clip */
-.preview-overlay > .preview-animation {
+[data-demo-ui].preview-overlay > .preview-animation {
   width: 100%;
   max-width: 960px;
   left: 50%;
@@ -128,49 +128,49 @@
   transform: translateX(-50%);
 }
 
-.preview-animation > * {
+[data-demo-ui] .preview-animation > * {
   display: contents;
   pointer-events: auto;
 }
 
 /* Position variants via data-attribute */
-.preview-animation[data-position='center'] {
+[data-demo-ui] .preview-animation[data-position='center'] {
   align-items: center;
   justify-content: center;
   padding-inline: 1rem;
 }
 
-.preview-animation[data-position='top-left'] {
+[data-demo-ui] .preview-animation[data-position='top-left'] {
   align-items: flex-start;
   justify-content: flex-start;
   padding: 24px;
 }
 
-.preview-animation[data-position='top-right'] {
+[data-demo-ui] .preview-animation[data-position='top-right'] {
   align-items: flex-start;
   justify-content: flex-end;
   padding: 24px;
 }
 
-.preview-animation[data-position='top-center'] {
+[data-demo-ui] .preview-animation[data-position='top-center'] {
   align-items: flex-start;
   justify-content: center;
   padding: 24px;
 }
 
-.preview-animation[data-position='bottom-left'] {
+[data-demo-ui] .preview-animation[data-position='bottom-left'] {
   align-items: flex-end;
   justify-content: flex-start;
   padding: 24px;
 }
 
-.preview-animation[data-position='bottom-right'] {
+[data-demo-ui] .preview-animation[data-position='bottom-right'] {
   align-items: flex-end;
   justify-content: flex-end;
   padding: 24px;
 }
 
-.preview-animation[data-position='bottom-center'] {
+[data-demo-ui] .preview-animation[data-position='bottom-center'] {
   align-items: flex-end;
   justify-content: center;
   padding: 24px;
@@ -178,7 +178,7 @@
 
 /* ── Mobile phone frame ─────────────────────────────────────────────── */
 
-.preview-mobile-frame {
+[data-demo-ui] .preview-mobile-frame {
   position: relative;
   width: 375px;
   aspect-ratio: 375 / 812;
@@ -194,7 +194,7 @@
 }
 
 /* Notch */
-.preview-mobile-frame::before {
+[data-demo-ui] .preview-mobile-frame::before {
   content: '';
   position: absolute;
   top: 0;
@@ -208,7 +208,7 @@
 }
 
 /* Home indicator */
-.preview-mobile-frame::after {
+[data-demo-ui] .preview-mobile-frame::after {
   content: '';
   position: absolute;
   bottom: 8px;
@@ -221,7 +221,7 @@
   z-index: 2;
 }
 
-.preview-mobile-screen {
+[data-demo-ui] .preview-mobile-screen {
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -230,13 +230,13 @@
 }
 
 /* Animation inside the phone screen uses same position system */
-.preview-mobile-screen .preview-animation {
+[data-demo-ui] .preview-mobile-screen .preview-animation {
   position: absolute;
   inset: 0;
 }
 
 /* When previewMaxWidth is set, constrain the preview animation container */
-.preview-animation[style*='--pf-preview-max-width'] {
+[data-demo-ui] .preview-animation[style*='--pf-preview-max-width'] {
   width: 100%;
   max-width: var(--pf-preview-max-width);
   left: 50%;
@@ -250,7 +250,7 @@
    In preview, the container has room — let effects breathe. The preview
    containers themselves provide the outer clipping boundary (viewport for
    desktop, phone frame for mobile). */
-.preview-animation .pf-modal-celebration,
-.preview-animation .pf-modal-celebration > * {
+[data-demo-ui] .preview-animation .pf-modal-celebration,
+[data-demo-ui] .preview-animation .pf-modal-celebration > * {
   overflow: visible;
 }

@@ -24,7 +24,6 @@ function StandardEffectsBlinkComponent({ children, duration = 1000 }: StandardEf
   return (
     <m.div
       data-animation-id="standard-effects__blink"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { opacity: [1, 0.4, 1, 0.5, 1] }

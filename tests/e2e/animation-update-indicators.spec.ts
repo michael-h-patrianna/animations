@@ -8,7 +8,7 @@ test.describe('Update Indicators', () => {
     const stage = await catalogPage.cardStage(card)
 
     // The indicator wraps a badge element
-    const badge = stage.locator('.pf-update-indicator__badge')
+    const badge = stage.locator('[data-testid="indicator-badge"]')
     await expect(badge).toBeVisible({ timeout: 5_000 })
 
     // Badge should have text content (default: "New")

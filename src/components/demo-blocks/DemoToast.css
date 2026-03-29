@@ -1,0 +1,21 @@
+/*
+ * DemoToast functional behavior — progress bar countdown.
+ * This animation is intrinsic to the toast component (shows time remaining).
+ * Not a catalog decoration — consumers who copy-paste DemoToast need this file.
+ */
+
+.pf-demo-toast__progress-bar {
+  animation-name: pf-demo-toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes pf-demo-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}

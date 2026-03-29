@@ -10,6 +10,8 @@ import crystalShatterShard3Image from '@/assets/crystal-shatter/crystal-shard-3.
 import crystalShatterShard4Image from '@/assets/crystal-shatter/crystal-shard-4.webp'
 import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.webp'
 
+import styles from './framer/PrizeRevealCrystalShatter.module.css'
+
 /* ─── Shared types ─── */
 
 export type ShatterPhase = 'descent' | 'charge' | 'shatter' | 'reveal' | 'idle'
@@ -74,14 +76,14 @@ export function AmbientDust() {
   const particles = AMBIENT_DUST
 
   return (
-    <div className="pf-crystal-shatter__ambient-dust">
+    <div className={styles['pf-crystal-shatter-fm__ambient-dust']}>
       {particles.map((p) => (
         <m.img
           key={p.id}
           src={crystalShatterDustImage}
           alt=""
           aria-hidden="true"
-          className="pf-crystal-shatter__ambient-mote"
+          className={styles['pf-crystal-shatter-fm__ambient-mote']}
           style={
             {
               '--x': `${p.x}px`,
@@ -114,7 +116,7 @@ export function AmbientDust() {
 export function LandingRing() {
   return (
     <m.div
-      className="pf-crystal-shatter__landing-ring"
+      className={styles['pf-crystal-shatter-fm__landing-ring']}
       initial={{ opacity: 0, scale: 0.3 }}
       animate={{ opacity: [0, 0.8, 0], scale: [0.3, 1.5, 1.8] }}
       transition={{
@@ -133,14 +135,14 @@ export function LandingRing() {
 
 export function EnergyMotes({ motes }: { motes: MoteData[] }) {
   return (
-    <div className="pf-crystal-shatter__motes-container">
+    <div className={styles['pf-crystal-shatter-fm__motes-container']}>
       {motes.map((mote) => (
         <m.img
           key={mote.id}
           src={crystalShatterEnergyMoteImage}
           alt=""
           aria-hidden="true"
-          className="pf-crystal-shatter__energy-mote"
+          className={styles['pf-crystal-shatter-fm__energy-mote']}
           style={{ '--mote-size': `${mote.size}px` } as CSSProperties}
           initial={{ x: mote.startX, y: mote.startY, scale: 1, opacity: 0 }}
           animate={{
@@ -171,7 +173,7 @@ export function ShatterFlash() {
       src={crystalShatterSparkleImage}
       alt=""
       aria-hidden="true"
-      className="pf-crystal-shatter__flash"
+      className={styles['pf-crystal-shatter-fm__flash']}
       initial={{ scale: 0, opacity: 0.8 }}
       animate={{ scale: [0, 2, 2.5], opacity: [0.8, 0.5, 0] }}
       transition={{
@@ -189,7 +191,7 @@ export function PrismaticRingBurst() {
       src={crystalShatterPrismaticRingImage}
       alt=""
       aria-hidden="true"
-      className="pf-crystal-shatter__prismatic-ring"
+      className={styles['pf-crystal-shatter-fm__prismatic-ring']}
       initial={{ scale: 0.1, opacity: 0.8 }}
       animate={{ scale: [0.1, 2.5], opacity: [0.8, 0] }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -199,14 +201,14 @@ export function PrismaticRingBurst() {
 
 export function CrystalFragments({ fragments }: { fragments: FragmentData[] }) {
   return (
-    <div className="pf-crystal-shatter__fragments">
+    <div className={styles['pf-crystal-shatter-fm__fragments']}>
       {fragments.map((f) => {
         const endX = Math.cos(f.angle) * f.distance
         const endY = Math.sin(f.angle) * f.distance
         return (
           <m.div
             key={f.id}
-            className="pf-crystal-shatter__shard"
+            className={styles['pf-crystal-shatter-fm__shard']}
             style={{
               backgroundImage: `url(${SHARD_IMAGES[f.shardIndex]})`,
               backgroundSize: 'contain',
@@ -235,7 +237,7 @@ export function CrystalFragments({ fragments }: { fragments: FragmentData[] }) {
 
 export function DustSpray({ particles }: { particles: DustData[] }) {
   return (
-    <div className="pf-crystal-shatter__dust-spray">
+    <div className={styles['pf-crystal-shatter-fm__dust-spray']}>
       {particles.map((p) => {
         const endX = Math.cos(p.angle) * p.distance
         const endY = Math.sin(p.angle) * p.distance
@@ -245,7 +247,7 @@ export function DustSpray({ particles }: { particles: DustData[] }) {
             src={crystalShatterDustImage}
             alt=""
             aria-hidden="true"
-            className="pf-crystal-shatter__dust-particle"
+            className={styles['pf-crystal-shatter-fm__dust-particle']}
             style={{ '--dust-size': `${p.size}px` } as CSSProperties}
             initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
             animate={{
@@ -273,7 +275,7 @@ export function DustSpray({ particles }: { particles: DustData[] }) {
 export function ClaimBurst() {
   return (
     <m.div
-      className="pf-crystal-shatter__claim-burst"
+      className={styles['pf-crystal-shatter-fm__claim-burst']}
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: [0, 0.6, 0], scale: [0.5, 2, 2.5] }}
       transition={{ duration: 0.5, ease: 'easeOut' }}

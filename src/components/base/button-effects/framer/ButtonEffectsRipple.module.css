@@ -1,0 +1,27 @@
+/**
+ * Layout styles for the Ripple framer variant.
+ * The overlay sits on top of children and clips expanding circles.
+ * Animation is driven by Motion JS — no transition/animation properties here.
+ */
+
+.pf-ripple-fm {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 50px;
+}
+
+.pf-ripple-fm__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.pf-ripple-fm__circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: var(--pf-ripple-color, rgb(255 255 255 / 30%));
+}

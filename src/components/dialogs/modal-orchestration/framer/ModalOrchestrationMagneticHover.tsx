@@ -1,7 +1,7 @@
 /**
  * 3D-tilt stagger entrance with perspective hover and tap gestures.
  *
- * Copy-paste files: this file + ModalOrchestrationMagneticHover.css
+ * Copy-paste files: this file + ModalOrchestrationMagneticHover.module.css
  * Runtime deps: react, motion
  *
  * @example
@@ -16,6 +16,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationMagneticHover.module.css'
 
 const DEFAULT_COUNT = 6
 
@@ -101,14 +102,14 @@ function ModalOrchestrationMagneticHoverComponent({
 
   return (
     <m.div
-      className="pf-magnetic-hover"
+      className={styles['pf-magnetic-hover-fm']}
+      data-testid="magnetic-hover"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__magnetic-hover"
       style={
         {
-          animation: 'none',
           ['--pf-magnetic-hover-columns' as string]: `${columns}`,
           ['--pf-magnetic-hover-min-tile-width' as string]: `${minTileWidth}px`,
         } as CSSProperties
@@ -117,11 +118,11 @@ function ModalOrchestrationMagneticHoverComponent({
       {renderItems.map((child, i) => (
         <m.div
           key={i}
-          className="pf-magnetic-hover__item"
+          className={styles['pf-magnetic-hover-fm__item']}
+          data-testid="magnetic-item"
           variants={itemVariants}
           whileHover={hoverAnimation}
           whileTap={tapAnimation}
-          style={{ animation: 'none' }}
         >
           {child}
         </m.div>

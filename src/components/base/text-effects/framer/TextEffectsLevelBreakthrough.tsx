@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsLevelBreakthrough.css (from css/ dir) into your app.
+ * Standalone: Copy this file + TextEffectsLevelBreakthrough.module.css (from css/ dir) into your app.
  * Runtime deps: react, motion
  * RN: Port useAnimation → Moti useAnimatedStyle with shared values.
  */
@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeOut, useAnimation, useReducedMotion } from 'motion/react'
 import { memo, useEffect, useRef, useState } from 'react'
+import styles from './TextEffectsLevelBreakthrough.module.css'
 
 interface TextEffectsLevelBreakthroughProps {
   /** Text shown before breakthrough. @default 'LEVEL 1' */
@@ -101,8 +102,9 @@ function TextEffectsLevelBreakthroughComponent({
 
   return (
     <div
-      className="pf-breakthrough-container"
+      className={styles['pf-breakthrough-container-fm']}
       data-animation-id="text-effects__level-breakthrough"
+      data-testid="breakthrough-container"
       style={
         color !== undefined
           ? ({ '--text-effects-level-breakthrough-color': color } as React.CSSProperties)
@@ -110,7 +112,8 @@ function TextEffectsLevelBreakthroughComponent({
       }
     >
       <m.div
-        className="pf-surge-lines"
+        className={styles['pf-surge-lines-fm']}
+        data-testid="surge-lines"
         animate={surge1Controls}
         style={{
           position: 'absolute',
@@ -122,7 +125,8 @@ function TextEffectsLevelBreakthroughComponent({
       />
 
       <m.div
-        className="pf-surge-lines"
+        className={styles['pf-surge-lines-fm']}
+        data-testid="surge-lines"
         animate={surge2Controls}
         style={{
           position: 'absolute',
@@ -134,7 +138,8 @@ function TextEffectsLevelBreakthroughComponent({
       />
 
       <m.div
-        className={`pf-level-breakthrough${showGlow ? ' pf-level-breakthrough--glow' : ''}`}
+        className={`${styles['pf-level-breakthrough-fm']}${showGlow ? ` ${styles['pf-level-breakthrough-fm--glow']}` : ''}`}
+        data-testid="level-text"
         animate={levelControls}
       >
         {showEnd ? endText : startText}

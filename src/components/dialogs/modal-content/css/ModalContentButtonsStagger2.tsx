@@ -1,7 +1,7 @@
 /**
  * Modal with staggered button reveal (2-button default) — CSS variant.
  *
- * Copy-paste files: this file + ModalContentButtonsStagger2.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentButtonsStagger2.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 
@@ -18,7 +18,7 @@ import {
   type ContentStaggerProps,
 } from '@/components/dialogs/modal-content/SharedTypes'
 
-import './ModalContentButtonsStagger2.css'
+import styles from './ModalContentButtonsStagger2.module.css'
 
 const DEFAULT_DURATION = 300
 const DEFAULT_STAGGER = 70
@@ -35,7 +35,7 @@ function ModalContentButtonsStagger2Component({
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div
       key={i}
-      className="pf-button-stagger-item"
+      className={styles['pf-button-stagger-item']}
       style={
         {
           '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
@@ -65,7 +65,7 @@ function ModalContentButtonsStagger2Component({
 
   return (
     <div className="pf-demo-overlay" data-animation-id="modal-content__buttons-stagger-2">
-      <div className="pf-demo-modal pf-mc-box--entrance">
+      <div className={`pf-demo-modal ${styles['pf-mc-box--entrance']}`}>
         <DemoModalHeader />
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>

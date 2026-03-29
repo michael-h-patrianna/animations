@@ -1,0 +1,33 @@
+.pf-pirate-chest-no-win-fm {
+  --pf-pirate-chest-no-win-shadow: rgb(0 0 0 / 42%);
+
+  position: relative;
+  inline-size: 100%;
+  block-size: 240px;
+  overflow: hidden;
+}
+
+.pf-pirate-chest-no-win-fm__stage {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-block-end: 30px;
+  overflow: hidden;
+}
+
+.pf-pirate-chest-no-win-fm__chest {
+  position: relative;
+  z-index: 3;
+  inline-size: clamp(112px, 34%, 170px);
+  pointer-events: none;
+}
+
+.pf-pirate-chest-no-win-fm__image {
+  inline-size: 100%;
+  block-size: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 20px var(--pf-pirate-chest-no-win-shadow));
+}

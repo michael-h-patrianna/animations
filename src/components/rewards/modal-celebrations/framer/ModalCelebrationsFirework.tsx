@@ -9,6 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo, useReducer, useRef } from 'react'
 
+import styles from './ModalCelebrationsFirework.module.css'
 import modalCelebrationsFireworkParticle1Image from '@/assets/modal-celebrations/firework-particle-1.webp'
 import modalCelebrationsFireworkParticle2Image from '@/assets/modal-celebrations/firework-particle-2.webp'
 import modalCelebrationsFireworkParticle3Image from '@/assets/modal-celebrations/firework-particle-3.webp'
@@ -118,11 +119,13 @@ function ModalCelebrationsFireworkComponent({
   }, [prefersReducedMotion, onComplete])
 
   if (prefersReducedMotion) {
-    return <div className="mc-firework" data-animation-id="modal-celebrations__firework" />
+    return (
+      <div className={styles['mc-firework-fm']} data-animation-id="modal-celebrations__firework" />
+    )
   }
 
   return (
-    <div className="mc-firework" data-animation-id="modal-celebrations__firework">
+    <div className={styles['mc-firework-fm']} data-animation-id="modal-celebrations__firework">
       {bursts.map((burst, bi) => {
         // Unmount bursts whose particles have all reached opacity 0 / scale 0
         if (cleanupNow > mountedAtRef.current + (burst.delay + burstEndBufferS) * 1000 + 100)
@@ -131,7 +134,7 @@ function ModalCelebrationsFireworkComponent({
         return (
           <div
             key={burst.id}
-            className="mc-firework__burst"
+            className={styles['mc-firework-fm__burst']}
             style={{
               left: `${burst.posX}%`,
               top: `${burst.posY}%`,
@@ -140,8 +143,8 @@ function ModalCelebrationsFireworkComponent({
             {burst.particles.map((particle, pi) => (
               <m.div
                 key={particle.id}
-                className="mc-firework__particle"
-                style={{ width: particleMaxWidth, height: particleMaxHeight, animation: 'none' }}
+                className={styles['mc-firework-fm__particle']}
+                style={{ width: particleMaxWidth, height: particleMaxHeight }}
                 initial={{
                   x: 0,
                   y: 0,
@@ -202,7 +205,6 @@ function ModalCelebrationsFireworkComponent({
                       width: '100%',
                       height: '100%',
                       background: fallbacks![bi]![pi]!.color,
-                      animation: 'none',
                     }}
                   />
                 )}

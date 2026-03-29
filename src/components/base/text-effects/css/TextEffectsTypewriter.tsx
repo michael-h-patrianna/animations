@@ -1,13 +1,13 @@
 /**
  * Typewriter text reveal with blinking cursor — CSS variant.
  *
- * Copy-paste files: this file + TextEffectsTypewriter.css
+ * Copy-paste files: this file + TextEffectsTypewriter.module.css
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 
 import { memo, useMemo } from 'react'
-import './TextEffectsTypewriter.css'
+import styles from './TextEffectsTypewriter.module.css'
 
 interface TextEffectsTypewriterProps {
   /** @default 'LOADING SYSTEM...' */
@@ -30,7 +30,7 @@ function TextEffectsTypewriterComponent({
 
   return (
     <div
-      className="tfx-typewriter"
+      className={styles['tfx-typewriter']}
       data-animation-id="text-effects__typewriter"
       style={
         color !== undefined
@@ -38,11 +38,11 @@ function TextEffectsTypewriterComponent({
           : undefined
       }
     >
-      <div className="tfx-typewriter__text">
+      <div className={styles['tfx-typewriter__text']}>
         {chars.map((char, index) => (
           <span
             key={index}
-            className="tfx-typewriter__char"
+            className={styles['tfx-typewriter__char']}
             style={{ animationDelay: `${index * charDelay}s` }}
           >
             {char === ' ' ? '\u00A0' : char}
@@ -50,7 +50,7 @@ function TextEffectsTypewriterComponent({
         ))}
 
         <span
-          className="tfx-typewriter__cursor"
+          className={styles['tfx-typewriter__cursor']}
           style={{ animationDelay: `${chars.length * charDelay}s` }}
         >
           {cursor}

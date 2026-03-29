@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbTwirl.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbTwirl.module.css into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbTwirl.module.css'
 
 interface TextEffectsVerbTwirlProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -24,7 +25,7 @@ function TextEffectsVerbTwirlComponent({
 
   return (
     <div
-      className="pf-verb-twirl"
+      className={styles['pf-verb-twirl-fm']}
       data-animation-id="text-effects__verb-twirling"
       aria-label={text}
       style={
@@ -33,15 +34,15 @@ function TextEffectsVerbTwirlComponent({
           : undefined
       }
     >
-      <div className="pf-verb-twirl__line" aria-hidden="true">
+      <div className={styles['pf-verb-twirl-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-twirl__char"
+            className={styles['pf-verb-twirl-fm__char']}
             initial={prefersReducedMotion ? undefined : { rotate: 0, scale: 1 }}
             animate={
               prefersReducedMotion
-                ? { scale: [1, 1.04, 1], opacity: [1, 0.85, 1] }
+                ? undefined
                 : {
                     rotate: [0, 90, 180, 270, 360],
                     scale: [1, 1.05, 1, 0.98, 1],
@@ -49,7 +50,7 @@ function TextEffectsVerbTwirlComponent({
             }
             transition={
               prefersReducedMotion
-                ? { duration: 0.5, ease: 'easeInOut' }
+                ? undefined
                 : {
                     duration: 1.8,
                     ease: easeInOut,

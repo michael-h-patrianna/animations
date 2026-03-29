@@ -24,7 +24,6 @@ function StandardEffectsTadaComponent({ children, duration = 1000 }: StandardEff
   return (
     <m.div
       data-animation-id="standard-effects__tada"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { scale: [1, 0.97, 1.04, 1], rotate: [0, -1, 1, 0] }

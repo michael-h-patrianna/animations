@@ -4,7 +4,9 @@ import { describe, expect, it } from 'vitest'
 import { TimerEffectsPillCountdownGlitch as CssGlitch } from '@/components/realtime/timer-effects/css/TimerEffectsPillCountdownGlitch'
 import { TimerEffectsPillCountdownHeartbeat as CssHeartbeat } from '@/components/realtime/timer-effects/css/TimerEffectsPillCountdownHeartbeat'
 import { TimerEffectsPillCountdownGlitch as FramerGlitch } from '@/components/realtime/timer-effects/framer/TimerEffectsPillCountdownGlitch'
+import fmGlitchStyles from '@/components/realtime/timer-effects/framer/TimerEffectsPillCountdownGlitch.module.css'
 import { TimerEffectsPillCountdownHeartbeat as FramerHeartbeat } from '@/components/realtime/timer-effects/framer/TimerEffectsPillCountdownHeartbeat'
+import fmHeartbeatStyles from '@/components/realtime/timer-effects/framer/TimerEffectsPillCountdownHeartbeat.module.css'
 
 const NORMAL_COLOR = '#123456'
 const WARNING_COLOR = '#b45309'
@@ -51,11 +53,11 @@ const cases: VariantCase[] = [
   },
   {
     label: 'Framer heartbeat',
-    selector: '.pf-pill-countdown-heartbeat',
+    selector: `.${fmHeartbeatStyles['pf-pill-countdown-heartbeat-fm']}`,
     renderPill: (startSeconds) =>
       getPill(
         render(<FramerHeartbeat {...buildTimerProps(startSeconds)} />).container,
-        '.pf-pill-countdown-heartbeat'
+        `.${fmHeartbeatStyles['pf-pill-countdown-heartbeat-fm']}`
       ),
   },
   {
@@ -69,11 +71,11 @@ const cases: VariantCase[] = [
   },
   {
     label: 'Framer glitch',
-    selector: '.pf-pill-countdown-glitch',
+    selector: `.${fmGlitchStyles['pf-pill-countdown-glitch-fm']}`,
     renderPill: (startSeconds) =>
       getPill(
         render(<FramerGlitch {...buildTimerProps(startSeconds)} />).container,
-        '.pf-pill-countdown-glitch'
+        `.${fmGlitchStyles['pf-pill-countdown-glitch-fm']}`
       ),
   },
 ]
@@ -85,7 +87,7 @@ describe('timer effect pill countdown color props', () => {
     expectThemedSurfaceStyle(renderPill(5), CRITICAL_COLOR)
   })
 
-  it.each(cases.filter((testCase) => testCase.selector === '.pf-pill-countdown-glitch'))(
+  it.each(cases.filter((testCase) => testCase.label.includes('glitch')))(
     'themes glitch copy colors alongside the selected phase color for %s',
     ({ renderPill }) => {
       const inlineStyle = renderPill(5).getAttribute('style') ?? ''

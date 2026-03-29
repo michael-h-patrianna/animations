@@ -1,10 +1,10 @@
 /**
  * Circular Dash Progress (CSS variant)
  *
- * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsCircularDash.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsCircularDash.css'
+import styles from './ProgressBarsCircularDash.module.css'
 
 interface CircularDashProps extends ProgressBarProps {
   /** Number of dash segments in the ring. Default: 12. */
@@ -23,19 +23,19 @@ export function ProgressBarsCircularDash({
 
   return (
     <div
-      className={`circular-dash-container-css${className ? ` ${className}` : ''}`}
+      className={`${styles['circular-dash-container-css']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__circular-dash"
     >
-      <div className="circular-dash-wrapper-css">
+      <div className={styles['circular-dash-wrapper-css']}>
         {Array.from({ length: segments }, (_, i) => (
           <div
             key={i}
-            className="circular-dash-segment-container-css"
+            className={styles['circular-dash-segment-container-css']}
             style={{ transform: `rotate(${(i / segments) * 360}deg)` }}
           >
             <div
-              className="circular-dash-pill-css"
+              className={styles['circular-dash-pill-css']}
               style={{
                 opacity: i < activeSegments ? 1 : 0.2,
                 backgroundColor:
@@ -46,7 +46,7 @@ export function ProgressBarsCircularDash({
             />
           </div>
         ))}
-        <div className="circular-dash-center-css">{percent}%</div>
+        <div className={styles['circular-dash-center-css']}>{percent}%</div>
       </div>
     </div>
   )

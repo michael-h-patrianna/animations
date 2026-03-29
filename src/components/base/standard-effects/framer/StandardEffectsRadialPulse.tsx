@@ -62,7 +62,6 @@ function StandardEffectsRadialPulseComponent({
             margin: '-5px 0 0 -5px',
             borderRadius: '50%',
             border: `2px solid ${resolvedColor}`,
-            animation: 'none',
           }}
           animate={
             prefersReducedMotion ? { opacity: 0 } : { scale: [0.1, 7.5], opacity: [0.8, 0.12, 0] }
@@ -92,7 +91,6 @@ function StandardEffectsRadialPulseComponent({
           borderWidth: 2,
           borderStyle: 'solid',
           borderColor: dotBorderColor,
-          animation: 'none',
         }}
         animate={prefersReducedMotion ? { opacity: [1, 0.5, 1] } : undefined}
         transition={prefersReducedMotion ? { duration: durationS, repeat: Infinity } : undefined}

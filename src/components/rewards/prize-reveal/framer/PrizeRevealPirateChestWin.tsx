@@ -2,6 +2,7 @@ import { MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
+import styles from './PrizeRevealPirateChestWin.module.css'
 import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
 import pirateChestOpenImage from '@/assets/puzzled-pirate/chest-open.webp'
 import pirateCoinImage from '@/assets/puzzled-pirate/coin.webp'
@@ -68,7 +69,7 @@ function PirateChestWinCoins({ coinSparkles }: { coinSparkles: CoinSparkle[] }) 
       src={pirateCoinImage}
       alt=""
       aria-hidden="true"
-      className="pf-pirate-chest-win__coin"
+      className={styles['pf-pirate-chest-win-fm__coin']}
       style={{
         width: sparkle.size,
         height: sparkle.size,
@@ -93,9 +94,9 @@ function PirateChestWinCoins({ coinSparkles }: { coinSparkles: CoinSparkle[] }) 
 
 function PirateChestWinRays() {
   return (
-    <div className="pf-pirate-chest-win__rays-wrap">
+    <div className={styles['pf-pirate-chest-win-fm__rays-wrap']}>
       <m.div
-        className="pf-pirate-chest-win__rays-enter"
+        className={styles['pf-pirate-chest-win-fm__rays-enter']}
         initial={{ opacity: 0, scale: 0.82 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{
@@ -104,7 +105,7 @@ function PirateChestWinRays() {
         }}
       >
         <m.div
-          className="pf-pirate-chest-win__rays-spin"
+          className={styles['pf-pirate-chest-win-fm__rays-spin']}
           animate={{ rotate: 360 }}
           transition={{
             duration: 12,
@@ -113,7 +114,7 @@ function PirateChestWinRays() {
           }}
         >
           <m.div
-            className="pf-pirate-chest-win__rays"
+            className={styles['pf-pirate-chest-win-fm__rays']}
             animate={{ opacity: [0.52, 0.72, 0.52], scale: [0.97, 1.03, 0.97] }}
             transition={{
               duration: 2.6,
@@ -124,7 +125,7 @@ function PirateChestWinRays() {
             {RAY_INDICES.map((index) => (
               <span
                 key={index}
-                className="pf-pirate-chest-win__ray"
+                className={styles['pf-pirate-chest-win-fm__ray']}
                 style={{ '--ray-rotation': `${index * (360 / RAY_COUNT)}deg` } as CSSProperties}
               />
             ))}
@@ -152,12 +153,12 @@ function PrizeRevealPirateChestWinComponent({
   return (
     <MotionConfig reducedMotion="user">
       <div
-        className="pf-modal-celebration pf-pirate-chest-win"
+        className={`pf-modal-celebration ${styles['pf-pirate-chest-win-fm']}`}
         data-animation-id="prize-reveal__pirate-chest-win"
       >
-        <div className="pf-pirate-chest-win__stage">
+        <div className={styles['pf-pirate-chest-win-fm__stage']}>
           <m.div
-            className="pf-pirate-chest-win__chest"
+            className={styles['pf-pirate-chest-win-fm__chest']}
             initial={{ y: 64, opacity: 0, scale: 0.82 }}
             animate={{
               y: 0,
@@ -185,7 +186,7 @@ function PrizeRevealPirateChestWinComponent({
               src={phase === 'reveal' ? pirateChestOpenImage : pirateChestClosedImage}
               alt=""
               aria-hidden="true"
-              className="pf-pirate-chest-win__image"
+              className={styles['pf-pirate-chest-win-fm__image']}
             />
           </m.div>
 

@@ -1,0 +1,45 @@
+/* Layout styles for ModalOrchestrationWizardScaleRotate (framer variant) */
+.pf-wizard-scale-fm {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+  position: relative;
+}
+
+.pf-wizard-scale-fm__steps {
+  display: flex;
+  gap: 8px;
+}
+
+.pf-wizard-scale-fm__step {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 10%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 16%));
+  text-align: center;
+  font-size: 12px;
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
+}
+
+.pf-wizard-scale-fm__step--active {
+  background: var(--pf-orch-active-bg, rgb(236 195 255 / 28%));
+  border: 2px solid var(--pf-orch-active-border, rgb(196 122 229 / 85%));
+  color: var(--pf-orch-active-color, rgb(255 255 255 / 95%));
+  box-shadow: 0 0 0 1px var(--pf-orch-active-glow, rgb(196 122 229 / 45%));
+}
+
+.pf-wizard-scale-fm__panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pf-wizard-scale-fm__panel {
+  /* Animation wrapper only — visual card styling comes from children */
+  position: relative;
+}
+
+.pf-wizard-scale-fm__panel--active {
+  /* Semantic marker for active panel — no additional styles */
+}

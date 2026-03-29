@@ -1,25 +1,4 @@
 /*
  * Shared layout classes for modal-base animations.
+ * Reduced-motion is handled per-animation in each component's own CSS.
  */
-
-/* Perspective wrapper for 3D entrance effects (Flip3d, UnfoldOrigami) */
-.pf-perspective {
-  perspective: 1000px;
-}
-
-/* ── Reduced motion: replace entrance animations with a clean fade-in ── */
-@media (prefers-reduced-motion: reduce) {
-  [class^='pf-modal-'][class^='pf-modal-'] {
-    animation: pf-modal-reduced-fade 200ms ease-out both;
-    transform: none;
-  }
-
-  @keyframes pf-modal-reduced-fade {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-}

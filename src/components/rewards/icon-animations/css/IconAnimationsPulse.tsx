@@ -1,13 +1,13 @@
 /**
  * Animated image — scale pulse with rotation wobble and opacity breathing. CSS variant.
  *
- * Copy-paste files: this file + IconAnimationsPulse.css + shared.css
+ * Copy-paste files: this file + IconAnimationsPulse.module.css + shared.css
  * Runtime deps: react
  *
  * Usage: <IconAnimationsPulse src="/scroll.png" alt="scroll" width={100} />
  */
 import { memo } from 'react'
-import './IconAnimationsPulse.css'
+import styles from './IconAnimationsPulse.module.css'
 
 interface IconAnimationsPulseProps {
   /** Image source URL. Renders a placeholder when omitted. */
@@ -29,7 +29,7 @@ function IconAnimationsPulseComponent({
   return (
     <div data-animation-id="icon-animations__pulse">
       <div
-        className="pf-icon-pulse"
+        className={styles['pf-icon-pulse']}
         style={{ ['--pf-icon-pulse-duration' as string]: `${duration}ms` }}
       >
         {src !== undefined ? (

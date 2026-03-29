@@ -17,18 +17,4 @@
   pointer-events: auto;
 }
 
-/* ─── Reduced motion: instant state changes, hide decorative particles ─── */
-/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
-@media (prefers-reduced-motion: reduce) {
-  .pf-modal-celebration [class*='__particle'],
-  .pf-modal-celebration [class*='__sparkle'],
-  .pf-modal-celebration [class*='__glow'],
-  .pf-modal-celebration [class*='__ring'] {
-    animation: none !important;
-    opacity: 0 !important;
-  }
-
-  .pf-modal-celebration [class*='__shard'] {
-    animation: none !important;
-  }
-}
+/* Reduced-motion is handled per-animation in each component's own CSS. */

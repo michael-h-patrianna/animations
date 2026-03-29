@@ -1,7 +1,7 @@
 /**
  * Two-layer stagger entrance: pop-scale step indicators + rotate-morph content panels — CSS variant.
  *
- * Copy-paste files: this file + ModalOrchestrationWizardScaleRotate.css
+ * Copy-paste files: this file + ModalOrchestrationWizardScaleRotate.module.css
  * Runtime deps: react
  *
  * @example
@@ -14,7 +14,7 @@
 
 import { memo } from 'react'
 import type { ReactNode } from 'react'
-import './ModalOrchestrationWizardScaleRotate.css'
+import styles from './ModalOrchestrationWizardScaleRotate.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 3
@@ -54,12 +54,15 @@ function ModalOrchestrationWizardScaleRotateComponent({
       : Array.from({ length: count }, (_, i) => `Step ${i + 1}`)
 
   return (
-    <div className="pf-wizard-scale" data-animation-id="modal-orchestration__wizard-scale-rotate">
-      <div className="pf-wizard-scale__steps">
+    <div
+      className={styles['pf-wizard-scale']}
+      data-animation-id="modal-orchestration__wizard-scale-rotate"
+    >
+      <div className={styles['pf-wizard-scale__steps']}>
         {labels.map((label, i) => (
           <div
             key={i}
-            className={`pf-wizard-scale__step pf-wizard-scale__step--visible${i === activeStep ? ' pf-wizard-scale__step--active' : ''}`}
+            className={`${styles['pf-wizard-scale__step']} ${styles['pf-wizard-scale__step--visible']}${i === activeStep ? ` ${styles['pf-wizard-scale__step--active']}` : ''}`}
             style={{ animationDelay: `${(i * stagger) / 1000}s` }}
           >
             {label}
@@ -67,11 +70,11 @@ function ModalOrchestrationWizardScaleRotateComponent({
         ))}
       </div>
 
-      <div className="pf-wizard-scale__panels">
+      <div className={styles['pf-wizard-scale__panels']}>
         {renderItems.map((child, i) => (
           <div
             key={i}
-            className="pf-wizard-scale__panel pf-wizard-scale__panel--visible"
+            className={`${styles['pf-wizard-scale__panel']} ${styles['pf-wizard-scale__panel--visible']}`}
             style={{
               animationDelay: `${(i * stagger) / 1000}s`,
               animationDuration: `${duration / 1000}s`,

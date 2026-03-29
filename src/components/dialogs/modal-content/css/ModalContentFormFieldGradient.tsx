@@ -1,7 +1,7 @@
 /**
  * Modal with gradient-sweep form field reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentFormFieldGradient.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentFormFieldGradient.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 
@@ -20,7 +20,7 @@ import {
   type ContentStaggerProps,
 } from '@/components/dialogs/modal-content/SharedTypes'
 
-import './ModalContentFormFieldGradient.css'
+import styles from './ModalContentFormFieldGradient.module.css'
 
 const DEFAULT_DURATION = 500
 const DEFAULT_STAGGER = 120
@@ -38,7 +38,7 @@ function ModalContentFormFieldGradientComponent({
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div
       key={i}
-      className="pf-form-gradient-item"
+      className={styles['pf-form-gradient-item']}
       style={
         {
           '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
@@ -70,7 +70,7 @@ function ModalContentFormFieldGradientComponent({
 
   return (
     <div className="pf-demo-overlay" data-animation-id="modal-content__form-field-gradient">
-      <div className="pf-demo-modal pf-mc-box--entrance">
+      <div className={`pf-demo-modal ${styles['pf-mc-box--entrance']}`}>
         <DemoModalHeader />
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
@@ -79,7 +79,7 @@ function ModalContentFormFieldGradientComponent({
         </DemoModalBody>
         <DemoModalFooter>
           <div
-            className="pf-button-stagger-item"
+            className={styles['pf-button-stagger-item']}
             style={
               {
                 '--pf-stagger-delay': '750ms',
@@ -90,7 +90,7 @@ function ModalContentFormFieldGradientComponent({
             <DemoButton label="Accept" />
           </div>
           <div
-            className="pf-button-stagger-item"
+            className={styles['pf-button-stagger-item']}
             style={
               {
                 '--pf-stagger-delay': '820ms',

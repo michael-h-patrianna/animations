@@ -4,14 +4,37 @@
 
 ---
 
+## CSS Layers
+
+Four CSS layers with strict boundaries enforced by stylelint.
+
+| Layer                | Directory                                       | Prefix                  | Animation CSS                                                           | Enforcement                                                      |
+| -------------------- | ----------------------------------------------- | ----------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Framer animation CSS | `framer/*.css`                                  | `pf-*-fm`               | Banned (`@keyframes`, `animation`, `transition`)                        | Stylelint: `at-rule-disallowed-list`, `property-disallowed-list` |
+| CSS animation CSS    | `css/*.css` (per component)                     | `pf-*`                  | Allowed                                                                 | —                                                                |
+| Demo-blocks          | `demo-blocks/demo-blocks.css`                   | `pf-demo-*`             | Banned in shared file; component-specific CSS (e.g. `DemoToast.css`) OK | Stylelint override                                               |
+| Demo-UI              | `demo-ui/`, `src/styles/`, `src/components/ui/` | `[data-demo-ui]` scoped | Allowed (catalog transitions, selection glow)                           | Attribute scoping                                                |
+
+**shared.css** (group-level): structural/visual foundation only — layout, sizing, colors. Zero `@keyframes`, `animation`, or `transition` properties. Enforced by stylelint.
+
+### What a consumer copies per animation
+
+1. `ComponentName.tsx` — the component
+2. `ComponentName.module.css` — its own animation styles (can have keyframes/transitions)
+3. Group `shared.css` — structural/visual foundation (no animation code)
+4. Shared `.ts`/`.tsx` — helpers, types, hooks
+
+Demo-blocks are not consumer-facing — they exist only to make the showcase work.
+
 ## CSS Rules
 
-| Rule                  | Required                                             | Forbidden                                         |
-| --------------------- | ---------------------------------------------------- | ------------------------------------------------- |
-| Class prefix          | `pf-` (e.g., `pf-modal`, `pf-modal--variant`)        | Unprefixed classes in animation components        |
-| CSS scope             | Group-scoped `shared.css` or component-scoped `.css` | Global CSS in `App.css` or `index.css`            |
-| Animation CSS         | CSS files in `css/` subdirectory only                | Animation keyframes in framer/ components         |
-| Layout CSS in framer/ | Allowed for layout-only concerns                     | Animation properties (`@keyframes`, `transition`) |
+| Rule                  | Required                                                    | Forbidden                                                            |
+| --------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------- |
+| Class prefix          | `pf-` (e.g., `pf-modal`, `pf-modal--variant`)               | Unprefixed classes in animation components                           |
+| Framer class suffix   | `-fm` (e.g., `pf-ripple-fm`)                                | `pf-*` without `-fm` in `framer/*.css`                               |
+| CSS scope             | Group-scoped `shared.css` or component-scoped `.module.css` | Global CSS in `App.css` or `index.css`                               |
+| Animation CSS         | Component's own CSS file in `css/` only                     | Animation keyframes in `framer/`, `shared.css`, or `demo-blocks.css` |
+| Layout CSS in framer/ | Allowed for layout-only concerns                            | Animation properties (`@keyframes`, `transition`)                    |
 
 ## Import Rules
 
@@ -34,7 +57,7 @@
 - **All props optional**: components typed `ComponentType<Record<string, unknown>>`. Sensible defaults when props omitted (container center for spatial, placeholder content for wrappers)
 - **Every configurable value is a prop**: hardcoded counts, positions, colors, durations, images that a consumer would want to change must be exposed as optional props
 - **File header comment**: lists copy-paste files and runtime deps
-- **Framer `m.*` elements sharing class names with CSS-animated elements**: add `style={{ animation: 'none' }}` to prevent CSS variant's animation overriding Motion transforms
+- **CSS Modules scoping**: All component CSS uses `.module.css` — class names are locally scoped, eliminating cross-variant animation bleed without manual `animation: 'none'` overrides
 - **CSS particle elements**: require `opacity: 0` + `animation-fill-mode: both` to prevent flash-of-visibility during delay
 
 ## TypeScript
@@ -47,14 +70,14 @@
 
 ## Naming
 
-| Item            | Convention                           | Example                           |
-| --------------- | ------------------------------------ | --------------------------------- |
-| Component files | PascalCase                           | `ModalBaseScaleGentlePop.tsx`     |
-| CSS files       | Match component                      | `ModalBaseScaleGentlePop.css`     |
-| Metadata files  | Match component + `.meta`            | `ModalBaseScaleGentlePop.meta.ts` |
-| Animation IDs   | `group__variant` (double underscore) | `modal-base__scale-gentle-pop`    |
-| CSS classes     | `pf-element--modifier`               | `pf-modal--scale-gentle-pop`      |
-| Folders         | kebab-case                           | `modal-base`, `loading-states`    |
+| Item            | Convention                           | Example                              |
+| --------------- | ------------------------------------ | ------------------------------------ |
+| Component files | PascalCase                           | `ModalBaseScaleGentlePop.tsx`        |
+| CSS files       | Match component + `.module`          | `ModalBaseScaleGentlePop.module.css` |
+| Metadata files  | Match component + `.meta`            | `ModalBaseScaleGentlePop.meta.ts`    |
+| Animation IDs   | `group__variant` (double underscore) | `modal-base__scale-gentle-pop`       |
+| CSS classes     | `pf-element--modifier`               | `pf-modal--scale-gentle-pop`         |
+| Folders         | kebab-case                           | `modal-base`, `loading-states`       |
 
 ## JSDoc
 

@@ -1,0 +1,84 @@
+.pf-charge-surge-fm {
+  --charge-track-bg: rgb(255 255 255 / 8%);
+  --charge-track-border: rgb(255 255 255 / 5%);
+  --charge-track-shadow: rgb(0 0 0 / 25%);
+  --charge-fill-from: #3b82f6;
+  --charge-fill-to: #60a5fa;
+  --charge-fill-glow: rgb(59 130 246 / 30%);
+  --charge-fill-highlight: rgb(255 255 255 / 22%);
+  --charge-glow-dim: rgb(96 165 250 / 40%);
+  --charge-glow-bright: rgb(96 165 250 / 65%);
+  --charge-marker-color: rgb(96 165 250 / 40%);
+  --charge-marker-active: #60a5fa;
+  --charge-marker-border: rgb(96 165 250 / 25%);
+  --charge-wave-color: rgb(96 165 250 / 50%);
+
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.pf-charge-surge-fm .pf-progress-track-fm {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  background: var(--charge-track-bg);
+  border: 1px solid var(--charge-track-border);
+  box-shadow: inset 0 1px 3px var(--charge-track-shadow);
+  border-radius: 999px;
+  overflow: visible;
+}
+
+.pf-charge-surge-fm .pf-progress-fill-fm {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.pf-charge-surge-fm .pf-progress-fill-fm--base {
+  background: linear-gradient(90deg, var(--charge-fill-from), var(--charge-fill-to));
+  box-shadow: 0 0 12px var(--charge-fill-glow);
+  z-index: 1;
+}
+
+.pf-charge-surge-fm .pf-progress-fill-fm--base::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--charge-fill-highlight) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.pf-charge-surge-fm .pf-progress-fill-fm--glow {
+  z-index: 2;
+  overflow: hidden;
+}
+
+.pf-charge-surge-fm .glow-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--charge-glow-dim),
+    var(--charge-glow-bright),
+    var(--charge-glow-dim)
+  );
+  border-radius: 999px;
+}
+
+.pf-charge-surge-fm .milestone-container {
+  z-index: 3;
+}
+
+.pf-charge-surge-fm .milestone-marker {
+  will-change: transform;
+}
+
+.pf-charge-surge-fm .surge-wave {
+  will-change: transform, opacity;
+}

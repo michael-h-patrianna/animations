@@ -35,7 +35,7 @@ function ModalBaseFlip3dComponent({
     <div data-animation-id="modal-base__flip-3d" style={{ perspective }}>
       <m.div
         className={className}
-        style={{ ...style, transformStyle: 'preserve-3d', animation: 'none' }}
+        style={{ ...style, transformStyle: 'preserve-3d' }}
         initial={prefersReducedMotion ? { opacity: 0 } : { rotateY: 180, scale: 0.65, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { rotateY: 0, scale: 1, opacity: 1 }}
         transition={{

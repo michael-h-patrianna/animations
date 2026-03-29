@@ -27,7 +27,6 @@ function StandardEffectsSqueezeComponent({
   return (
     <m.div
       data-animation-id="standard-effects__squeeze"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { scaleX: [1, 1.02, 0.98, 1], scaleY: [1, 0.98, 1.02, 1] }

@@ -1,7 +1,7 @@
 /**
  * Modal with spotlight-sweep list reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentListSpotlight.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentListSpotlight.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 
@@ -20,7 +20,7 @@ import {
   type ContentStaggerProps,
 } from '@/components/dialogs/modal-content/SharedTypes'
 
-import './ModalContentListSpotlight.css'
+import styles from './ModalContentListSpotlight.module.css'
 
 const DEFAULT_DURATION = 500
 const DEFAULT_STAGGER = 120
@@ -38,7 +38,7 @@ function ModalContentListSpotlightComponent({
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div
       key={i}
-      className="pf-list-spotlight-item"
+      className={styles['pf-list-spotlight-item']}
       style={
         {
           '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
@@ -68,7 +68,7 @@ function ModalContentListSpotlightComponent({
 
   return (
     <div className="pf-demo-overlay" data-animation-id="modal-content__list-spotlight">
-      <div className="pf-demo-modal pf-mc-box--entrance">
+      <div className={`pf-demo-modal ${styles['pf-mc-box--entrance']}`}>
         <DemoModalHeader />
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
@@ -77,7 +77,7 @@ function ModalContentListSpotlightComponent({
         </DemoModalBody>
         <DemoModalFooter>
           <div
-            className="pf-button-stagger-item"
+            className={styles['pf-button-stagger-item']}
             style={
               {
                 '--pf-stagger-delay': '650ms',
@@ -88,7 +88,7 @@ function ModalContentListSpotlightComponent({
             <DemoButton label="Accept" />
           </div>
           <div
-            className="pf-button-stagger-item"
+            className={styles['pf-button-stagger-item']}
             style={
               {
                 '--pf-stagger-delay': '720ms',

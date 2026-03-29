@@ -1,7 +1,7 @@
 /**
  * Split Reveal — button text separates to reveal hidden content on click.
  *
- * Copy-paste files: this file + ButtonEffectsSplitReveal.css
+ * Copy-paste files: this file + ButtonEffectsSplitReveal.module.css
  * Runtime deps: react
  *
  * Usage:
@@ -14,7 +14,7 @@
  */
 
 import { memo, useEffect, useState, type ReactNode } from 'react'
-import './ButtonEffectsSplitReveal.css'
+import styles from './ButtonEffectsSplitReveal.module.css'
 import '@/components/demo-blocks/demo-blocks.css'
 
 interface ButtonEffectsSplitRevealProps {
@@ -62,12 +62,12 @@ function ButtonEffectsSplitRevealComponent({
     >
       <button
         type="button"
-        className={`pf-split-reveal ${isRevealing ? 'pf-split-reveal--active' : ''} ${className ?? 'pf-demo-btn pf-demo-btn--primary'}`}
+        className={`${styles['pf-split-reveal']} ${isRevealing ? styles['pf-split-reveal--active'] : ''} ${className ?? 'pf-demo-btn pf-demo-btn--primary'}`}
         onClick={handleClick}
       >
-        <span className="pf-split-reveal__top">{topLabel}</span>
-        <span className="pf-split-reveal__bottom">{bottomLabel}</span>
-        <span className="pf-split-reveal__content">{revealContent}</span>
+        <span className={styles['pf-split-reveal__top']}>{topLabel}</span>
+        <span className={styles['pf-split-reveal__bottom']}>{bottomLabel}</span>
+        <span className={styles['pf-split-reveal__content']}>{revealContent}</span>
       </button>
     </div>
   )

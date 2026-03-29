@@ -37,9 +37,6 @@ export interface ModalOpenProps {
   /** Total fly-in duration in ms. Default 600. */
   duration?: number
 
-  /** Overlay backdrop opacity at rest (0–1). Default 0.5. */
-  overlayOpacity?: number
-
   /** Modal content. When omitted, renders mock demo content with stagger reveal. */
   children?: ReactNode
 
@@ -71,9 +68,6 @@ export interface ModalOpenProps {
 
 /** Default fly-in duration in ms. */
 export const DEFAULT_DURATION = 600
-
-/** Default overlay opacity. */
-export const DEFAULT_OVERLAY_OPACITY = 0.5
 
 /** Minimum distance (px) from center to use arc trajectory. Below this, falls back to scale-pop. */
 export const MIN_ARC_DISTANCE = 30

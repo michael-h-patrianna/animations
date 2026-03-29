@@ -12,7 +12,6 @@ import {
   type DemoPreset,
 } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
-import './shared-css-animations.css'
 import {
   computeSlamDownCloseTrajectory,
   computeSlamDownTrajectory,
@@ -96,31 +95,20 @@ function ModalOpenSlamDownComponent(props: ModalOpenProps) {
         />
       )}
       {s.isVisible && traj !== null && (
-        <>
+        <div className="pf-mo-stage">
           <div
-            className={`pf-mo-overlay ${s.isClosing ? 'pf-mo-overlay--closing' : 'pf-mo-overlay--css'}`}
-            style={
-              {
-                '--pf-mo-overlay-opacity': s.overlayOpacity,
-                '--pf-mo-duration': `${s.activeDurationMs}ms`,
-              } as React.CSSProperties
-            }
-          />
-          <div className="pf-mo-stage">
-            <div
-              ref={modalRef}
-              className={`pf-mo-modal${props.className ? ` ${props.className}` : ''}`}
-              style={props.style}
+            ref={modalRef}
+            className={`pf-mo-modal${props.className ? ` ${props.className}` : ''}`}
+            style={props.style}
+          >
+            <ModalOpenPlaceholder
+              revealed={s.contentRevealed}
+              onClose={s.isDemoMode ? s.handleClose : undefined}
             >
-              <ModalOpenPlaceholder
-                revealed={s.contentRevealed}
-                onClose={s.isDemoMode ? s.handleClose : undefined}
-              >
-                {props.children}
-              </ModalOpenPlaceholder>
-            </div>
+              {props.children}
+            </ModalOpenPlaceholder>
           </div>
-        </>
+        </div>
       )}
     </div>
   )

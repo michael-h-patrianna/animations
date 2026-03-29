@@ -53,15 +53,6 @@
   transform: scale(0.96);
 }
 
-/* ── Overlay backdrop ── */
-.pf-mo-overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--pf-mo-overlay-color);
-  opacity: var(--pf-mo-overlay-opacity, 0.5);
-  z-index: 3;
-}
-
 /* ── Modal flight stage (grid-centered — modal animates as offset from center) ── */
 .pf-mo-stage {
   position: absolute;
@@ -78,7 +69,9 @@
   pointer-events: auto;
 }
 
-/* ── Wanted Poster: paper curl shadow at the unrolling edge ── */
+/* ── Wanted Poster: paper curl shadow at the unrolling edge ──
+   Single-consumer (WantedPoster only) — kept here because both css/ and framer/
+   variants reference this class as a raw className and neither has a component CSS file. */
 .pf-mo-paper-curl {
   position: absolute;
   bottom: 0;
@@ -91,7 +84,10 @@
   opacity: 0.6;
 }
 
-/* ── Impact glow (pulses on landing) ── */
+/* ── Impact glow (single-consumer: FlyIn css+framer) ──
+   Kept here: framer variant uses this class as raw className and the
+   framer -fm suffix lint rule prevents co-locating in framer/*.css.
+   CSS variant also has this in its module.css for animation keyframes. */
 .pf-mo-impact-glow {
   position: absolute;
   left: 50%;

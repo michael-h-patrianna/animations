@@ -1,0 +1,83 @@
+.pf-neon-pulse-fm {
+  --neon-pulse-bg: #0a0a0f;
+  --neon-pulse-edge: rgb(236 72 153 / 12%);
+  --neon-pulse-shine: rgb(255 255 255 / 4%);
+  --neon-pulse-shadow: rgb(0 0 0 / 40%);
+  --pf-neon-pulse-fm__track: rgb(236 72 153 / 8%);
+  --pf-neon-pulse-fm__track-border: rgb(236 72 153 / 12%);
+  --pf-neon-pulse-fm__fill: #ec4899;
+  --pf-neon-pulse-fm__fill-to: #f472b6;
+  --pf-neon-pulse-fm__flicker: rgb(255 255 255 / 35%);
+  --pf-neon-pulse-fm__glow: rgb(236 72 153 / 25%);
+  --pf-neon-pulse-fm__glow-tight: rgb(236 72 153 / 50%);
+  --pf-neon-pulse-fm__label-glow: rgb(236 72 153 / 60%);
+  --neon-pulse-height: 8px;
+
+  background: var(--neon-pulse-bg);
+  border: 1px solid var(--neon-pulse-edge);
+  box-shadow:
+    inset 0 1px 0 var(--neon-pulse-shine),
+    0 12px 24px var(--neon-pulse-shadow);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+.pf-neon-pulse-fm__track {
+  width: 100%;
+  height: var(--neon-pulse-height);
+  background: var(--pf-neon-pulse-fm__track);
+  border: 1px solid var(--pf-neon-pulse-fm__track-border);
+  position: relative;
+  border-radius: 6px;
+}
+
+.pf-neon-pulse-fm__fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--pf-neon-pulse-fm__fill) 0%,
+    var(--pf-neon-pulse-fm__fill-to) 100%
+  );
+  border-radius: 5px;
+  position: relative;
+  z-index: 2;
+  transform-origin: left center;
+  box-shadow:
+    0 0 16px var(--pf-neon-pulse-fm__glow),
+    0 0 4px var(--pf-neon-pulse-fm__glow-tight);
+}
+
+.pf-neon-pulse-fm__flicker {
+  position: absolute;
+  inset: 0;
+  background: var(--pf-neon-pulse-fm__flicker);
+  border-radius: inherit;
+}
+
+.pf-neon-pulse-fm__glow {
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 100%;
+  height: calc(var(--neon-pulse-height) + 4px);
+  background: var(--pf-neon-pulse-fm__glow);
+  border-radius: 10px;
+  z-index: 1;
+  transform-origin: left center;
+}
+
+.pf-neon-pulse-fm__label {
+  color: var(--pf-neon-pulse-fm__fill);
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px var(--pf-neon-pulse-fm__label-glow);
+}

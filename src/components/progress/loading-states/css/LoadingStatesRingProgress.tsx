@@ -1,14 +1,14 @@
 /**
  * SVG ring that continuously fills and empties — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesRingProgress.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesRingProgress.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 
 import { memo } from 'react'
 
 import { RING_PROGRESS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesRingProgress.css'
+import styles from './LoadingStatesRingProgress.module.css'
 
 interface LoadingStatesRingProgressProps {
   /** Ring diameter in px. */
@@ -46,7 +46,11 @@ function LoadingStatesRingProgressComponent({
   return (
     <div
       data-animation-id="loading-states__ring-progress"
-      className={className !== undefined ? `pf-ring-progress ${className}` : 'pf-ring-progress'}
+      className={
+        className !== undefined
+          ? `${styles['pf-ring-progress']} ${className}`
+          : styles['pf-ring-progress']
+      }
       style={
         {
           '--pf-rp-size': `${size}px`,
@@ -61,7 +65,7 @@ function LoadingStatesRingProgressComponent({
         viewBox={`0 0 ${size} ${size}`}
         width={size}
         height={size}
-        className="pf-ring-progress__svg"
+        className={styles['pf-ring-progress__svg']}
       >
         <circle
           cx={center}
@@ -72,7 +76,7 @@ function LoadingStatesRingProgressComponent({
           strokeWidth={thickness}
         />
         <circle
-          className="pf-ring-progress__stroke"
+          className={styles['pf-ring-progress__stroke']}
           cx={center}
           cy={center}
           r={radius}

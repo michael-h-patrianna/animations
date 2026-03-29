@@ -1,9 +1,9 @@
 /**
  * Catalog display for the Slide CSS effect.
- * Consumer product: StandardEffectsSlide.css — apply .pf-slide to any element.
+ * Consumer product: StandardEffectsSlide.module.css — import styles and apply styles['pf-slide'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsSlide.css'
+import styles from './StandardEffectsSlide.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsSlideProps {
@@ -18,7 +18,7 @@ function StandardEffectsSlideComponent({ children, duration = 700 }: StandardEff
   } as CSSProperties
 
   return (
-    <div className="pf-slide" data-animation-id="standard-effects__slide" style={style}>
+    <div className={styles['pf-slide']} data-animation-id="standard-effects__slide" style={style}>
       {children ?? <DemoBox label="Slide" />}
     </div>
   )

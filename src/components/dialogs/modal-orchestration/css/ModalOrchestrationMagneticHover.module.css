@@ -1,0 +1,91 @@
+/* Styles for ModalOrchestrationMagneticHover (CSS variant) */
+.pf-magnetic-hover {
+  --pf-magnetic-hover-gap: 12px;
+  width: 100%;
+  display: grid;
+  gap: var(--pf-magnetic-hover-gap);
+  position: relative;
+  overflow: visible;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(
+      min(
+        100%,
+        max(
+          var(--pf-magnetic-hover-min-tile-width, 96px),
+          calc(
+            (100% - ((var(--pf-magnetic-hover-columns, 4) - 1) * var(--pf-magnetic-hover-gap))) /
+              var(--pf-magnetic-hover-columns, 4)
+          )
+        )
+      ),
+      1fr
+    )
+  );
+}
+
+.pf-magnetic-hover__item {
+  /* Animation wrapper only — visual card styling comes from children */
+  cursor: pointer;
+  min-width: 0;
+  opacity: 0;
+  transform: scale(0) rotateX(-90deg);
+  will-change: transform, opacity;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+@keyframes pf-magnetic-entrance {
+  from {
+    opacity: 0;
+    transform: scale(0) rotateX(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotateX(0deg);
+  }
+}
+
+.pf-magnetic-hover__item--visible {
+  animation-name: pf-magnetic-entrance;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: both;
+}
+
+/* After entrance completes, release animation lock so hover transitions work */
+.pf-magnetic-hover__item--landed {
+  opacity: 1;
+  transform: scale(1) rotateX(0deg);
+}
+
+.pf-magnetic-hover__item--landed:hover {
+  transform: scale(1.1) translateY(-12px) rotateY(var(--pf-magnetic-hover-tilt, 5deg))
+    rotateX(var(--pf-magnetic-hover-tilt, 5deg));
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pf-magnetic-hover__item--landed:active {
+  transform: scale(0.95);
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .pf-magnetic-hover__item {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
+
+  .pf-magnetic-hover__item--visible {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .pf-magnetic-hover__item--landed:hover {
+    transform: none;
+    transition: none;
+  }
+}

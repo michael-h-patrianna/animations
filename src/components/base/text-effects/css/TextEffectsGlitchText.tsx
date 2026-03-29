@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import './TextEffectsGlitchText.css'
+import styles from './TextEffectsGlitchText.module.css'
 
 interface TextEffectsGlitchTextProps {
   /**
@@ -26,7 +26,7 @@ interface TextEffectsGlitchTextProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsGlitchText.css into your app.
+ * Standalone: Copy this file + TextEffectsGlitchText.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
@@ -40,7 +40,7 @@ function TextEffectsGlitchTextComponent({
 
   return (
     <div
-      className={`tfx-glitchtext__container ${className}`.trim()}
+      className={`${styles['tfx-glitchtext__container']} ${className}`.trim()}
       data-animation-id="text-effects__tfx-glitchtext"
       style={
         color !== undefined
@@ -49,20 +49,26 @@ function TextEffectsGlitchTextComponent({
       }
     >
       {/* Main text layer */}
-      <div className="tfx-glitchtext__base">{content}</div>
+      <div className={styles['tfx-glitchtext__base']}>{content}</div>
 
       {/* Cyan RGB offset layer */}
-      <div className="tfx-glitchtext__layer tfx-glitchtext__layer--cyan" aria-hidden="true">
+      <div
+        className={`${styles['tfx-glitchtext__layer']} ${styles['tfx-glitchtext__layer--cyan']}`}
+        aria-hidden="true"
+      >
         {content}
       </div>
 
       {/* Magenta RGB offset layer */}
-      <div className="tfx-glitchtext__layer tfx-glitchtext__layer--magenta" aria-hidden="true">
+      <div
+        className={`${styles['tfx-glitchtext__layer']} ${styles['tfx-glitchtext__layer--magenta']}`}
+        aria-hidden="true"
+      >
         {content}
       </div>
 
       {/* Horizontal scan line distortion bars */}
-      <div className="tfx-glitchtext__bars" aria-hidden="true" />
+      <div className={styles['tfx-glitchtext__bars']} aria-hidden="true" />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsWaveReveal.css into your app.
+ * Standalone: Copy this file + TextEffectsWaveReveal.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port with Moti MotiView stagger + entering animation.
  */
@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { easeOut, useReducedMotion } from 'motion/react'
 import type { Variants } from 'motion/react'
 import { memo } from 'react'
+import styles from './TextEffectsWaveReveal.module.css'
 
 interface TextEffectsWaveRevealProps {
   /** Text for the first line. @default 'Look at' */
@@ -89,9 +90,9 @@ function TextEffectsWaveRevealComponent({
       }
 
   return (
-    <div className="pf-wave-reveal" data-animation-id="text-effects__wave-reveal">
+    <div className={styles['pf-wave-reveal-fm']} data-animation-id="text-effects__wave-reveal">
       <m.div
-        className="pf-wave-reveal__wrapper"
+        className={styles['pf-wave-reveal-fm__wrapper']}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -99,14 +100,14 @@ function TextEffectsWaveRevealComponent({
         {lines.map((line, lineIndex) => (
           <m.div
             key={lineIndex}
-            className="pf-wave-reveal__line"
+            className={styles['pf-wave-reveal-fm__line']}
             style={{ color: line.color }}
             variants={lineVariants}
           >
             {line.text.split('').map((char, charIndex) => (
               <m.span
                 key={`${lineIndex}-${charIndex}`}
-                className="pf-wave-reveal__char"
+                className={styles['pf-wave-reveal-fm__char']}
                 variants={letterVariants}
               >
                 {char === ' ' ? '\u00A0' : char}

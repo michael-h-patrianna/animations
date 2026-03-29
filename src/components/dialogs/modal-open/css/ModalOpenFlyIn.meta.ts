@@ -6,9 +6,9 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/modal-open-css?animation=modal-open__fly-in',
   title: 'Fly-In',
   description:
-    'Modal launches from a trigger element with arced trajectory, impact settle, and staggered content reveal. Props: from, duration, overlayOpacity, contentRevealAt, children.',
+    'Modal launches from a trigger element with arced trajectory, impact settle, and staggered content reveal. Props: from, duration, contentRevealAt, children.',
   tier: 3,
-  tags: ['lrc', 'raf'],
+  tags: ['raf'],
   props: [
     {
       type: 'string',
@@ -26,15 +26,6 @@ export const metadata: AnimationMetadata = {
       max: 2000,
       step: 50,
       unit: 'ms',
-    },
-    {
-      type: 'number',
-      name: 'overlayOpacity',
-      label: 'Overlay Opacity',
-      default: 0.5,
-      min: 0,
-      max: 1,
-      step: 0.05,
     },
     {
       type: 'number',

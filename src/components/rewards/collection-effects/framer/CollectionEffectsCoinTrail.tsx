@@ -9,6 +9,7 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
+import styles from './CollectionEffectsCoinTrail.module.css'
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
 import {
   generateFallbackParticle,
@@ -70,7 +71,7 @@ function ParticleElement({
   onFinish?: () => void
 }) {
   const particleContent = particle.imageSrc ? (
-    <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
+    <img src={particle.imageSrc} alt="" className={styles['pf-coin-trail-fm__particle-image']} />
   ) : (
     <FallbackParticle
       shape={particle.fallback.shape}
@@ -94,8 +95,8 @@ function ParticleElement({
 
     return (
       <m.div
-        className="pf-coin-trail__particle"
-        style={{ left: 0, top: 0, animation: 'none' }}
+        className={styles['pf-coin-trail-fm__particle']}
+        style={{ left: 0, top: 0 }}
         initial={{ x: xPath[0], y: yPath[0], scale: 0, opacity: 0 }}
         animate={{
           x: xPath,
@@ -122,7 +123,7 @@ function ParticleElement({
 
   return (
     <m.div
-      className="pf-coin-trail__particle"
+      className={styles['pf-coin-trail-fm__particle']}
       style={{ left: 0, top: 0 }}
       initial={{ x: fromPt.x, y: fromPt.y, scale: 0.15, opacity: 0 }}
       animate={{
@@ -218,12 +219,12 @@ function CollectionEffectsCoinTrailComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-coin-trail"
+      className={styles['pf-coin-trail-fm']}
       data-animation-id="collection-effects__coin-trail"
       style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && fromPt !== null && toPt !== null && (
-        <div className="pf-coin-trail__stage" aria-hidden="true">
+        <div className={styles['pf-coin-trail-fm__stage']} aria-hidden="true">
           {particles.map((particle) => (
             <ParticleElement
               key={particle.id}

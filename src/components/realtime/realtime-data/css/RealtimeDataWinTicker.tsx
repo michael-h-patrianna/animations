@@ -2,12 +2,12 @@
  * Continuously scrolling marquee/ticker for announcements, wins, or status
  * messages — CSS variant using keyframe animation.
  *
- * Copy-paste files: this file + RealtimeDataWinTicker.css + ../shared.css
+ * Copy-paste files: this file + RealtimeDataWinTicker.module.css + ../shared.css
  * Runtime deps: react
  */
 
 import { memo, useMemo } from 'react'
-import './RealtimeDataWinTicker.css'
+import './RealtimeDataWinTicker.module.css'
 
 const DEFAULT_ITEMS = ['Mega Win! +5,000 credits', 'Daily streak unlocked', 'Bonus wheel ready']
 

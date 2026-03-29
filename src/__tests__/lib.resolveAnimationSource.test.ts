@@ -16,7 +16,7 @@ function makeMeta(id: string, overrides?: Partial<AnimationMetadata>): Animation
 }
 
 describe('resolveAnimationSource', () => {
-  it('resolves only tsx tab for framer entry (framer CSS excluded from code viewer)', async () => {
+  it('resolves tsx and css tabs for framer entry with CSS file', async () => {
     const tsxLoader = vi.fn().mockResolvedValue('export function Foo() {}')
     const cssLoader = vi.fn().mockResolvedValue('.foo { color: red }')
 
@@ -35,11 +35,16 @@ describe('resolveAnimationSource', () => {
     const framerEntry = result.framer['g__test-anim']!
     const tabs = await resolveAnimationSource(framerEntry, undefined)
 
-    expect(tabs).toHaveLength(1)
+    expect(tabs).toHaveLength(2)
     expect(tabs[0]).toEqual({
       label: 'Component',
       code: 'export function Foo() {}',
       language: 'tsx',
+    })
+    expect(tabs[1]).toEqual({
+      label: 'CSS',
+      code: '.foo { color: red }',
+      language: 'css',
     })
   })
 
@@ -79,7 +84,7 @@ describe('resolveAnimationSource', () => {
     expect(tabs[0]).toEqual({ label: 'Component', code: 'const x = 1', language: 'tsx' })
   })
 
-  it('resolves 3 tabs when both variants present (framer CSS excluded)', async () => {
+  it('resolves 4 tabs when both variants present (framer CSS included)', async () => {
     const framerTsxLoader = vi.fn().mockResolvedValue('framer tsx')
     const framerCssLoader = vi.fn().mockResolvedValue('framer css')
     const cssTsxLoader = vi.fn().mockResolvedValue('css tsx')
@@ -101,10 +106,11 @@ describe('resolveAnimationSource', () => {
 
     const tabs = await resolveAnimationSource(result.framer['g__anim']!, result.css['g__anim']!)
 
-    expect(tabs).toHaveLength(3)
+    expect(tabs).toHaveLength(4)
     expect(tabs[0]).toEqual({ label: 'Component', code: 'framer tsx', language: 'tsx' })
-    expect(tabs[1]).toEqual({ label: 'Component', code: 'css tsx', language: 'tsx' })
-    expect(tabs[2]).toEqual({ label: 'CSS', code: 'css stylesheet', language: 'css' })
+    expect(tabs[1]).toEqual({ label: 'CSS', code: 'framer css', language: 'css' })
+    expect(tabs[2]).toEqual({ label: 'Component', code: 'css tsx', language: 'tsx' })
+    expect(tabs[3]).toEqual({ label: 'CSS', code: 'css stylesheet', language: 'css' })
   })
 
   it('resolves CSS-only variant tabs correctly', async () => {
@@ -135,7 +141,7 @@ describe('resolveAnimationSource', () => {
     expect(tabs[1]).toEqual({ label: 'CSS', code: '.css-anim { color: blue }', language: 'css' })
   })
 
-  it('calls tsx source loader only once and skips framer css loader', async () => {
+  it('calls both tsx and css source loaders exactly once', async () => {
     const tsxLoader = vi.fn().mockResolvedValue('tsx source')
     const cssLoader = vi.fn().mockResolvedValue('css source')
 
@@ -155,7 +161,7 @@ describe('resolveAnimationSource', () => {
     await resolveAnimationSource(framerEntry, undefined)
 
     expect(tsxLoader).toHaveBeenCalledOnce()
-    expect(cssLoader).not.toHaveBeenCalled()
+    expect(cssLoader).toHaveBeenCalledOnce()
   })
 
   it('includes shared group-root files imported by the component', async () => {

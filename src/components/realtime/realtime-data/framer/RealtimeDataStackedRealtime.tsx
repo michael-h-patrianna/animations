@@ -11,6 +11,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 import type { StatEntry } from '@/components/realtime/realtime-data/SharedTypes'
+import './RealtimeDataStackedRealtime.module.css'
 
 const DEFAULT_ITEMS: StatEntry[] = [
   { label: 'Active Players', value: '1,247', active: true },
@@ -49,12 +50,12 @@ function RealtimeDataStackedRealtimeComponent({
   const staggerS = staggerDelay / 1000
 
   return (
-    <div className="pf-realtime-data" data-animation-id="realtime-data__stacked-realtime">
-      <div className="pf-realtime-data__stack">
+    <div className="pf-realtime-data-fm" data-animation-id="realtime-data__stacked-realtime">
+      <div className="pf-realtime-data-fm__stack">
         {items.map((item, index) => (
           <m.div
             key={item.label}
-            className={`pf-realtime-data__stack-row ${item.active === true ? 'active' : ''}`}
+            className={`pf-realtime-data-fm__stack-row ${item.active === true ? 'active' : ''}`}
             initial={
               prefersReducedMotion ? { opacity: 0 } : { x: index % 2 === 0 ? -16 : 16, opacity: 0 }
             }
@@ -71,16 +72,14 @@ function RealtimeDataStackedRealtimeComponent({
               delay: prefersReducedMotion ? 0 : index * staggerS,
               ease: [0.25, 0.46, 0.45, 0.94] as const,
             }}
-            style={{ animation: 'none' }}
           >
-            <span className="pf-realtime-data__stack-label">{item.label}</span>
+            <span className="pf-realtime-data-fm__stack-label">{item.label}</span>
             <m.span
-              className="pf-realtime-data__stack-value"
+              className="pf-realtime-data-fm__stack-value"
               animate={{
                 color: visible && item.active !== true ? inactiveColor : activeColor,
               }}
               transition={{ duration: 0.4, delay: index * staggerS + 0.2 }}
-              style={{ animation: 'none' }}
             >
               {item.value}
             </m.span>

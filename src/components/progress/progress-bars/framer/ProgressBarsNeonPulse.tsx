@@ -12,17 +12,18 @@
  *
  * Styleable CSS custom properties:
  * - `--neon-pulse-bg`         — container background (default: #0a0a0f)
- * - `--neon-pulse-track`      — track background (default: rgb(236 72 153 / 8%))
- * - `--neon-pulse-fill`       — neon fill color (default: #ec4899)
- * - `--neon-pulse-fill-to`    — neon fill end (default: #f472b6)
- * - `--neon-pulse-glow`       — glow layer (default: rgb(236 72 153 / 25%))
+ * - `--pf-neon-pulse-fm__track`      — track background (default: rgb(236 72 153 / 8%))
+ * - `--pf-neon-pulse-fm__fill`       — neon fill color (default: #ec4899)
+ * - `--pf-neon-pulse-fm__fill-to`    — neon fill end (default: #f472b6)
+ * - `--pf-neon-pulse-fm__glow`       — glow layer (default: rgb(236 72 153 / 25%))
  * - `--neon-pulse-height`     — track height (default: 8px)
  *
- * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsNeonPulse.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsNeonPulse.module.css'
 
 interface NeonPulseProps extends ProgressBarProps {
   /** Status label below the bar. Default: "SYNCING...". */
@@ -40,39 +41,40 @@ export function ProgressBarsNeonPulse({
 
   return (
     <div
-      className={`neon-pulse-container${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-neon-pulse-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__neon-pulse"
     >
-      <div className="neon-pulse-track">
+      <div className={styles['pf-neon-pulse-fm__track']}>
         <m.div
-          className="neon-pulse-fill"
+          className={styles['pf-neon-pulse-fm__fill']}
           initial={false}
           animate={{ scaleX: displayProgress }}
           transition={{ ease: 'linear', duration: prefersReducedMotion ? 0.05 : 0.1 }}
-          style={{ transformOrigin: 'left center', animation: 'none' }}
+          style={{ transformOrigin: 'left center' }}
         >
           <m.div
-            className="neon-pulse-flicker"
+            className={styles['pf-neon-pulse-fm__flicker']}
             animate={prefersReducedMotion ? undefined : { opacity: [1, 0.8, 1, 0.4, 1, 0.9, 1] }}
             transition={
               prefersReducedMotion
                 ? undefined
                 : { duration: 0.2, repeat: Infinity, repeatType: 'reverse' }
             }
-            style={{ animation: 'none' }}
           />
         </m.div>
 
         <m.div
-          className="neon-pulse-glow"
+          className={styles['pf-neon-pulse-fm__glow']}
           initial={false}
           animate={{ scaleX: displayProgress }}
           transition={{ ease: 'linear', duration: prefersReducedMotion ? 0.05 : 0.1 }}
           style={{ transformOrigin: 'left center' }}
         />
       </div>
-      {label !== undefined && label !== '' && <div className="neon-pulse-label">{label}</div>}
+      {label !== undefined && label !== '' && (
+        <div className={styles['pf-neon-pulse-fm__label']}>{label}</div>
+      )}
     </div>
   )
 }

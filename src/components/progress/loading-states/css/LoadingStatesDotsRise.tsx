@@ -1,14 +1,14 @@
 /**
  * Three dots bouncing upward in sequence — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesDotsRise.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesDotsRise.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 
 import { memo } from 'react'
 
 import { DOTS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesDotsRise.css'
+import styles from './LoadingStatesDotsRise.module.css'
 
 interface LoadingStatesDotsRiseProps {
   /** Dot color. */
@@ -43,7 +43,9 @@ function LoadingStatesDotsRiseComponent({
   return (
     <div
       data-animation-id="loading-states__dots-rise"
-      className={className !== undefined ? `pf-dots-rise ${className}` : 'pf-dots-rise'}
+      className={
+        className !== undefined ? `${styles['pf-dots-rise']} ${className}` : styles['pf-dots-rise']
+      }
       style={
         {
           '--pf-dr-dot-size': `${dotSize}px`,
@@ -59,7 +61,7 @@ function LoadingStatesDotsRiseComponent({
       {Array.from({ length: DOT_COUNT }, (_, i) => (
         <span
           key={i}
-          className="pf-dots-rise__dot"
+          className={styles['pf-dots-rise__dot']}
           style={{ animationDelay: `${(i * 0.15) / safeSpeed}s` }}
         />
       ))}

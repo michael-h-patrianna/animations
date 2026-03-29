@@ -1,7 +1,7 @@
 /**
  * Three dots bouncing upward in sequence — classic typing/processing indicator.
  *
- * Copy-paste files: this file + LoadingStatesDotsRise.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesDotsRise.module.css + ../SharedDefaults.ts
  * Runtime deps: react, motion
  */
 
@@ -10,6 +10,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 import { DOTS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
+import styles from './LoadingStatesDotsRise.module.css'
 
 interface LoadingStatesDotsRiseProps {
   /** Dot color. */
@@ -45,20 +46,23 @@ function LoadingStatesDotsRiseComponent({
   return (
     <div
       data-animation-id="loading-states__dots-rise"
-      className={className !== undefined ? `pf-dots-rise ${className}` : 'pf-dots-rise'}
-      style={{ gap, animation: 'none' }}
+      className={
+        className !== undefined
+          ? `${styles['pf-dots-rise-fm']} ${className}`
+          : styles['pf-dots-rise-fm']
+      }
+      style={{ gap }}
       role="status"
       aria-label="Loading"
     >
       {Array.from({ length: DOT_COUNT }, (_, i) => (
         <m.span
           key={i}
-          className="pf-dots-rise__dot"
+          className={styles['pf-dots-rise-fm__dot']}
           style={{
             width: dotSize,
             height: dotSize,
             background: color,
-            animation: 'none',
           }}
           animate={prefersReducedMotion ? { opacity: [0.3, 1, 0.3] } : { y: [0, -riseHeight, 0] }}
           transition={{

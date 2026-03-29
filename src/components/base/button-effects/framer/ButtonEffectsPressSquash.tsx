@@ -40,7 +40,7 @@ function ButtonEffectsPressSquashComponent({
       type="button"
       className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__press-squash"
-      style={{ transformOrigin: 'center bottom', animation: 'none' }}
+      style={{ transformOrigin: 'center bottom' }}
       onClick={handleClick}
       initial={{ scaleX: 1, scaleY: 1, y: 0 }}
       animate={

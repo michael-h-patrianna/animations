@@ -1,0 +1,5 @@
+/* Structural: live-ping dot (moved from shared.css — single-consumer) */
+:global(.pf-update-indicator-fm__ping) {
+  border-radius: 50%;
+  flex-shrink: 0;
+}

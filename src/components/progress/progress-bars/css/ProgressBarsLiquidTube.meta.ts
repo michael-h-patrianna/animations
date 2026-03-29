@@ -8,7 +8,7 @@ export const metadata = {
   description:
     'Vertical liquid tube with wave surface and rising bubbles. Pass `progress` (0-1) for controlled mode. Style via --liquid-tube-border, --liquid-tube-bg, --liquid-tube-fill, --liquid-tube-bubble.',
   tier: 4,
-  tags: ['lrc'],
+  tags: [],
   previewMaxWidth: 414,
   props: [
     {

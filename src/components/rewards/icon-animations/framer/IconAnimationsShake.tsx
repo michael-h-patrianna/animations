@@ -11,6 +11,8 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
+import './IconAnimationsShake.module.css'
+
 interface IconAnimationsShakeProps {
   /** Image source URL. Renders a placeholder when omitted. */
   src?: string
@@ -33,7 +35,6 @@ function IconAnimationsShakeComponent({
   return (
     <div data-animation-id="icon-animations__shake">
       <m.div
-        style={{ animation: 'none' }}
         animate={
           prefersReducedMotion
             ? { x: [0, -2, 2, -1, 0] }
@@ -53,9 +54,13 @@ function IconAnimationsShakeComponent({
         }
       >
         {src !== undefined ? (
-          <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
+          <img src={src} alt={alt} className="pf-icon-anim-fm__image" style={{ width }} />
         ) : (
-          <div className="pf-icon-anim__placeholder" style={{ width, height: width }} />
+          <div
+            className="pf-icon-anim-fm__placeholder"
+            data-testid="icon-placeholder"
+            style={{ width, height: width }}
+          />
         )}
       </m.div>
     </div>

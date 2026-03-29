@@ -37,7 +37,7 @@ export const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalGcImage,
     value: 1500,
     decimals: 0,
-    modifier: 'pf-arcane-portal__prize--gc',
+    modifier: 'pf-arcane-portal-fm__prize--gc',
   },
   {
     id: 'sc',
@@ -45,7 +45,7 @@ export const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalScImage,
     value: 2.5,
     decimals: 2,
-    modifier: 'pf-arcane-portal__prize--sc',
+    modifier: 'pf-arcane-portal-fm__prize--sc',
   },
   {
     id: 'fs',
@@ -53,7 +53,7 @@ export const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalFreeSpinsImage,
     value: 50,
     decimals: 0,
-    modifier: 'pf-arcane-portal__prize--fs',
+    modifier: 'pf-arcane-portal-fm__prize--fs',
   },
   {
     id: 'rr',
@@ -61,7 +61,7 @@ export const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalRandomRewardImage,
     value: null,
     decimals: 0,
-    modifier: 'pf-arcane-portal__prize--rr',
+    modifier: 'pf-arcane-portal-fm__prize--rr',
   },
 ]
 

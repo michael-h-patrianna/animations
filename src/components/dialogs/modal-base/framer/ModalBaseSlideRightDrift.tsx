@@ -42,7 +42,7 @@ function ModalBaseSlideRightDriftComponent({
           ease: [0.22, 0.61, 0.36, 1],
         }}
         onAnimationComplete={onAnimationComplete}
-        style={{ ...style, animation: 'none' }}
+        style={style}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </m.div>

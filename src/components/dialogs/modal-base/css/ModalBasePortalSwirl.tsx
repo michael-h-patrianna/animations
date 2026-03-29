@@ -1,7 +1,7 @@
 /**
  * Modal entrance — portal swirl with 720deg rotation. CSS variant.
  *
- * Copy-paste files: this file + ModalBasePortalSwirl.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBasePortalSwirl.module.css + SharedTypes.ts
  * Runtime deps: react
  */
 
@@ -9,7 +9,7 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
-import './ModalBasePortalSwirl.css'
+import styles from './ModalBasePortalSwirl.module.css'
 
 const DEFAULT_DURATION = 800
 
@@ -23,7 +23,7 @@ function ModalBasePortalSwirlComponent({
   return (
     <div data-animation-id="modal-base__portal-swirl">
       <div
-        className={`pf-modal-portal${className ? ` ${className}` : ''}`}
+        className={`${styles['pf-modal-portal']}${className ? ` ${className}` : ''}`}
         style={{ ...style, '--pf-entrance-duration': `${duration}ms` } as React.CSSProperties}
         onAnimationEnd={(event) => {
           if (event.target !== event.currentTarget) return

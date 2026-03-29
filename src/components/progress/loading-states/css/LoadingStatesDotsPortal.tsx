@@ -1,14 +1,14 @@
 /**
  * Three dots that converge to a center point and scale down, then return — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesDotsPortal.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesDotsPortal.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 
 import { memo } from 'react'
 
 import { DOTS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesDotsPortal.css'
+import styles from './LoadingStatesDotsPortal.module.css'
 
 interface LoadingStatesDotsPortalProps {
   /** Dot color. */
@@ -40,7 +40,11 @@ function LoadingStatesDotsPortalComponent({
   return (
     <div
       data-animation-id="loading-states__dots-portal"
-      className={className !== undefined ? `pf-dots-portal ${className}` : 'pf-dots-portal'}
+      className={
+        className !== undefined
+          ? `${styles['pf-dots-portal']} ${className}`
+          : styles['pf-dots-portal']
+      }
       style={
         {
           '--pf-dp-dot-size': `${dotSize}px`,
@@ -53,9 +57,13 @@ function LoadingStatesDotsPortalComponent({
       role="status"
       aria-label="Loading"
     >
-      <span className="pf-dots-portal__dot pf-dots-portal__dot--left" />
-      <span className="pf-dots-portal__dot pf-dots-portal__dot--center" />
-      <span className="pf-dots-portal__dot pf-dots-portal__dot--right" />
+      <span className={`${styles['pf-dots-portal__dot']} ${styles['pf-dots-portal__dot--left']}`} />
+      <span
+        className={`${styles['pf-dots-portal__dot']} ${styles['pf-dots-portal__dot--center']}`}
+      />
+      <span
+        className={`${styles['pf-dots-portal__dot']} ${styles['pf-dots-portal__dot--right']}`}
+      />
     </div>
   )
 }

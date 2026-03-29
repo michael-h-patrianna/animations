@@ -20,12 +20,13 @@
  * - `--segmented-gap-color`      — gap divider color
  * - `--segmented-height`         — track height (default: 12px)
  *
- * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressSegmented.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsProgressSegmented.module.css'
 
 interface SegmentedProps extends ProgressBarProps {
   /** Number of segments. Default: 4. */
@@ -81,19 +82,18 @@ export function ProgressBarsProgressSegmented({
 
   return (
     <div
-      className={`pf-progress-segmented${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-progress-segmented-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__progress-segmented"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track">
+        <div className={styles['pf-progress-track-fm']}>
           <m.div
-            className="pf-progress-fill"
+            className={styles['pf-progress-fill-fm']}
             style={{
               transformOrigin: 'left center',
               borderRadius: '8px 0 0 8px',
               overflow: 'hidden',
-              animation: 'none',
             }}
             initial={false}
             animate={{ scaleX: displayProgress }}

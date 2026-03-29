@@ -1,0 +1,4 @@
+/* Layout-only styles for framer DotBounce — animation driven by Motion */
+.pf-update-indicator-fm__dot--bounce {
+  will-change: transform, opacity;
+}

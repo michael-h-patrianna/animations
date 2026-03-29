@@ -62,48 +62,36 @@ function ModalOpenSlamDownComponent(props: ModalOpenProps) {
       )}
 
       {s.isVisible && traj !== null && (
-        <>
+        <div className="pf-mo-stage">
           <m.div
-            className="pf-mo-overlay"
-            initial={{ opacity: s.isClosing ? s.overlayOpacity : 0 }}
-            animate={{ opacity: s.isClosing ? 0 : s.overlayOpacity }}
-            transition={{
-              duration: reduced ? 0.2 : s.activeDurationS * 0.5,
-              ease: [0, 0, 0.2, 1],
-            }}
-            style={{ animation: 'none' }}
-          />
-          <div className="pf-mo-stage">
-            <m.div
-              key={s.isClosing ? 'close' : 'open'}
-              className={`pf-mo-modal${props.className ? ` ${props.className}` : ''}`}
-              style={{ ...props.style, animation: 'none' }}
-              initial={
-                reduced
-                  ? { scale: s.isClosing ? 1 : 0.85, opacity: s.isClosing ? 1 : 0 }
-                  : { x: traj.x[0], y: traj.y[0], scale: traj.scale[0], opacity: traj.opacity[0] }
-              }
-              animate={
-                reduced
-                  ? { scale: s.isClosing ? 0.85 : 1, opacity: s.isClosing ? 0 : 1 }
-                  : { x: traj.x, y: traj.y, scale: traj.scale, opacity: traj.opacity }
-              }
-              transition={
-                reduced
-                  ? { duration: 0.01 }
-                  : { duration: s.activeDurationS, times: traj.times, ease: 'linear' }
-              }
-              onAnimationComplete={s.isClosing ? s.handleCloseComplete : s.handleOpenComplete}
+            key={s.isClosing ? 'close' : 'open'}
+            className={`pf-mo-modal${props.className ? ` ${props.className}` : ''}`}
+            style={{ ...props.style }}
+            initial={
+              reduced
+                ? { scale: s.isClosing ? 1 : 0.85, opacity: s.isClosing ? 1 : 0 }
+                : { x: traj.x[0], y: traj.y[0], scale: traj.scale[0], opacity: traj.opacity[0] }
+            }
+            animate={
+              reduced
+                ? { scale: s.isClosing ? 0.85 : 1, opacity: s.isClosing ? 0 : 1 }
+                : { x: traj.x, y: traj.y, scale: traj.scale, opacity: traj.opacity }
+            }
+            transition={
+              reduced
+                ? { duration: 0.01 }
+                : { duration: s.activeDurationS, times: traj.times, ease: 'linear' }
+            }
+            onAnimationComplete={s.isClosing ? s.handleCloseComplete : s.handleOpenComplete}
+          >
+            <ModalOpenPlaceholder
+              revealed={s.contentRevealed}
+              onClose={s.isDemoMode ? s.handleClose : undefined}
             >
-              <ModalOpenPlaceholder
-                revealed={s.contentRevealed}
-                onClose={s.isDemoMode ? s.handleClose : undefined}
-              >
-                {props.children}
-              </ModalOpenPlaceholder>
-            </m.div>
-          </div>
-        </>
+              {props.children}
+            </ModalOpenPlaceholder>
+          </m.div>
+        </div>
       )}
     </div>
   )

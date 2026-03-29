@@ -2,7 +2,7 @@
  * Pill countdown with intense buzz-shake effect and aggressive color transitions — CSS variant.
  * Buzzes at landmark seconds and every second in the final 10.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownExtreme.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownExtreme.module.css
  * Runtime deps: react
  */
 
@@ -16,7 +16,7 @@ import {
 } from '@/components/realtime/timer-effects/SharedTypes'
 
 import './shared.css'
-import './TimerEffectsPillCountdownExtreme.css'
+import styles from './TimerEffectsPillCountdownExtreme.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -103,7 +103,7 @@ function TimerEffectsPillCountdownExtremeComponent(props: TimerEffectProps) {
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-extreme">
       <div
         key={animationKey}
-        className={`pf-pill-timer__pill pf-pill-timer__pill--extreme pf-pill-timer--${phase} ${flashClass}`}
+        className={`pf-pill-timer__pill ${styles['pf-pill-timer__pill--extreme']} pf-pill-timer--${phase} ${flashClass}`}
         style={pillStyle}
       >
         <span className="pf-pill-timer__glow" aria-hidden="true" />

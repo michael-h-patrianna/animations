@@ -1,14 +1,14 @@
 /**
  * Two concentric rings expanding outward from center and fading — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesPulsating.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesPulsating.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 
 import { memo } from 'react'
 
 import { PULSATING_COLOR } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesPulsating.css'
+import styles from './LoadingStatesPulsating.module.css'
 
 interface LoadingStatesPulsatingProps {
   /** Overall diameter in px. */
@@ -38,7 +38,9 @@ function LoadingStatesPulsatingComponent({
   return (
     <div
       data-animation-id="loading-states__pulsating"
-      className={className !== undefined ? `pf-pulsating ${className}` : 'pf-pulsating'}
+      className={
+        className !== undefined ? `${styles['pf-pulsating']} ${className}` : styles['pf-pulsating']
+      }
       style={
         {
           '--pf-pulsating-size': `${size}px`,

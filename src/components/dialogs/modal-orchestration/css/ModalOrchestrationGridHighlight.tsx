@@ -1,7 +1,7 @@
 /**
  * Stagger entrance with scale bounce for a grid of children — CSS variant.
  *
- * Copy-paste files: this file + ModalOrchestrationGridHighlight.css
+ * Copy-paste files: this file + ModalOrchestrationGridHighlight.module.css
  * Runtime deps: react
  *
  * @example
@@ -13,7 +13,7 @@
 
 import { memo } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
-import './ModalOrchestrationGridHighlight.css'
+import styles from './ModalOrchestrationGridHighlight.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 5
@@ -49,7 +49,7 @@ function ModalOrchestrationGridHighlightComponent({
 
   return (
     <div
-      className="pf-grid-highlight"
+      className={styles['pf-grid-highlight']}
       data-animation-id="modal-orchestration__grid-highlight"
       style={
         {
@@ -61,7 +61,7 @@ function ModalOrchestrationGridHighlightComponent({
       {renderItems.map((child, i) => (
         <div
           key={i}
-          className="pf-grid-highlight__item pf-grid-highlight__item--visible"
+          className={`${styles['pf-grid-highlight__item']} ${styles['pf-grid-highlight__item--visible']}`}
           style={{
             animationDelay: `${(i * stagger) / 1000}s`,
             animationDuration: `${duration / 1000}s`,

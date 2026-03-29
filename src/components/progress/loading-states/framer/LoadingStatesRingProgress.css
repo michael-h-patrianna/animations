@@ -1,7 +1,0 @@
-/* Layout for LoadingStatesRingProgress (framer variant) */
-
-.pf-ring-progress {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}

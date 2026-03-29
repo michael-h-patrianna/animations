@@ -24,7 +24,7 @@ function StandardEffectsFlipComponent({ children, duration = 800 }: StandardEffe
   return (
     <m.div
       data-animation-id="standard-effects__flip"
-      style={{ perspective: 400, animation: 'none' }}
+      style={{ perspective: 400 }}
       animate={
         prefersReducedMotion
           ? { opacity: [1, 0, 1], scale: [1, 0.98, 1] }

@@ -1,0 +1,19 @@
+/* Layout for LoadingStatesSpinnerOrbital (framer variant) */
+
+.pf-spinner-orbital-fm {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-spinner-orbital-fm__satellite {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: var(--pf-so-glow, none);
+}
+
+.pf-spinner-orbital-fm__ring {
+  position: absolute;
+  border-radius: 50%;
+}

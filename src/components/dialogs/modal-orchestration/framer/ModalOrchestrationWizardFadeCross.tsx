@@ -1,7 +1,7 @@
 /**
  * Sequential fade-up stagger entrance for a list of panels.
  *
- * Copy-paste files: this file + ModalOrchestrationWizardFadeCross.css
+ * Copy-paste files: this file + ModalOrchestrationWizardFadeCross.module.css
  * Runtime deps: react, motion
  *
  * @example
@@ -16,6 +16,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationWizardFadeCross.module.css'
 
 const DEFAULT_COUNT = 3
 
@@ -72,21 +73,15 @@ function ModalOrchestrationWizardFadeCrossComponent({
 
   return (
     <m.div
-      className="pf-wizard-fade"
+      className={styles['pf-wizard-fade-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__wizard-fade-cross"
-      style={{ animation: 'none' }}
     >
-      <div className="pf-wizard-fade__panels">
+      <div className={styles['pf-wizard-fade-fm__panels']}>
         {renderItems.map((child, i) => (
-          <m.div
-            key={i}
-            className="pf-wizard-fade__panel"
-            variants={panelVariants}
-            style={{ animation: 'none' }}
-          >
+          <m.div key={i} className={styles['pf-wizard-fade-fm__panel']} variants={panelVariants}>
             {child}
           </m.div>
         ))}

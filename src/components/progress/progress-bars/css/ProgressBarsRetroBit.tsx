@@ -1,10 +1,10 @@
 /**
  * Retro Bit Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsRetroBit.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsRetroBit.css'
+import styles from './ProgressBarsRetroBit.module.css'
 
 interface RetroBitProps extends ProgressBarProps {
   /** Number of discrete segments. Default: 10. */
@@ -25,15 +25,15 @@ export function ProgressBarsRetroBit({
 
   return (
     <div
-      className={`retro-bit-container-css${className ? ` ${className}` : ''}`}
+      className={`${styles['retro-bit-container-css']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__retro-bit"
     >
-      <div className="retro-bit-frame-css">
+      <div className={styles['retro-bit-frame-css']}>
         {Array.from({ length: segments }, (_, i) => (
           <div
             key={i}
-            className="retro-bit-segment-css"
+            className={styles['retro-bit-segment-css']}
             style={{
               opacity: i < activeCount ? 1 : 0.1,
               backgroundColor:
@@ -42,7 +42,9 @@ export function ProgressBarsRetroBit({
           />
         ))}
       </div>
-      {label !== undefined && label !== '' && <div className="retro-bit-label-css">{label}</div>}
+      {label !== undefined && label !== '' && (
+        <div className={styles['retro-bit-label-css']}>{label}</div>
+      )}
     </div>
   )
 }

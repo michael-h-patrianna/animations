@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Reward Ready Pulse CSS effect.
- * Consumer product: ButtonEffectsRewardReadyPulse.css — apply .pf-reward-pulse to any element.
+ * Consumer product: ButtonEffectsRewardReadyPulse.module.css — import styles and apply styles['pf-reward-pulse'].
  */
 import {
   cloneElement,
@@ -10,7 +10,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
-import './ButtonEffectsRewardReadyPulse.css'
+import styles from './ButtonEffectsRewardReadyPulse.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface ButtonEffectsRewardReadyPulseProps {
@@ -32,7 +32,7 @@ function ButtonEffectsRewardReadyPulseComponent({
   pulseScale = 1.08,
   bobDistance = 4,
 }: ButtonEffectsRewardReadyPulseProps) {
-  const sharedClassName = 'pf-reward-pulse'
+  const sharedClassName = styles['pf-reward-pulse']
   const sharedStyle = {
     ['--pf-reward-pulse-duration' as string]: `${duration}ms`,
     ['--pf-reward-pulse-scale' as string]: String(pulseScale),

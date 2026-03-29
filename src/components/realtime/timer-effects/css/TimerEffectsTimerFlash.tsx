@@ -2,7 +2,7 @@
  * Timer pill with color transition and increasing pulse urgency — CSS variant.
  * Background shifts through phase colors via CSS custom properties.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.module.css
  * Runtime deps: react
  */
 
@@ -20,7 +20,8 @@ import {
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
 
-import './TimerEffectsTimerFlash.css'
+import './shared.css'
+import styles from './TimerEffectsTimerFlash.module.css'
 
 const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
@@ -93,14 +94,14 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
   }
 
   return (
-    <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
+    <div className={styles['pf-timer-flash']} data-animation-id="timer-effects__timer-flash">
       <div
-        className={`pf-timer-flash__pill pf-timer-flash--${phase}`}
+        className={`${styles['pf-timer-flash__pill']} pf-timer-flash--${phase}`}
         data-testid="timer-flash-pill"
         style={pillStyle}
       >
-        <span className="pf-timer-flash__glow" aria-hidden="true" />
-        <div className="pf-timer-flash__time" style={timeStyle}>
+        <span className={styles['pf-timer-flash__glow']} aria-hidden="true" />
+        <div className={styles['pf-timer-flash__time']} style={timeStyle}>
           {formatTime(seconds)}
         </div>
       </div>

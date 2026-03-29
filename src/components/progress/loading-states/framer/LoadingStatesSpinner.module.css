@@ -1,0 +1,6 @@
+/* Layout for LoadingStatesSpinner (framer variant) */
+
+.pf-spinner-fm {
+  display: inline-block;
+  border-radius: 50%;
+}

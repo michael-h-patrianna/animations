@@ -2,7 +2,7 @@
  * Pill countdown with digital glitch/corruption effect — CSS variant.
  * Glitch intensity increases as time runs out, with chromatic aberration text copies.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + shared.css (glitch section) + TimerEffectsPillCountdownGlitch.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + shared.css (glitch section) + TimerEffectsPillCountdownGlitch.module.css
  * Runtime deps: react
  */
 
@@ -17,7 +17,7 @@ import {
 } from '@/components/realtime/timer-effects/SharedTypes'
 
 import './shared.css'
-import './TimerEffectsPillCountdownGlitch.css'
+import styles from './TimerEffectsPillCountdownGlitch.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -46,6 +46,10 @@ function resolveGlitchLevel(
   if (seconds <= Math.round(40 * ratio)) return 'pf-glitch-subtle'
   if (seconds <= Math.round(50 * ratio)) return 'pf-glitch-minimal'
   return ''
+}
+
+function glitchClassName(level: GlitchLevel): string {
+  return level === '' ? '' : (styles[level] ?? '')
 }
 
 function TimerEffectsPillCountdownGlitchComponent(props: TimerEffectProps) {
@@ -85,10 +89,10 @@ function TimerEffectsPillCountdownGlitchComponent(props: TimerEffectProps) {
 
   return (
     <div
-      className="pf-pill-countdown-glitch-container"
+      className={styles['pf-pill-countdown-glitch-container']}
       data-animation-id="timer-effects__pill-countdown-glitch"
     >
-      <div className={`pf-pill-countdown-glitch ${glitchLevel}`} style={pillStyle}>
+      <div className={`pf-pill-countdown-glitch ${glitchClassName(glitchLevel)}`} style={pillStyle}>
         <span className="pf-pill-countdown-glitch__glow" aria-hidden="true" />
         <span className="pf-pill-countdown-glitch__text" style={timeStyle}>
           {formatTime(seconds)}

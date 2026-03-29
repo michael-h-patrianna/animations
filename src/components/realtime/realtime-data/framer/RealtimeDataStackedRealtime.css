@@ -1,9 +1,0 @@
-/* Layout overrides for StackedRealtime — framer variant */
-
-[data-animation-id='realtime-data__stacked-realtime'] {
-  min-height: 180px;
-}
-
-[data-animation-id='realtime-data__stacked-realtime'] .pf-realtime-data__stack-row {
-  will-change: transform, opacity;
-}

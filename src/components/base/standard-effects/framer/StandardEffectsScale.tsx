@@ -24,7 +24,6 @@ function StandardEffectsScaleComponent({ children, duration = 600 }: StandardEff
   return (
     <m.div
       data-animation-id="standard-effects__scale"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { opacity: [0, 1] }

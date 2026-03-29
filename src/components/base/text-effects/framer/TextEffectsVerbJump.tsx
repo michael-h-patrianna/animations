@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbJump.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbJump.module.css into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbJump.module.css'
 
 interface TextEffectsVerbJumpProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -27,22 +28,22 @@ function TextEffectsVerbJumpComponent({
 
   return (
     <div
-      className="pf-verb-jump"
+      className={styles['pf-verb-jump-fm']}
       data-animation-id="text-effects__verb-jumping"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-jump-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-verb-jump__line" aria-hidden="true">
+      <div className={styles['pf-verb-jump-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-jump__char"
+            className={styles['pf-verb-jump-fm__char']}
             initial={prefersReducedMotion ? undefined : { y: 0, scaleY: 1 }}
             animate={
               prefersReducedMotion
-                ? { scaleY: [1, 0.97, 1.02, 1] }
+                ? undefined
                 : {
                     y: [0, -10, 0, -4, 0],
                     scaleY: [1, 0.96, 1.02, 0.98, 1],
@@ -50,7 +51,7 @@ function TextEffectsVerbJumpComponent({
             }
             transition={
               prefersReducedMotion
-                ? { duration: 0.5, ease: 'easeInOut' }
+                ? undefined
                 : {
                     duration: 1.6,
                     delay: i * stepDelay,

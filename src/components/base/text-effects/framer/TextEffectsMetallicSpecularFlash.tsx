@@ -1,12 +1,13 @@
 /**
- * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.css into your app.
+ * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port variants/timing to Reanimated/Moti — transforms/opacity/color only.
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
+import { easeInOut, easeOut, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsMetallicSpecularFlash.module.css'
 
 interface TextEffectsMetallicSpecularFlashProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -19,7 +20,6 @@ function TextEffectsMetallicSpecularFlashComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsMetallicSpecularFlashProps) {
-  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
@@ -63,30 +63,22 @@ function TextEffectsMetallicSpecularFlashComponent({
 
   return (
     <m.div
-      className="pf-metallic-flash"
+      className={styles['pf-metallic-flash-fm']}
       data-animation-id="text-effects__metallic-specular-flash"
       aria-label={text}
-      variants={
-        prefersReducedMotion
-          ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3 } } }
-          : containerVariants
-      }
+      variants={containerVariants}
       initial="hidden"
-      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
+      animate={['show', 'settle']}
       style={
         color !== undefined ? ({ '--pf-msf-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-metallic-flash__line" aria-hidden="true">
+      <div className={styles['pf-metallic-flash-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-metallic-flash__letter"
-            variants={
-              prefersReducedMotion
-                ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-                : letterVariants
-            }
+            className={styles['pf-metallic-flash-fm__letter']}
+            variants={letterVariants}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>

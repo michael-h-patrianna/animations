@@ -4,7 +4,7 @@
  * Uses the .pf-skeleton class from shared.css. For custom layouts, just add
  * .pf-skeleton to any element with explicit width/height.
  *
- * Copy-paste files: this file + LoadingStatesSkeletonHorizontal.css + ../shared.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSkeletonHorizontal.module.css + ../shared.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 
@@ -14,7 +14,7 @@ import {
   SKELETON_BASE_COLOR,
   SKELETON_SHIMMER_COLOR,
 } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesSkeletonHorizontal.css'
+import styles from './LoadingStatesSkeletonHorizontal.module.css'
 
 interface LoadingStatesSkeletonHorizontalProps {
   /** Overall width in px. */
@@ -72,7 +72,9 @@ function LoadingStatesSkeletonHorizontalComponent({
     <div
       data-animation-id="loading-states__skeleton-horizontal"
       className={
-        className !== undefined ? `pf-skeleton-horizontal ${className}` : 'pf-skeleton-horizontal'
+        className !== undefined
+          ? `${styles['pf-skeleton-horizontal']} ${className}`
+          : styles['pf-skeleton-horizontal']
       }
       style={{ ...vars, width, gap }}
       role="status"
@@ -81,7 +83,7 @@ function LoadingStatesSkeletonHorizontalComponent({
       {Array.from({ length: lines }, (_, i) => (
         <div
           key={i}
-          className="pf-skeleton"
+          className={styles['pf-skeleton']}
           style={{
             width: '100%',
             height: lineHeight,

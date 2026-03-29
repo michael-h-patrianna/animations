@@ -1,7 +1,7 @@
 /**
  * Sequential slide-from-right stagger entrance for a list of panels.
  *
- * Copy-paste files: this file + ModalOrchestrationWizardSlideStack.css
+ * Copy-paste files: this file + ModalOrchestrationWizardSlideStack.module.css
  * Runtime deps: react, motion
  *
  * @example
@@ -16,6 +16,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationWizardSlideStack.module.css'
 
 const DEFAULT_COUNT = 3
 
@@ -73,21 +74,15 @@ function ModalOrchestrationWizardSlideStackComponent({
 
   return (
     <m.div
-      className="pf-wizard-slide"
+      className={styles['pf-wizard-slide-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__wizard-slide-stack"
-      style={{ animation: 'none' }}
     >
-      <div className="pf-wizard-slide__panels">
+      <div className={styles['pf-wizard-slide-fm__panels']}>
         {renderItems.map((child, i) => (
-          <m.div
-            key={i}
-            className="pf-wizard-slide__panel"
-            variants={panelVariants}
-            style={{ animation: 'none' }}
-          >
+          <m.div key={i} className={styles['pf-wizard-slide-fm__panel']} variants={panelVariants}>
             {child}
           </m.div>
         ))}

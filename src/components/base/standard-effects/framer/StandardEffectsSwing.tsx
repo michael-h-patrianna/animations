@@ -24,7 +24,7 @@ function StandardEffectsSwingComponent({ children, duration = 1000 }: StandardEf
   return (
     <m.div
       data-animation-id="standard-effects__swing"
-      style={{ transformOrigin: 'center top', animation: 'none' }}
+      style={{ transformOrigin: 'center top' }}
       animate={
         prefersReducedMotion
           ? { rotate: [0, 2, -1.5, 0.5, 0] }

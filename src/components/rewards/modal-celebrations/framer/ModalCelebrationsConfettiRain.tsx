@@ -11,6 +11,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
+import './ModalCelebrationsConfettiRain.module.css'
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { CELEBRATION_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import {
@@ -176,7 +177,6 @@ function TopFlash({ timeScale, emitYPct }: { timeScale: number; emitYPct: number
           'linear-gradient(90deg, transparent 5%, var(--pf-anim-white-90) 50%, transparent 95%)',
         zIndex: 3,
         pointerEvents: 'none' as const,
-        animation: 'none',
       }}
       initial={{ opacity: 0, scaleX: 0.3 }}
       animate={{ opacity: [0, 1, 0.6, 0], scaleX: [0.3, 1, 1, 1] }}
@@ -212,7 +212,6 @@ function RainPiece({
         left: `${p.left}%`,
         top: `${emitYPct}%`,
         ...(p.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: p.color }),
-        animation: 'none',
       }}
       initial={{ y: 0, x: 0, scale: 0, rotateX: 0, rotateY: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -251,7 +250,6 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
         top: `${s.yPct}%`,
         width: `${s.size}px`,
         height: `${s.size}px`,
-        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.4, 0.6, 1.1, 0], opacity: [0, 1, 0.3, 0.7, 0] }}

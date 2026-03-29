@@ -2,7 +2,7 @@
  * Ripple — expanding circle on click via Motion scale + opacity.
  * A circular overlay scales from 0 to cover the button, then fades out.
  *
- * Copy-paste files: this file + ButtonEffectsRipple.css
+ * Copy-paste files: this file + ButtonEffectsRipple.module.css
  * Runtime deps: react, motion
  *
  * Usage:
@@ -12,7 +12,7 @@
 import * as m from 'motion/react-m'
 import { easeOut, useReducedMotion } from 'motion/react'
 import { memo, useEffect, useRef, useState, type MouseEvent } from 'react'
-import './ButtonEffectsRipple.css'
+import styles from './ButtonEffectsRipple.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface RippleData {
@@ -69,25 +69,25 @@ function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRi
   return (
     <div
       ref={containerRef}
-      className="pf-ripple"
+      className={styles['pf-ripple-fm']}
       data-animation-id="button-effects__ripple"
       onPointerDown={handlePointerDown}
       style={color != null ? { ['--pf-ripple-color' as string]: color } : undefined}
     >
       <DemoButton label="Click Me!" />
-      <span className="pf-ripple__overlay" aria-hidden>
+      <span className={styles['pf-ripple-fm__overlay']} data-testid="ripple-overlay" aria-hidden>
         {ripples.map((ripple) => {
           const half = ripple.size / 2
           return (
             <m.span
               key={ripple.id}
-              className="pf-ripple__circle"
+              className={styles['pf-ripple-fm__circle']}
+              data-testid="ripple-circle"
               style={{
                 left: ripple.x - half,
                 top: ripple.y - half,
                 width: ripple.size,
                 height: ripple.size,
-                animation: 'none',
               }}
               initial={prefersReducedMotion ? { opacity: 0.5 } : { scale: 0, opacity: 1 }}
               animate={prefersReducedMotion ? { opacity: 0 } : { scale: 1, opacity: 0 }}

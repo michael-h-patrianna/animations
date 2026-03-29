@@ -1,7 +1,7 @@
 /**
  * Celebration Burst Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsCelebrationBurst.module.css + ../SharedTypes.ts
  */
 import type { CSSProperties } from 'react'
 import { useMemo } from 'react'
@@ -9,7 +9,7 @@ import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsCelebrationBurst.css'
+import styles from './ProgressBarsCelebrationBurst.module.css'
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
   { position: 0 },
@@ -34,13 +34,16 @@ export function ProgressBarsCelebrationBurst({
 
   return (
     <div
-      className={`pf-celebration-burst${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-celebration-burst']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__celebration-burst"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track">
-          <div className="pf-progress-fill" style={{ transform: `scaleX(${displayProgress})` }} />
+        <div className={styles['pf-progress-track']}>
+          <div
+            className={styles['pf-progress-fill']}
+            style={{ transform: `scaleX(${displayProgress})` }}
+          />
         </div>
 
         {milestones.map((ms, i) => {
@@ -48,7 +51,7 @@ export function ProgressBarsCelebrationBurst({
           return (
             <div
               key={i}
-              className={`milestone-container${isActive ? ' is-active' : ''}`}
+              className={`${styles['milestone-container']}${isActive ? ` ${styles['is-active']}` : ''}`}
               style={{
                 position: 'absolute',
                 left: `${ms.position * 100}%`,
@@ -58,11 +61,11 @@ export function ProgressBarsCelebrationBurst({
                 height: '24px',
               }}
             >
-              <div className="milestone-marker" />
+              <div className={styles['milestone-marker']} />
               {isActive && (
                 <>
-                  <div className="burst-ring" />
-                  <div className="burst-ring burst-ring--delayed" />
+                  <div className={styles['burst-ring']} />
+                  <div className={`${styles['burst-ring']} ${styles['burst-ring--delayed']}`} />
                   {[
                     { dx: 30, dy: 0 },
                     { dx: 0, dy: 30 },
@@ -71,7 +74,7 @@ export function ProgressBarsCelebrationBurst({
                   ].map(({ dx, dy }, j) => (
                     <div
                       key={j}
-                      className="burst-particle"
+                      className={styles['burst-particle']}
                       style={
                         {
                           '--particle-dx': `${dx}px`,

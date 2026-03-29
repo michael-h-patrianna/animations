@@ -9,6 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
+import './ModalCelebrationsFireworksRing.module.css'
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import {
   BURST_TIMES,
@@ -134,7 +135,6 @@ function BurstPiece({ b, maxW, maxH }: { b: Burst; maxW: number; maxH: number })
         top: '50%',
         marginTop: b.startY,
         ...(b.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: b.color }),
-        animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -177,7 +177,6 @@ function SparkleDot({ s }: { s: Sparkle }) {
         marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
-        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.4, 1.0, 0], opacity: [0, 0.9, 0.25, 0.6, 0] }}
@@ -190,7 +189,7 @@ function CenterFlash() {
   return (
     <m.div
       className="pf-celebration__flash"
-      style={{ left: '50%', top: '50%', animation: 'none' }}
+      style={{ left: '50%', top: '50%' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{
         x: '-50%',
@@ -212,7 +211,7 @@ function CenterGlow() {
   return (
     <m.div
       className="pf-celebration__glow"
-      style={{ left: '50%', top: '50%', animation: 'none' }}
+      style={{ left: '50%', top: '50%' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 0.05, 0.3, 0.2, 0.55, 0.25, 0.08, 0] }}
       transition={{

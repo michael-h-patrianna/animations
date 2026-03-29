@@ -22,7 +22,7 @@
  * - `--circular-level-text`     — center text color
  * - `--circular-level-size`     — ring diameter
  *
- * Copy-paste files: this file + ProgressBarsCircularLevel.css
+ * Copy-paste files: this file + ProgressBarsCircularLevel.module.css
  * Runtime deps: react, motion
  */
 import * as m from 'motion/react-m'
@@ -36,6 +36,7 @@ import {
   useState,
   type CSSProperties,
 } from 'react'
+import styles from './ProgressBarsCircularLevel.module.css'
 
 interface ProgressBarsCircularLevelProps {
   /**
@@ -193,35 +194,33 @@ function ProgressBarsCircularLevelComponent({
 
   return (
     <div
-      className={`pf-circular-level${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-circular-level-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__circular-level"
     >
-      <div className="pf-circular-level__wrapper">
+      <div className={styles['pf-circular-level-fm__wrapper']}>
         {/* Aura burst rings — key-mounted per burst */}
         {bursts.map((id) => (
-          <div key={id} className="pf-circular-level__aura-host">
+          <div key={id} className={styles['pf-circular-level-fm__aura-host']}>
             <m.div
-              className="pf-circular-level__aura pf-circular-level__aura--primary"
+              className={`${styles['pf-circular-level-fm__aura']} ${styles['pf-circular-level-fm__aura--primary']}`}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: [0, 0.7, 0], scale: [0.95, 1.08, 1.15] }}
               transition={{ duration: 0.5, ease: 'easeOut', times: [0, 0.4, 1] }}
-              style={{ animation: 'none' }}
             />
             <m.div
-              className="pf-circular-level__aura pf-circular-level__aura--secondary"
+              className={`${styles['pf-circular-level-fm__aura']} ${styles['pf-circular-level-fm__aura--secondary']}`}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: [0, 0.4, 0], scale: [0.95, 1.05, 1.1] }}
               transition={{ duration: 0.45, ease: 'easeOut', delay: 0.04, times: [0, 0.5, 1] }}
-              style={{ animation: 'none' }}
             />
           </div>
         ))}
 
         {/* SVG ring */}
-        <svg className="pf-circular-level__ring" viewBox="0 0 100 100">
+        <svg className={styles['pf-circular-level-fm__ring']} viewBox="0 0 100 100">
           <circle
-            className="pf-circular-level__track"
+            className={styles['pf-circular-level-fm__track']}
             cx="50"
             cy="50"
             r={radius}
@@ -229,7 +228,7 @@ function ProgressBarsCircularLevelComponent({
           />
           <circle
             ref={circleRef}
-            className="pf-circular-level__fill"
+            className={styles['pf-circular-level-fm__fill']}
             cx="50"
             cy="50"
             r={radius}
@@ -240,7 +239,7 @@ function ProgressBarsCircularLevelComponent({
         </svg>
 
         {/* Center percentage text — content driven by fillMV.on('change') ref updates */}
-        <span ref={textRef} className="pf-circular-level__text" />
+        <span ref={textRef} className={styles['pf-circular-level-fm__text']} />
       </div>
     </div>
   )

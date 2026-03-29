@@ -3,7 +3,7 @@ import { memo, useEffect, useState } from 'react'
 import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
 import pirateChestEmptyImage from '@/assets/puzzled-pirate/chest-empty.webp'
 
-import './PrizeRevealPirateChestNoWin.css'
+import styles from './PrizeRevealPirateChestNoWin.module.css'
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
 
@@ -33,18 +33,18 @@ function PrizeRevealPirateChestNoWinComponent({
 
   return (
     <div
-      className="pf-modal-celebration pf-pirate-chest-no-win-css"
+      className={`pf-modal-celebration ${styles['pf-pirate-chest-no-win-css']}`}
       data-animation-id="prize-reveal__pirate-chest-no-win"
     >
-      <div className="pf-pirate-chest-no-win-css__stage">
+      <div className={styles['pf-pirate-chest-no-win-css__stage']}>
         <div
-          className={`pf-pirate-chest-no-win-css__chest${phase === 'shake' ? ' is-shaking' : ''}${phase === 'reveal' ? ' is-reveal' : ''}`}
+          className={`${styles['pf-pirate-chest-no-win-css__chest']}${phase === 'shake' ? ` ${styles['is-shaking']}` : ''}${phase === 'reveal' ? ` ${styles['is-reveal']}` : ''}`}
         >
           <img
             src={phase === 'reveal' ? pirateChestEmptyImage : pirateChestClosedImage}
             alt=""
             aria-hidden="true"
-            className="pf-pirate-chest-no-win-css__image"
+            className={styles['pf-pirate-chest-no-win-css__image']}
           />
         </div>
       </div>

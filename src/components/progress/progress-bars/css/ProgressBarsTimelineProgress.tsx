@@ -1,10 +1,10 @@
 /**
  * Timeline Progress (CSS variant)
  *
- * Files to copy: this file + ProgressBarsTimelineProgress.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsTimelineProgress.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsTimelineProgress.css'
+import styles from './ProgressBarsTimelineProgress.module.css'
 
 interface TimelineProps extends ProgressBarProps {
   /** Number of timeline steps. Default: 4. */
@@ -21,11 +21,11 @@ export function ProgressBarsTimelineProgress({
 
   return (
     <div
-      className={`pf-timeline-progress${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-timeline-progress']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__timeline-progress"
     >
-      <div className="pf-timeline-progress__track">
+      <div className={styles['pf-timeline-progress__track']}>
         {Array.from({ length: steps }, (_, index) => {
           const isActive = index < activeSteps
           return (
@@ -37,11 +37,15 @@ export function ProgressBarsTimelineProgress({
                 flex: index === steps - 1 ? 'none' : '1',
               }}
             >
-              <div className={`pf-timeline-progress__step${isActive ? ' is-active' : ''}`}>
+              <div
+                className={`${styles['pf-timeline-progress__step']}${isActive ? ` ${styles['is-active']}` : ''}`}
+              >
                 {index + 1}
               </div>
               {index < steps - 1 && (
-                <div className={`pf-timeline-progress__connector${isActive ? ' is-active' : ''}`} />
+                <div
+                  className={`${styles['pf-timeline-progress__connector']}${isActive ? ` ${styles['is-active']}` : ''}`}
+                />
               )}
             </div>
           )

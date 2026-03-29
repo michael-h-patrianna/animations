@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import './TextEffectsCharacterReveal.css'
+import styles from './TextEffectsCharacterReveal.module.css'
 
 interface TextEffectsCharacterRevealProps {
   /** Main text to reveal. @default 'ACHIEVEMENT' */
@@ -13,7 +13,7 @@ interface TextEffectsCharacterRevealProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsCharacterReveal.css into your app.
+ * Standalone: Copy this file + TextEffectsCharacterReveal.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
@@ -25,7 +25,7 @@ function TextEffectsCharacterRevealComponent({
 }: TextEffectsCharacterRevealProps) {
   return (
     <div
-      className="tfx-char-reveal-container"
+      className={styles['tfx-char-reveal-container']}
       data-animation-id="text-effects__character-reveal"
       style={
         {
@@ -36,13 +36,13 @@ function TextEffectsCharacterRevealComponent({
         } as React.CSSProperties
       }
     >
-      <div className="tfx-char-reveal-text-container">
+      <div className={styles['tfx-char-reveal-text-container']}>
         {/* Shadow text layer */}
-        <div className="tfx-char-reveal-shadow-text">
+        <div className={styles['tfx-char-reveal-shadow-text']}>
           {text.split('').map((char, index) => (
             <span
               key={`shadow-${index}`}
-              className="tfx-char-reveal-shadow-char"
+              className={styles['tfx-char-reveal-shadow-char']}
               style={{ animationDelay: `${300 + index * 30}ms` }}
             >
               {char}
@@ -51,11 +51,11 @@ function TextEffectsCharacterRevealComponent({
         </div>
 
         {/* Main golden text layer */}
-        <div className="tfx-char-reveal-main-text">
+        <div className={styles['tfx-char-reveal-main-text']}>
           {text.split('').map((char, index) => (
             <span
               key={index}
-              className="tfx-char-reveal-main-char"
+              className={styles['tfx-char-reveal-main-char']}
               style={{ animationDelay: `${600 + index * 50}ms` }}
             >
               {char}
@@ -64,7 +64,7 @@ function TextEffectsCharacterRevealComponent({
         </div>
       </div>
 
-      <div className="tfx-char-reveal-subtitle">{subtitle}</div>
+      <div className={styles['tfx-char-reveal-subtitle']}>{subtitle}</div>
     </div>
   )
 }

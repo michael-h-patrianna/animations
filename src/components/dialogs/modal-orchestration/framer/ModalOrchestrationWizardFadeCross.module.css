@@ -1,0 +1,18 @@
+/* Layout styles for ModalOrchestrationWizardFadeCross (framer variant) */
+.pf-wizard-fade-fm {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+  position: relative;
+}
+
+.pf-wizard-fade-fm__panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pf-wizard-fade-fm__panel {
+  /* Animation wrapper only — visual card styling comes from children */
+  position: relative;
+}

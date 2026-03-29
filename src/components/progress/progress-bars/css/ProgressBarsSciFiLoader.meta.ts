@@ -8,7 +8,7 @@ export const metadata = {
   description:
     'Futuristic skewed progress bar with glint sweep. Pass `progress` (0-1) for controlled mode. Optional `label` prop. Style via --scifi-bg, --scifi-fill, --scifi-accent, --scifi-text.',
   tier: 4,
-  tags: ['lrc'],
+  tags: [],
   previewMaxWidth: 414,
   props: [
     {

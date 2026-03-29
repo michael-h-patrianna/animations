@@ -24,7 +24,7 @@ function StandardEffectsBounceComponent({ children, duration = 800 }: StandardEf
   return (
     <m.div
       data-animation-id="standard-effects__bounce"
-      style={{ transformOrigin: 'center bottom', animation: 'none' }}
+      style={{ transformOrigin: 'center bottom' }}
       animate={
         prefersReducedMotion
           ? { scaleY: [1, 0.97, 1.03, 1], scaleX: [1, 1.02, 0.99, 1] }

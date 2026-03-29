@@ -31,7 +31,7 @@ describe('realtime-data CSS/Framer initial DOM parity', () => {
       (el) => el.textContent
     )
     const framerPlayers = Array.from(
-      framer.container.querySelectorAll('.pf-realtime-data__player')
+      framer.container.querySelectorAll('.pf-realtime-data-fm__player')
     ).map((el) => el.textContent)
 
     expect(cssPlayers.length).toBeGreaterThanOrEqual(3)
@@ -79,7 +79,7 @@ describe('realtime-data CSS/Framer initial DOM parity', () => {
     const framer = render(<FramerLeaderboard />)
 
     const cssRows = css.container.querySelectorAll('.pf-realtime-data__row')
-    const framerRows = framer.container.querySelectorAll('.pf-realtime-data__row')
+    const framerRows = framer.container.querySelectorAll('.pf-realtime-data-fm__row')
 
     expect(cssRows.length).toBe(framerRows.length)
     expect(cssRows.length).toBeGreaterThanOrEqual(3)
@@ -91,7 +91,7 @@ describe('realtime-data CSS/Framer initial DOM parity', () => {
 
     // Both should render score display elements
     const cssScores = css.container.querySelectorAll('.pf-realtime-data__score')
-    const framerScores = framer.container.querySelectorAll('.pf-realtime-data__score')
+    const framerScores = framer.container.querySelectorAll('.pf-realtime-data-fm__score')
 
     // Should have same number of score elements (structural parity)
     expect(cssScores.length).toBe(framerScores.length)

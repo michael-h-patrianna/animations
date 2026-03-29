@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import './TextEffectsLightSweepDraw.css'
+import styles from './TextEffectsLightSweepDraw.module.css'
 
 interface TextEffectsLightSweepDrawProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -9,7 +9,7 @@ interface TextEffectsLightSweepDrawProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsLightSweepDraw.css into your app.
+ * Standalone: Copy this file + TextEffectsLightSweepDraw.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
@@ -21,18 +21,18 @@ function TextEffectsLightSweepDrawComponent({
 
   return (
     <div
-      className="tfx-light-sweep-draw"
+      className={styles['tfx-light-sweep-draw']}
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
       style={
         color !== undefined ? ({ '--tfx-lsd-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="tfx-light-sweep-draw__line" aria-hidden="true">
+      <div className={styles['tfx-light-sweep-draw__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className="tfx-light-sweep-draw__letter"
+            className={styles['tfx-light-sweep-draw__letter']}
             style={{ animationDelay: `${0.15 + i * 0.04}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}

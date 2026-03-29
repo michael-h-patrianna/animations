@@ -17,11 +17,12 @@
  * - `--bounce-accent-dark`    — darker accent for alt particles (default: #059669)
  * - `--bounce-height`         — track height (default: 14px)
  *
- * Files to copy: this file + ProgressBarsProgressBounce.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressBounce.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsProgressBounce.module.css'
 
 export function ProgressBarsProgressBounce({ progress, className, style }: ProgressBarProps) {
   const prefersReducedMotion = useReducedMotion()
@@ -29,21 +30,21 @@ export function ProgressBarsProgressBounce({ progress, className, style }: Progr
 
   return (
     <div
-      className={`pf-progress-bounce${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-progress-bounce-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__progress-bounce"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track">
+        <div className={styles['pf-progress-track-fm']}>
           <m.div
-            className="pf-progress-fill"
+            className={styles['pf-progress-fill-fm']}
             animate={{ scaleX: target }}
             transition={
               prefersReducedMotion
                 ? { duration: 0.1 }
                 : { type: 'spring', stiffness: 180, damping: 14 }
             }
-            style={{ transformOrigin: 'left center', animation: 'none' }}
+            style={{ transformOrigin: 'left center' }}
           />
         </div>
       </div>

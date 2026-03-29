@@ -1,0 +1,9 @@
+/* Overrides for LeaderboardShift — CSS variant */
+
+[data-animation-id='realtime-data__leaderboard-shift'] {
+  min-height: 180px;
+}
+
+[data-animation-id='realtime-data__leaderboard-shift'] :global(.pf-realtime-data__row) {
+  will-change: transform, opacity;
+}

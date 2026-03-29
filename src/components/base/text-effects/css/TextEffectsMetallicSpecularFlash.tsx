@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import './TextEffectsMetallicSpecularFlash.css'
+import styles from './TextEffectsMetallicSpecularFlash.module.css'
 
 interface TextEffectsMetallicSpecularFlashProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -9,7 +9,7 @@ interface TextEffectsMetallicSpecularFlashProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.css into your app.
+ * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
@@ -21,18 +21,18 @@ function TextEffectsMetallicSpecularFlashComponent({
 
   return (
     <div
-      className="tfx-metallic-specular-flash"
+      className={styles['tfx-metallic-specular-flash']}
       data-animation-id="text-effects__metallic-specular-flash"
       aria-label={text}
       style={
         color !== undefined ? ({ '--tfx-msf-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="tfx-metallic-specular-flash__line" aria-hidden="true">
+      <div className={styles['tfx-metallic-specular-flash__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className="tfx-metallic-specular-flash__letter"
+            className={styles['tfx-metallic-specular-flash__letter']}
             style={{ animationDelay: `${0.05 + i * 0.02}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}

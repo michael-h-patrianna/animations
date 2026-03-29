@@ -17,7 +17,7 @@
  * - `--charge-fill-color`     — fill color
  * - `--charge-marker-color`   — marker color
  *
- * Files to copy: this file + ProgressBarsChargeSurge.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsChargeSurge.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion, useMotionValue, animate } from 'motion/react'
@@ -26,6 +26,7 @@ import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsChargeSurge.module.css'
 
 type MilestoneState = 'inactive' | 'anticipating' | 'charged'
 interface SurgeWave {
@@ -60,8 +61,9 @@ export function ProgressBarsChargeSurge({
   const prevProgressRef = useRef(0)
   const chargedSetRef = useRef<Set<number>>(new Set())
   const glowTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const waveTimersRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
 
-  // Animate fill to target — milestones derive from the animated value, not the target
+  // Animate fill bar visually — purely cosmetic, does not drive milestone logic
   useEffect(() => {
     if (prefersReducedMotion) {
       fillMV.set(targetProgress)
@@ -74,63 +76,67 @@ export function ProgressBarsChargeSurge({
     return () => controls.stop()
   }, [targetProgress, fillMV, prefersReducedMotion])
 
-  // Milestone logic driven by animated fill position
+  // Milestone charging driven by the discrete prop value, not the animated fill.
+  // This prevents milestone 0 from pre-charging during the backward fill animation
+  // tail, where frame-to-frame deltas fall below the backward detection threshold.
   useEffect(() => {
-    function checkMilestones(current: number) {
-      const prev = prevProgressRef.current
-      prevProgressRef.current = current
+    const prev = prevProgressRef.current
+    prevProgressRef.current = targetProgress
 
-      if (current < prev - 0.02) {
-        setMilestoneStates(milestones.map(() => 'inactive'))
-        setSurgeWaves([])
-        chargedSetRef.current.clear()
-        return
-      }
-
-      const newlyCharged: number[] = []
-      const nextStates: MilestoneState[] = milestones.map((ms, i) => {
-        const hasReached = current >= ms.position
-        const isNear = current >= ms.position - ANTICIPATION_THRESHOLD
-
-        if (hasReached && !chargedSetRef.current.has(i)) {
-          chargedSetRef.current.add(i)
-          newlyCharged.push(i)
-          return 'charged'
-        }
-        if (hasReached && chargedSetRef.current.has(i)) {
-          return 'charged'
-        }
-        if (isNear && !hasReached) {
-          return 'anticipating'
-        }
-        return 'inactive'
-      })
-
-      setMilestoneStates((prev) => {
-        if (prev.length === nextStates.length && prev.every((s, i) => s === nextStates[i]))
-          return prev
-        return nextStates
-      })
-
-      if (newlyCharged.length > 0) {
-        const newWaves = newlyCharged.map((milestoneIndex) => ({
-          id: waveIdRef.current++,
-          milestoneIndex,
-        }))
-        setSurgeWaves((p) => [...p, ...newWaves])
-        setGlowFlash(true)
-        clearTimeout(glowTimerRef.current)
-        glowTimerRef.current = setTimeout(() => setGlowFlash(false), 200)
-      }
+    // Reset on significant backward movement (sweep cycle restart)
+    if (targetProgress < prev - 0.02) {
+      setMilestoneStates(milestones.map(() => 'inactive'))
+      setSurgeWaves([])
+      chargedSetRef.current.clear()
+      return
     }
 
-    checkMilestones(fillMV.get())
-    const unsub = fillMV.on('change', checkMilestones)
-    return () => {
-      unsub()
+    const newlyCharged: number[] = []
+    const nextStates: MilestoneState[] = milestones.map((ms, i) => {
+      const hasReached = targetProgress >= ms.position
+      const isNear = targetProgress >= ms.position - ANTICIPATION_THRESHOLD
+
+      if (hasReached && !chargedSetRef.current.has(i)) {
+        chargedSetRef.current.add(i)
+        newlyCharged.push(i)
+        return 'charged'
+      }
+      if (hasReached && chargedSetRef.current.has(i)) {
+        return 'charged'
+      }
+      if (isNear && !hasReached) {
+        return 'anticipating'
+      }
+      return 'inactive'
+    })
+
+    setMilestoneStates((prev) => {
+      if (prev.length === nextStates.length && prev.every((s, i) => s === nextStates[i]))
+        return prev
+      return nextStates
+    })
+
+    if (newlyCharged.length > 0) {
+      const newWaves = newlyCharged.map((milestoneIndex) => ({
+        id: waveIdRef.current++,
+        milestoneIndex,
+      }))
+      setSurgeWaves((p) => [...p, ...newWaves])
+      setGlowFlash(true)
       clearTimeout(glowTimerRef.current)
+      glowTimerRef.current = setTimeout(() => setGlowFlash(false), 200)
     }
-  }, [fillMV, milestones])
+  }, [targetProgress, milestones])
+
+  // Cleanup glow and wave timers on unmount
+  useEffect(() => {
+    const timers = waveTimersRef.current
+    return () => {
+      clearTimeout(glowTimerRef.current)
+      for (const t of timers) clearTimeout(t)
+      timers.clear()
+    }
+  }, [])
 
   const handleWaveComplete = useCallback((waveId: number) => {
     setSurgeWaves((p) => p.filter((w) => w.id !== waveId))
@@ -163,22 +169,22 @@ export function ProgressBarsChargeSurge({
 
   return (
     <div
-      className={`pf-charge-surge${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-charge-surge-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__charge-surge"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track">
+        <div className={styles['pf-progress-track-fm']}>
           <m.div
-            className="pf-progress-fill pf-progress-fill--base"
-            style={{ scaleX: fillMV, transformOrigin: 'left center', animation: 'none' }}
+            className={`${styles['pf-progress-fill-fm']} ${styles['pf-progress-fill-fm--base']}`}
+            style={{ scaleX: fillMV, transformOrigin: 'left center' }}
           />
           <m.div
-            className="pf-progress-fill pf-progress-fill--glow"
-            style={{ scaleX: fillMV, transformOrigin: 'left center', animation: 'none' }}
+            className={`${styles['pf-progress-fill-fm']} ${styles['pf-progress-fill-fm--glow']}`}
+            style={{ scaleX: fillMV, transformOrigin: 'left center' }}
           >
             <m.div
-              className="glow-overlay"
+              className={styles['glow-overlay']}
               animate={{ opacity: glowFlash ? 0.8 : 0.4 }}
               transition={{ duration: 0.2 }}
             />
@@ -188,7 +194,7 @@ export function ProgressBarsChargeSurge({
         {milestones.map((ms, i) => (
           <div
             key={i}
-            className="milestone-container"
+            className={styles['milestone-container']}
             style={{
               position: 'absolute',
               left: `${ms.position * 100}%`,
@@ -199,12 +205,12 @@ export function ProgressBarsChargeSurge({
             }}
           >
             <m.div
-              className="milestone-marker"
+              className={styles['milestone-marker']}
               animate={markerVariants(milestoneStates[i]!)}
               style={{
                 position: 'absolute',
                 inset: 0,
-                border: '2px solid var(--charge-marker-border)',
+                border: '1px solid var(--charge-marker-border)',
                 borderRadius: '50%',
               }}
             />
@@ -221,7 +227,7 @@ export function ProgressBarsChargeSurge({
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      border: '2px solid var(--charge-marker-border)',
+                      border: '1px solid var(--charge-wave-color)',
                       borderRadius: '50%',
                       pointerEvents: 'none',
                     }}

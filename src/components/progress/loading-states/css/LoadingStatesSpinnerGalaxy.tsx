@@ -1,7 +1,7 @@
 /**
  * Spinning disc with two orbiting stars that pulse — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesSpinnerGalaxy.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSpinnerGalaxy.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 
@@ -11,7 +11,7 @@ import {
   SPINNER_GALAXY_COLOR,
   SPINNER_GALAXY_STARS,
 } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesSpinnerGalaxy.css'
+import styles from './LoadingStatesSpinnerGalaxy.module.css'
 
 interface LoadingStatesSpinnerGalaxyProps {
   /** Overall diameter in px. */
@@ -43,7 +43,11 @@ function LoadingStatesSpinnerGalaxyComponent({
   return (
     <div
       data-animation-id="loading-states__spinner-galaxy"
-      className={className !== undefined ? `pf-spinner-galaxy ${className}` : 'pf-spinner-galaxy'}
+      className={
+        className !== undefined
+          ? `${styles['pf-spinner-galaxy']} ${className}`
+          : styles['pf-spinner-galaxy']
+      }
       style={
         {
           '--pf-sg-size': `${size}px`,
@@ -66,8 +70,12 @@ function LoadingStatesSpinnerGalaxyComponent({
       role="status"
       aria-label="Loading"
     >
-      <span className="pf-spinner-galaxy__star pf-spinner-galaxy__star--primary" />
-      <span className="pf-spinner-galaxy__star pf-spinner-galaxy__star--secondary" />
+      <span
+        className={`${styles['pf-spinner-galaxy__star']} ${styles['pf-spinner-galaxy__star--primary']}`}
+      />
+      <span
+        className={`${styles['pf-spinner-galaxy__star']} ${styles['pf-spinner-galaxy__star--secondary']}`}
+      />
     </div>
   )
 }

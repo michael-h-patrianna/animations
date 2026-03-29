@@ -1,14 +1,14 @@
 /**
  * A glowing satellite dot orbiting a dashed ring — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesSpinnerOrbital.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSpinnerOrbital.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 
 import { memo } from 'react'
 
 import { SPINNER_ORBITAL_COLOR } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesSpinnerOrbital.css'
+import styles from './LoadingStatesSpinnerOrbital.module.css'
 
 interface LoadingStatesSpinnerOrbitalProps {
   /** Diameter of the orbital path in px. */
@@ -37,7 +37,11 @@ function LoadingStatesSpinnerOrbitalComponent({
   return (
     <div
       data-animation-id="loading-states__spinner-orbital"
-      className={className !== undefined ? `pf-spinner-orbital ${className}` : 'pf-spinner-orbital'}
+      className={
+        className !== undefined
+          ? `${styles['pf-spinner-orbital']} ${className}`
+          : styles['pf-spinner-orbital']
+      }
       style={
         {
           '--pf-so-size': `${size}px`,
@@ -57,8 +61,8 @@ function LoadingStatesSpinnerOrbitalComponent({
       role="status"
       aria-label="Loading"
     >
-      <span className="pf-spinner-orbital__satellite" />
-      <span className="pf-spinner-orbital__ring" />
+      <span className={styles['pf-spinner-orbital__satellite']} />
+      <span className={styles['pf-spinner-orbital__ring']} />
     </div>
   )
 }

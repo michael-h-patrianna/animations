@@ -1,7 +1,7 @@
 /**
  * Cascading stagger entrance for a grid of child elements on mount — CSS variant.
  *
- * Copy-paste files: this file + ModalOrchestrationSelectionGrid.css
+ * Copy-paste files: this file + ModalOrchestrationSelectionGrid.module.css
  * Runtime deps: react
  *
  * @example
@@ -13,7 +13,7 @@
 
 import { memo } from 'react'
 import type { ReactNode } from 'react'
-import './ModalOrchestrationSelectionGrid.css'
+import styles from './ModalOrchestrationSelectionGrid.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 6
@@ -51,14 +51,14 @@ function ModalOrchestrationSelectionGridComponent({
 
   return (
     <div
-      className="pf-selection-grid"
+      className={styles['pf-selection-grid']}
       data-animation-id="modal-orchestration__selection-grid"
       style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
       {renderItems.map((child, i) => (
         <div
           key={i}
-          className="pf-selection-grid__item pf-selection-grid__item--visible"
+          className={`${styles['pf-selection-grid__item']} ${styles['pf-selection-grid__item--visible']}`}
           style={
             {
               animationDelay: `${(i * stagger) / 1000}s`,

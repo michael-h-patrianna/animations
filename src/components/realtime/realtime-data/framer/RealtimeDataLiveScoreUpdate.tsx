@@ -11,6 +11,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useRef, useState } from 'react'
 
 import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
+import './RealtimeDataLiveScoreUpdate.module.css'
 
 const DEFAULT_ITEMS: RankedEntry[] = [
   { id: 'phoenix', label: 'Phoenix', score: 1450 },
@@ -82,14 +83,14 @@ function RealtimeDataLiveScoreUpdateComponent({
   const durationS = duration / 1000
 
   return (
-    <div className="pf-realtime-data" data-animation-id="realtime-data__live-score-update">
-      <div className="pf-realtime-data__leaderboard">
+    <div className="pf-realtime-data-fm" data-animation-id="realtime-data__live-score-update">
+      <div className="pf-realtime-data-fm__leaderboard">
         {items.map((entry, index) => (
-          <div key={entry.id} className="pf-realtime-data__row">
-            <div className="pf-realtime-data__rank">#{index + 1}</div>
-            <div className="pf-realtime-data__player">{entry.label}</div>
+          <div key={entry.id} className="pf-realtime-data-fm__row">
+            <div className="pf-realtime-data-fm__rank">#{index + 1}</div>
+            <div className="pf-realtime-data-fm__player">{entry.label}</div>
             <m.div
-              className="pf-realtime-data__score"
+              className="pf-realtime-data-fm__score"
               animate={
                 prefersReducedMotion
                   ? isPulsing
@@ -110,7 +111,6 @@ function RealtimeDataLiveScoreUpdateComponent({
                 ease: [0.25, 0.46, 0.45, 0.94] as const,
                 delay: prefersReducedMotion ? 0 : index * 0.1,
               }}
-              style={{ animation: 'none' }}
             >
               {(displayedScores[index] ?? entry.score).toLocaleString()}
             </m.div>

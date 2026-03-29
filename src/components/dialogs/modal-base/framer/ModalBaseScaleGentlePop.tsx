@@ -35,7 +35,7 @@ function ModalBaseScaleGentlePopComponent({
           ease: [0.12, 0.75, 0.4, 1],
         }}
         onAnimationComplete={onAnimationComplete}
-        style={{ ...style, animation: 'none' }}
+        style={style}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </m.div>

@@ -1,7 +1,7 @@
 /**
  * Click-to-flip cards with 3D perspective reveal, staggered entrance animation.
  *
- * Copy-paste files: this file + ModalOrchestrationFlipReveal.css
+ * Copy-paste files: this file + ModalOrchestrationFlipReveal.module.css
  * Runtime deps: react, motion
  *
  * @example
@@ -20,6 +20,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo, useCallback, useState } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationFlipReveal.module.css'
 
 const DEFAULT_COUNT = 6
 
@@ -110,19 +111,19 @@ function ModalOrchestrationFlipRevealComponent({
 
   return (
     <m.div
-      className="pf-flip-reveal"
+      className={styles['pf-flip-reveal-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__flip-reveal"
-      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, animation: 'none' }}
+      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
       {renderItems.map((item, i) => {
         const isFlipped = flippedCards.has(i)
         return (
           <m.div
             key={i}
-            className="pf-flip-reveal__card"
+            className={styles['pf-flip-reveal-fm__card']}
             variants={cardVariants}
             onClick={() => toggleFlip(i)}
             whileHover={
@@ -134,19 +135,27 @@ function ModalOrchestrationFlipRevealComponent({
                   }
             }
             whileTap={noMotion ? undefined : { scale: 0.95 }}
-            style={{ minHeight: cardHeight, animation: 'none' }}
+            style={{ minHeight: cardHeight }}
           >
             <m.div
-              className="pf-flip-reveal__inner"
+              className={styles['pf-flip-reveal-fm__inner']}
               animate={{ rotateY: isFlipped ? 180 : 0 }}
               transition={{
                 duration: noMotion ? 0.15 : flipS,
                 ease: [0.25, 0.46, 0.45, 0.94] as const,
               }}
-              style={{ transformStyle: 'preserve-3d', animation: 'none' }}
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className="pf-flip-reveal__face pf-flip-reveal__front">{item.front}</div>
-              <div className="pf-flip-reveal__face pf-flip-reveal__back">{item.back}</div>
+              <div
+                className={`${styles['pf-flip-reveal-fm__face']} ${styles['pf-flip-reveal-fm__front']}`}
+              >
+                {item.front}
+              </div>
+              <div
+                className={`${styles['pf-flip-reveal-fm__face']} ${styles['pf-flip-reveal-fm__back']}`}
+              >
+                {item.back}
+              </div>
             </m.div>
           </m.div>
         )

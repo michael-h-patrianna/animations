@@ -1,13 +1,13 @@
 /**
  * Animated image — gentle floating with sway and subtle scale breathing. CSS variant.
  *
- * Copy-paste files: this file + IconAnimationsFloat.css + shared.css
+ * Copy-paste files: this file + IconAnimationsFloat.module.css + shared.css
  * Runtime deps: react
  *
  * Usage: <IconAnimationsFloat src="/balloon.png" alt="balloon" duration={8000} />
  */
 import { memo } from 'react'
-import './IconAnimationsFloat.css'
+import styles from './IconAnimationsFloat.module.css'
 
 interface IconAnimationsFloatProps {
   /** Image source URL. Renders a placeholder when omitted. */
@@ -29,7 +29,7 @@ function IconAnimationsFloatComponent({
   return (
     <div data-animation-id="icon-animations__float">
       <div
-        className="pf-icon-float"
+        className={styles['pf-icon-float']}
         style={{ ['--pf-icon-float-duration' as string]: `${duration}ms` }}
       >
         {src !== undefined ? (

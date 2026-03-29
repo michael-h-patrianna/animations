@@ -73,7 +73,6 @@ function ButtonEffectsRewardReadyPulseComponent({
       type="button"
       className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__reward-ready-pulse"
-      style={{ animation: 'none' }}
       variants={
         isHovered ? hoverVariants : prefersReducedMotion ? reducedMotionVariants : pulseVariants
       }

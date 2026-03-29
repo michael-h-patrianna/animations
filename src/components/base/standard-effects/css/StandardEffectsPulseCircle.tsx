@@ -1,9 +1,9 @@
 /**
  * Catalog display for the Pulse Circle CSS effect.
- * Consumer product: StandardEffectsPulseCircle.css — use documented HTML structure.
+ * Consumer product: StandardEffectsPulseCircle.module.css — use documented HTML structure.
  */
 import { memo, type CSSProperties } from 'react'
-import './StandardEffectsPulseCircle.css'
+import styles from './StandardEffectsPulseCircle.module.css'
 import {
   INDICATOR_COLOR,
   INDICATOR_RING_COLOR,
@@ -31,11 +31,11 @@ function StandardEffectsPulseCircleComponent({
 
   return (
     <div
-      className="pf-pulse-circle-wrapper"
+      className={styles['pf-pulse-circle-wrapper']}
       data-animation-id="standard-effects__pulse-circle"
       style={style}
     >
-      <div className="pf-pulse-circle" role="img" aria-label="Pulse circle" />
+      <div className={styles['pf-pulse-circle']} role="img" aria-label="Pulse circle" />
     </div>
   )
 }

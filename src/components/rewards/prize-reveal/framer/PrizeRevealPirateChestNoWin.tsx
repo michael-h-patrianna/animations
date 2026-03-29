@@ -2,6 +2,7 @@ import { MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useState } from 'react'
 
+import styles from './PrizeRevealPirateChestNoWin.module.css'
 import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
 import pirateChestEmptyImage from '@/assets/puzzled-pirate/chest-empty.webp'
 
@@ -34,12 +35,12 @@ function PrizeRevealPirateChestNoWinComponent({
   return (
     <MotionConfig reducedMotion="user">
       <div
-        className="pf-modal-celebration pf-pirate-chest-no-win"
+        className={`pf-modal-celebration ${styles['pf-pirate-chest-no-win-fm']}`}
         data-animation-id="prize-reveal__pirate-chest-no-win"
       >
-        <div className="pf-pirate-chest-no-win__stage">
+        <div className={styles['pf-pirate-chest-no-win-fm__stage']}>
           <m.div
-            className="pf-pirate-chest-no-win__chest"
+            className={styles['pf-pirate-chest-no-win-fm__chest']}
             initial={{ y: 64, opacity: 0, scale: 0.82 }}
             animate={{
               y: 0,
@@ -66,7 +67,7 @@ function PrizeRevealPirateChestNoWinComponent({
               src={phase === 'reveal' ? pirateChestEmptyImage : pirateChestClosedImage}
               alt=""
               aria-hidden="true"
-              className="pf-pirate-chest-no-win__image"
+              className={styles['pf-pirate-chest-no-win-fm__image']}
             />
           </m.div>
         </div>

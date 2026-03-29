@@ -1,7 +1,7 @@
 /**
  * Animated badge — pops in with elastic overshoot. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsBadgePop.css + ../shared.css
+ * Copy-paste files: this file + UpdateIndicatorsBadgePop.module.css + ../shared.css
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsBadgePop color="#ff6b6b" textColor="#fff">3</UpdateIndicatorsBadgePop>
@@ -12,7 +12,7 @@ import {
   BADGE_TEXT_COLOR,
 } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { BadgeIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
-import './UpdateIndicatorsBadgePop.css'
+import styles from './UpdateIndicatorsBadgePop.module.css'
 
 function UpdateIndicatorsBadgePopComponent({
   children = 'New',
@@ -23,7 +23,7 @@ function UpdateIndicatorsBadgePopComponent({
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pop">
       <div
-        className="pf-update-indicator__badge pf-badge-pop"
+        className={`pf-update-indicator__badge ${styles['pf-badge-pop']}`}
         style={{
           ['--pf-badge-pop-dur' as string]: `${duration}ms`,
           background: color,

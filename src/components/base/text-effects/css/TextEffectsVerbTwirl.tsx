@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import './TextEffectsVerbTwirl.css'
+import styles from './TextEffectsVerbTwirl.module.css'
 
 interface TextEffectsVerbTwirlProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -27,16 +27,16 @@ function TextEffectsVerbTwirlComponent({
 
   return (
     <div
-      className="tfx-twirl-container"
+      className={styles['tfx-twirl-container']}
       data-animation-id="text-effects__verb-twirling"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="tfx-twirl-line" aria-hidden="true">
+      <div className={styles['tfx-twirl-line']} aria-hidden="true">
         {letters.map((ch, i) => (
-          <span key={i} className="tfx-twirl-char">
+          <span key={i} className={styles['tfx-twirl-char']}>
             {ch === ' ' ? '\u00A0' : ch}
           </span>
         ))}

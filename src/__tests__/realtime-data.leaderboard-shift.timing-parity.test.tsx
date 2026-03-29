@@ -28,12 +28,23 @@ const SHIFTED_ITEMS: RankedEntry[] = [
   { id: 'phoenix', label: 'Phoenix', score: 2400 },
 ]
 
-function getTopPlayer(container: HTMLElement) {
+function getTopPlayerCss(container: HTMLElement) {
   return container.querySelector('.pf-realtime-data__row .pf-realtime-data__player')?.textContent
 }
 
-function getPlayerNames(container: HTMLElement): string[] {
+function getTopPlayerFramer(container: HTMLElement) {
+  return container.querySelector('.pf-realtime-data-fm__row .pf-realtime-data-fm__player')
+    ?.textContent
+}
+
+function getPlayerNamesCss(container: HTMLElement): string[] {
   return Array.from(container.querySelectorAll('.pf-realtime-data__player')).map(
+    (el) => el.textContent ?? ''
+  )
+}
+
+function getPlayerNamesFramer(container: HTMLElement): string[] {
+  return Array.from(container.querySelectorAll('.pf-realtime-data-fm__player')).map(
     (el) => el.textContent ?? ''
   )
 }
@@ -44,8 +55,8 @@ describe('realtime-data leaderboard-shift reactive behavior', () => {
       <CssRealtimeDataLeaderboardShift items={INITIAL_ITEMS} />
     )
 
-    expect(getTopPlayer(container)).toBe('Phoenix')
-    expect(getPlayerNames(container)).toEqual(['Phoenix', 'Shadow', 'Nova', 'Apex'])
+    expect(getTopPlayerCss(container)).toBe('Phoenix')
+    expect(getPlayerNamesCss(container)).toEqual(['Phoenix', 'Shadow', 'Nova', 'Apex'])
 
     // Rerender with shifted items — CSS variant defers removal via setTimeout
     rerender(<CssRealtimeDataLeaderboardShift items={SHIFTED_ITEMS} />)
@@ -55,7 +66,7 @@ describe('realtime-data leaderboard-shift reactive behavior', () => {
       vi.advanceTimersByTime(800)
     })
 
-    expect(getTopPlayer(container)).toBe('Shadow')
+    expect(getTopPlayerCss(container)).toBe('Shadow')
   })
 
   it('Framer variant renders initial items and updates when items prop changes', () => {
@@ -63,18 +74,18 @@ describe('realtime-data leaderboard-shift reactive behavior', () => {
       <FramerRealtimeDataLeaderboardShift items={INITIAL_ITEMS} />
     )
 
-    expect(getTopPlayer(container)).toBe('Phoenix')
+    expect(getTopPlayerFramer(container)).toBe('Phoenix')
 
     rerender(<FramerRealtimeDataLeaderboardShift items={SHIFTED_ITEMS} />)
-    expect(getTopPlayer(container)).toBe('Shadow')
+    expect(getTopPlayerFramer(container)).toBe('Shadow')
   })
 
   it('CSS and Framer variants start with identical player data', () => {
     const css = render(<CssRealtimeDataLeaderboardShift />)
     const framer = render(<FramerRealtimeDataLeaderboardShift />)
 
-    const cssPlayers = getPlayerNames(css.container)
-    const framerPlayers = getPlayerNames(framer.container)
+    const cssPlayers = getPlayerNamesCss(css.container)
+    const framerPlayers = getPlayerNamesFramer(framer.container)
 
     expect(cssPlayers).toEqual(framerPlayers)
   })

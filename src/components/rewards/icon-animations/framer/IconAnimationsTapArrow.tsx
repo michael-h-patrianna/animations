@@ -3,7 +3,7 @@
  * Common mobile-game "tap here!" pattern. Position the arrow on any side.
  * Absolutely positioned — does not affect the target element's layout.
  *
- * Copy-paste files: this file + IconAnimationsTapArrow.css
+ * Copy-paste files: this file + IconAnimationsTapArrow.module.css
  * Runtime deps: react, motion
  *
  * Usage: <IconAnimationsTapArrow position="left"><YourButton /></IconAnimationsTapArrow>
@@ -11,7 +11,7 @@
 import * as m from 'motion/react-m'
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
-import './IconAnimationsTapArrow.css'
+import styles from './IconAnimationsTapArrow.module.css'
 
 type ArrowPosition = 'left' | 'right' | 'top' | 'bottom'
 
@@ -95,17 +95,17 @@ function IconAnimationsTapArrowComponent({
   const resolvedFill = fill ?? 'var(--pf-brand-accent-primary, #c83558)'
 
   return (
-    <div data-animation-id="icon-animations__tap-arrow" className="pf-tap-arrow">
-      <div className="pf-tap-arrow__target">
+    <div data-animation-id="icon-animations__tap-arrow" className={styles['pf-tap-arrow-fm']}>
+      <div className={styles['pf-tap-arrow-fm__target']}>
         {children ?? <DemoBox label="Tap me" />}
-        <div className="pf-tap-arrow__anchor" style={ANCHOR_STYLE[position]}>
+        <div className={styles['pf-tap-arrow-fm__anchor']} style={ANCHOR_STYLE[position]}>
           <div
-            className="pf-tap-arrow__rotator"
+            className={styles['pf-tap-arrow-fm__rotator']}
             style={{ transform: `rotate(${ROTATION[position]}deg)` }}
           >
             <m.div
-              className="pf-tap-arrow__animator"
-              style={{ transformOrigin: 'left center', animation: 'none' }}
+              className={styles['pf-tap-arrow-fm__animator']}
+              style={{ transformOrigin: 'left center' }}
               animate={{
                 x: [0, nudgeDistance * 0.5, nudgeDistance, nudgeDistance * 0.5, 0],
                 scaleX: [1, 0.88, 1.12, 0.94, 1],
@@ -122,7 +122,7 @@ function IconAnimationsTapArrowComponent({
                 <img
                   src={arrowSrc}
                   alt=""
-                  className="pf-tap-arrow__image"
+                  className={styles['pf-tap-arrow-fm__image']}
                   style={{ width: arrowSize }}
                 />
               ) : (

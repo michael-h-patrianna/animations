@@ -2,7 +2,7 @@
  * Pill countdown with quiet, breathing-style pulse at key thresholds — CSS variant.
  * Pulses at every 10s mark and each of the last 5 seconds.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownSoft.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownSoft.module.css
  * Runtime deps: react
  */
 
@@ -16,7 +16,7 @@ import {
 } from '@/components/realtime/timer-effects/SharedTypes'
 
 import './shared.css'
-import './TimerEffectsPillCountdownSoft.css'
+import styles from './TimerEffectsPillCountdownSoft.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -88,7 +88,7 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-soft">
       <div
         key={animationKey}
-        className={`pf-pill-timer__pill pf-pill-timer__pill--soft pf-pill-timer--${phase}`}
+        className={`pf-pill-timer__pill ${styles['pf-pill-timer__pill--soft']} pf-pill-timer--${phase}`}
         style={pillStyle}
       >
         <div className="pf-pill-timer__time" style={timeStyle}>

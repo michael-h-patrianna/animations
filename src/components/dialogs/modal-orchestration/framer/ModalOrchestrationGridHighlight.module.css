@@ -1,0 +1,11 @@
+/* Layout styles for ModalOrchestrationGridHighlight (framer variant) */
+.pf-grid-highlight-fm {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  width: 100%;
+}
+
+.pf-grid-highlight-fm__item {
+  /* Animation wrapper only — visual card styling comes from children */
+}

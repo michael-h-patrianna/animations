@@ -12,6 +12,7 @@ import { memo } from 'react'
 
 import { Skeleton } from '@/components/progress/loading-states/SharedSkeleton'
 import type { SkeletonProps } from '@/components/progress/loading-states/SharedSkeleton'
+import styles from './LoadingStatesSkeletonCard.module.css'
 
 interface LoadingStatesSkeletonCardProps {
   /** Overall width in px. */
@@ -64,8 +65,12 @@ function LoadingStatesSkeletonCardComponent({
   return (
     <div
       data-animation-id="loading-states__skeleton-card"
-      className={className !== undefined ? `pf-skeleton-card ${className}` : 'pf-skeleton-card'}
-      style={{ width, gap, display: 'flex', flexDirection: 'column', animation: 'none' }}
+      className={
+        className !== undefined
+          ? `${styles['pf-skeleton-card-fm']} ${className}`
+          : styles['pf-skeleton-card-fm']
+      }
+      style={{ width, gap, display: 'flex', flexDirection: 'column' }}
       role="status"
       aria-label="Loading"
     >
@@ -76,7 +81,7 @@ function LoadingStatesSkeletonCardComponent({
         baseColor={baseColor}
         shimmerColor={shimmerColor}
         speed={speed}
-        className="pf-skeleton-card__line"
+        className="pf-skeleton-card-fm__line"
       />
       <div style={{ height: titleMargin - gap }} />
       {Array.from({ length: lines }, (_, i) => (
@@ -89,7 +94,7 @@ function LoadingStatesSkeletonCardComponent({
           shimmerColor={shimmerColor}
           speed={speed}
           delay={((i + 1) * STAGGER_DELAY) / safeSpeed}
-          className="pf-skeleton-card__line"
+          className="pf-skeleton-card-fm__line"
         />
       ))}
     </div>

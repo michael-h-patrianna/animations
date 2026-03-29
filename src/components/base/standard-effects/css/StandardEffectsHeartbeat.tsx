@@ -1,9 +1,9 @@
 /**
  * Catalog display for the Heartbeat CSS effect.
- * Consumer product: StandardEffectsHeartbeat.css — apply .pf-heartbeat to any element.
+ * Consumer product: StandardEffectsHeartbeat.module.css — import styles and apply styles['pf-heartbeat'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsHeartbeat.css'
+import styles from './StandardEffectsHeartbeat.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsHeartbeatProps {
@@ -21,7 +21,11 @@ function StandardEffectsHeartbeatComponent({
   } as CSSProperties
 
   return (
-    <div className="pf-heartbeat" data-animation-id="standard-effects__heartbeat" style={style}>
+    <div
+      className={styles['pf-heartbeat']}
+      data-animation-id="standard-effects__heartbeat"
+      style={style}
+    >
       {children ?? <DemoBox label="Heartbeat" />}
     </div>
   )

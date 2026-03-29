@@ -59,21 +59,6 @@
   z-index: 3;
 }
 
-/* ─── Shockwave ring ─── */
-.pf-celebration__shockwave {
-  position: absolute;
-  left: 50%;
-  top: 55%;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid var(--pf-anim-white-60, rgb(255 255 255 / 60%));
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 3;
-}
-
 /* ─── Radial glow overlay ─── */
 .pf-celebration__glow {
   position: absolute;
@@ -148,7 +133,9 @@
   );
 }
 
-/* ─── Firework elements ─── */
+/* ─── Firework ring (single-consumer: FireworksTriple css+framer) ──
+   Kept in shared.css: both variants reference this class as a raw global className
+   and the framer -fm suffix lint rule prevents co-locating in framer/*.css. */
 .pf-celebration__ring {
   position: absolute;
   left: 50%;
@@ -161,7 +148,8 @@
   pointer-events: none;
 }
 
-/* ─── Spark ray (for fireworks) ─── */
+/* ─── Spark ray (single-consumer: FireworksTriple css+framer) ──
+   Same rationale as __ring above. */
 .pf-celebration__ray {
   position: absolute;
   left: 50%;
@@ -173,7 +161,8 @@
   pointer-events: none;
 }
 
-/* ─── Pulse ring ─── */
+/* ─── Pulse ring (single-consumer: ConfettiPulse css+framer) ──
+   Same rationale as __ring above. */
 .pf-celebration__pulse {
   position: absolute;
   left: 50%;
@@ -186,6 +175,12 @@
   pointer-events: none;
 }
 
+/* ─── Viewport overflow for ConfettiRain (single-consumer) ──
+   Same rationale as __ring above. */
+[data-animation-id='modal-celebrations__confetti-rain'] {
+  overflow: visible;
+}
+
 /* ─── Layout containment for particle containers ─── */
 .pf-celebration__layer,
 .pf-celebration__depth-bg,
@@ -194,23 +189,4 @@
   contain: layout style;
 }
 
-/* ─── Viewport animations — particles may exceed container bounds ─── */
-[data-animation-id='modal-celebrations__confetti-rain'] {
-  overflow: visible;
-}
-
-/* ─── Reduced motion: disable all celebration particle effects ─── */
-/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
-@media (prefers-reduced-motion: reduce) {
-  .pf-celebration__confetti,
-  .pf-celebration__sparkle,
-  .pf-celebration__flash,
-  .pf-celebration__shockwave,
-  .pf-celebration__glow,
-  .pf-celebration__ring,
-  .pf-celebration__ray,
-  .pf-celebration__pulse {
-    animation: none !important;
-    opacity: 0 !important;
-  }
-}
+/* Reduced-motion is handled per-animation in each component's own CSS. */

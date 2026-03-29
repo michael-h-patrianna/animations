@@ -18,12 +18,13 @@
  * - `--scifi-text`    — label text color
  * - `--scifi-decor`   — decorative frame color
  *
- * Files to copy: this file + ProgressBarsSciFiLoader.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsSciFiLoader.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsSciFiLoader.module.css'
 
 interface SciFiLoaderProps extends ProgressBarProps {
   /** Label prefix text. Default: "SYSTEM.INIT:". */
@@ -47,13 +48,13 @@ export function ProgressBarsSciFiLoader({
 
   return (
     <div
-      className={`scifi-loader-container${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-scifi-loader-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__sci-fi-loader"
     >
-      <div ref={trackRef} className="scifi-loader-track">
+      <div ref={trackRef} className={styles['pf-scifi-loader-fm__track']}>
         <m.div
-          className="scifi-loader-fill"
+          className={styles['pf-scifi-loader-fm__fill']}
           initial={false}
           animate={{ scaleX: displayProgress }}
           transition={{
@@ -61,20 +62,20 @@ export function ProgressBarsSciFiLoader({
             ease: 'linear',
             duration: prefersReducedMotion ? 0.05 : 0.05,
           }}
-          style={{ transformOrigin: 'left center', animation: 'none' }}
+          style={{ transformOrigin: 'left center' }}
         />
         {!prefersReducedMotion && (
           <m.div
-            className="scifi-loader-glint"
+            className={styles['pf-scifi-loader-fm__glint']}
             animate={{ x: [-40, trackWidth + 40] }}
             transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            style={{ left: 0, animation: 'none' }}
+            style={{ left: 0 }}
           />
         )}
       </div>
-      <div className="scifi-loader-decor-top" />
-      <div className="scifi-loader-decor-bottom" />
-      <div className="scifi-loader-text">
+      <div className={styles['pf-scifi-loader-fm__decor-top']} />
+      <div className={styles['pf-scifi-loader-fm__decor-bottom']} />
+      <div className={styles['pf-scifi-loader-fm__text']}>
         {label} {percent}%
       </div>
     </div>

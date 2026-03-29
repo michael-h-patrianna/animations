@@ -12,6 +12,7 @@ import { memo } from 'react'
 
 import { Skeleton } from '@/components/progress/loading-states/SharedSkeleton'
 import type { SkeletonProps } from '@/components/progress/loading-states/SharedSkeleton'
+import styles from './LoadingStatesSkeletonVertical.module.css'
 
 interface LoadingStatesSkeletonVerticalProps {
   /** Overall width in px. */
@@ -60,9 +61,11 @@ function LoadingStatesSkeletonVerticalComponent({
     <div
       data-animation-id="loading-states__skeleton-vertical"
       className={
-        className !== undefined ? `pf-skeleton-vertical ${className}` : 'pf-skeleton-vertical'
+        className !== undefined
+          ? `${styles['pf-skeleton-vertical-fm']} ${className}`
+          : styles['pf-skeleton-vertical-fm']
       }
-      style={{ width, gap, display: 'flex', flexDirection: 'column', animation: 'none' }}
+      style={{ width, gap, display: 'flex', flexDirection: 'column' }}
       role="status"
       aria-label="Loading"
     >

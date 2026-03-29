@@ -14,24 +14,24 @@
  * - `--bounce-track-color`, `--bounce-fill-from`, `--bounce-fill-to`
  * - `--bounce-height`
  *
- * Files to copy: this file + ProgressBarsProgressBounce.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressBounce.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsProgressBounce.css'
+import styles from './ProgressBarsProgressBounce.module.css'
 
 export function ProgressBarsProgressBounce({ progress, className, style }: ProgressBarProps) {
   const isControlled = progress !== undefined
 
   return (
     <div
-      className={`pf-progress-bounce${isControlled ? ' is-controlled' : ''}${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-progress-bounce']}${isControlled ? ` ${styles['is-controlled']}` : ''}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__progress-bounce"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track">
+        <div className={styles['pf-progress-track']}>
           <div
-            className="pf-progress-fill"
+            className={styles['pf-progress-fill']}
             role="progressbar"
             aria-valuenow={Math.round((progress ?? 1) * 100)}
             aria-valuemin={0}

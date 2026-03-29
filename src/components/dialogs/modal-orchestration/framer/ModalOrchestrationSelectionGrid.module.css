@@ -1,0 +1,11 @@
+/* Layout styles for ModalOrchestrationSelectionGrid (framer variant) */
+.pf-selection-grid-fm {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+  position: relative;
+}
+
+.pf-selection-grid-fm__item {
+  /* Animation wrapper only — visual card styling comes from children */
+}

@@ -1,7 +1,7 @@
 /**
  * Modal entrance — digital glitch with RGB channel separation. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseGlitchDigital.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseGlitchDigital.module.css + SharedTypes.ts
  * Runtime deps: react
  */
 
@@ -9,7 +9,7 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
-import './ModalBaseGlitchDigital.css'
+import styles from './ModalBaseGlitchDigital.module.css'
 
 const DEFAULT_DURATION = 600
 
@@ -33,11 +33,17 @@ function ModalBaseGlitchDigitalComponent({
 
   return (
     <div data-animation-id="modal-base__tfx-glitchdigital">
-      <div className="pf-modal-glitch" style={cssVars}>
-        <div className="pf-modal-glitch__ghost pf-modal-glitch__ghost--green" aria-hidden="true" />
-        <div className="pf-modal-glitch__ghost pf-modal-glitch__ghost--pink" aria-hidden="true" />
+      <div className={styles['pf-modal-glitch']} style={cssVars}>
         <div
-          className={`pf-modal-glitch__content${className ? ` ${className}` : ''}`}
+          className={`${styles['pf-modal-glitch__ghost']} ${styles['pf-modal-glitch__ghost--green']}`}
+          aria-hidden="true"
+        />
+        <div
+          className={`${styles['pf-modal-glitch__ghost']} ${styles['pf-modal-glitch__ghost--pink']}`}
+          aria-hidden="true"
+        />
+        <div
+          className={`${styles['pf-modal-glitch__content']}${className ? ` ${className}` : ''}`}
           style={style}
           onAnimationEnd={(event) => {
             if (event.target !== event.currentTarget) return

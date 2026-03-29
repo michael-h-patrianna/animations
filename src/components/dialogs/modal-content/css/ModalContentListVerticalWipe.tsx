@@ -1,7 +1,7 @@
 /**
  * Modal with horizontal wipe-in list reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentListVerticalWipe.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentListVerticalWipe.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 
@@ -20,7 +20,7 @@ import {
   type ContentStaggerProps,
 } from '@/components/dialogs/modal-content/SharedTypes'
 
-import './ModalContentListVerticalWipe.css'
+import styles from './ModalContentListVerticalWipe.module.css'
 
 const DEFAULT_DURATION = 500
 const DEFAULT_STAGGER = 100
@@ -36,9 +36,9 @@ function ModalContentListVerticalWipeComponent({
   const items = toItemArray(children)
 
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
-    <div key={i} className="pf-list-vertical-wipe-clip">
+    <div key={i} className={styles['pf-list-vertical-wipe-clip']}>
       <div
-        className="pf-list-vertical-wipe-item"
+        className={styles['pf-list-vertical-wipe-item']}
         style={
           {
             '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
@@ -69,14 +69,14 @@ function ModalContentListVerticalWipeComponent({
 
   return (
     <div className="pf-demo-overlay" data-animation-id="modal-content__list-vertical-wipe">
-      <div className="pf-demo-modal pf-mc-box--entrance">
+      <div className={`pf-demo-modal ${styles['pf-mc-box--entrance']}`}>
         <DemoModalHeader title="Setup Complete" />
         <DemoModalBody>
           <DemoList>{mockItems.map((item, i) => wrapItem(item, i, 300))}</DemoList>
         </DemoModalBody>
         <DemoModalFooter>
           <div
-            className="pf-button-stagger-item"
+            className={styles['pf-button-stagger-item']}
             style={
               {
                 '--pf-stagger-delay': '700ms',

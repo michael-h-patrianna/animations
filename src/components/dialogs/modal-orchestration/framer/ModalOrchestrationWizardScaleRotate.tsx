@@ -1,7 +1,7 @@
 /**
  * Two-layer stagger entrance: pop-scale step indicators + rotate-morph content panels.
  *
- * Copy-paste files: this file + ModalOrchestrationWizardScaleRotate.css
+ * Copy-paste files: this file + ModalOrchestrationWizardScaleRotate.module.css
  * Runtime deps: react, motion
  *
  * @example
@@ -17,6 +17,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationWizardScaleRotate.module.css'
 
 const DEFAULT_COUNT = 3
 
@@ -94,33 +95,30 @@ function ModalOrchestrationWizardScaleRotateComponent({
 
   return (
     <m.div
-      className="pf-wizard-scale"
+      className={styles['pf-wizard-scale-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__wizard-scale-rotate"
-      style={{ animation: 'none' }}
     >
-      <div className="pf-wizard-scale__steps">
+      <div className={styles['pf-wizard-scale-fm__steps']}>
         {labels.map((label, i) => (
           <m.div
             key={i}
-            className={`pf-wizard-scale__step${i === activeStep ? ' pf-wizard-scale__step--active' : ''}`}
+            className={`${styles['pf-wizard-scale-fm__step']}${i === activeStep ? ` ${styles['pf-wizard-scale-fm__step--active']}` : ''}`}
             variants={stepVariants}
-            style={{ animation: 'none' }}
           >
             {label}
           </m.div>
         ))}
       </div>
 
-      <div className="pf-wizard-scale__panels">
+      <div className={styles['pf-wizard-scale-fm__panels']}>
         {renderItems.map((child, i) => (
           <m.div
             key={i}
-            className={`pf-wizard-scale__panel${i === activeStep ? ' pf-wizard-scale__panel--active' : ''}`}
+            className={`${styles['pf-wizard-scale-fm__panel']}${i === activeStep ? ` ${styles['pf-wizard-scale-fm__panel--active']}` : ''}`}
             variants={panelVariants}
-            style={{ animation: 'none' }}
           >
             {child}
           </m.div>

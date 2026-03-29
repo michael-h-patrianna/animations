@@ -1,7 +1,7 @@
 /**
  * Notification dot — staggered radar rings emanating outward. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsHomeIconDotRadar.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotRadar.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsHomeIconDotRadar ringColor="rgba(255,0,0,0.5)"><MyIcon /></UpdateIndicatorsHomeIconDotRadar>
@@ -9,7 +9,7 @@
 import { memo } from 'react'
 import { DOT_COLOR, DOT_RADAR_RING } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
-import './UpdateIndicatorsHomeIconDotRadar.css'
+import styles from './UpdateIndicatorsHomeIconDotRadar.module.css'
 
 interface DotRadarProps extends DotIndicatorProps {
   /** Ring border color. Default: 'rgb(255 73 103 / 50%)' */
@@ -43,7 +43,7 @@ function UpdateIndicatorsHomeIconDotRadarComponent({
   const rings = Array.from({ length: ringCount }, (_, i) => (
     <span
       key={i}
-      className="pf-update-indicator__ring pf-dot-radar-ring"
+      className={`pf-update-indicator__ring ${styles['pf-dot-radar-ring']}`}
       style={{
         ...ringStyle,
         animationDelay: `${i * staggerMs}ms`,
@@ -54,7 +54,7 @@ function UpdateIndicatorsHomeIconDotRadarComponent({
   const dot = (
     <>
       <span
-        className="pf-update-indicator__dot pf-update-indicator__dot--radar"
+        className={`pf-update-indicator__dot ${styles['pf-update-indicator__dot--radar']}`}
         style={{
           width: dotSize,
           height: dotSize,

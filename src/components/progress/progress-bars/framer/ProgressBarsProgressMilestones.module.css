@@ -1,0 +1,47 @@
+.pf-progress-milestones-fm {
+  --milestone-track-bg: rgb(255 255 255 / 8%);
+  --milestone-track-border: rgb(255 255 255 / 5%);
+  --milestone-track-shadow: rgb(0 0 0 / 25%);
+  --milestone-fill-from: #38bdf8;
+  --milestone-fill-to: #7dd3fc;
+  --milestone-fill-glow: rgb(56 189 248 / 30%);
+  --milestone-fill-highlight: rgb(255 255 255 / 22%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  min-height: 72px;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.pf-progress-milestones-fm .pf-progress-track-fm {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--milestone-track-bg);
+  border: 1px solid var(--milestone-track-border);
+  box-shadow: inset 0 1px 3px var(--milestone-track-shadow);
+  overflow: hidden;
+  position: relative;
+}
+
+.pf-progress-milestones-fm .pf-progress-fill-fm {
+  height: 100%;
+  background: linear-gradient(90deg, var(--milestone-fill-from) 0%, var(--milestone-fill-to) 100%);
+  border-radius: inherit;
+  transform-origin: left center;
+  position: relative;
+  will-change: transform;
+  box-shadow: 0 0 12px var(--milestone-fill-glow);
+}
+
+.pf-progress-milestones-fm .pf-progress-fill-fm::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--milestone-fill-highlight) 0%, transparent 55%);
+  pointer-events: none;
+}

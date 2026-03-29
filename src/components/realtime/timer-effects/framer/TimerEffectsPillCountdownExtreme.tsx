@@ -2,7 +2,7 @@
  * Pill countdown with intense buzz-shake effect and aggressive color transitions.
  * Buzzes at landmark seconds and every second in the final 10.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownExtreme.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownExtreme.module.css
  * Runtime deps: react, motion
  */
 
@@ -16,6 +16,7 @@ import {
   resolveTimerProps,
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
+import styles from './TimerEffectsPillCountdownExtreme.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -109,7 +110,6 @@ function TimerEffectsPillCountdownExtremeComponent(props: TimerEffectProps) {
 
   const phaseColor = resolved.colors?.[phase]
   const pillStyle: React.CSSProperties = {
-    animation: 'none',
     ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
   }
 
@@ -120,10 +120,13 @@ function TimerEffectsPillCountdownExtremeComponent(props: TimerEffectProps) {
   }
 
   return (
-    <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-extreme">
+    <div
+      className={styles['pf-pill-timer-fm']}
+      data-animation-id="timer-effects__pill-countdown-extreme"
+    >
       <m.div
         key={buzzKey}
-        className={`pf-pill-timer__pill pf-pill-timer__pill--extreme pf-pill-timer--${phase} ${flashClass}`}
+        className={`${styles['pf-pill-timer-fm__pill']} ${styles['pf-pill-timer-fm__pill--extreme']} ${styles[`pf-pill-timer-fm--${phase}`] ?? ''} ${flashClass}`}
         variants={prefersReducedMotion ? undefined : buzzVariants}
         initial="idle"
         animate={prefersReducedMotion ? { opacity: [1, 0.7, 1] } : 'buzz'}
@@ -132,15 +135,14 @@ function TimerEffectsPillCountdownExtremeComponent(props: TimerEffectProps) {
       >
         {!prefersReducedMotion && (
           <m.span
-            className="pf-pill-timer__glow"
+            className={styles['pf-pill-timer-fm__glow']}
             aria-hidden="true"
             variants={glowVariants}
             initial="idle"
             animate="buzz"
-            style={{ animation: 'none' }}
           />
         )}
-        <div className="pf-pill-timer__time" style={timeStyle}>
+        <div className={styles['pf-pill-timer-fm__time']} style={timeStyle}>
           {formatTime(seconds)}
         </div>
       </m.div>

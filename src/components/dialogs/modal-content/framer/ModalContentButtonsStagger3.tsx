@@ -23,6 +23,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
+import './ModalContentButtonsStagger3.module.css'
 import {
   MODAL_ENTRANCE,
   REDUCED_FADE,
@@ -65,7 +66,6 @@ function ModalContentButtonsStagger3Component({
             }
       }
       onAnimationComplete={isLast ? onAnimationComplete : undefined}
-      style={{ animation: 'none' }}
     >
       {child}
     </m.div>
@@ -88,12 +88,8 @@ function ModalContentButtonsStagger3Component({
   }
 
   return (
-    <div className="pf-demo-overlay" data-animation-id="modal-content__buttons-stagger-3">
-      <m.div
-        className="pf-demo-modal"
-        {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}
-        style={{ animation: 'none' }}
-      >
+    <div className="pf-demo-overlay-fm" data-animation-id="modal-content__buttons-stagger-3">
+      <m.div className="pf-demo-modal" {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}>
         <DemoModalHeader />
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>

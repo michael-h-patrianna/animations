@@ -1,9 +1,9 @@
 /**
  * Catalog display for the Fade CSS effect.
- * Consumer product: StandardEffectsFade.css — apply .pf-fade to any element.
+ * Consumer product: StandardEffectsFade.module.css — import styles and apply styles['pf-fade'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsFade.css'
+import styles from './StandardEffectsFade.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsFadeProps {
@@ -18,7 +18,7 @@ function StandardEffectsFadeComponent({ children, duration = 800 }: StandardEffe
   } as CSSProperties
 
   return (
-    <div className="pf-fade" data-animation-id="standard-effects__fade" style={style}>
+    <div className={styles['pf-fade']} data-animation-id="standard-effects__fade" style={style}>
       {children ?? <DemoBox label="Fade" />}
     </div>
   )

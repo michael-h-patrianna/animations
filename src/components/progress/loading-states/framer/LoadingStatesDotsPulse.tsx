@@ -1,7 +1,7 @@
 /**
  * Three dots scaling up with a staggered opacity pulse — breathing indicator.
  *
- * Copy-paste files: this file + LoadingStatesDotsPulse.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesDotsPulse.module.css + ../SharedDefaults.ts
  * Runtime deps: react, motion
  */
 
@@ -10,6 +10,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 import { DOTS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
+import styles from './LoadingStatesDotsPulse.module.css'
 
 interface LoadingStatesDotsPulseProps {
   /** Dot color. */
@@ -43,20 +44,23 @@ function LoadingStatesDotsPulseComponent({
   return (
     <div
       data-animation-id="loading-states__dots-pulse"
-      className={className !== undefined ? `pf-dots-pulse ${className}` : 'pf-dots-pulse'}
-      style={{ gap, animation: 'none' }}
+      className={
+        className !== undefined
+          ? `${styles['pf-dots-pulse-fm']} ${className}`
+          : styles['pf-dots-pulse-fm']
+      }
+      style={{ gap }}
       role="status"
       aria-label="Loading"
     >
       {Array.from({ length: DOT_COUNT }, (_, i) => (
         <m.span
           key={i}
-          className="pf-dots-pulse__dot"
+          className={styles['pf-dots-pulse-fm__dot']}
           style={{
             width: dotSize,
             height: dotSize,
             background: color,
-            animation: 'none',
           }}
           animate={
             prefersReducedMotion

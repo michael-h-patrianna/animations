@@ -1,7 +1,7 @@
 /**
  * Rotate-scale morph entrance for side-by-side comparison panes.
  *
- * Copy-paste files: this file + ModalOrchestrationComparisonMorph.css
+ * Copy-paste files: this file + ModalOrchestrationComparisonMorph.module.css
  * Runtime deps: react, motion
  *
  * @example
@@ -16,6 +16,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationComparisonMorph.module.css'
 
 const DEFAULT_COUNT = 2
 
@@ -73,20 +74,14 @@ function ModalOrchestrationComparisonMorphComponent({
 
   return (
     <m.div
-      className="pf-comparison-morph"
+      className={styles['pf-comparison-morph-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__comparison-morph"
-      style={{ animation: 'none' }}
     >
       {renderItems.map((child, i) => (
-        <m.div
-          key={i}
-          className="pf-comparison-morph__pane"
-          variants={paneVariants}
-          style={{ animation: 'none' }}
-        >
+        <m.div key={i} className={styles['pf-comparison-morph-fm__pane']} variants={paneVariants}>
           {child}
         </m.div>
       ))}
