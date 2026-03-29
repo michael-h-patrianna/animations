@@ -65,13 +65,14 @@ function LoadingStatesPulsatingComponent({
           animate={
             prefersReducedMotion
               ? { scale: 1, opacity: [0.7, 0.2, 0.7] }
-              : { scale: [0.2, 1], opacity: [0.85, 0] }
+              : { scale: [0.2, 0.2, 1], opacity: [0, 0.85, 0] }
           }
           transition={{
             duration: cycleDuration,
             repeat: Infinity,
             ease: 'easeOut',
             delay: (i * STAGGER_DELAY) / safeSpeed,
+            ...(prefersReducedMotion ? {} : { times: [0, 0.01, 1] }),
           }}
         />
       ))}
