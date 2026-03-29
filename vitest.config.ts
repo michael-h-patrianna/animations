@@ -66,42 +66,42 @@ export default defineConfig({
         // Per-subsystem thresholds: set ~2% below actual coverage to catch
         // regressions. Raise these as coverage improves.
         'src/hooks/**': {
-          statements: 85,
-          branches: 67,
-          functions: 85,
-          lines: 86,
+          statements: 86,
+          branches: 70,
+          functions: 93,
+          lines: 87,
         },
         'src/lib/**': {
-          statements: 90,
-          branches: 75,
+          statements: 91,
+          branches: 83,
           functions: 90,
-          lines: 90,
+          lines: 92,
         },
         'src/services/**': {
-          statements: 64,
+          statements: 80,
           branches: 70,
-          functions: 77,
-          lines: 64,
+          functions: 90,
+          lines: 82,
         },
         'src/utils/**': {
           statements: 90,
           branches: 85,
-          functions: 90,
+          functions: 93,
           lines: 90,
         },
         // Context providers: complex state management with browser-dependent code paths.
         'src/contexts/**': {
-          statements: 56,
-          branches: 53,
-          functions: 60,
-          lines: 57,
+          statements: 80,
+          branches: 66,
+          functions: 83,
+          lines: 82,
         },
         // UI shell components: portal features and demo wrappers tested via E2E.
         'src/components/ui/**': {
-          statements: 65,
-          branches: 49,
-          functions: 66,
-          lines: 66,
+          statements: 85,
+          branches: 72,
+          functions: 87,
+          lines: 87,
         },
         // Animation components are tested via smoke tests and metadata integrity
         // checks rather than per-component unit tests.
