@@ -14,7 +14,7 @@ import {
   parseStyleNumberValue,
   resolveColorArray,
   serializeStyleFieldValue,
-} from './propFieldUtils'
+} from '@/components/ui/propFieldUtils'
 
 // ── Disabled field ───────────────────────────────────────────────────────
 

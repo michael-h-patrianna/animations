@@ -106,6 +106,9 @@ describe('Lazy pipeline integration', () => {
     const result = await loadLazyGroup('modal-base-framer')
     const animations = result.group.animations
 
+    // Guard: need at least 2 animations to validate ordering
+    expect(animations.length).toBeGreaterThanOrEqual(2)
+
     // Verify animations are sorted by order (implicit 0 for unset)
     for (let i = 1; i < animations.length; i++) {
       const prevOrder = result.animations[animations[i - 1]!.id]?.metadata.order ?? 0

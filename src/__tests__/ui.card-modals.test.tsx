@@ -39,9 +39,9 @@ function closedCodeViewer() {
   return {
     isOpen: false,
     sources: null as SourceTab[] | null,
+    error: null as string | null,
     open: vi.fn(),
     close: vi.fn(),
-    isLoading: false,
   }
 }
 
@@ -50,7 +50,6 @@ function closedPreview() {
     isOpen: false,
     mode: 'desktop' as const,
     replayKey: 0,
-    open: vi.fn(),
     openDesktop: vi.fn(),
     openMobile: vi.fn(),
     close: vi.fn(),

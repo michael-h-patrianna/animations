@@ -260,14 +260,8 @@ describe('PropField', () => {
 
     // Both sub-fields rendered as children of the parent field
     const fieldScope = within(field)
-    expect(fieldScope.getByTestId('prop-field-style---size')).toHaveAttribute(
-      'data-testid',
-      'prop-field-style---size'
-    )
-    expect(fieldScope.getByTestId('prop-field-style---color')).toHaveAttribute(
-      'data-testid',
-      'prop-field-style---color'
-    )
+    expect(fieldScope.getByTestId('prop-field-style---size')).toHaveTextContent('Size')
+    expect(fieldScope.getByTestId('prop-field-style---color')).toHaveTextContent('Color')
   })
 
   // ── Fallback to defaults ──────────────────────────────────────────────

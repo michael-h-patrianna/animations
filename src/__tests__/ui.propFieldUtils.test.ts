@@ -31,7 +31,7 @@ describe('isStyleValueRecord', () => {
 describe('normalizeColorDefault', () => {
   it('returns empty string for null/undefined', () => {
     expect(normalizeColorDefault(undefined)).toBe('')
-    expect(normalizeColorDefault(undefined)).toBe('')
+    expect(normalizeColorDefault(null as unknown as string)).toBe('')
   })
 
   it('passes through valid hex colors', () => {

@@ -260,6 +260,7 @@ describe('runLinearSweep', () => {
   afterEach(() => {
     vi.useRealTimers()
     vi.restoreAllMocks()
+    vi.unstubAllGlobals()
   })
 
   const defaultConfig: SweepConfig = {
