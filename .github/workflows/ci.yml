@@ -35,6 +35,11 @@ jobs:
       - name: Lint (ESLint + Stylelint)
         run: npm run lint
 
+      # IMMUTABLE: must be `npm run format` (--write), NOT format:check.
+      # Pre-commit hook runs lint-staged which formats on commit, but AI agents
+      # and manual edits can bypass hooks. CI auto-formats so the build never
+      # fails on whitespace — the subsequent `git diff --exit-code` would catch
+      # meaningful drift if needed. Do NOT change to format:check.
       - name: Format (Prettier)
         run: npm run format
 
@@ -80,7 +85,7 @@ jobs:
       - run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
+        run: npx playwright install --with-deps chromium webkit firefox
 
       - name: Run E2E tests
         run: npm run test:e2e

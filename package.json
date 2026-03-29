@@ -50,6 +50,7 @@
     "test:e2e:report": "playwright show-report",
     "build:check-size": "node scripts/check-bundle-size.mjs",
     "lighthouse": "lhci autorun",
+    "validate": "npm run type-check && npm run lint && npm run format:check && npm test && npm run build && npm run build:check-size",
     "prepare": "husky"
   },
   "dependencies": {
