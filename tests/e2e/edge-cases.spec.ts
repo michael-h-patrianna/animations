@@ -421,7 +421,9 @@ test.describe('Edge Cases', () => {
     // History navigation should not corrupt the description toggle, regardless
     // of whether the browser restores the expanded UI state.
     const cardAfterBack = catalogPage.card('text-effects__character-reveal')
+    await expect(cardAfterBack).toBeVisible({ timeout: 5_000 })
     const descriptionAfterBack = catalogPage.cardDescription(cardAfterBack)
+    await expect(descriptionAfterBack).toBeVisible({ timeout: 5_000 })
     const wasExpanded = (await descriptionAfterBack.getAttribute('data-expanded')) === 'true'
 
     // Can still toggle it

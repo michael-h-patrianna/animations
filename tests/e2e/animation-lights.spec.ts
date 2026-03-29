@@ -47,7 +47,7 @@ test.describe('Lights Animation Controls', () => {
     const bulbInput = page
       .locator('[data-testid="prop-field-numBulbs"] input[type="number"]')
       .first()
-    const bulbs = card.locator('.lights-circle-static-1__bulb-wrapper')
+    const bulbs = card.locator('[data-testid="bulb-wrapper"]')
 
     await expect(bulbInput).toHaveValue('16')
     await expect.poll(async () => bulbs.count(), { timeout: 5_000 }).toBe(16)
