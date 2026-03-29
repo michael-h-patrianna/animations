@@ -4,6 +4,7 @@ import { AnimationCard } from '@/components/ui/AnimationCard'
 import { useAnimationInspector } from '@/contexts/AnimationInspectorContext'
 import { LoadingSpinner } from '@/demo-ui/components/ui/LoadingSpinner'
 import { useLayoutStore } from '@/demo-ui/stores/layoutStore'
+import { useLocation } from 'react-router-dom'
 import { resolveAnimationSource } from '@/lib/groupBuilder'
 import type { AnimationExport, Group } from '@/types/animation'
 import React, { Suspense, useCallback, useMemo } from 'react'
@@ -101,9 +102,10 @@ function useGroupContentState(group: Group, animationFilter?: string) {
     return group.animations.filter((a) => a.id === animationFilter)
   }, [group.animations, animationFilter])
 
+  const { pathname } = useLocation()
   const handleRemoveFilter = useCallback(() => {
-    navigate(`/${group.id}`, { replace: true })
-  }, [navigate, group.id])
+    navigate(pathname, { replace: true })
+  }, [navigate, pathname])
 
   const { selectAnimation, isSelected, getPropOverrides, getReplayVersion } =
     useAnimationInspector()

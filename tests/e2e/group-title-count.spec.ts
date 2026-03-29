@@ -28,8 +28,8 @@ test.describe('Group Title Card Count', () => {
       // Extract the count from the title "(N)" pattern
       const titleText = await catalogPage.groupTitle().textContent()
       expect(titleText).toBeTruthy()
-      const countMatch = titleText!.match(/\((\d+)\)/)
-      expect(countMatch, `Group title "${titleText}" should contain "(N)" count`).not.toBeNull()
+      const countMatch = titleText!.match(/(\d+)\s*$/)
+      expect(countMatch, `Group title "${titleText}" should end with a count number`).not.toBeNull()
       const titleCount = Number.parseInt(countMatch![1], 10)
 
       // Count actual card-grid direct children
@@ -51,7 +51,7 @@ test.describe('Group Title Card Count', () => {
 
     // Get Framer count
     const framerTitle = await catalogPage.groupTitle().textContent()
-    const framerMatch = framerTitle!.match(/\((\d+)\)/)
+    const framerMatch = framerTitle!.match(/(\d+)\s*$/)
     expect(framerMatch).not.toBeNull()
     const framerCount = Number.parseInt(framerMatch![1], 10)
 
@@ -64,7 +64,7 @@ test.describe('Group Title Card Count', () => {
 
     // Get CSS count
     const cssTitle = await catalogPage.groupTitle().textContent()
-    const cssMatch = cssTitle!.match(/\((\d+)\)/)
+    const cssMatch = cssTitle!.match(/(\d+)\s*$/)
     expect(cssMatch).not.toBeNull()
     const cssCount = Number.parseInt(cssMatch![1], 10)
 
