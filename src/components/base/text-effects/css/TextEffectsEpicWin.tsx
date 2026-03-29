@@ -17,6 +17,7 @@ function TextEffectsEpicWinComponent({
     <div
       className={`${styles['tfe-epic-win']} ${styles['tfe-epic-win--animate']}`}
       data-animation-id="text-effects__epic-win"
+      data-testid="epic-win"
       style={
         color !== undefined
           ? ({ '--text-effects-epic-win-color': color } as React.CSSProperties)
@@ -34,11 +35,12 @@ function TextEffectsEpicWinComponent({
             <span
               key={index}
               className={styles['tfe-epic-win__char']}
+              data-testid="epic-char"
               style={{ '--char-index': index } as React.CSSProperties}
             >
               <span className={styles['tfe-epic-win__char-inner']}>
                 {char === ' ' ? '\u00A0' : char}
-                <span className={styles['tfe-epic-win__char-glow']} />
+                <span className={styles['tfe-epic-win__char-glow']} data-testid="epic-char-glow" />
               </span>
             </span>
           ))}

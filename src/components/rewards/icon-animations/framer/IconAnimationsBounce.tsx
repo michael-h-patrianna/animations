@@ -59,7 +59,11 @@ function IconAnimationsBounceComponent({
         {src !== undefined ? (
           <img src={src} alt={alt} className="pf-icon-anim-fm__image" style={{ width }} />
         ) : (
-          <div className="pf-icon-anim-fm__placeholder" style={{ width, height: width }} />
+          <div
+            className="pf-icon-anim-fm__placeholder"
+            data-testid="icon-placeholder"
+            style={{ width, height: width }}
+          />
         )}
       </m.div>
     </div>

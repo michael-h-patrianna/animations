@@ -137,6 +137,7 @@ function ConfettiPiece({ p, maxW, maxH }: { p: Particle; maxW: number; maxH: num
 
   return (
     <m.span
+      data-testid="confetti-piece"
       className={
         p.imageUrl !== undefined
           ? undefined
@@ -262,11 +263,21 @@ function ModalCelebrationsConfettiBurstComponent({
   }, [prefersReducedMotion, onComplete])
 
   if (prefersReducedMotion) {
-    return <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-burst" />
+    return (
+      <div
+        className="pf-celebration"
+        data-testid="celebration"
+        data-animation-id="modal-celebrations__confetti-burst"
+      />
+    )
   }
 
   return (
-    <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-burst">
+    <div
+      className="pf-celebration"
+      data-testid="celebration"
+      data-animation-id="modal-celebrations__confetti-burst"
+    >
       <AmbientGlow timeScale={timeScale} />
       <SubtleFlash timeScale={timeScale} />
 

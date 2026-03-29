@@ -64,6 +64,7 @@ function ModalOrchestrationMagneticHoverComponent({
   return (
     <div
       className={styles['pf-magnetic-hover']}
+      data-testid="magnetic-hover"
       data-animation-id="modal-orchestration__magnetic-hover"
       style={
         {
@@ -77,6 +78,7 @@ function ModalOrchestrationMagneticHoverComponent({
         <div
           key={i}
           className={`${styles['pf-magnetic-hover__item']} ${styles['pf-magnetic-hover__item--visible']}`}
+          data-testid="magnetic-item"
           style={{
             animationDelay: `${(200 + i * stagger) / 1000}s`,
             animationDuration: `${duration / 1000}s`,

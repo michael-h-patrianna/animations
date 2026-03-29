@@ -125,6 +125,7 @@ function TextEffectsXpNumberPopComponent({
     <div
       className={styles['tfx-xp-container']}
       data-animation-id="text-effects__xp-number-pop"
+      data-testid="xp-container"
       style={
         color !== undefined
           ? ({ '--text-effects-xp-number-pop-color': color } as React.CSSProperties)
@@ -136,6 +137,7 @@ function TextEffectsXpNumberPopComponent({
         <div
           key={i}
           className={styles['tfx-xp-particle']}
+          data-testid="xp-particle"
           style={
             {
               '--particle-x': `${particle.x}px`,
@@ -151,14 +153,25 @@ function TextEffectsXpNumberPopComponent({
       {/* Main number with labels */}
       <div className={styles['tfx-xp-number-wrapper']}>
         {prefix !== undefined && (
-          <span className={`${styles['tfx-xp-label']} ${styles['tfx-xp-label--prefix']}`}>
+          <span
+            className={`${styles['tfx-xp-label']} ${styles['tfx-xp-label--prefix']}`}
+            data-testid="xp-label"
+          >
             {prefix}
           </span>
         )}
-        <span ref={numberRef} className={styles['tfx-xp-number-value']}>
+        <span
+          ref={numberRef}
+          className={styles['tfx-xp-number-value']}
+          data-testid="xp-number-value"
+        >
           {formatRef.current(from)}
         </span>
-        {suffix !== undefined && <span className={styles['tfx-xp-label']}>{suffix}</span>}
+        {suffix !== undefined && (
+          <span className={styles['tfx-xp-label']} data-testid="xp-label">
+            {suffix}
+          </span>
+        )}
       </div>
     </div>
   )

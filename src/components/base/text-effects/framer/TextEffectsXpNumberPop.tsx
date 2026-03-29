@@ -144,6 +144,7 @@ function TextEffectsXpNumberPopComponent({
     <div
       className={styles['pf-xp-pop-fm']}
       data-animation-id="text-effects__xp-number-pop"
+      data-testid="xp-pop"
       style={
         color !== undefined ? ({ '--pf-xp-pop-color': color } as React.CSSProperties) : undefined
       }
@@ -185,10 +186,24 @@ function TextEffectsXpNumberPopComponent({
           ))}
       </AnimatePresence>
 
-      <m.div className={styles['pf-xp-pop-fm__number-wrapper']} animate={numberControls}>
-        {prefix !== undefined && <span className={styles['pf-xp-pop-fm__label']}>{prefix}</span>}
-        <m.span className={styles['pf-xp-pop-fm__number-value']}>{displayValue}</m.span>
-        {suffix !== undefined && <span className={styles['pf-xp-pop-fm__label']}>{suffix}</span>}
+      <m.div
+        className={styles['pf-xp-pop-fm__number-wrapper']}
+        data-testid="xp-number-wrapper"
+        animate={numberControls}
+      >
+        {prefix !== undefined && (
+          <span className={styles['pf-xp-pop-fm__label']} data-testid="xp-label">
+            {prefix}
+          </span>
+        )}
+        <m.span className={styles['pf-xp-pop-fm__number-value']} data-testid="xp-number-value">
+          {displayValue}
+        </m.span>
+        {suffix !== undefined && (
+          <span className={styles['pf-xp-pop-fm__label']} data-testid="xp-label">
+            {suffix}
+          </span>
+        )}
       </m.div>
     </div>
   )

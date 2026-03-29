@@ -49,7 +49,7 @@ test.describe('Progress Bar Animations', () => {
     const stage = await catalogPage.cardStage(card)
 
     // Milestones structure
-    await expect(stage.locator('[class*="pf-progress-milestones"]')).toBeVisible()
+    await expect(stage.locator('[data-testid="progress-milestones"]')).toBeVisible()
     await expect(stage.locator('.milestone-container')).toHaveCount(5)
     await expect(stage.locator('.label-container span')).toHaveCount(5)
 
@@ -64,7 +64,7 @@ test.describe('Progress Bar Animations', () => {
     const card = catalogPage.card('progress-bars__progress-milestones')
     const stage = await catalogPage.cardStage(card)
 
-    const fill = stage.locator('[class*="pf-progress-fill"]')
+    const fill = stage.locator('[data-testid="progress-fill"]')
     await expect.poll(async () => progressFillScale(fill), { timeout: 5_000 }).toBeGreaterThan(0.3)
   })
 
@@ -74,7 +74,7 @@ test.describe('Progress Bar Animations', () => {
     const card = catalogPage.card('progress-bars__progress-milestones')
     const stage = await catalogPage.cardStage(card)
 
-    const fill = stage.locator('[class*="pf-progress-fill"]')
+    const fill = stage.locator('[data-testid="progress-fill"]')
     await expect.poll(async () => progressFillScale(fill), { timeout: 5_000 }).toBeGreaterThan(0.3)
 
     // Replay resets the animation
@@ -95,7 +95,7 @@ test.describe('Progress Bar Animations', () => {
       .toBe(false)
 
     // Progress resumes on the remounted demo.
-    const remountedFill = stage.locator('[class*="pf-progress-fill"]')
+    const remountedFill = stage.locator('[data-testid="progress-fill"]')
     await expect
       .poll(async () => progressFillScale(remountedFill), { timeout: 5_000 })
       .toBeGreaterThan(0.3)

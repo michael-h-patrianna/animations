@@ -241,14 +241,26 @@ export class CatalogPage {
     return this.page.locator('[data-animation-id]')
   }
 
-  /** Get the demo stage inside a card, waiting for it to have content. */
-  async cardStage(card: Locator, minChildren = 1): Promise<Locator> {
+  /** Get the demo stage inside a card, waiting for lazy content to load. */
+  async cardStage(card: Locator): Promise<Locator> {
     await card.scrollIntoViewIfNeeded()
     const stage = card.locator('[data-testid="demo-stage"]')
     await expect(stage).toBeVisible({ timeout: 5_000 })
+    // Wait until the lazy-loaded animation replaces the placeholder.
+    // Placeholder has class "pf-card__placeholder"; loaded components either
+    // have no class or a non-placeholder class.
     await expect
-      .poll(async () => stage.locator(':scope > *').count(), { timeout: 5_000 })
-      .toBeGreaterThanOrEqual(minChildren)
+      .poll(
+        async () => {
+          const children = stage.locator(':scope > *')
+          const count = await children.count()
+          if (count === 0) return false
+          const firstClass = await children.first().getAttribute('class')
+          return firstClass === null || !firstClass.includes('placeholder')
+        },
+        { timeout: 5_000 }
+      )
+      .toBe(true)
     return stage
   }
 

@@ -144,6 +144,7 @@ function RealtimeDataLeaderboardShiftComponent({
           <m.div
             key={entry.phase === 'shifting' ? `${entry.id}-s${shiftVersion}` : entry.id}
             className="pf-realtime-data-fm__row"
+            data-testid="leaderboard-row"
             initial={
               entry.phase === 'shifting'
                 ? { y: ROW_HEIGHT }
@@ -164,9 +165,15 @@ function RealtimeDataLeaderboardShiftComponent({
                     : { duration: 0 }
             }
           >
-            <div className="pf-realtime-data-fm__rank">#{index + 1}</div>
-            <div className="pf-realtime-data-fm__player">{entry.label}</div>
-            <div className="pf-realtime-data-fm__score">{entry.score.toLocaleString()}</div>
+            <div className="pf-realtime-data-fm__rank" data-testid="leaderboard-rank">
+              #{index + 1}
+            </div>
+            <div className="pf-realtime-data-fm__player" data-testid="leaderboard-player">
+              {entry.label}
+            </div>
+            <div className="pf-realtime-data-fm__score" data-testid="leaderboard-score">
+              {entry.score.toLocaleString()}
+            </div>
           </m.div>
         ))}
       </div>

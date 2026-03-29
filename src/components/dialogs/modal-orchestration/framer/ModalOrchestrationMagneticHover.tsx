@@ -103,6 +103,7 @@ function ModalOrchestrationMagneticHoverComponent({
   return (
     <m.div
       className={styles['pf-magnetic-hover-fm']}
+      data-testid="magnetic-hover"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -118,6 +119,7 @@ function ModalOrchestrationMagneticHoverComponent({
         <m.div
           key={i}
           className={styles['pf-magnetic-hover-fm__item']}
+          data-testid="magnetic-item"
           variants={itemVariants}
           whileHover={hoverAnimation}
           whileTap={tapAnimation}

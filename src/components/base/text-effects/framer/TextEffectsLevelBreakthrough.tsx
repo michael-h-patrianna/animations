@@ -104,6 +104,7 @@ function TextEffectsLevelBreakthroughComponent({
     <div
       className={styles['pf-breakthrough-container-fm']}
       data-animation-id="text-effects__level-breakthrough"
+      data-testid="breakthrough-container"
       style={
         color !== undefined
           ? ({ '--text-effects-level-breakthrough-color': color } as React.CSSProperties)
@@ -112,6 +113,7 @@ function TextEffectsLevelBreakthroughComponent({
     >
       <m.div
         className={styles['pf-surge-lines-fm']}
+        data-testid="surge-lines"
         animate={surge1Controls}
         style={{
           position: 'absolute',
@@ -124,6 +126,7 @@ function TextEffectsLevelBreakthroughComponent({
 
       <m.div
         className={styles['pf-surge-lines-fm']}
+        data-testid="surge-lines"
         animate={surge2Controls}
         style={{
           position: 'absolute',
@@ -136,6 +139,7 @@ function TextEffectsLevelBreakthroughComponent({
 
       <m.div
         className={`${styles['pf-level-breakthrough-fm']}${showGlow ? ` ${styles['pf-level-breakthrough-fm--glow']}` : ''}`}
+        data-testid="level-text"
         animate={levelControls}
       >
         {showEnd ? endText : startText}

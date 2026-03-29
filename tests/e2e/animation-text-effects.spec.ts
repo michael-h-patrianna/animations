@@ -7,8 +7,8 @@ test.describe('Level Breakthrough Animation', () => {
     const card = catalogPage.card('text-effects__level-breakthrough')
     const stage = await catalogPage.cardStage(card)
 
-    const container = stage.locator('[class*="pf-breakthrough-container"]')
-    const levelText = container.locator('[class*="pf-level-breakthrough"]')
+    const container = stage.locator('[data-testid="breakthrough-container"]')
+    const levelText = container.locator('[data-testid="level-text"]')
 
     await expect(container).toBeVisible()
     await expect(levelText).toBeVisible()
@@ -25,7 +25,7 @@ test.describe('Level Breakthrough Animation', () => {
     const card = catalogPage.card('text-effects__level-breakthrough')
     const stage = await catalogPage.cardStage(card)
 
-    await expect(stage.locator('[class*="pf-surge-lines"]')).toHaveCount(2)
+    await expect(stage.locator('[data-testid="surge-lines"]')).toHaveCount(2)
   })
 
   test('css variant renders with namespaced classes and transition text', async ({
@@ -36,15 +36,13 @@ test.describe('Level Breakthrough Animation', () => {
     const card = catalogPage.card('text-effects__level-breakthrough')
     const stage = await catalogPage.cardStage(card)
 
-    const container = stage.locator('[class*="tfx-breakthrough-container"]')
+    const container = stage.locator('[data-testid="breakthrough-container"]')
     await expect(container).toBeVisible()
 
-    await expect(container.locator('[class*="tfx-breakthrough-text-start"]')).toContainText(
-      'LEVEL 1'
-    )
-    await expect(container.locator('[class*="tfx-breakthrough-text-end"]')).toContainText('LEVEL 2')
-    await expect(container.locator('[class*="tfx-breakthrough-surge-outer"]')).toHaveCount(1)
-    await expect(container.locator('[class*="tfx-breakthrough-surge-inner"]')).toHaveCount(1)
+    await expect(container.locator('[data-testid="text-start"]')).toContainText('LEVEL 1')
+    await expect(container.locator('[data-testid="text-end"]')).toContainText('LEVEL 2')
+    await expect(container.locator('[data-testid="surge-outer"]')).toHaveCount(1)
+    await expect(container.locator('[data-testid="surge-inner"]')).toHaveCount(1)
   })
 
   test('css breakthrough replay restarts the transition animation', async ({ catalogPage }) => {
@@ -54,7 +52,7 @@ test.describe('Level Breakthrough Animation', () => {
     const stage = await catalogPage.cardStage(card)
 
     // Surge elements exist (animation is playing)
-    await expect(stage.locator('[class*="tfx-breakthrough-surge-outer"]')).toBeVisible()
+    await expect(stage.locator('[data-testid="surge-outer"]')).toBeVisible()
 
     // Replay restarts the animation
     const replay = catalogPage.replayButton(card)
@@ -62,8 +60,8 @@ test.describe('Level Breakthrough Animation', () => {
     await replay.click()
 
     // After replay, container re-appears with the transition text
-    await expect(stage.locator('[class*="tfx-breakthrough-container"]')).toBeVisible()
-    await expect(stage.locator('[class*="tfx-breakthrough-text-start"]')).toContainText('LEVEL 1')
+    await expect(stage.locator('[data-testid="breakthrough-container"]')).toBeVisible()
+    await expect(stage.locator('[data-testid="text-start"]')).toContainText('LEVEL 1')
   })
 })
 
@@ -74,10 +72,10 @@ test.describe('XP Number Pop Animation', () => {
     const card = catalogPage.card('text-effects__xp-number-pop')
     const stage = await catalogPage.cardStage(card)
 
-    await expect(stage.locator('[class*="pf-xp-pop"]')).toBeVisible()
-    await expect(stage.locator('[class*="pf-xp-pop__number-wrapper"]')).toBeVisible()
-    await expect(stage.locator('[class*="pf-xp-pop__number-value"]')).toBeVisible()
-    await expect(stage.locator('[class*="pf-xp-pop__label"]')).toHaveText('XP')
+    await expect(stage.locator('[data-testid="xp-pop"]')).toBeVisible()
+    await expect(stage.locator('[data-testid="xp-number-wrapper"]')).toBeVisible()
+    await expect(stage.locator('[data-testid="xp-number-value"]')).toBeVisible()
+    await expect(stage.locator('[data-testid="xp-label"]')).toHaveText('XP')
   })
 
   test('css variant renders and counts up to target value', async ({ catalogPage }) => {
@@ -86,10 +84,10 @@ test.describe('XP Number Pop Animation', () => {
     const card = catalogPage.card('text-effects__xp-number-pop')
     const stage = await catalogPage.cardStage(card)
 
-    await expect(stage.locator('[class*="tfx-xp-container"]')).toBeVisible()
-    await expect(stage.locator('[class*="tfx-xp-label"]')).toHaveText('XP')
+    await expect(stage.locator('[data-testid="xp-container"]')).toBeVisible()
+    await expect(stage.locator('[data-testid="xp-label"]')).toHaveText('XP')
 
-    const value = stage.locator('[class*="tfx-xp-number-value"]')
+    const value = stage.locator('[data-testid="xp-number-value"]')
     const parseValue = (text: string | null) =>
       Number.parseInt((text ?? '').replace(/[^\d]/g, ''), 10) || 0
 
@@ -104,7 +102,7 @@ test.describe('XP Number Pop Animation', () => {
 
     const card = catalogPage.card('text-effects__xp-number-pop')
     const stage = await catalogPage.cardStage(card)
-    const particles = stage.locator('[class*="tfx-xp-particle"]')
+    const particles = stage.locator('[data-testid="xp-particle"]')
 
     // Wait for particles to appear
     await expect.poll(async () => particles.count(), { timeout: 3_000 }).toBeGreaterThan(0)

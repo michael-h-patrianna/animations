@@ -42,6 +42,7 @@ function TextEffectsTypewriterComponent({
           <m.span
             key={index}
             className={styles['pf-typewriter-fm__char']}
+            data-testid="typewriter-char"
             initial={{ opacity: 0, display: 'none' }}
             animate={{ opacity: 1, display: 'inline-block' }}
             transition={{ duration: 0, delay: index * charDelay }}

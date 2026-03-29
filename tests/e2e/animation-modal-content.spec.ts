@@ -8,11 +8,11 @@ test.describe('Modal Content', () => {
     const stage = await catalogPage.cardStage(card)
 
     // The component renders a demo overlay with a modal inside
-    const modal = stage.locator('[class*="pf-demo-modal"]')
+    const modal = stage.locator('.pf-demo-modal')
     await expect(modal).toBeVisible({ timeout: 5_000 })
 
     // Modal should have a header with text content
-    const header = modal.locator('[class*="pf-demo-modal-header"]')
+    const header = modal.locator('.pf-demo-modal-header')
     await expect(header).toBeVisible()
     await expect(header).not.toBeEmpty()
   })

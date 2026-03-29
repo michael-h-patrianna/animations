@@ -8,12 +8,12 @@ test.describe('Collection Effects', () => {
     const stage = await catalogPage.cardStage(card)
 
     // The burst container should have a stage with particle elements
-    const burstContainer = stage.locator('[class*="pf-coin-burst"]')
+    const burstContainer = stage.locator('[data-animation-id="collection-effects__coin-burst"]')
     await expect(burstContainer).toBeVisible({ timeout: 5_000 })
 
     // Particles spawn inside pf-coin-burst__stage
     await expect
-      .poll(async () => stage.locator('[class*="pf-coin-burst__particle"]').count(), {
+      .poll(async () => stage.locator('[data-testid="coin-burst-particle"]').count(), {
         timeout: 5_000,
       })
       .toBeGreaterThan(0)
@@ -39,7 +39,7 @@ test.describe('Collection Effects', () => {
 
     // Wait for initial burst
     await expect
-      .poll(async () => stage.locator('[class*="pf-coin-burst__particle"]').count(), {
+      .poll(async () => stage.locator('[data-testid="coin-burst-particle"]').count(), {
         timeout: 5_000,
       })
       .toBeGreaterThan(0)
@@ -50,7 +50,7 @@ test.describe('Collection Effects', () => {
 
     // After replay, particles should reappear (component remounted)
     await expect
-      .poll(async () => stage.locator('[class*="pf-coin-burst__particle"]').count(), {
+      .poll(async () => stage.locator('[data-testid="coin-burst-particle"]').count(), {
         timeout: 5_000,
       })
       .toBeGreaterThan(0)

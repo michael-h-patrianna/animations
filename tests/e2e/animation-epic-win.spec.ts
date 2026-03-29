@@ -9,16 +9,16 @@ test.describe('Epic Win Animation', () => {
     const card = catalogPage.card('text-effects__epic-win')
     const stage = await catalogPage.cardStage(card)
 
-    const container = stage.locator('[class*="pf-epic-win"]')
+    const container = stage.locator('[data-testid="epic-win"]')
     await expect(container).toBeVisible()
 
     // 8 chars in "EPIC WIN" (including space)
-    await expect(container.locator('[class*="pf-epic-win__char"]')).toHaveCount(8)
-    await expect(container.locator('[class*="pf-epic-win__char-glow"]')).toHaveCount(8)
+    await expect(container.locator('[data-testid="epic-char"]')).toHaveCount(8)
+    await expect(container.locator('[data-testid="epic-char-glow"]')).toHaveCount(8)
 
     // Shadow layers exist for depth effect
-    await expect(container.locator('[class*="pf-epic-win__shadow-far"]')).toBeVisible()
-    await expect(container.locator('[class*="pf-epic-win__shadow-mid"]')).toBeVisible()
+    await expect(container.locator('[data-testid="shadow-far"]')).toBeVisible()
+    await expect(container.locator('[data-testid="shadow-mid"]')).toBeVisible()
   })
 
   test('css variant renders BEM structure with chars and glows matching framer variant', async ({
@@ -29,21 +29,21 @@ test.describe('Epic Win Animation', () => {
     const card = catalogPage.card('text-effects__epic-win')
     const stage = await catalogPage.cardStage(card)
 
-    const container = stage.locator('[class*="tfe-epic-win"]')
+    const container = stage.locator('[data-testid="epic-win"]')
     await expect(container).toBeVisible()
 
     // Same character count as framer variant (8 chars in "EPIC WIN")
-    await expect(container.locator('[class*="tfe-epic-win__char"]')).toHaveCount(8)
-    await expect(container.locator('[class*="tfe-epic-win__char-glow"]')).toHaveCount(8)
+    await expect(container.locator('[data-testid="epic-char"]')).toHaveCount(8)
+    await expect(container.locator('[data-testid="epic-char-glow"]')).toHaveCount(8)
 
     // First character is visible (animation has started)
-    await expect(container.locator('[class*="tfe-epic-win__char"]').first()).toBeVisible()
+    await expect(container.locator('[data-testid="epic-char"]').first()).toBeVisible()
   })
 
   test('replay remounts epic-win in both variants', async ({ catalogPage }) => {
     const variants = [
-      { groupId: 'text-effects-framer', rootSelector: '[class*="pf-epic-win"]' },
-      { groupId: 'text-effects-css', rootSelector: '[class*="tfe-epic-win"]' },
+      { groupId: 'text-effects-framer', rootSelector: '[data-testid="epic-win"]' },
+      { groupId: 'text-effects-css', rootSelector: '[data-testid="epic-win"]' },
     ] as const
 
     for (const variant of variants) {

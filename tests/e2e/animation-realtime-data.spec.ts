@@ -8,14 +8,14 @@ test.describe('Realtime Data', () => {
     const stage = await catalogPage.cardStage(card)
 
     // Leaderboard should render row elements
-    const rows = stage.locator('[class*="pf-realtime-data__row"]')
+    const rows = stage.locator('[data-testid="leaderboard-row"]')
     await expect.poll(async () => rows.count(), { timeout: 5_000 }).toBeGreaterThanOrEqual(3)
 
     // Each row has rank, player label, and score
     const firstRow = rows.first()
-    await expect(firstRow.locator('[class*="pf-realtime-data__rank"]')).toBeVisible()
-    await expect(firstRow.locator('[class*="pf-realtime-data__player"]')).toBeVisible()
-    await expect(firstRow.locator('[class*="pf-realtime-data__score"]')).toBeVisible()
+    await expect(firstRow.locator('[data-testid="leaderboard-rank"]')).toBeVisible()
+    await expect(firstRow.locator('[data-testid="leaderboard-player"]')).toBeVisible()
+    await expect(firstRow.locator('[data-testid="leaderboard-score"]')).toBeVisible()
   })
 
   test('leaderboard cycles entries over time', async ({ catalogPage }) => {
@@ -25,21 +25,19 @@ test.describe('Realtime Data', () => {
     const stage = await catalogPage.cardStage(card)
 
     // Capture initial first row text
-    const firstRow = stage.locator('[class*="pf-realtime-data__row"]').first()
+    const firstRow = stage.locator('[data-testid="leaderboard-row"]').first()
     await expect(firstRow).toBeVisible({ timeout: 5_000 })
-    const initialPlayer = await firstRow
-      .locator('[class*="pf-realtime-data__player"]')
-      .textContent()
+    const initialPlayer = await firstRow.locator('[data-testid="leaderboard-player"]').textContent()
     expect(initialPlayer).toBeTruthy()
 
     // Poll until the first row text changes (cycle happened)
     await expect
       .poll(
         async () => {
-          const rows = stage.locator('[class*="pf-realtime-data__row"]')
+          const rows = stage.locator('[data-testid="leaderboard-row"]')
           const count = await rows.count()
           if (count === 0) return initialPlayer
-          return rows.first().locator('[class*="pf-realtime-data__player"]').textContent()
+          return rows.first().locator('[data-testid="leaderboard-player"]').textContent()
         },
         { timeout: 10_000 }
       )

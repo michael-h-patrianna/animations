@@ -91,6 +91,7 @@ function ParticleElement({
   return (
     <m.div
       className={styles['pf-coin-burst-fm__particle']}
+      data-testid="coin-burst-particle"
       style={{ left: origin.x, top: origin.y }}
       initial={{ x: 0, y: 0, scale: 0.15, rotate: 0, opacity: 0 }}
       animate={{

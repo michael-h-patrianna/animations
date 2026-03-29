@@ -184,6 +184,7 @@ function TextEffectsCounterIncrementComponent({
   return (
     <div
       className={styles['tfx-cinc-container']}
+      data-testid="counter-container"
       data-animation-id="text-effects__counter-increment"
       style={
         color !== undefined
@@ -195,6 +196,7 @@ function TextEffectsCounterIncrementComponent({
         <span
           key={popKey}
           className={`${styles['tfx-cinc-value']} ${styles['tfx-cinc-value--popping']}`}
+          data-testid="counter-value"
         >
           {prefix !== undefined && <span className={styles['tfx-cinc-label']}>{prefix}</span>}
           {formatRef.current(count)}

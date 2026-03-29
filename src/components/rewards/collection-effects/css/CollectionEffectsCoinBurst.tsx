@@ -131,6 +131,7 @@ function CollectionEffectsCoinBurstComponent({
             <div
               key={particle.id}
               className={styles['pf-coin-burst__particle']}
+              data-testid="coin-burst-particle"
               style={
                 {
                   left: origin.x,

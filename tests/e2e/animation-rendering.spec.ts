@@ -62,14 +62,14 @@ test.describe('Animation Rendering', () => {
     const button = stage.locator('button')
     await expect(button).toBeVisible()
 
-    const rippleContainer = stage.locator('[class*="pf-ripple__overlay"]')
-    const rippleCountBefore = await rippleContainer.locator('[class*="pf-ripple__wave"]').count()
+    const rippleContainer = stage.locator('[data-testid="ripple-overlay"]')
+    const rippleCountBefore = await rippleContainer.locator('[data-testid="ripple-circle"]').count()
 
     await button.click()
 
     // A ripple element should appear after click
     await expect
-      .poll(async () => rippleContainer.locator('[class*="pf-ripple__wave"]').count(), {
+      .poll(async () => rippleContainer.locator('[data-testid="ripple-circle"]').count(), {
         timeout: 2_000,
       })
       .toBeGreaterThan(rippleCountBefore)
@@ -86,9 +86,7 @@ test.describe('Animation Rendering', () => {
     await replay.click()
 
     // Character spans appear as the typewriter types
-    const firstChar = card
-      .locator('[data-testid="demo-stage"] [class*="pf-typewriter__char"]')
-      .first()
+    const firstChar = card.locator('[data-testid="typewriter-char"]').first()
     await expect(firstChar).toBeVisible({ timeout: 5_000 })
   })
 })

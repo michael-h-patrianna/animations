@@ -75,13 +75,14 @@ function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRi
       style={color != null ? { ['--pf-ripple-color' as string]: color } : undefined}
     >
       <DemoButton label="Click Me!" />
-      <span className={styles['pf-ripple-fm__overlay']} aria-hidden>
+      <span className={styles['pf-ripple-fm__overlay']} data-testid="ripple-overlay" aria-hidden>
         {ripples.map((ripple) => {
           const half = ripple.size / 2
           return (
             <m.span
               key={ripple.id}
               className={styles['pf-ripple-fm__circle']}
+              data-testid="ripple-circle"
               style={{
                 left: ripple.x - half,
                 top: ripple.y - half,
