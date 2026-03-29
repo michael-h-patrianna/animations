@@ -6,8 +6,9 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/icon-animations-css?animation=icon-animations__tap-arrow',
   title: 'Tap Arrow',
   description:
-    'Looping attention arrow with squish + nudge motion pointing at a center element. Mobile-game "tap here" pattern. Props: position, arrowSrc, fill, stroke, strokeWidth, duration, nudgeDistance, arrowSize.',
+    'Floating pointer arrow that bobs toward a center element. Classic mobile-game "tap here" indicator. Props: position, arrowSrc, fill, stroke, strokeWidth, duration, nudgeDistance, arrowSize.',
   tier: 2,
+  order: 100,
   props: [
     {
       type: 'select',

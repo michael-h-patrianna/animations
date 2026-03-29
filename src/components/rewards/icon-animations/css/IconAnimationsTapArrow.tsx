@@ -1,5 +1,5 @@
 /**
- * Attention arrow — looping squish + nudge pointing at a center element. CSS variant.
+ * Floating pointer arrow — smooth bob toward a center element. CSS variant.
  * Absolutely positioned — does not affect the target element's layout.
  *
  * Copy-paste files: this file + IconAnimationsTapArrow.module.css

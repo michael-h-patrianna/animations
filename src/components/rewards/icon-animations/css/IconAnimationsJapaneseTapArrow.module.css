@@ -1,0 +1,67 @@
+/**
+ * Japanese Tap Arrow — layout + animation styles for CSS variant.
+ * Arrow is absolutely positioned and does not affect the target element's layout.
+ * Custom properties:
+ *   --pf-japanese-tap-arrow-duration: 1200ms
+ *   --pf-japanese-tap-arrow-nudge: 12px
+ *
+ * Copy this file alongside IconAnimationsJapaneseTapArrow.tsx. No other dependencies.
+ */
+.pf-japanese-tap-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-japanese-tap-arrow__target {
+  position: relative;
+  display: inline-flex;
+}
+
+.pf-japanese-tap-arrow__anchor {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pf-japanese-tap-arrow__rotator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-japanese-tap-arrow__animator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: left center;
+  animation: pf-japanese-tap-arrow-poke var(--pf-japanese-tap-arrow-duration, 1200ms) ease-in-out
+    infinite;
+  will-change: transform;
+}
+
+.pf-japanese-tap-arrow__image {
+  display: block;
+  height: auto;
+}
+
+@keyframes pf-japanese-tap-arrow-poke {
+  0%,
+  100% {
+    transform: translateX(0) scaleX(1) scaleY(1);
+  }
+
+  25% {
+    transform: translateX(calc(var(--pf-japanese-tap-arrow-nudge, 12px) * 0.5)) scaleX(0.88)
+      scaleY(1.06);
+  }
+
+  50% {
+    transform: translateX(var(--pf-japanese-tap-arrow-nudge, 12px)) scaleX(1.12) scaleY(0.94);
+  }
+
+  75% {
+    transform: translateX(calc(var(--pf-japanese-tap-arrow-nudge, 12px) * 0.5)) scaleX(0.94)
+      scaleY(1.03);
+  }
+}

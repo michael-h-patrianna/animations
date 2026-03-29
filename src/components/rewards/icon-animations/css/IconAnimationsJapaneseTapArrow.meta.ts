@@ -1,14 +1,14 @@
 import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata: AnimationMetadata = {
-  id: 'icon-animations__tap-arrow',
-  urlSlugFramer: '/icon-animations-framer?animation=icon-animations__tap-arrow',
-  urlSlugCss: '/icon-animations-css?animation=icon-animations__tap-arrow',
-  title: 'Tap Arrow',
+  id: 'icon-animations__japanese-tap-arrow',
+  urlSlugFramer: '/icon-animations-framer?animation=icon-animations__japanese-tap-arrow',
+  urlSlugCss: '/icon-animations-css?animation=icon-animations__japanese-tap-arrow',
+  title: 'Japanese Tap Arrow',
   description:
-    'Floating pointer arrow that bobs toward a center element. Classic mobile-game "tap here" indicator. Props: position, arrowSrc, fill, stroke, strokeWidth, duration, nudgeDistance, arrowSize.',
+    'Looping attention arrow with squish + nudge motion pointing at a center element. Japanese-style "tap here" pattern. Props: position, arrowSrc, fill, stroke, strokeWidth, duration, nudgeDistance, arrowSize.',
   tier: 2,
-  order: 100,
+  order: 101,
   props: [
     {
       type: 'select',
