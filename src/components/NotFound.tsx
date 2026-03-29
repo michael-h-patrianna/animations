@@ -35,39 +35,40 @@ const notFoundStyles = `
     justify-content: center;
     min-height: 100vh;
     padding: 2rem;
-    background-color: var(--pf-anim-surface-light);
+    background-color: var(--pf-anim-surface-light, #1a1a2e);
+    font-family: system-ui, -apple-system, sans-serif;
   }
   .pf-not-found__card {
     max-width: 480px;
     padding: 2rem;
     text-align: center;
-    background-color: var(--pf-white);
+    background-color: var(--pf-white, #2a2a3e);
     border-radius: 8px;
-    box-shadow: var(--pf-shadow-soft);
+    box-shadow: var(--pf-shadow-soft, 0 2px 12px rgba(0,0,0,0.3));
   }
   .pf-not-found__heading {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
-    color: var(--pf-text-primary);
+    color: var(--pf-text-primary, #e0e0e8);
   }
   .pf-not-found__message {
     margin-bottom: 1.5rem;
-    color: var(--pf-anim-muted);
+    color: var(--pf-anim-muted, #a0a0b0);
   }
   .pf-not-found__back {
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     font-weight: bold;
-    color: var(--pf-white);
-    background-color: var(--pf-anim-link);
+    color: var(--pf-white, #ffffff);
+    background-color: var(--pf-anim-link, #6366f1);
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
   }
   .pf-not-found__back:hover {
-    background-color: var(--pf-anim-link-hover);
+    background-color: var(--pf-anim-link-hover, #4f46e5);
   }
 `
 
