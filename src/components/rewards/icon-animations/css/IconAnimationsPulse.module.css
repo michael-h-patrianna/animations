@@ -60,3 +60,21 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-icon-pulse {
+    animation: pf-icon-pulse-reduced var(--pf-icon-pulse-duration, 2s) ease-in-out infinite;
+  }
+
+  @keyframes pf-icon-pulse-reduced {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.03);
+      opacity: 0.85;
+    }
+  }
+}

@@ -9,6 +9,7 @@
  * Usage: <IconAnimationsJapaneseTapArrow position="left"><YourButton /></IconAnimationsJapaneseTapArrow>
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
 import styles from './IconAnimationsJapaneseTapArrow.module.css'
@@ -91,6 +92,7 @@ function IconAnimationsJapaneseTapArrowComponent({
   nudgeDistance = 12,
   arrowSize = 48,
 }: IconAnimationsJapaneseTapArrowProps) {
+  const prefersReducedMotion = useReducedMotion()
   const sec = duration / 1000
   const resolvedFill = fill ?? 'var(--pf-brand-accent-primary, #c83558)'
 
@@ -109,17 +111,25 @@ function IconAnimationsJapaneseTapArrowComponent({
             <m.div
               className={styles['pf-japanese-tap-arrow-fm__animator']}
               style={{ transformOrigin: 'left center' }}
-              animate={{
-                x: [0, nudgeDistance * 0.5, nudgeDistance, nudgeDistance * 0.5, 0],
-                scaleX: [1, 0.88, 1.12, 0.94, 1],
-                scaleY: [1, 1.06, 0.94, 1.03, 1],
-              }}
-              transition={{
-                duration: sec,
-                ease: [0.4, 0, 0.6, 1] as const,
-                repeat: Infinity,
-                repeatType: 'loop' as const,
-              }}
+              animate={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      x: [0, nudgeDistance * 0.5, nudgeDistance, nudgeDistance * 0.5, 0],
+                      scaleX: [1, 0.88, 1.12, 0.94, 1],
+                      scaleY: [1, 1.06, 0.94, 1.03, 1],
+                    }
+              }
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      duration: sec,
+                      ease: [0.4, 0, 0.6, 1] as const,
+                      repeat: Infinity,
+                      repeatType: 'loop' as const,
+                    }
+              }
             >
               {arrowSrc !== undefined ? (
                 <img

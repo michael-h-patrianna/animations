@@ -9,6 +9,7 @@
  * Usage: <IconAnimationsTapArrow position="left"><YourButton /></IconAnimationsTapArrow>
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
 import styles from './IconAnimationsTapArrow.module.css'
@@ -91,6 +92,7 @@ function IconAnimationsTapArrowComponent({
   nudgeDistance = 12,
   arrowSize = 48,
 }: IconAnimationsTapArrowProps) {
+  const prefersReducedMotion = useReducedMotion()
   const sec = duration / 1000
   const resolvedFill = fill ?? 'var(--pf-brand-accent-primary, #c83558)'
 
@@ -105,16 +107,24 @@ function IconAnimationsTapArrowComponent({
           >
             <m.div
               className={styles['pf-tap-arrow-fm__animator']}
-              animate={{
-                x: [0, nudgeDistance, 0],
-                scale: [1, 1.06, 1],
-              }}
-              transition={{
-                duration: sec,
-                ease: 'easeInOut',
-                repeat: Infinity,
-                repeatType: 'loop' as const,
-              }}
+              animate={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      x: [0, nudgeDistance, 0],
+                      scale: [1, 1.06, 1],
+                    }
+              }
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      duration: sec,
+                      ease: 'easeInOut',
+                      repeat: Infinity,
+                      repeatType: 'loop' as const,
+                    }
+              }
             >
               {arrowSrc !== undefined ? (
                 <img

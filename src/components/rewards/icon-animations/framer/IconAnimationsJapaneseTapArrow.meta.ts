@@ -7,6 +7,7 @@ export const metadata: AnimationMetadata = {
   title: 'Japanese Tap Arrow',
   description:
     'Looping attention arrow with squish + nudge motion pointing at a center element. Japanese-style "tap here" pattern. Props: position, arrowSrc, fill, stroke, strokeWidth, duration, nudgeDistance, arrowSize.',
+  infinite: true,
   tier: 2,
   order: 101,
   props: [
@@ -41,7 +42,7 @@ export const metadata: AnimationMetadata = {
       name: 'stroke',
       label: 'Stroke Color',
       description: 'SVG stroke color (default arrow only).',
-      default: '#000000',
+      default: 'none',
     },
     {
       type: 'number',

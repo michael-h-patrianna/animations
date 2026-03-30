@@ -14,7 +14,7 @@ import { memo } from 'react'
 import './IconAnimationsFloat.module.css'
 
 interface IconAnimationsFloatProps {
-  /** Image source URL. Renders a placeholder when omitted. */
+  /** Image source URL. Default: bundled diamond icon. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string
@@ -65,15 +65,7 @@ function IconAnimationsFloatComponent({
               }
         }
       >
-        {src !== undefined ? (
-          <img src={src} alt={alt} className="pf-icon-anim-fm__image" style={{ width }} />
-        ) : (
-          <div
-            className="pf-icon-anim-fm__placeholder"
-            data-testid="icon-placeholder"
-            style={{ width, height: width }}
-          />
-        )}
+        <img src={src} alt={alt} style={{ width, height: 'auto', display: 'block' }} />
       </m.div>
     </div>
   )

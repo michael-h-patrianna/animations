@@ -7,6 +7,7 @@ export const metadata: AnimationMetadata = {
   title: 'Tap Arrow',
   description:
     'Floating pointer arrow that bobs toward a center element. Classic mobile-game "tap here" indicator. Props: position, arrowSrc, fill, stroke, strokeWidth, duration, nudgeDistance, arrowSize.',
+  infinite: true,
   tier: 2,
   order: 100,
   props: [
@@ -41,7 +42,7 @@ export const metadata: AnimationMetadata = {
       name: 'stroke',
       label: 'Stroke Color',
       description: 'SVG stroke color (default arrow only).',
-      default: '#000000',
+      default: 'none',
     },
     {
       type: 'number',
