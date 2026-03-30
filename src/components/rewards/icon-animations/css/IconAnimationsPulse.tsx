@@ -10,7 +10,7 @@ import { memo } from 'react'
 import styles from './IconAnimationsPulse.module.css'
 
 interface IconAnimationsPulseProps {
-  /** Image source URL. Renders a placeholder when omitted. */
+  /** Image source URL. Default: bundled scroll icon. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string
@@ -32,11 +32,7 @@ function IconAnimationsPulseComponent({
         className={styles['pf-icon-pulse']}
         style={{ ['--pf-icon-pulse-duration' as string]: `${duration}ms` }}
       >
-        {src !== undefined ? (
-          <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
-        ) : (
-          <div className="pf-icon-anim__placeholder" style={{ width, height: width }} />
-        )}
+        <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
       </div>
     </div>
   )

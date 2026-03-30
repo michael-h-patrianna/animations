@@ -79,3 +79,9 @@
     transform: translateY(0) translateX(0) rotate(0deg) scale(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-icon-float {
+    animation: none;
+  }
+}

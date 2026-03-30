@@ -65,3 +65,9 @@
       scaleY(1.03);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-japanese-tap-arrow__animator {
+    animation: none;
+  }
+}

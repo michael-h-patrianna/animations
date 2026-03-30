@@ -53,3 +53,9 @@
     transform: translateX(var(--pf-tap-arrow-nudge, 12px)) scale(1.06);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-tap-arrow__animator {
+    animation: none;
+  }
+}

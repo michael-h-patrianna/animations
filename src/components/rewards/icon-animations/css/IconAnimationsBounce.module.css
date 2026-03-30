@@ -38,3 +38,22 @@
     transform: translateY(0) scaleY(0.95) scaleX(1.02) rotate(0deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-icon-bounce {
+    animation: pf-icon-bounce-reduced 400ms ease-in-out;
+  }
+
+  @keyframes pf-icon-bounce-reduced {
+    0%,
+    100% {
+      transform: scaleY(1) scaleX(1);
+    }
+    35% {
+      transform: scaleY(0.97) scaleX(1.02);
+    }
+    65% {
+      transform: scaleY(1.03) scaleX(0.99);
+    }
+  }
+}

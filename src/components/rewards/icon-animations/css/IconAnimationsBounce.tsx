@@ -10,7 +10,7 @@ import { memo } from 'react'
 import styles from './IconAnimationsBounce.module.css'
 
 interface IconAnimationsBounceProps {
-  /** Image source URL. Renders a placeholder when omitted. */
+  /** Image source URL. Default: bundled coin icon. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string
@@ -32,11 +32,7 @@ function IconAnimationsBounceComponent({
         className={styles['pf-icon-bounce']}
         style={{ ['--pf-icon-bounce-duration' as string]: `${duration}ms` }}
       >
-        {src !== undefined ? (
-          <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
-        ) : (
-          <div className="pf-icon-anim__placeholder" style={{ width, height: width }} />
-        )}
+        <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
       </div>
     </div>
   )

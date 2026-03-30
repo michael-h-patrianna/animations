@@ -46,3 +46,25 @@
     transform: translateX(-2px) rotate(-0.2deg) scaleX(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-icon-shake {
+    animation: pf-icon-shake-reduced 300ms ease-in-out;
+  }
+
+  @keyframes pf-icon-shake-reduced {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-2px);
+    }
+    50% {
+      transform: translateX(2px);
+    }
+    75% {
+      transform: translateX(-1px);
+    }
+  }
+}
