@@ -5,6 +5,7 @@ import {
   type AnimationChild,
 } from '@/components/ui/useCardModalState'
 import type { AnimationControlType, PreviewPosition, SourceTab } from '@/types/animation'
+import { useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { useRenderProfile } from '@/hooks/useRenderProfile'
 import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import React from 'react'
@@ -222,12 +223,22 @@ function AnimationCardComponent(props: AnimationCardProps) {
   const effectiveControlType = hasInspectorProps ? undefined : controlType
   const { triggerReplay } = card.playback
   const previousReplayVersionRef = useRef(externalReplayVersion)
+  const reducedMotion = useLayoutStore((s) => s.reducedMotion)
+  const previousReducedMotionRef = useRef(reducedMotion)
 
   useEffect(() => {
     if (externalReplayVersion === previousReplayVersionRef.current) return
     previousReplayVersionRef.current = externalReplayVersion
     triggerReplay()
   }, [externalReplayVersion, triggerReplay])
+
+  // Remount animations when motion preference changes so they restart
+  // with the updated prefersReducedMotion value set in EditorLayout.
+  useEffect(() => {
+    if (reducedMotion === previousReducedMotionRef.current) return
+    previousReducedMotionRef.current = reducedMotion
+    triggerReplay()
+  }, [reducedMotion, triggerReplay])
 
   return <CardBody card={card} props={props} effectiveControlType={effectiveControlType} />
 }
