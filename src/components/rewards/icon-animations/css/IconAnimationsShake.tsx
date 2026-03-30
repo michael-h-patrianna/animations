@@ -10,7 +10,7 @@ import { memo } from 'react'
 import styles from './IconAnimationsShake.module.css'
 
 interface IconAnimationsShakeProps {
-  /** Image source URL. Required — no default image bundled. */
+  /** Image source URL. No default bundled — renders nothing when omitted. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string

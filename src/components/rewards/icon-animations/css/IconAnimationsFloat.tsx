@@ -10,7 +10,7 @@ import { memo } from 'react'
 import styles from './IconAnimationsFloat.module.css'
 
 interface IconAnimationsFloatProps {
-  /** Image source URL. Required — no default image bundled. */
+  /** Image source URL. No default bundled — renders nothing when omitted. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string
