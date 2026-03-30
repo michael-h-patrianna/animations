@@ -10,7 +10,7 @@ import { memo } from 'react'
 import styles from './IconAnimationsFloat.module.css'
 
 interface IconAnimationsFloatProps {
-  /** Image source URL. Default: bundled diamond icon. */
+  /** Image source URL. Required — no default image bundled. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string
@@ -32,7 +32,9 @@ function IconAnimationsFloatComponent({
         className={styles['pf-icon-float']}
         style={{ ['--pf-icon-float-duration' as string]: `${duration}ms` }}
       >
-        <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
+        {src !== undefined && (
+          <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
+        )}
       </div>
     </div>
   )

@@ -42,7 +42,7 @@ export const metadata: AnimationMetadata = {
       name: 'stroke',
       label: 'Stroke Color',
       description: 'SVG stroke color (default arrow only).',
-      default: 'none',
+      default: 'transparent',
     },
     {
       type: 'number',

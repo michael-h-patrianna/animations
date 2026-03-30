@@ -14,7 +14,7 @@ import { memo } from 'react'
 import './IconAnimationsFloat.module.css'
 
 interface IconAnimationsFloatProps {
-  /** Image source URL. Default: bundled diamond icon. */
+  /** Image source URL. Required — no default image bundled. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string
@@ -65,7 +65,9 @@ function IconAnimationsFloatComponent({
               }
         }
       >
-        <img src={src} alt={alt} style={{ width, height: 'auto', display: 'block' }} />
+        {src !== undefined && (
+          <img src={src} alt={alt} style={{ width, height: 'auto', display: 'block' }} />
+        )}
       </m.div>
     </div>
   )

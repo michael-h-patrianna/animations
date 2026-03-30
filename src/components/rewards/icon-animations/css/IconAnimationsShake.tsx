@@ -10,7 +10,7 @@ import { memo } from 'react'
 import styles from './IconAnimationsShake.module.css'
 
 interface IconAnimationsShakeProps {
-  /** Image source URL. Default: bundled shake icon. */
+  /** Image source URL. Required — no default image bundled. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string
@@ -32,7 +32,9 @@ function IconAnimationsShakeComponent({
         className={styles['pf-icon-shake']}
         style={{ ['--pf-icon-shake-duration' as string]: `${duration}ms` }}
       >
-        <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
+        {src !== undefined && (
+          <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
+        )}
       </div>
     </div>
   )
