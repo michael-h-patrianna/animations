@@ -5,36 +5,10 @@
  */
 
 import * as m from 'motion/react-m'
-import { useReducedMotion } from 'motion/react'
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import type { AnimationPlaybackControls } from 'motion/react'
+import { animate, easeOut, useMotionValue, useReducedMotion, useTransform } from 'motion/react'
+import { memo, useCallback, useEffect, useMemo, useRef } from 'react'
 import styles from './TextEffectsCounterIncrement.module.css'
-
-const numberPopVariants = {
-  idle: { scale: 1, rotate: 0, opacity: 1 },
-  pop: {
-    scale: [1, 1.2, 0.98, 1.08, 1],
-    rotate: [0, 2, -2, 1, 0],
-    opacity: [1, 1, 0.92, 1, 1],
-    transition: {
-      duration: 0.5,
-      ease: [0.34, 1.56, 0.64, 1] as const,
-      times: [0, 0.25, 0.5, 0.75, 1],
-    },
-  },
-}
-
-const counterFloatVariants = {
-  hidden: { y: 8, opacity: 0 },
-  float: {
-    y: [8, -4, -12, -16],
-    opacity: [0, 1, 1, 0],
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 0.46, 0.45, 0.94] as const,
-      times: [0, 0.2, 0.5, 1],
-    },
-  },
-}
 
 interface TextEffectsCounterIncrementProps {
   /** Starting value. @default 0 */
@@ -60,6 +34,8 @@ interface TextEffectsCounterIncrementProps {
 }
 
 const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
+
+// ── Step calculation ──
 
 interface MilestoneStep {
   value: number
@@ -98,6 +74,15 @@ function calculateSteps(range: number, numSteps: number, durationMs: number): Mi
   return steps
 }
 
+// ── Particle pool constants ──
+
+const CONTINUOUS_POOL_SIZE = 3
+const PARTICLE_FLOAT_DURATION = 0.8
+
+/**
+ * Zero-rerender counter animation. Number display via useMotionValue+useTransform,
+ * pop via imperative animate(), particles pre-rendered (target) or pooled (continuous).
+ */
 function TextEffectsCounterIncrementComponent({
   from = 0,
   to,
@@ -111,92 +96,110 @@ function TextEffectsCounterIncrementComponent({
   color,
 }: TextEffectsCounterIncrementProps) {
   const prefersReducedMotion = useReducedMotion()
-  const [isValueAnimating, setIsValueAnimating] = useState(false)
-  const [count, setCount] = useState(from)
-  const [particles, setParticles] = useState<{ id: number; value: number }[]>([])
-  const nextIdRef = useRef(0)
   const formatRef = useRef(formatValue)
   formatRef.current = formatValue
+  const reducedMotionRef = useRef(prefersReducedMotion)
+  reducedMotionRef.current = prefersReducedMotion
+
+  const valueRef = useRef<HTMLSpanElement>(null)
+  const poolRef = useRef<(HTMLDivElement | null)[]>([])
+  const popControlsRef = useRef<AnimationPlaybackControls | null>(null)
+  const poolControlsRef = useRef<(AnimationPlaybackControls | null)[]>([])
 
   const isContinuousMode = to === undefined
 
-  const removeParticle = useCallback((id: number) => {
-    setParticles((prev) => prev.filter((p) => p.id !== id))
+  // Motion value for the displayed count — updates bypass React reconciliation
+  const count = useMotionValue(from)
+  const displayCount = useTransform(count, (latest) => formatRef.current(latest))
+
+  // Pre-compute target-mode steps for particle rendering
+  const steps = useMemo(() => {
+    if (isContinuousMode || to === undefined) return []
+    const range = to - from
+    if (range === 0) return []
+    return calculateSteps(range, maxParticles, durationMs)
+  }, [isContinuousMode, from, to, maxParticles, durationMs])
+
+  // Imperative pop trigger via Motion animate() — stable (only refs)
+  const triggerPop = useCallback(() => {
+    if (!valueRef.current) return
+    popControlsRef.current?.stop()
+    if (reducedMotionRef.current) {
+      popControlsRef.current = animate(
+        valueRef.current,
+        { scale: [1, 1.05, 1], opacity: [1, 0.85, 1] },
+        { duration: 0.3 }
+      )
+    } else {
+      popControlsRef.current = animate(
+        valueRef.current,
+        {
+          scale: [1, 1.2, 0.98, 1.08, 1],
+          rotate: [0, 2, -2, 1, 0],
+          opacity: [1, 1, 0.92, 1, 1],
+        },
+        { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }
+      )
+    }
   }, [])
 
-  // Continuous mode
+  // Imperative particle trigger via Motion animate() — stable (only refs)
+  const triggerPoolParticle = useCallback((index: number, value: number) => {
+    const poolIdx = index % CONTINUOUS_POOL_SIZE
+    const el = poolRef.current[poolIdx]
+    if (!el || reducedMotionRef.current) return
+    poolControlsRef.current[poolIdx]?.stop()
+    el.textContent = `+${formatRef.current(value)}`
+    poolControlsRef.current[poolIdx] = animate(
+      el,
+      { y: [8, -4, -12, -16], opacity: [0, 1, 1, 0] },
+      {
+        duration: PARTICLE_FLOAT_DURATION,
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
+      }
+    )
+  }, [])
+
+  // Target mode: instant jumps at precomputed milestone timings
+  useEffect(() => {
+    if (isContinuousMode || to === undefined || steps.length === 0) return
+
+    count.set(from)
+
+    const timeouts: ReturnType<typeof setTimeout>[] = []
+    for (const step of steps) {
+      timeouts.push(
+        setTimeout(() => {
+          count.set(from + step.value)
+          triggerPop()
+        }, step.timing)
+      )
+    }
+
+    return () => {
+      timeouts.forEach(clearTimeout)
+    }
+  }, [count, isContinuousMode, from, to, steps, triggerPop])
+
+  // Continuous mode: interval-driven motion value updates, zero state
   useEffect(() => {
     if (!isContinuousMode) return
 
-    let isMounted = true
-    const timeoutIds = new Set<ReturnType<typeof setTimeout>>()
+    count.set(from)
+    let poolIndex = 0
 
-    const scheduleTimeout = (callback: () => void, delayMs: number) => {
-      const timeoutId = setTimeout(() => {
-        timeoutIds.delete(timeoutId)
-        if (!isMounted) return
-        callback()
-      }, delayMs)
-      timeoutIds.add(timeoutId)
+    const tick = () => {
+      count.set(count.get() + incrementValue)
+      triggerPop()
+      triggerPoolParticle(poolIndex, incrementValue)
+      poolIndex++
     }
 
-    const animationCycle = () => {
-      if (!isMounted) return
-      setIsValueAnimating(true)
-      const id = nextIdRef.current++
-      setParticles((prev) => [...prev, { id, value: incrementValue }])
-      setCount((c) => c + incrementValue)
+    tick()
+    const id = setInterval(tick, intervalMs)
 
-      scheduleTimeout(() => setIsValueAnimating(false), 500)
-    }
-
-    setCount(from)
-    animationCycle()
-    const intervalId = setInterval(animationCycle, intervalMs)
-
-    return () => {
-      isMounted = false
-      clearInterval(intervalId)
-      timeoutIds.forEach(clearTimeout)
-      timeoutIds.clear()
-    }
-  }, [isContinuousMode, from, incrementValue, intervalMs])
-
-  // Target mode
-  useEffect(() => {
-    if (isContinuousMode || to === undefined) return
-
-    const range = to - from
-    const steps = calculateSteps(range, maxParticles, durationMs)
-    if (steps.length === 0) return
-
-    setCount(from)
-    setParticles([])
-
-    let isMounted = true
-    const timeouts: ReturnType<typeof setTimeout>[] = []
-
-    steps.forEach((step) => {
-      const t = setTimeout(() => {
-        if (!isMounted) return
-        setCount(from + step.value)
-        setIsValueAnimating(true)
-        const id = nextIdRef.current++
-        setParticles((prev) => [...prev, { id, value: step.incrementAmount }])
-
-        const t1 = setTimeout(() => {
-          if (isMounted) setIsValueAnimating(false)
-        }, 500)
-        timeouts.push(t1)
-      }, step.timing)
-      timeouts.push(t)
-    })
-
-    return () => {
-      isMounted = false
-      timeouts.forEach(clearTimeout)
-    }
-  }, [isContinuousMode, from, to, maxParticles, durationMs])
+    return () => clearInterval(id)
+  }, [count, isContinuousMode, from, incrementValue, intervalMs, triggerPop, triggerPoolParticle])
 
   return (
     <div
@@ -209,44 +212,52 @@ function TextEffectsCounterIncrementComponent({
       }
     >
       <div className={styles['pf-counter-showcase-fm__target']}>
-        <m.span
-          className={styles['pf-counter-showcase-fm__value']}
-          variants={prefersReducedMotion ? undefined : numberPopVariants}
-          initial="idle"
-          animate={
-            prefersReducedMotion
-              ? isValueAnimating
-                ? { scale: [1, 1.05, 1], opacity: [1, 0.85, 1] }
-                : { scale: 1, opacity: 1 }
-              : isValueAnimating
-                ? 'pop'
-                : 'idle'
-          }
-          transition={prefersReducedMotion ? { duration: 0.3, ease: 'easeInOut' } : undefined}
-        >
+        <span ref={valueRef} className={styles['pf-counter-showcase-fm__value']}>
           <span className={styles['pf-counter-showcase-fm__value-text']}>
             {prefix !== undefined && (
               <span className={styles['pf-counter-showcase-fm__label']}>{prefix}</span>
             )}
-            {formatRef.current(count)}
+            <m.span>{displayCount}</m.span>
             {suffix !== undefined && (
               <span className={styles['pf-counter-showcase-fm__label']}>{suffix}</span>
             )}
           </span>
-        </m.span>
+        </span>
 
+        {/* Target mode: pre-rendered particles with Motion delays */}
         {!prefersReducedMotion &&
-          particles.map((particle) => (
+          !isContinuousMode &&
+          steps.map((step, i) => (
             <m.span
-              key={particle.id}
+              key={i}
               className={styles['pf-update-indicator-fm__counter']}
-              variants={counterFloatVariants}
-              initial="hidden"
-              animate="float"
-              onAnimationComplete={() => removeParticle(particle.id)}
+              initial={{ y: 8, opacity: 0 }}
+              animate={{
+                y: [8, -4, -12, -16],
+                opacity: [0, 1, 1, 0],
+              }}
+              transition={{
+                duration: PARTICLE_FLOAT_DURATION,
+                delay: step.timing / 1000,
+                ease: easeOut,
+                times: [0, 0.2, 0.5, 1],
+              }}
             >
-              +{formatRef.current(particle.value)}
+              +{formatRef.current(step.incrementAmount)}
             </m.span>
+          ))}
+
+        {/* Continuous mode: reusable particle pool (imperatively animated) */}
+        {isContinuousMode &&
+          Array.from({ length: CONTINUOUS_POOL_SIZE }, (_, i) => (
+            <div
+              key={`pool-${i}`}
+              ref={(el) => {
+                poolRef.current[i] = el
+              }}
+              className={styles['pf-update-indicator-fm__counter']}
+              style={{ opacity: 0 }}
+            />
           ))}
       </div>
     </div>
