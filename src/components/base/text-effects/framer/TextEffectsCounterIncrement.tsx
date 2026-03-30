@@ -5,6 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
+import type { AnimationPlaybackControls } from 'motion/react'
 import { animate, easeOut, useMotionValue, useReducedMotion, useTransform } from 'motion/react'
 import { memo, useCallback, useEffect, useMemo, useRef } from 'react'
 import styles from './TextEffectsCounterIncrement.module.css'
@@ -102,6 +103,8 @@ function TextEffectsCounterIncrementComponent({
 
   const valueRef = useRef<HTMLSpanElement>(null)
   const poolRef = useRef<(HTMLDivElement | null)[]>([])
+  const popControlsRef = useRef<AnimationPlaybackControls | null>(null)
+  const poolControlsRef = useRef<(AnimationPlaybackControls | null)[]>([])
 
   const isContinuousMode = to === undefined
 
@@ -120,10 +123,15 @@ function TextEffectsCounterIncrementComponent({
   // Imperative pop trigger via Motion animate() — stable (only refs)
   const triggerPop = useCallback(() => {
     if (!valueRef.current) return
+    popControlsRef.current?.stop()
     if (reducedMotionRef.current) {
-      animate(valueRef.current, { scale: [1, 1.05, 1], opacity: [1, 0.85, 1] }, { duration: 0.3 })
+      popControlsRef.current = animate(
+        valueRef.current,
+        { scale: [1, 1.05, 1], opacity: [1, 0.85, 1] },
+        { duration: 0.3 }
+      )
     } else {
-      animate(
+      popControlsRef.current = animate(
         valueRef.current,
         {
           scale: [1, 1.2, 0.98, 1.08, 1],
@@ -137,10 +145,12 @@ function TextEffectsCounterIncrementComponent({
 
   // Imperative particle trigger via Motion animate() — stable (only refs)
   const triggerPoolParticle = useCallback((index: number, value: number) => {
-    const el = poolRef.current[index % CONTINUOUS_POOL_SIZE]
+    const poolIdx = index % CONTINUOUS_POOL_SIZE
+    const el = poolRef.current[poolIdx]
     if (!el || reducedMotionRef.current) return
+    poolControlsRef.current[poolIdx]?.stop()
     el.textContent = `+${formatRef.current(value)}`
-    animate(
+    poolControlsRef.current[poolIdx] = animate(
       el,
       { y: [8, -4, -12, -16], opacity: [0, 1, 1, 0] },
       {

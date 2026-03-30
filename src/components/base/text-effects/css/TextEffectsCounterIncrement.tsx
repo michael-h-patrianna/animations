@@ -141,6 +141,7 @@ function TextEffectsCounterIncrementComponent({
   formatRef.current = formatValue
 
   const reducedMotionRef = useRef(false)
+  const popAnimRef = useRef<Animation | null>(null)
 
   const isContinuousMode = to === undefined
   const effectiveDuration = durationMs ?? (isContinuousMode ? (intervalMs ?? 2000) : 3000)
@@ -169,8 +170,9 @@ function TextEffectsCounterIncrementComponent({
   // Imperative pop trigger via WAAPI — stable (only refs)
   const triggerPop = useCallback(() => {
     if (!valueRef.current) return
+    popAnimRef.current?.cancel()
     const reduced = reducedMotionRef.current
-    valueRef.current.animate(reduced ? REDUCED_POP_KEYFRAMES : POP_KEYFRAMES, {
+    popAnimRef.current = valueRef.current.animate(reduced ? REDUCED_POP_KEYFRAMES : POP_KEYFRAMES, {
       duration: reduced ? 300 : 500,
       easing: reduced ? 'ease-in-out' : 'cubic-bezier(0.34, 1.56, 0.64, 1)',
     })
