@@ -22,7 +22,7 @@ interface IconAnimationsJapaneseTapArrowProps {
   arrowSrc?: string
   /** SVG fill color (default embedded arrow only). */
   fill?: string
-  /** SVG stroke color (default embedded arrow only). Default: 'none' */
+  /** SVG stroke color (default embedded arrow only). Default: 'transparent' */
   stroke?: string
   /** SVG stroke width (default embedded arrow only). Default: 0 */
   strokeWidth?: number
@@ -82,7 +82,7 @@ function IconAnimationsJapaneseTapArrowComponent({
   position = 'left',
   arrowSrc,
   fill,
-  stroke = 'none',
+  stroke = 'transparent',
   strokeWidth = 0,
   duration = 1200,
   nudgeDistance = 12,

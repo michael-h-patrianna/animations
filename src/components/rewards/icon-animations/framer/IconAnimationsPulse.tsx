@@ -14,7 +14,7 @@ import { memo } from 'react'
 import './IconAnimationsPulse.module.css'
 
 interface IconAnimationsPulseProps {
-  /** Image source URL. Default: bundled scroll icon. */
+  /** Image source URL. No default bundled — renders nothing when omitted. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string
@@ -51,7 +51,9 @@ function IconAnimationsPulseComponent({
           repeat: Infinity,
         }}
       >
-        <img src={src} alt={alt} style={{ width, height: 'auto', display: 'block' }} />
+        {src !== undefined && (
+          <img src={src} alt={alt} style={{ width, height: 'auto', display: 'block' }} />
+        )}
       </m.div>
     </div>
   )

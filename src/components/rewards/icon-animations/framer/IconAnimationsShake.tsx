@@ -14,7 +14,7 @@ import { memo } from 'react'
 import './IconAnimationsShake.module.css'
 
 interface IconAnimationsShakeProps {
-  /** Image source URL. Default: bundled shake icon. */
+  /** Image source URL. No default bundled — renders nothing when omitted. */
   src?: string
   /** Alt text for the image. Default: '' */
   alt?: string
@@ -53,7 +53,9 @@ function IconAnimationsShakeComponent({
               }
         }
       >
-        <img src={src} alt={alt} style={{ width, height: 'auto', display: 'block' }} />
+        {src !== undefined && (
+          <img src={src} alt={alt} style={{ width, height: 'auto', display: 'block' }} />
+        )}
       </m.div>
     </div>
   )
