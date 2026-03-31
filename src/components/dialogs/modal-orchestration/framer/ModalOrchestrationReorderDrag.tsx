@@ -8,8 +8,8 @@
  * <ModalOrchestrationReorderDrag count={6} gap={10} dragScale={1.08} />
  */
 
-import { Reorder, useReducedMotion } from 'motion/react'
-import { memo, useState } from 'react'
+import { MotionConfig, Reorder, useReducedMotion } from 'motion/react'
+import { memo, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 import styles from './ModalOrchestrationReorderDrag.module.css'
@@ -48,6 +48,12 @@ function ModalOrchestrationReorderDragComponent({
   const prefersReducedMotion = useReducedMotion()
   const [items, setItems] = useState<TileItem[]>(() => generateItems(count))
 
+  useEffect(() => {
+    if (children === undefined) {
+      setItems((prev) => (prev.length === count ? prev : generateItems(count)))
+    }
+  }, [count, children])
+
   const noMotion = !!prefersReducedMotion
 
   const whileDrag = noMotion
@@ -71,28 +77,30 @@ function ModalOrchestrationReorderDragComponent({
   }
 
   return (
-    <Reorder.Group
-      axis="y"
-      values={items}
-      onReorder={setItems}
-      className={styles['pf-reorder-drag-fm']}
-      style={{ gap }}
-      data-animation-id="modal-orchestration__reorder-drag"
-    >
-      {items.map((item) => (
-        <Reorder.Item
-          key={item.id}
-          value={item}
-          whileDrag={whileDrag}
-          className={styles['pf-reorder-drag-fm__item']}
-          style={{ touchAction: 'none' }}
-        >
-          <DemoCard title={item.label}>
-            <p>Drag to reorder</p>
-          </DemoCard>
-        </Reorder.Item>
-      ))}
-    </Reorder.Group>
+    <MotionConfig reducedMotion="user">
+      <Reorder.Group
+        axis="y"
+        values={items}
+        onReorder={setItems}
+        className={styles['pf-reorder-drag-fm']}
+        style={{ gap }}
+        data-animation-id="modal-orchestration__reorder-drag"
+      >
+        {items.map((item) => (
+          <Reorder.Item
+            key={item.id}
+            value={item}
+            whileDrag={whileDrag}
+            className={styles['pf-reorder-drag-fm__item']}
+            style={{ touchAction: 'none' }}
+          >
+            <DemoCard title={item.label}>
+              <p>Drag to reorder</p>
+            </DemoCard>
+          </Reorder.Item>
+        ))}
+      </Reorder.Group>
+    </MotionConfig>
   )
 }
 
