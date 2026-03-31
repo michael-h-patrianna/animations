@@ -4,7 +4,7 @@ export const metadata = {
   id: 'modal-orchestration__reorder-drag',
   title: 'Reorder Drag',
   description:
-    'Drag-to-reorder tile list with lift effect (scale + shadow) while dragging. Uses pointer events and CSS transitions for smooth layout shifts. Configurable tile count, gap, and drag scale.',
+    'Drag-to-reorder tile list with lift effect (scale + shadow) while dragging. Displaced tiles slide out of the way in real time. Configurable tile count, gap, and drag scale.',
   tier: 3,
   disableReplay: true,
   infinite: true,
