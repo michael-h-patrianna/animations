@@ -14,7 +14,7 @@ export const metadata: AnimationMetadata = {
       type: 'image',
       name: 'src',
       label: 'Image URL',
-      description: 'Image source URL. Uses a bundled default when omitted.',
+      description: 'Image source URL. No default bundled — renders no image when omitted.',
     },
     { type: 'string', name: 'alt', label: 'Alt Text', default: '' },
     {

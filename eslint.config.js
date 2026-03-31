@@ -622,4 +622,14 @@ export default defineConfig([
       'animation-rules/no-hardcoded-colors': 'off',
     },
   },
+  // Lint rule tests: test fixtures intentionally contain banned patterns (colors,
+  // gradients, imports) to verify the rules detect them. The imports use relative
+  // paths to reach eslint-rules/ and stylelint-rules/ outside src/.
+  {
+    files: ['src/__tests__/eslint-rules.test.ts', 'src/__tests__/stylelint-rules.test.ts'],
+    rules: {
+      'animation-rules/no-relative-parent-imports': 'off',
+      'animation-rules/no-radial-angular-gradient': 'off',
+    },
+  },
 ])

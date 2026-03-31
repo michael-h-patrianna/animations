@@ -34,7 +34,7 @@ const BUDGETS = {
   // Main CSS bundle
   'index-*.css': 300,
 
-  // Animation group chunks - each should be up to200KB
+  // Animation group chunks - each should be up to 200KB
   // These are loaded on demand when user navigates to a group
   'collection-effects-*.js': 200,
   'icon-animations-*.js': 200,

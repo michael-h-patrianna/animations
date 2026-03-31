@@ -92,11 +92,6 @@ export interface LazyNavCatalog {
 }
 
 /**
- * State of lazy loading for a group.
- */
-export type LazyLoadState = 'idle' | 'loading' | 'loaded' | 'error'
-
-/**
  * Hook result for useLazyAnimations.
  */
 export interface LazyAnimationsResult {
