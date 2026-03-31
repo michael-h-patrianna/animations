@@ -365,7 +365,7 @@ export default defineConfig([
   {
     files: [
       'src/__tests__/all-animations.data-animation-id.test.tsx',
-      'src/__tests__/modal-orchestration.*.test.tsx',
+      'src/__tests__/tile-animations.*.test.tsx',
       'src/__tests__/text-effects.*.test.tsx',
       'src/__tests__/realtime-data.css-framer-parity.test.tsx',
       'src/__tests__/update-indicators.css-framer-parity.test.tsx',
