@@ -315,9 +315,9 @@ export class CatalogPage {
     return this.page.locator('[data-testid="filter-banner"]')
   }
 
-  /** The "Show all animations" / remove filter button in the filter banner. */
+  /** The "Show all" / remove filter button in the filter banner. */
   removeFilterButton(): Locator {
-    return this.page.locator('[data-testid="remove-filter-btn"]')
+    return this.page.locator('[data-testid="filter-banner-action"]')
   }
 
   // ── Code Viewer ──────────────────────────────────────────────────────

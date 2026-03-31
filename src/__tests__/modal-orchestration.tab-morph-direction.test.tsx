@@ -1,12 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import { ModalOrchestrationTabMorph as CssTabMorph } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationTabMorph'
-import cssTabMorphStyles from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationTabMorph.module.css'
-import { ModalOrchestrationTabMorph as FramerTabMorph } from '@/components/dialogs/modal-orchestration/framer/ModalOrchestrationTabMorph'
-import fmTabMorphStyles from '@/components/dialogs/modal-orchestration/framer/ModalOrchestrationTabMorph.module.css'
+import { TileAnimationsTabMorph as CssTabMorph } from '@/components/dialogs/tile-animations/css/TileAnimationsTabMorph'
+import cssTabMorphStyles from '@/components/dialogs/tile-animations/css/TileAnimationsTabMorph.module.css'
+import { TileAnimationsTabMorph as FramerTabMorph } from '@/components/dialogs/tile-animations/framer/TileAnimationsTabMorph'
+import fmTabMorphStyles from '@/components/dialogs/tile-animations/framer/TileAnimationsTabMorph.module.css'
 
-describe('modal-orchestration tab-morph direction', () => {
+describe('tile-animations tab-morph direction', () => {
   describe('CSS variant', () => {
     it('uses left-exit animation when moving to a higher tab index', () => {
       const { container } = render(<CssTabMorph />)
@@ -32,7 +32,7 @@ describe('modal-orchestration tab-morph direction', () => {
     it('sets data-animation-id', () => {
       const { container } = render(<CssTabMorph />)
       expect(
-        container.querySelector('[data-animation-id="modal-orchestration__tab-morph"]')
+        container.querySelector('[data-animation-id="tile-animations__tab-morph"]')
       ).toBeInTheDocument()
     })
   })
@@ -41,7 +41,7 @@ describe('modal-orchestration tab-morph direction', () => {
     it('sets data-animation-id matching CSS variant', () => {
       const { container } = render(<FramerTabMorph />)
       expect(
-        container.querySelector('[data-animation-id="modal-orchestration__tab-morph"]')
+        container.querySelector('[data-animation-id="tile-animations__tab-morph"]')
       ).toBeInTheDocument()
     })
 

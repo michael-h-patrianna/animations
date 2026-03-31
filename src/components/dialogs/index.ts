@@ -7,14 +7,14 @@ const modalBaseMeta: GroupMetadata = {
   demo: 'modalBaseFramer',
 }
 
-const modalContentMeta: GroupMetadata = {
-  id: 'modal-content',
+const modalContentChoreographyMeta: GroupMetadata = {
+  id: 'modal-content-choreography',
   title: 'Content choreography',
   demo: 'modalContentFramer',
 }
 
-const modalDismissMeta: GroupMetadata = {
-  id: 'modal-dismiss',
+const autoDismissMeta: GroupMetadata = {
+  id: 'auto-dismiss',
   title: 'Auto-dismiss patterns',
   demo: 'modalDismissFramer',
 }
@@ -25,16 +25,16 @@ const modalOpenMeta: GroupMetadata = {
   demo: 'modalOpenFramer',
 }
 
-const modalOrchestrationMeta: GroupMetadata = {
-  id: 'modal-orchestration',
+const tileAnimationsMeta: GroupMetadata = {
+  id: 'tile-animations',
   title: 'Tile animations',
   demo: 'modalOrchestrationFramer',
 }
 
 declareCategoryGroups('dialogs', 'Dialog & Modal Animations', [
   { metadata: modalBaseMeta, load: () => import('./modal-base') },
-  { metadata: modalContentMeta, load: () => import('./modal-content') },
-  { metadata: modalDismissMeta, load: () => import('./modal-dismiss') },
+  { metadata: modalContentChoreographyMeta, load: () => import('./modal-content-choreography') },
+  { metadata: autoDismissMeta, load: () => import('./auto-dismiss') },
   { metadata: modalOpenMeta, load: () => import('./modal-open') },
-  { metadata: modalOrchestrationMeta, load: () => import('./modal-orchestration') },
+  { metadata: tileAnimationsMeta, load: () => import('./tile-animations') },
 ])

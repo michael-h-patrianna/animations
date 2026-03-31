@@ -1,5 +1,5 @@
 import { useMemo, type CSSProperties } from 'react'
-import styles from './CardPackOpen.module.css'
+import styles from './PrizeRevealCardPackOpen.module.css'
 
 import cardPackBackImage from '@/assets/card-pack/card-back.webp'
 import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'

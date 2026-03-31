@@ -44,7 +44,7 @@ describe('inspectorStarterDefaults', () => {
       expect.arrayContaining([
         'collection-effects__coin-burst',
         'icon-animations__bounce',
-        'modal-celebrations__firework',
+        'celebration-effects__firework',
       ])
     )
 
@@ -59,11 +59,11 @@ describe('inspectorStarterDefaults', () => {
       'icon-animations__float',
       'icon-animations__pulse',
       'icon-animations__shake',
-      'modal-celebrations__coin-cascade',
-      'modal-celebrations__coins-arc',
-      'modal-celebrations__coins-swirl',
-      'modal-celebrations__firework',
-      'modal-celebrations__treasure-particles',
+      'celebration-effects__coin-cascade',
+      'celebration-effects__coins-arc',
+      'celebration-effects__coins-swirl',
+      'celebration-effects__firework',
+      'celebration-effects__treasure-particles',
     ]
 
     const missingFromCatalog = knownStarterIds.filter((id) => !allAnimationIds.has(id))

@@ -1,0 +1,4 @@
+/* Framer variant — perspective needed for 3D confetti tumble */
+[data-animation-id='celebration-effects__confetti-rain'] {
+  perspective: 600px;
+}

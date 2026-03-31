@@ -32,7 +32,7 @@ function ModalBaseGlitchDigitalComponent({
   } as React.CSSProperties
 
   return (
-    <div data-animation-id="modal-base__tfx-glitchdigital">
+    <div data-animation-id="modal-base__glitch-digital">
       <div className={styles['pf-modal-glitch']} style={cssVars}>
         <div
           className={`${styles['pf-modal-glitch__ghost']} ${styles['pf-modal-glitch__ghost--green']}`}

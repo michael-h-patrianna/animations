@@ -16,9 +16,9 @@ import type { CatalogPage } from './page-objects/CatalogPage'
 
 /** Animations excluded from size comparison due to known production size differences. */
 const SKIP_SIZE_CHECK = new Set([
-  'modal-content__list-soft-stagger', // CSS variant renders taller (488px vs 241px)
-  'modal-orchestration__wizard-scale-rotate', // Size mismatch (323px vs 241px)
-  'modal-content__form-field-gradient', // Framer renders taller (511px vs 240px)
+  'modal-content-choreography__list-soft-stagger', // CSS variant renders taller (488px vs 241px)
+  'tile-animations__wizard-scale-rotate', // Size mismatch (323px vs 241px)
+  'modal-content-choreography__form-field-gradient', // Framer renders taller (511px vs 240px)
 ])
 
 // Keep in sync with route-coverage.spec.ts.
@@ -27,11 +27,11 @@ const ALL_GROUP_BASE_IDS = [
   'text-effects',
   'standard-effects',
   'modal-base',
-  'modal-content',
-  'modal-dismiss',
+  'modal-content-choreography',
+  'auto-dismiss',
   'modal-open',
-  'modal-orchestration',
-  'modal-celebrations',
+  'tile-animations',
+  'celebration-effects',
   'prize-reveal',
   'icon-animations',
   'collection-effects',

@@ -254,7 +254,7 @@ describe('GroupSection', () => {
 
       const banner = screen.getByTestId('filter-banner')
       expect(banner).toBeVisible()
-      expect(banner).toHaveTextContent(/Showing: standard-effects__bounce/)
+      expect(banner).toHaveTextContent(/Showing: Bounce/)
     })
 
     it('shows only the filtered animation in the card grid', () => {
@@ -300,7 +300,7 @@ describe('GroupSection', () => {
       expect(screen.getByTestId('filter-banner')).toHaveTextContent(/not found/)
     })
 
-    it('renders "Show all animations" button to remove filter', () => {
+    it('renders "Show all" button to remove filter', () => {
       const group = makeGroup()
       renderWithRouter(
         <GroupSection
@@ -310,10 +310,10 @@ describe('GroupSection', () => {
         />
       )
 
-      expect(screen.getByTestId('remove-filter-btn')).toHaveTextContent('Show all animations')
+      expect(screen.getByTestId('filter-banner-action')).toHaveTextContent(/Show all/)
     })
 
-    it('clicking "Show all animations" navigates to the group without filter', () => {
+    it('clicking "Show all" navigates to the group without filter', () => {
       const group = makeGroup()
       renderWithRouter(
         <GroupSection
@@ -325,12 +325,12 @@ describe('GroupSection', () => {
       )
 
       // Click the remove-filter button — this calls navigate(`/${group.id}`, { replace: true })
-      fireEvent.click(screen.getByTestId('remove-filter-btn'))
+      fireEvent.click(screen.getByTestId('filter-banner-action'))
 
       // After navigation, the filter banner should no longer show the filter text
       // (the parent would re-render without animationFilter, but in this isolated test
       // we verify the handler doesn't crash and the button is interactive)
-      expect(screen.getByTestId('remove-filter-btn')).toBeVisible()
+      expect(screen.getByTestId('filter-banner-action')).toBeVisible()
     })
 
     it('does not show filter banner when animationFilter is undefined', () => {

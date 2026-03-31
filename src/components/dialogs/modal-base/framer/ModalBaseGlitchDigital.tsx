@@ -45,7 +45,7 @@ function ModalBaseGlitchDigitalComponent({
   const skewMax = 2 * intensity
 
   return (
-    <div data-animation-id="modal-base__tfx-glitchdigital">
+    <div data-animation-id="modal-base__glitch-digital">
       <div style={{ position: 'relative' }}>
         {/* Green ghost — chromatic aberration layer */}
         {!prefersReducedMotion && (

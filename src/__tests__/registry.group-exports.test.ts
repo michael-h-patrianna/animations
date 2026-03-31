@@ -25,22 +25,22 @@ describe('group export completeness', () => {
     ].sort()
 
     expect(baseGroupIds).toEqual([
+      'auto-dismiss',
       'button-effects',
+      'celebration-effects',
       'collection-effects',
       'icon-animations',
       'lights',
       'loading-states',
       'modal-base',
-      'modal-celebrations',
-      'modal-content',
-      'modal-dismiss',
+      'modal-content-choreography',
       'modal-open',
-      'modal-orchestration',
       'prize-reveal',
       'progress-bars',
       'realtime-data',
       'standard-effects',
       'text-effects',
+      'tile-animations',
       'timer-effects',
       'update-indicators',
     ])

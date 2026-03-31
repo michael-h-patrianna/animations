@@ -46,11 +46,11 @@ const INSPECTOR_STARTER_DEFAULTS: Record<string, Record<string, unknown>> = {
   'icon-animations__float': { src: presentBoxBalloon, alt: 'Floating balloon' },
   'icon-animations__pulse': { src: pulseScroll, alt: 'Pulsing scroll' },
   'icon-animations__shake': { src: shakeIcon, alt: 'Shake animation' },
-  'modal-celebrations__coin-cascade': { coinImage },
-  'modal-celebrations__coins-arc': { coinImage },
-  'modal-celebrations__coins-swirl': { coinImage },
-  'modal-celebrations__firework': { particleImages: [...DEFAULT_FIREWORK_PARTICLE_IMAGES] },
-  'modal-celebrations__treasure-particles': { coinImage },
+  'celebration-effects__coin-cascade': { coinImage },
+  'celebration-effects__coins-arc': { coinImage },
+  'celebration-effects__coins-swirl': { coinImage },
+  'celebration-effects__firework': { particleImages: [...DEFAULT_FIREWORK_PARTICLE_IMAGES] },
+  'celebration-effects__treasure-particles': { coinImage },
 }
 
 /** Returns pre-configured prop defaults (images, alt text) for specific animation IDs. */
