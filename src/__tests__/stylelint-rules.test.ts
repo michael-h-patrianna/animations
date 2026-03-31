@@ -164,7 +164,7 @@ describe('stylelint: no-blur', () => {
 
 // ── no-conic-gradient ────────────────────────────────────────────────────
 
-describe('stylelint: no-conic-gradient', () => {
+describe('stylelint: no-radial-angular-gradient', () => {
   const ruleName = 'animation-rules/no-radial-angular-gradient'
 
   it('allows linear-gradient', async () => {

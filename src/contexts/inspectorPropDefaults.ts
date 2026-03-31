@@ -73,6 +73,14 @@ export function buildPropDefaults(
   return defaults
 }
 
+/**
+ * Normalizes color-equivalent CSS values for comparison.
+ * 'none' and 'transparent' are visually identical for color/stroke props.
+ */
+function normalizeForComparison(value: unknown): unknown {
+  return value === 'none' ? 'transparent' : value
+}
+
 /** Returns true when any interactive prop differs from its default value. */
 export function hasDirtyPropOverrides(
   overrides: Record<string, unknown>,
@@ -82,8 +90,8 @@ export function hasDirtyPropOverrides(
   const defaults = buildPropDefaults(propsConfig, animationId)
 
   for (const key of Object.keys(overrides)) {
-    const current = overrides[key]
-    const def = defaults[key]
+    const current = normalizeForComparison(overrides[key])
+    const def = normalizeForComparison(defaults[key])
 
     if (isRecord(current) && isRecord(def)) {
       const nestedKeys = new Set([...Object.keys(current), ...Object.keys(def)])
