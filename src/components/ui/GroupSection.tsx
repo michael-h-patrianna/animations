@@ -2,6 +2,7 @@ import { getGroupAnimations } from '@/components/animationRegistry'
 import { DemoModeWrapper } from '@/components/ui/DemoModeWrappers'
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import { useAnimationInspector } from '@/contexts/AnimationInspectorContext'
+import { Banner } from '@/demo-ui/components/ui/Banner'
 import { LoadingSpinner } from '@/demo-ui/components/ui/LoadingSpinner'
 import { useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { useLocation } from 'react-router-dom'
@@ -132,6 +133,8 @@ function useGroupContentState(group: Group, animationFilter?: string) {
     handleSelectAnimation,
     isFilterActive: Boolean(animationFilter),
     isFilterInvalid: Boolean(animationFilter) && filteredAnimations.length === 0,
+    filterDisplayName:
+      filteredAnimations.length === 1 ? filteredAnimations[0]?.title : animationFilter,
   }
 }
 
@@ -149,21 +152,16 @@ function GroupContent({
       data-testid={`group-section-${elementId}`}
     >
       {state.isFilterActive && (
-        <div className="pf-filter-banner" data-testid="filter-banner">
-          <span>
-            {state.isFilterInvalid
-              ? `Animation "${animationFilter}" not found`
-              : `Showing: ${animationFilter}`}
-          </span>
-          <button
-            type="button"
-            className="pf-filter-banner__remove"
-            onClick={state.handleRemoveFilter}
-            data-testid="remove-filter-btn"
-          >
-            Show all animations
-          </button>
-        </div>
+        <Banner
+          variant={state.isFilterInvalid ? 'error' : 'info'}
+          actionLabel="Show all"
+          onAction={state.handleRemoveFilter}
+          data-testid="filter-banner"
+        >
+          {state.isFilterInvalid
+            ? `Animation "${animationFilter}" not found`
+            : `Showing: ${state.filterDisplayName}`}
+        </Banner>
       )}
 
       {state.isFilterInvalid ? null : state.filteredAnimations.length > 0 ? (
