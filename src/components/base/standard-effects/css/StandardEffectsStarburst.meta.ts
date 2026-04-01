@@ -6,7 +6,7 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/standard-effects-css?animation=standard-effects__starburst',
   title: 'Starburst',
   description:
-    'Radial light rays rotate around a breathing center glow. Wraps content with a reward-highlight background. Configurable ray count, colors, size, and rotation speed.',
+    'Rotating radial light rays. Place behind a reward icon, badge, or any element that needs a highlight background. Configurable ray count, width ratio, color, size, and rotation speed.',
   tier: 1,
   infinite: true,
   disableReplay: true,
@@ -16,12 +16,7 @@ export const metadata: AnimationMetadata = {
       name: 'rayColor',
       label: 'Ray Color',
       default: 'rgba(255, 180, 0, 0.15)',
-    },
-    {
-      type: 'color',
-      name: 'glowColor',
-      label: 'Glow Color',
-      default: 'rgba(255, 220, 100, 0.8)',
+      allowGradient: true,
     },
     {
       type: 'number',
@@ -31,6 +26,16 @@ export const metadata: AnimationMetadata = {
       min: 4,
       max: 24,
       step: 2,
+    },
+    {
+      type: 'number',
+      name: 'rayWidth',
+      label: 'Ray Width',
+      description: 'Fraction of each slice the colored ray fills (0 = hairline, 1 = no gap)',
+      default: 0.5,
+      min: 0.05,
+      max: 0.95,
+      step: 0.05,
     },
     {
       type: 'number',

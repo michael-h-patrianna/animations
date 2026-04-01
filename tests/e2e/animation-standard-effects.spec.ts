@@ -157,4 +157,155 @@ test.describe('Standard Effects', () => {
       await expect(cssCard).toBeVisible()
     })
   })
+
+  test.describe('Starburst gradient picker', () => {
+    test.beforeEach(async ({ catalogPage, page }) => {
+      await catalogPage.gotoGroup('standard-effects-framer')
+      await page.locator('[data-testid="toggle-right-panel"]').click()
+      const card = catalogPage.card('standard-effects__starburst')
+      await expect(card).toBeVisible()
+      await card.click()
+      await expect(page.locator('[data-testid="right-panel"]')).toBeVisible()
+    })
+
+    test('rayColor field renders with gradient mode switcher', async ({ page }) => {
+      const field = page.locator('[data-testid="prop-field-rayColor"]')
+      await expect(field).toBeVisible()
+
+      // Open the color picker popover
+      await field.locator('[data-testid="popover-open-change"]').click()
+
+      // Mode switcher should be visible with both solid and gradient buttons
+      const solidBtn = page.locator('[data-testid="color-gradient-mode-solid"]')
+      const gradientBtn = page.locator('[data-testid="color-gradient-mode-gradient"]')
+      await expect(solidBtn).toBeVisible()
+      await expect(gradientBtn).toBeVisible()
+    })
+
+    test('switching to gradient mode shows gradient editor', async ({ page }) => {
+      const field = page.locator('[data-testid="prop-field-rayColor"]')
+      await field.locator('[data-testid="popover-open-change"]').click()
+
+      // Switch to gradient mode
+      await page.locator('[data-testid="color-gradient-mode-gradient"]').click()
+
+      // Gradient editor controls should appear
+      await expect(page.locator('[data-testid="gradient-angle-slider"]')).toBeVisible()
+      await expect(page.locator('[data-testid="gradient-stop-0"]')).toBeVisible()
+      await expect(page.locator('[data-testid="gradient-stop-1"]')).toBeVisible()
+      await expect(page.locator('[data-testid="gradient-marker-0"]')).toBeVisible()
+      await expect(page.locator('[data-testid="gradient-marker-1"]')).toBeVisible()
+    })
+
+    test('clicking a stop opens the inline color picker panel', async ({ page }) => {
+      const field = page.locator('[data-testid="prop-field-rayColor"]')
+      await field.locator('[data-testid="popover-open-change"]').click()
+      await page.locator('[data-testid="color-gradient-mode-gradient"]').click()
+
+      // Click a stop row — should open the side color picker
+      await page.locator('[data-testid="gradient-stop-0"]').click()
+      await expect(page.locator('[data-testid="color-picker-copy"]')).not.toBeVisible()
+
+      // The panel should have a saturation area (the color picker panel)
+      const satArea = page.locator('[role="slider"][aria-label="Saturation and brightness"]')
+      await expect(satArea).toBeVisible()
+    })
+
+    test('add stop button creates a third stop', async ({ page }) => {
+      const field = page.locator('[data-testid="prop-field-rayColor"]')
+      await field.locator('[data-testid="popover-open-change"]').click()
+      await page.locator('[data-testid="color-gradient-mode-gradient"]').click()
+
+      // Should start with 2 stops
+      await expect(page.locator('[data-testid="gradient-stop-0"]')).toBeVisible()
+      await expect(page.locator('[data-testid="gradient-stop-1"]')).toBeVisible()
+      await expect(page.locator('[data-testid="gradient-stop-2"]')).not.toBeVisible()
+
+      // Click add stop
+      await page.locator('[data-testid="gradient-add-stop"]').click()
+
+      // Third stop and marker should appear
+      await expect(page.locator('[data-testid="gradient-stop-2"]')).toBeVisible()
+      await expect(page.locator('[data-testid="gradient-marker-2"]')).toBeVisible()
+    })
+
+    test('switching to gradient mode renders SVG linearGradient in starburst', async ({
+      catalogPage,
+      page,
+    }) => {
+      const field = page.locator('[data-testid="prop-field-rayColor"]')
+      await field.locator('[data-testid="popover-open-change"]').click()
+      await page.locator('[data-testid="color-gradient-mode-gradient"]').click()
+
+      // Close the popover
+      await page.keyboard.press('Escape')
+
+      // The starburst animation root contains the SVG with rays.
+      // Use evaluate to check inner SVG content since the root has role="img".
+      const animRoot = catalogPage.card('standard-effects__starburst')
+
+      await expect
+        .poll(
+          async () => {
+            const html = await animRoot.evaluate((el) => el.innerHTML)
+            return html.includes('linearGradient')
+          },
+          { timeout: 5_000 }
+        )
+        .toBe(true)
+
+      // Verify a path references the gradient
+      await expect
+        .poll(
+          async () => {
+            const fills = await animRoot.evaluate((el) =>
+              [...el.querySelectorAll('svg path')].map((p) => p.getAttribute('fill') ?? '')
+            )
+            return fills.some((f) => f.startsWith('url('))
+          },
+          { timeout: 5_000 }
+        )
+        .toBe(true)
+    })
+
+    test('switching back to solid mode removes SVG linearGradient', async ({
+      catalogPage,
+      page,
+    }) => {
+      const field = page.locator('[data-testid="prop-field-rayColor"]')
+      await field.locator('[data-testid="popover-open-change"]').click()
+
+      // Switch to gradient
+      await page.locator('[data-testid="color-gradient-mode-gradient"]').click()
+      await page.keyboard.press('Escape')
+
+      const animRoot = catalogPage.card('standard-effects__starburst')
+
+      await expect
+        .poll(
+          async () => {
+            const html = await animRoot.evaluate((el) => el.innerHTML)
+            return html.includes('linearGradient')
+          },
+          { timeout: 5_000 }
+        )
+        .toBe(true)
+
+      // Re-open and switch back to solid
+      await field.locator('[data-testid="popover-open-change"]').click()
+      await page.locator('[data-testid="color-gradient-mode-solid"]').click()
+      await page.keyboard.press('Escape')
+
+      // linearGradient should be gone, fill should be a color
+      await expect
+        .poll(
+          async () => {
+            const html = await animRoot.evaluate((el) => el.innerHTML)
+            return !html.includes('linearGradient')
+          },
+          { timeout: 5_000 }
+        )
+        .toBe(true)
+    })
+  })
 })

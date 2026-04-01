@@ -174,10 +174,12 @@ export interface BooleanPropConfig extends PropConfigBase {
   default?: boolean
 }
 
-/** Color prop — rendered as color picker + hex input. */
+/** Color prop — rendered as color picker (+ gradient editor when `allowGradient` is set). */
 export interface ColorPropConfig extends PropConfigBase {
   type: 'color'
-  default?: string
+  default?: string | import('@/types/gradient').LinearGradientValue
+  /** When true, the inspector shows a solid/gradient mode switcher. */
+  allowGradient?: boolean
 }
 
 /** Enumerated prop — rendered as select dropdown. */

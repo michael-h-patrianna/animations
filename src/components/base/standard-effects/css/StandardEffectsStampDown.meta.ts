@@ -6,7 +6,7 @@ export const metadata = {
   urlSlugCss: '/standard-effects-css?animation=standard-effects__stamp-down',
   title: 'Stamp Down',
   description:
-    'Impact slam entrance — element drops from oversized to normal with bounce settle. Stars slam after level completion, rank badges land with weight, approval seals stamp down. Configurable start scale, impact rotation, duration, and optional impact ring.',
+    'Impact slam entrance — element drops from oversized to normal with bounce settle. Stars slam after level completion, rank badges land with weight, approval seals stamp down. Configurable start scale, impact rotation, and duration.',
   tier: 1,
   props: [
     {
@@ -37,18 +37,6 @@ export const metadata = {
       max: 8,
       step: 0.5,
       unit: 'deg',
-    },
-    {
-      type: 'boolean',
-      name: 'showImpactRing',
-      label: 'Impact Ring',
-      default: false,
-    },
-    {
-      type: 'color',
-      name: 'ringColor',
-      label: 'Ring Color',
-      default: 'rgba(255, 255, 255, 0.3)',
     },
     {
       type: 'string',

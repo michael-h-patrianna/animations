@@ -60,6 +60,33 @@ describe.each([
     expect(path.getAttribute('fill')).toBe('rgba(100, 200, 50, 0.3)')
   })
 
+  it('rayWidth controls wedge arc size', () => {
+    const { unmount } = render(<Component rayCount={4} rayWidth={0.25} size={200} />)
+    const narrow = screen.getByRole('img', { name: 'Starburst radial rays' })
+    const narrowPath = narrow.querySelector('svg path')!.getAttribute('d')!
+    unmount()
+
+    render(<Component rayCount={4} rayWidth={0.75} size={200} />)
+    const wide = screen.getByRole('img', { name: 'Starburst radial rays' })
+    const widePath = wide.querySelector('svg path')!.getAttribute('d')!
+
+    expect(narrowPath).not.toBe(widePath)
+  })
+
+  it('clamps rayWidth to [0.05, 0.95]', () => {
+    const { unmount: u1 } = render(<Component rayCount={4} rayWidth={0} size={200} />)
+    const el1 = screen.getByRole('img', { name: 'Starburst radial rays' })
+    const path1 = el1.querySelector('svg path')!.getAttribute('d')!
+    u1()
+
+    const { unmount: u2 } = render(<Component rayCount={4} rayWidth={0.05} size={200} />)
+    const el2 = screen.getByRole('img', { name: 'Starburst radial rays' })
+    const path2 = el2.querySelector('svg path')!.getAttribute('d')!
+    u2()
+
+    expect(path1).toBe(path2)
+  })
+
   it('renders children inside content slot when provided', () => {
     render(
       <Component>
@@ -70,6 +97,13 @@ describe.each([
     expect(screen.getByTestId('child-content')).toHaveTextContent('Reward Icon')
     const el = screen.getByRole('img', { name: 'Starburst radial rays' })
     expect(el).toHaveAttribute('data-animation-id', 'standard-effects__starburst')
+  })
+
+  it('does not render a center glow element', () => {
+    render(<Component />)
+    const el = screen.getByRole('img', { name: 'Starburst radial rays' })
+    const glowEl = el.querySelector('[class*="glow"]')
+    expect(glowEl).toBeNull()
   })
 
   it('has accessible role and label', () => {

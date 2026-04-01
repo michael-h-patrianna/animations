@@ -1,9 +1,9 @@
 /**
  * Behavioral tests for the Stamp Down animation.
- * Verifies prop wiring, DOM structure, impact ring conditional rendering,
- * and CSS variable propagation for both framer and CSS variants.
+ * Verifies prop wiring, DOM structure, and CSS variable propagation
+ * for both framer and CSS variants.
  */
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { Suspense } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
@@ -38,7 +38,7 @@ afterEach(() => {
 })
 
 describe('StandardEffectsStampDown (framer)', () => {
-  it('renders with correct animation id and position relative for ring anchoring', async () => {
+  it('renders with correct animation id', async () => {
     const { StandardEffectsStampDown } =
       await import('@/components/base/standard-effects/framer/StandardEffectsStampDown')
 
@@ -48,13 +48,8 @@ describe('StandardEffectsStampDown (framer)', () => {
       </Suspense>
     )
 
-    await waitFor(() => {
-      const root = container.querySelector('[data-animation-id="standard-effects__stamp-down"]')
-      expect(root).toHaveAttribute('data-animation-id', 'standard-effects__stamp-down')
-    })
-
     const root = container.querySelector('[data-animation-id="standard-effects__stamp-down"]')
-    expect(root).toHaveStyle({ position: 'relative' })
+    expect(root).toHaveAttribute('data-animation-id', 'standard-effects__stamp-down')
   })
 
   it('renders default DemoBox when no children provided', async () => {
@@ -67,10 +62,8 @@ describe('StandardEffectsStampDown (framer)', () => {
       </Suspense>
     )
 
-    await waitFor(() => {
-      const demoBox = container.querySelector('.pf-demo-box')
-      expect(demoBox).toHaveTextContent('Stamp')
-    })
+    const demoBox = container.querySelector('.pf-demo-box')
+    expect(demoBox).toHaveTextContent('Stamp')
   })
 
   it('renders custom children instead of DemoBox', async () => {
@@ -85,50 +78,13 @@ describe('StandardEffectsStampDown (framer)', () => {
       </Suspense>
     )
 
-    await waitFor(() => {
-      expect(screen.getByTestId('custom-child')).toHaveTextContent('Custom Content')
-    })
-
+    expect(screen.getByTestId('custom-child')).toHaveTextContent('Custom Content')
     expect(container.querySelector('.pf-demo-box')).not.toBeInTheDocument()
-  })
-
-  it('does not render impact ring by default', async () => {
-    const { StandardEffectsStampDown } =
-      await import('@/components/base/standard-effects/framer/StandardEffectsStampDown')
-
-    const { container } = render(
-      <Suspense fallback={<div>Loading</div>}>
-        <StandardEffectsStampDown />
-      </Suspense>
-    )
-
-    await waitFor(() => {
-      const root = container.querySelector('[data-animation-id="standard-effects__stamp-down"]')
-      expect(root).toHaveAttribute('data-animation-id', 'standard-effects__stamp-down')
-    })
-
-    expect(container.querySelector('[aria-hidden="true"]')).not.toBeInTheDocument()
-  })
-
-  it('renders impact ring with custom color when showImpactRing is true', async () => {
-    const { StandardEffectsStampDown } =
-      await import('@/components/base/standard-effects/framer/StandardEffectsStampDown')
-
-    const { container } = render(
-      <Suspense fallback={<div>Loading</div>}>
-        <StandardEffectsStampDown showImpactRing={true} ringColor="rgba(255, 0, 0, 0.5)" />
-      </Suspense>
-    )
-
-    await waitFor(() => {
-      const ring = container.querySelector('[aria-hidden="true"]')
-      expect(ring).toHaveStyle({ borderColor: 'rgba(255, 0, 0, 0.5)' })
-    })
   })
 })
 
 describe('StandardEffectsStampDown (css)', () => {
-  it('renders with correct animation id and CSS custom properties', async () => {
+  it('renders with correct animation id and custom CSS properties', async () => {
     const { StandardEffectsStampDown } =
       await import('@/components/base/standard-effects/css/StandardEffectsStampDown')
 
@@ -138,14 +94,12 @@ describe('StandardEffectsStampDown (css)', () => {
       </Suspense>
     )
 
-    await waitFor(() => {
-      const root = container.querySelector('[data-animation-id="standard-effects__stamp-down"]')
-      expect(root).toHaveStyle({
-        '--pf-stamp-down-duration': '500ms',
-        '--pf-stamp-down-start-scale': '3',
-        '--pf-stamp-down-rotation': '4deg',
-      })
-    })
+    const root = container.querySelector(
+      '[data-animation-id="standard-effects__stamp-down"]'
+    ) as HTMLElement
+    expect(root.style.getPropertyValue('--pf-stamp-down-duration')).toBe('500ms')
+    expect(root.style.getPropertyValue('--pf-stamp-down-start-scale')).toBe('3')
+    expect(root.style.getPropertyValue('--pf-stamp-down-rotation')).toBe('4deg')
   })
 
   it('renders default DemoBox when no children provided', async () => {
@@ -158,10 +112,8 @@ describe('StandardEffectsStampDown (css)', () => {
       </Suspense>
     )
 
-    await waitFor(() => {
-      const demoBox = container.querySelector('.pf-demo-box')
-      expect(demoBox).toHaveTextContent('Stamp')
-    })
+    const demoBox = container.querySelector('.pf-demo-box')
+    expect(demoBox).toHaveTextContent('Stamp')
   })
 
   it('renders custom children instead of DemoBox', async () => {
@@ -176,43 +128,7 @@ describe('StandardEffectsStampDown (css)', () => {
       </Suspense>
     )
 
-    await waitFor(() => {
-      expect(screen.getByTestId('custom-child')).toHaveTextContent('Custom Child')
-    })
-  })
-
-  it('does not render impact ring by default', async () => {
-    const { StandardEffectsStampDown } =
-      await import('@/components/base/standard-effects/css/StandardEffectsStampDown')
-
-    const { container } = render(
-      <Suspense fallback={<div>Loading</div>}>
-        <StandardEffectsStampDown />
-      </Suspense>
-    )
-
-    await waitFor(() => {
-      const root = container.querySelector('[data-animation-id="standard-effects__stamp-down"]')
-      expect(root).toHaveAttribute('data-animation-id', 'standard-effects__stamp-down')
-    })
-
-    expect(container.querySelector('[aria-hidden="true"]')).not.toBeInTheDocument()
-  })
-
-  it('renders impact ring when showImpactRing is true', async () => {
-    const { StandardEffectsStampDown } =
-      await import('@/components/base/standard-effects/css/StandardEffectsStampDown')
-
-    const { container } = render(
-      <Suspense fallback={<div>Loading</div>}>
-        <StandardEffectsStampDown showImpactRing={true} />
-      </Suspense>
-    )
-
-    await waitFor(() => {
-      const ring = container.querySelector('[aria-hidden="true"]')
-      expect(ring).toHaveAttribute('aria-hidden', 'true')
-    })
+    expect(screen.getByTestId('custom-child')).toHaveTextContent('Custom Child')
   })
 
   it('uses correct default prop values', async () => {
@@ -225,13 +141,11 @@ describe('StandardEffectsStampDown (css)', () => {
       </Suspense>
     )
 
-    await waitFor(() => {
-      const root = container.querySelector('[data-animation-id="standard-effects__stamp-down"]')
-      expect(root).toHaveStyle({
-        '--pf-stamp-down-duration': '350ms',
-        '--pf-stamp-down-start-scale': '2',
-        '--pf-stamp-down-rotation': '2deg',
-      })
-    })
+    const root = container.querySelector(
+      '[data-animation-id="standard-effects__stamp-down"]'
+    ) as HTMLElement
+    expect(root.style.getPropertyValue('--pf-stamp-down-duration')).toBe('350ms')
+    expect(root.style.getPropertyValue('--pf-stamp-down-start-scale')).toBe('2')
+    expect(root.style.getPropertyValue('--pf-stamp-down-rotation')).toBe('2deg')
   })
 })
