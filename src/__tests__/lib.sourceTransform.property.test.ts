@@ -2,14 +2,14 @@ import { describe, expect, it } from 'vitest'
 import fc from 'fast-check'
 import { cleanSourceForDisplay } from '@/lib/sourceTransform'
 
-/** Arbitrary for typical JSX line content (no data-animation-id, no MockModalContent) */
+/** Arbitrary for typical JSX line content (no data-animation-id, no DefaultModalContent) */
 const safeJsxLine = fc
   .array(fc.constantFrom(...'abcdefghijklmnopqrstuvwxyz0123456789 =<>/{}()\'"-_.'.split('')), {
     minLength: 1,
     maxLength: 80,
   })
   .map((chars) => chars.join(''))
-  .filter((s) => !s.includes('data-animation-id') && !s.includes('MockModalContent'))
+  .filter((s) => !s.includes('data-animation-id') && !s.includes('DefaultModalContent'))
 
 /** Arbitrary for multi-line JSX source without transformable patterns */
 const safeSource = fc

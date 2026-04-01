@@ -7,14 +7,14 @@ import { describe, it, expect } from 'vitest'
 import * as fc from 'fast-check'
 import { cleanSourceForDisplay } from '@/lib/sourceTransform'
 
-/** Arbitrary for lines that should NOT be transformed (no data-animation-id, no MockModalContent). */
+/** Arbitrary for lines that should NOT be transformed (no data-animation-id, no DefaultModalContent). */
 const normalLine = fc
   .string({ minLength: 0, maxLength: 120 })
   .filter(
     (s) =>
       !s.includes('\n') &&
       !s.includes('data-animation-id=') &&
-      !/import\s+\{?\s*MockModalContent/.test(s)
+      !/import\s+\{?\s*DefaultModalContent/.test(s)
   )
 
 /** Arbitrary for a multi-line source string made of normal lines. */
@@ -57,18 +57,18 @@ describe('cleanSourceForDisplay — property-based', () => {
     )
   })
 
-  it('replaces MockModalContent imports with guidance comment', () => {
+  it('replaces DefaultModalContent imports with guidance comment', () => {
     fc.assert(
       fc.property(
         fc.constantFrom(
-          "import { MockModalContent } from '../MockContent'",
-          "import MockModalContent from './MockContent'",
-          "import {MockModalContent} from '@/mock'"
+          "import { DefaultModalContent } from '../MockContent'",
+          "import DefaultModalContent from './MockContent'",
+          "import {DefaultModalContent} from '@/mock'"
         ),
         (importLine) => {
           const source = `${importLine}\nconst x = 1`
           const result = cleanSourceForDisplay(source)
-          expect(result).toContain('Replace <MockModalContent />')
+          expect(result).toContain('Replace <DefaultModalContent />')
           expect(result).not.toContain('from')
         }
       )
@@ -81,7 +81,7 @@ describe('cleanSourceForDisplay — property-based', () => {
         const result = cleanSourceForDisplay(source)
         const resultLines = result.split('\n')
         for (const line of resultLines) {
-          if (line.includes('Replace <MockModalContent />')) continue
+          if (line.includes('Replace <DefaultModalContent />')) continue
           expect(source).toContain(line.trim())
         }
       })

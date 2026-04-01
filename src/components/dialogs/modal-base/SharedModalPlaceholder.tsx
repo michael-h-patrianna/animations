@@ -7,7 +7,7 @@ import { DemoButton, DemoModal } from '@/components/demo-blocks'
  * Provides enough visual substance to see the animation working in the catalog.
  * Consumers replace this with their own modal content.
  */
-export function MockModalContent() {
+export function DefaultModalContent() {
   return (
     <DemoModal
       title="New Creator Quest"
@@ -30,5 +30,5 @@ export function MockModalContent() {
  */
 export function ModalPlaceholder({ children }: { children?: ReactNode }) {
   if (children !== undefined) return <>{children}</>
-  return <MockModalContent />
+  return <DefaultModalContent />
 }

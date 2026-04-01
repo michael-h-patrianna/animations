@@ -36,17 +36,17 @@ describe('cleanSourceForDisplay', () => {
     expect(result).toBe('')
   })
 
-  it('replaces MockModalContent named import with guidance comment', () => {
-    const source = `import { MockModalContent } from '@/MockModalContent'`
+  it('replaces DefaultModalContent named import with guidance comment', () => {
+    const source = `import { DefaultModalContent } from '@/DefaultModalContent'`
     const result = cleanSourceForDisplay(source)
-    expect(result).not.toContain("from '@/MockModalContent'")
-    expect(result).toContain('Replace <MockModalContent /> below with your own content')
+    expect(result).not.toContain("from '@/DefaultModalContent'")
+    expect(result).toContain('Replace <DefaultModalContent /> below with your own content')
   })
 
-  it('replaces MockModalContent default import with guidance comment', () => {
-    const source = `import MockModalContent from '@/MockModalContent'`
+  it('replaces DefaultModalContent default import with guidance comment', () => {
+    const source = `import DefaultModalContent from '@/DefaultModalContent'`
     const result = cleanSourceForDisplay(source)
-    expect(result).toContain('Replace <MockModalContent /> below with your own content')
+    expect(result).toContain('Replace <DefaultModalContent /> below with your own content')
   })
 
   it('passes through normal lines unchanged', () => {
@@ -64,23 +64,23 @@ describe('cleanSourceForDisplay', () => {
 
   it('handles multi-line source with mixed transformations', () => {
     const source = [
-      `import { MockModalContent } from '@/MockModalContent'`,
+      `import { DefaultModalContent } from '@/DefaultModalContent'`,
       `import * as m from 'motion/react-m'`,
       ``,
       `export function Demo() {`,
       `  return (`,
       `    <m.div data-animation-id="demo__test" className="pf-modal">`,
-      `      <MockModalContent />`,
+      `      <DefaultModalContent />`,
       `    </m.div>`,
       `  )`,
       `}`,
     ].join('\n')
 
     const result = cleanSourceForDisplay(source)
-    expect(result).toContain('Replace <MockModalContent /> below')
+    expect(result).toContain('Replace <DefaultModalContent /> below')
     expect(result).not.toContain('data-animation-id')
     expect(result).toContain('<m.div className="pf-modal">')
-    expect(result).toContain('<MockModalContent />')
+    expect(result).toContain('<DefaultModalContent />')
   })
 
   it('preserves indentation of non-transformed lines', () => {
@@ -188,14 +188,16 @@ describe('cleanSourceForDisplay', () => {
     expect(result).toContain('className={`pf-modal ${isActive ? "active" : ""}`}')
   })
 
-  it('does not transform aliased MockModalContent import (regex limitation)', () => {
-    // The regex expects `MockModalContent` directly before optional `}`, so
-    // `MockModalContent as Content` does not match. In practice the codebase
-    // never uses aliased imports for MockModalContent.
-    const source = `import { MockModalContent as Content } from '@/MockModalContent'`
+  it('does not transform aliased DefaultModalContent import (regex limitation)', () => {
+    // The regex expects `DefaultModalContent` directly before optional `}`, so
+    // `DefaultModalContent as Content` does not match. In practice the codebase
+    // never uses aliased imports for DefaultModalContent.
+    const source = `import { DefaultModalContent as Content } from '@/DefaultModalContent'`
     const result = cleanSourceForDisplay(source)
     // NOT transformed because the regex doesn't match the alias syntax
-    expect(result).toContain("import { MockModalContent as Content } from '@/MockModalContent'")
+    expect(result).toContain(
+      "import { DefaultModalContent as Content } from '@/DefaultModalContent'"
+    )
   })
 
   it('handles unclosed data-animation-id quote (malformed HTML)', () => {

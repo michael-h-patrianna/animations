@@ -9,7 +9,7 @@ import { DemoFormField, DemoListItem } from '@/components/demo-blocks'
  */
 
 // ---------------------------------------------------------------------------
-// Mock list items
+// Default list items
 // ---------------------------------------------------------------------------
 
 const DEFAULT_LIST_TEXTS = [
@@ -20,16 +20,18 @@ const DEFAULT_LIST_TEXTS = [
   'Timezone set to UTC',
 ]
 
-export function generateMockListItems(count?: number): ReactNode[] {
+/** Generate placeholder list items from demo-blocks for zero-props rendering. */
+export function generateDefaultListItems(count?: number): ReactNode[] {
   const texts = DEFAULT_LIST_TEXTS.slice(0, count ?? DEFAULT_LIST_TEXTS.length)
   return texts.map((text, i) => <DemoListItem key={`mock-item-${String(i)}`}>{text}</DemoListItem>)
 }
 
 // ---------------------------------------------------------------------------
-// Mock form fields
+// Default form fields
 // ---------------------------------------------------------------------------
 
-export function generateMockFormFields(count: number = 3): ReactNode[] {
+/** Generate placeholder form fields from demo-blocks for zero-props rendering. */
+export function generateDefaultFormFields(count: number = 3): ReactNode[] {
   const labels = ['Username', 'Email', 'Password', 'Confirm']
   return Array.from({ length: count }, (_, i) => (
     <DemoFormField key={`mock-field-${String(i)}`} label={labels[i] ?? `Field ${String(i + 1)}`} />

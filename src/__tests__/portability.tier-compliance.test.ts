@@ -88,7 +88,7 @@ function extractImports(filePath: string): string[] {
 }
 
 // Imports that are invisible to portability checks (demo harness, not consumer code)
-const IGNORED_IMPORTS = ['@/components/demo-blocks', '@/types/']
+const IGNORED_IMPORTS = ['@/components/demo-blocks']
 
 /**
  * Determine the minimum tier required by the file's actual imports.

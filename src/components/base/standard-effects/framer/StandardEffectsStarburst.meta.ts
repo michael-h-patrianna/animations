@@ -7,7 +7,7 @@ export const metadata: AnimationMetadata = {
   title: 'Starburst',
   description:
     'Rotating radial light rays. Place behind a reward icon, badge, or any element that needs a highlight background. Configurable ray count, width ratio, color, size, and rotation speed.',
-  tier: 1,
+  tier: 2,
   infinite: true,
   disableReplay: true,
   props: [

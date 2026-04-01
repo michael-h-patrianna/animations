@@ -14,7 +14,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import { generateMockFormFields } from '@/components/dialogs/modal-content-choreography/MockContentItems'
+import { generateDefaultFormFields } from '@/components/dialogs/modal-content-choreography/SharedContentDefaults'
 import {
   toItemArray,
   type DirectionalRevealProps,
@@ -69,7 +69,7 @@ function ModalContentChoreographyFormFieldLeftRevealComponent({
     )
   }
 
-  const mockFields = generateMockFormFields(DEFAULT_COUNT)
+  const mockFields = generateDefaultFormFields(DEFAULT_COUNT)
 
   return (
     <div
