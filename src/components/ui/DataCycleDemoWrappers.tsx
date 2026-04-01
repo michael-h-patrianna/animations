@@ -269,9 +269,21 @@ function randomCombatValue(type: string): string {
   }
 }
 
+const COMBAT_DEFAULT_VALUE = '-42'
+const COMBAT_DEFAULT_TYPE = 'damage'
+
 /**
- * Spawns multiple floating combat text instances at random positions
- * within the card, cycling through damage/heal/gold/critical types.
+ * Spawns multiple floating combat text instances from a central point,
+ * cycling through damage/heal/gold/critical types.
+ *
+ * When the user hasn't changed value/type in the inspector, the demo
+ * generates random values and cycles through types for visual variety.
+ * When the user explicitly sets a value or type, all instances respect
+ * the override. All other props (fontSize, duration, etc.) always flow
+ * through and trigger a full re-spawn so changes are immediately visible.
+ *
+ * The spread prop controls both spawn-position scatter (here) and
+ * per-instance horizontal drift (inside the animation component).
  */
 function CombatTextDemoComponent({
   Component,
@@ -284,7 +296,20 @@ function CombatTextDemoComponent({
   const nextIdRef = useRef(0)
   const typeIndexRef = useRef(0)
 
+  const userType = controlProps.type as string | undefined
+  const userValue = controlProps.value as string | undefined
+  const hasUserType = userType !== undefined && userType !== COMBAT_DEFAULT_TYPE
+  const hasUserValue = userValue !== undefined && userValue !== COMBAT_DEFAULT_VALUE
+
+  const { value: _v, type: _t, ...styleProps } = controlProps
+  const spreadPx = typeof styleProps.spread === 'number' ? styleProps.spread : 20
+  const styleKey = JSON.stringify(styleProps)
+
   useEffect(() => {
+    setInstances([])
+    nextIdRef.current = 0
+    typeIndexRef.current = 0
+
     const timeouts = new Set<ReturnType<typeof setTimeout>>()
     let mounted = true
 
@@ -300,8 +325,12 @@ function CombatTextDemoComponent({
       if (!mounted) return
 
       const now = Date.now()
-      const type = COMBAT_TYPES[typeIndexRef.current % COMBAT_TYPES.length]!
+      const cycleType = COMBAT_TYPES[typeIndexRef.current % COMBAT_TYPES.length]!
       typeIndexRef.current += 1
+      const resolvedType = hasUserType ? userType! : cycleType
+
+      const xScatter = (Math.random() - 0.5) * spreadPx
+      const yJitter = (Math.random() - 0.5) * 10
 
       setInstances((prev) => {
         const alive = prev
@@ -312,10 +341,10 @@ function CombatTextDemoComponent({
           ...alive,
           {
             id: nextIdRef.current++,
-            value: randomCombatValue(type),
-            type,
-            x: Math.random() * 60 + 20,
-            y: Math.random() * 30 + 35,
+            value: hasUserValue ? userValue! : randomCombatValue(resolvedType),
+            type: resolvedType,
+            x: 50 + xScatter,
+            y: 50 + yJitter,
             createdAt: now,
           },
         ]
@@ -331,7 +360,7 @@ function CombatTextDemoComponent({
       timeouts.forEach(clearTimeout)
       timeouts.clear()
     }
-  }, [])
+  }, [styleKey, hasUserType, userType, hasUserValue, userValue, spreadPx])
 
   return (
     <div
@@ -347,7 +376,7 @@ function CombatTextDemoComponent({
             top: `${inst.y}%`,
           }}
         >
-          <Component {...controlProps} value={inst.value} type={inst.type} />
+          <Component {...styleProps} value={inst.value} type={inst.type} />
         </div>
       ))}
     </div>

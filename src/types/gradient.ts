@@ -34,10 +34,14 @@ export function isLinearGradient(value: ColorOrGradient): value is LinearGradien
 }
 
 /**
- * Converts a CSS gradient angle to SVG linearGradient x1/y1/x2/y2 coordinates.
+ * Converts a CSS gradient angle to SVG linearGradient coordinates
+ * for use with `gradientUnits="userSpaceOnUse"`.
+ *
+ * userSpaceOnUse applies one gradient across the entire SVG coordinate space,
+ * so all paths (e.g. ray wedges) share a single coherent gradient.
  *
  * CSS angle convention: 0deg = bottom→top, increases clockwise.
- * SVG userSpaceOnUse: origin top-left, y increases downward.
+ * SVG: origin top-left, y increases downward.
  *
  * @param angle CSS angle in degrees
  * @param size  SVG viewBox size (square)
