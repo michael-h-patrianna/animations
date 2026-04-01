@@ -78,7 +78,7 @@ function StandardEffectsPulseWaveComponent({
             border: `2px solid ${resolvedRingColor}`,
           }}
           animate={
-            prefersReducedMotion ? { opacity: 0 } : { scale: [1, 2.8, 2.8], opacity: [0.6, 0, 0] }
+            prefersReducedMotion ? { opacity: 0 } : { scale: [1, 2.8, 1], opacity: [0.6, 0, 0] }
           }
           transition={
             prefersReducedMotion
@@ -100,7 +100,7 @@ function StandardEffectsPulseWaveComponent({
             border: `2px solid ${resolvedRingColor}`,
           }}
           animate={
-            prefersReducedMotion ? { opacity: 0 } : { scale: [1, 2.8, 2.8], opacity: [0.4, 0, 0] }
+            prefersReducedMotion ? { opacity: 0 } : { scale: [1, 2.8, 1], opacity: [0.4, 0, 0] }
           }
           transition={
             prefersReducedMotion
