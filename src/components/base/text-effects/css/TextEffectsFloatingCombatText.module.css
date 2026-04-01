@@ -7,13 +7,12 @@
  */
 
 .tfx-combattext__container {
-  --tfx-combattext-color: #ef4444;
+  --tfx-combattext-color: #4ade80;
   --tfx-combattext-drift-x: 0px;
   --tfx-combattext-float-distance: 60px;
   --tfx-combattext-pop-scale: 1.1;
   --tfx-combattext-shadow-dark: rgb(0 0 0 / 50%);
   --tfx-combattext-shadow-soft: rgb(0 0 0 / 30%);
-  --tfx-combattext-shadow-heavy: rgb(0 0 0 / 60%);
 
   position: relative;
   min-height: 60px;
@@ -24,24 +23,20 @@
   contain: layout style;
 }
 
-/* Type color presets via data attribute */
-.tfx-combattext__container[data-type='damage'] {
-  --tfx-combattext-color: #ef4444;
-}
-
-.tfx-combattext__container[data-type='heal'] {
+/* Value-based color bands via data attribute */
+.tfx-combattext__container[data-band='positive'] {
   --tfx-combattext-color: #4ade80;
 }
 
-.tfx-combattext__container[data-type='gold'] {
+.tfx-combattext__container[data-band='positive-high'] {
   --tfx-combattext-color: #fbbf24;
 }
 
-.tfx-combattext__container[data-type='neutral'] {
-  --tfx-combattext-color: #fff;
+.tfx-combattext__container[data-band='negative'] {
+  --tfx-combattext-color: #f87171;
 }
 
-.tfx-combattext__container[data-type='critical'] {
+.tfx-combattext__container[data-band='negative-high'] {
   --tfx-combattext-color: #ef4444;
 }
 
@@ -58,12 +53,6 @@
   will-change: transform, opacity;
   animation: tfx-combattext-float 800ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
   animation-fill-mode: both;
-}
-
-.tfx-combattext__text--critical {
-  text-shadow:
-    0 0 10px currentcolor,
-    0 1px 4px var(--tfx-combattext-shadow-heavy);
 }
 
 /*

@@ -26,47 +26,59 @@ describe('TextEffectsFloatingCombatText (Framer)', () => {
     expect(screen.getByTestId('combat-text-value')).toHaveTextContent('+100')
   })
 
-  it('sets data-type attribute matching the type prop', () => {
-    render(<FramerVariant type="heal" />)
-    expect(screen.getByTestId('combat-text')).toHaveAttribute('data-type', 'heal')
+  it('assigns positive band for non-negative values', () => {
+    render(<FramerVariant value="+50" />)
+    expect(screen.getByTestId('combat-text')).toHaveAttribute('data-band', 'positive')
   })
 
-  it('defaults to damage type', () => {
-    render(<FramerVariant />)
-    expect(screen.getByTestId('combat-text')).toHaveAttribute('data-type', 'damage')
+  it('assigns positive-high band when value >= positiveHighLimit', () => {
+    render(<FramerVariant value="+200" positiveHighLimit={100} />)
+    expect(screen.getByTestId('combat-text')).toHaveAttribute('data-band', 'positive-high')
   })
 
-  it('sets all five type values correctly', () => {
-    const types = ['damage', 'heal', 'gold', 'neutral', 'critical'] as const
-    for (const type of types) {
-      const { unmount } = render(<FramerVariant type={type} />)
-      expect(screen.getByTestId('combat-text')).toHaveAttribute('data-type', type)
-      unmount()
-    }
+  it('assigns negative band for negative values above limit', () => {
+    render(<FramerVariant value="-30" negativeHighLimit={100} />)
+    expect(screen.getByTestId('combat-text')).toHaveAttribute('data-band', 'negative')
   })
 
-  it('custom color prop sets CSS variable override', () => {
-    const { container } = render(<FramerVariant color="#ff00ff" />)
+  it('assigns negative-high band when value <= -negativeHighLimit', () => {
+    render(<FramerVariant value="-150" negativeHighLimit={100} />)
+    expect(screen.getByTestId('combat-text')).toHaveAttribute('data-band', 'negative-high')
+  })
+
+  it('treats zero as positive band', () => {
+    render(<FramerVariant value="0" />)
+    expect(screen.getByTestId('combat-text')).toHaveAttribute('data-band', 'positive')
+  })
+
+  it('treats boundary value at exactly positiveHighLimit as positive-high', () => {
+    render(<FramerVariant value="100" positiveHighLimit={100} />)
+    expect(screen.getByTestId('combat-text')).toHaveAttribute('data-band', 'positive-high')
+  })
+
+  it('treats boundary value at exactly -negativeHighLimit as negative-high', () => {
+    render(<FramerVariant value="-100" negativeHighLimit={100} />)
+    expect(screen.getByTestId('combat-text')).toHaveAttribute('data-band', 'negative-high')
+  })
+
+  it('overrides color via CSS variable when colorPositive is set', () => {
+    const { container } = render(<FramerVariant value="+10" colorPositive="#00ff00" />)
     const root = container.querySelector(`[data-animation-id="${ANIMATION_ID}"]`)
     const style = root?.getAttribute('style') ?? ''
     expect(style).toContain('--pf-combat-text-color')
   })
 
-  it('critical type applies 1.5x font size', () => {
-    render(<FramerVariant type="critical" fontSize={24} />)
-    expect(screen.getByTestId('combat-text-value')).toHaveStyle({ fontSize: '36px' })
+  it('overrides color via CSS variable when colorNegativeHigh is set', () => {
+    const { container } = render(<FramerVariant value="-200" colorNegativeHigh="#990000" />)
+    const root = container.querySelector(`[data-animation-id="${ANIMATION_ID}"]`)
+    const style = root?.getAttribute('style') ?? ''
+    expect(style).toContain('--pf-combat-text-color')
   })
 
-  it('critical type applies critical CSS class', () => {
-    const { container } = render(<FramerVariant type="critical" />)
-    const textEl = container.querySelector(`.${framerStyles['pf-combat-text-fm__text--critical']}`)
-    expect(textEl).toHaveAttribute('data-testid', 'combat-text-value')
-  })
-
-  it('non-critical type does not apply critical CSS class', () => {
-    const { container } = render(<FramerVariant type="damage" />)
-    const textEl = container.querySelector(`.${framerStyles['pf-combat-text-fm__text--critical']}`)
-    expect(textEl).toBeNull()
+  it('does not set inline color when no color prop is provided', () => {
+    const { container } = render(<FramerVariant value="+10" />)
+    const root = container.querySelector(`[data-animation-id="${ANIMATION_ID}"]`)
+    expect(root?.getAttribute('style')).toBeNull()
   })
 
   it('applies custom fontFamily', () => {
@@ -112,31 +124,25 @@ describe('TextEffectsFloatingCombatText (CSS)', () => {
     expect(screen.getByTestId('combat-text-value')).toHaveTextContent('+250')
   })
 
-  it('sets data-type attribute for correct type', () => {
-    const types = ['damage', 'heal', 'gold', 'neutral', 'critical'] as const
-    for (const type of types) {
-      const { unmount } = render(<CssVariant type={type} />)
-      expect(screen.getByTestId('combat-text')).toHaveAttribute('data-type', type)
+  it('assigns correct band for all four value ranges', () => {
+    const cases: [string, Record<string, unknown>, string][] = [
+      ['+50', {}, 'positive'],
+      ['+200', { positiveHighLimit: 100 }, 'positive-high'],
+      ['-30', {}, 'negative'],
+      ['-200', { negativeHighLimit: 100 }, 'negative-high'],
+    ]
+    for (const [value, extraProps, expectedBand] of cases) {
+      const { unmount } = render(<CssVariant value={value} {...extraProps} />)
+      expect(screen.getByTestId('combat-text')).toHaveAttribute('data-band', expectedBand)
       unmount()
     }
   })
 
-  it('custom color prop sets CSS variable override on container', () => {
-    const { container } = render(<CssVariant color="#00ff00" />)
+  it('overrides color via CSS variable when a color prop matches the band', () => {
+    const { container } = render(<CssVariant value="-10" colorNegative="#ff0000" />)
     const root = container.querySelector(`[data-animation-id="${ANIMATION_ID}"]`)
     const style = root?.getAttribute('style') ?? ''
     expect(style).toContain('--tfx-combattext-color')
-  })
-
-  it('critical type applies 1.5x font size', () => {
-    render(<CssVariant type="critical" fontSize={20} />)
-    expect(screen.getByTestId('combat-text-value')).toHaveStyle({ fontSize: '30px' })
-  })
-
-  it('critical type applies critical CSS class', () => {
-    const { container } = render(<CssVariant type="critical" />)
-    const textEl = container.querySelector(`.${cssStyles['tfx-combattext__text--critical']}`)
-    expect(textEl).toHaveAttribute('data-testid', 'combat-text-value')
   })
 
   it('sets CSS custom properties for animation', () => {
@@ -189,25 +195,27 @@ describe('Framer/CSS parity', () => {
   })
 
   it('both variants render the same text content with same props', () => {
-    const { unmount: unmountFramer } = render(<FramerVariant value="+500" type="gold" />)
+    const { unmount: unmountFramer } = render(<FramerVariant value="+500" />)
     const framerText = screen.getByTestId('combat-text-value').textContent
     unmountFramer()
 
-    render(<CssVariant value="+500" type="gold" />)
+    render(<CssVariant value="+500" />)
     const cssText = screen.getByTestId('combat-text-value').textContent
 
     expect(framerText).toBe(cssText)
   })
 
-  it('both variants set the same data-type attribute', () => {
-    const { unmount: unmountFramer } = render(<FramerVariant type="heal" />)
-    const framerType = screen.getByTestId('combat-text').getAttribute('data-type')
+  it('both variants resolve the same data-band for the same value', () => {
+    const { unmount: unmountFramer } = render(
+      <FramerVariant value="-200" negativeHighLimit={100} />
+    )
+    const framerBand = screen.getByTestId('combat-text').getAttribute('data-band')
     unmountFramer()
 
-    render(<CssVariant type="heal" />)
-    const cssType = screen.getByTestId('combat-text').getAttribute('data-type')
+    render(<CssVariant value="-200" negativeHighLimit={100} />)
+    const cssBand = screen.getByTestId('combat-text').getAttribute('data-band')
 
-    expect(framerType).toBe('heal')
-    expect(cssType).toBe('heal')
+    expect(framerBand).toBe('negative-high')
+    expect(cssBand).toBe('negative-high')
   })
 })

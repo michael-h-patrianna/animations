@@ -1,5 +1,6 @@
 /**
- * Floating damage/heal/gold number that pops in, drifts upward, and fades out — CSS variant.
+ * Floating number that pops in, drifts upward, and fades out — CSS variant.
+ * Color is determined by the numeric value and configurable thresholds.
  *
  * Copy-paste files: this file + TextEffectsFloatingCombatText.module.css
  * Runtime deps: react
@@ -9,17 +10,24 @@
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsFloatingCombatText.module.css'
 
-// eslint-disable-next-line animation-rules/no-hardcoded-colors -- 'gold' is a game mechanic identifier, not a CSS color
-type CombatType = 'damage' | 'heal' | 'gold' | 'neutral' | 'critical'
+type ColorBand = 'positive-high' | 'positive' | 'negative' | 'negative-high'
 
 interface TextEffectsFloatingCombatTextProps {
-  /** Text to display (string to allow prefixes like "+", "-"). @default '-42' */
+  /** Text to display (parsed as number for color band). @default '-42' */
   value?: string
-  /** Preset: damage (red), heal (green), gold (yellow), neutral (white), critical (large red + scale bump). @default 'damage' */
-  type?: CombatType
-  /** Override color. Overrides type color when set. */
-  color?: string
-  /** Base font size in px. Critical type applies 1.5x multiplier. @default 24 */
+  /** Color for values >= positiveHighLimit. */
+  colorPositiveHigh?: string
+  /** Color for values >= 0 (below positiveHighLimit). */
+  colorPositive?: string
+  /** Color for values < 0 (above -negativeHighLimit). */
+  colorNegative?: string
+  /** Color for values <= -negativeHighLimit. */
+  colorNegativeHigh?: string
+  /** Absolute value threshold for the positive-high band. @default 100 */
+  positiveHighLimit?: number
+  /** Absolute value threshold for the negative-high band. @default 100 */
+  negativeHighLimit?: number
+  /** Base font size in px. @default 24 */
   fontSize?: number
   /** How far the number floats upward in px. @default 60 */
   floatDistance?: number
@@ -35,10 +43,26 @@ interface TextEffectsFloatingCombatTextProps {
   onComplete?: () => void
 }
 
+function resolveColorBand(
+  value: string,
+  positiveHighLimit: number,
+  negativeHighLimit: number
+): ColorBand {
+  const num = parseFloat(value)
+  if (Number.isNaN(num) || num >= 0) {
+    return num >= positiveHighLimit ? 'positive-high' : 'positive'
+  }
+  return num <= -negativeHighLimit ? 'negative-high' : 'negative'
+}
+
 function TextEffectsFloatingCombatTextComponent({
   value = '-42',
-  type = 'damage',
-  color,
+  colorPositiveHigh,
+  colorPositive,
+  colorNegative,
+  colorNegativeHigh,
+  positiveHighLimit = 100,
+  negativeHighLimit = 100,
   fontSize = 24,
   floatDistance = 60,
   duration = 800,
@@ -48,30 +72,40 @@ function TextEffectsFloatingCombatTextComponent({
 }: TextEffectsFloatingCombatTextProps) {
   const driftX = useMemo(() => (Math.random() - 0.5) * 2 * spread, [spread])
 
-  const isCritical = type === 'critical'
-  const resolvedFontSize = isCritical ? fontSize * 1.5 : fontSize
-  const popScale = isCritical ? 1.3 : 1.1
+  const band = resolveColorBand(value, positiveHighLimit, negativeHighLimit)
 
-  const colorStyle =
-    color !== undefined ? ({ '--tfx-combattext-color': color } as React.CSSProperties) : undefined
+  const colorMap: Record<ColorBand, string | undefined> = {
+    'positive-high': colorPositiveHigh,
+    positive: colorPositive,
+    negative: colorNegative,
+    'negative-high': colorNegativeHigh,
+  }
+  const overrideColor = colorMap[band]
+
+  const isHigh = band === 'positive-high' || band === 'negative-high'
+  const popScale = isHigh ? 1.3 : 1.1
 
   return (
     <div
       className={styles['tfx-combattext__container']}
       data-animation-id="text-effects__floating-combat-text"
       data-testid="combat-text"
-      data-type={type}
-      style={colorStyle}
+      data-band={band}
+      style={
+        overrideColor !== undefined
+          ? ({ '--tfx-combattext-color': overrideColor } as React.CSSProperties)
+          : undefined
+      }
     >
       <div
-        className={`${styles['tfx-combattext__text']} ${isCritical ? styles['tfx-combattext__text--critical'] : ''}`}
+        className={styles['tfx-combattext__text']}
         data-testid="combat-text-value"
         style={
           {
             '--tfx-combattext-drift-x': `${driftX}px`,
             '--tfx-combattext-float-distance': `${floatDistance}px`,
             '--tfx-combattext-pop-scale': popScale,
-            fontSize: resolvedFontSize,
+            fontSize,
             fontWeight,
             fontFamily,
             animationDuration: `${duration}ms`,

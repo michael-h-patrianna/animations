@@ -244,46 +244,46 @@ export const VisibilityCycleDemo = memo(VisibilityCycleDemoComponent)
 interface CombatTextInstance {
   id: number
   value: string
-  type: string
   x: number
   y: number
   createdAt: number
 }
 
-// eslint-disable-next-line animation-rules/no-hardcoded-colors -- 'gold' is a game mechanic identifier, not a CSS color value
-const COMBAT_TYPES = ['damage', 'heal', 'gold', 'critical'] as const
+const COMBAT_BANDS = ['positive', 'positive-high', 'negative', 'negative-high'] as const
 const COMBAT_SPAWN_MS = 800
 const COMBAT_LIFETIME_MS = 1200
 const COMBAT_MAX_INSTANCES = 8
+const COMBAT_DEFAULT_VALUE = '-42'
 
-function randomCombatValue(type: string): string {
-  switch (type) {
-    case 'heal':
-      return `+${Math.floor(Math.random() * 45) + 5}`
-    case 'gold': // eslint-disable-line animation-rules/no-hardcoded-colors -- game mechanic identifier
-      return `+${Math.floor(Math.random() * 490) + 10}`
-    case 'critical':
-      return `-${Math.floor(Math.random() * 850) + 150}`
+function randomCombatValueForBand(
+  band: string,
+  positiveHighLimit: number,
+  negativeHighLimit: number
+): string {
+  switch (band) {
+    case 'positive':
+      return `+${Math.floor(Math.random() * (positiveHighLimit - 1))}`
+    case 'positive-high':
+      return `+${positiveHighLimit + Math.floor(Math.random() * positiveHighLimit * 4)}`
+    case 'negative':
+      return `-${Math.floor(Math.random() * (negativeHighLimit - 1)) + 1}`
+    case 'negative-high':
+      return `-${negativeHighLimit + Math.floor(Math.random() * negativeHighLimit * 4)}`
     default:
-      return `-${Math.floor(Math.random() * 88) + 12}`
+      return '-1'
   }
 }
 
-const COMBAT_DEFAULT_VALUE = '-42'
-const COMBAT_DEFAULT_TYPE = 'damage'
-
 /**
  * Spawns multiple floating combat text instances from a central point,
- * cycling through damage/heal/gold/critical types.
+ * cycling through all four color bands (positive, positive-high, negative,
+ * negative-high) by generating random values that fall into each band.
  *
- * When the user hasn't changed value/type in the inspector, the demo
- * generates random values and cycles through types for visual variety.
- * When the user explicitly sets a value or type, all instances respect
- * the override. All other props (fontSize, duration, etc.) always flow
+ * When the user hasn't changed the value from its default, the demo
+ * generates random values cycling through all bands for visual variety.
+ * When the user explicitly sets a value, all instances use that value.
+ * All other props (fontSize, duration, colors, thresholds) always flow
  * through and trigger a full re-spawn so changes are immediately visible.
- *
- * The spread prop controls both spawn-position scatter (here) and
- * per-instance horizontal drift (inside the animation component).
  */
 function CombatTextDemoComponent({
   Component,
@@ -294,21 +294,23 @@ function CombatTextDemoComponent({
 }) {
   const [instances, setInstances] = useState<CombatTextInstance[]>([])
   const nextIdRef = useRef(0)
-  const typeIndexRef = useRef(0)
+  const bandIndexRef = useRef(0)
 
-  const userType = controlProps.type as string | undefined
+  const randomValues = controlProps.randomValues !== false
   const userValue = controlProps.value as string | undefined
-  const hasUserType = userType !== undefined && userType !== COMBAT_DEFAULT_TYPE
-  const hasUserValue = userValue !== undefined && userValue !== COMBAT_DEFAULT_VALUE
 
-  const { value: _v, type: _t, ...styleProps } = controlProps
+  const { value: _v, randomValues: _rv, ...styleProps } = controlProps
   const spreadPx = typeof styleProps.spread === 'number' ? styleProps.spread : 20
+  const positiveHighLimit =
+    typeof styleProps.positiveHighLimit === 'number' ? styleProps.positiveHighLimit : 100
+  const negativeHighLimit =
+    typeof styleProps.negativeHighLimit === 'number' ? styleProps.negativeHighLimit : 100
   const styleKey = JSON.stringify(styleProps)
 
   useEffect(() => {
     setInstances([])
     nextIdRef.current = 0
-    typeIndexRef.current = 0
+    bandIndexRef.current = 0
 
     const timeouts = new Set<ReturnType<typeof setTimeout>>()
     let mounted = true
@@ -325,9 +327,8 @@ function CombatTextDemoComponent({
       if (!mounted) return
 
       const now = Date.now()
-      const cycleType = COMBAT_TYPES[typeIndexRef.current % COMBAT_TYPES.length]!
-      typeIndexRef.current += 1
-      const resolvedType = hasUserType ? userType! : cycleType
+      const band = COMBAT_BANDS[bandIndexRef.current % COMBAT_BANDS.length]!
+      bandIndexRef.current += 1
 
       const xScatter = (Math.random() - 0.5) * spreadPx
       const yJitter = (Math.random() - 0.5) * 10
@@ -341,8 +342,9 @@ function CombatTextDemoComponent({
           ...alive,
           {
             id: nextIdRef.current++,
-            value: hasUserValue ? userValue! : randomCombatValue(resolvedType),
-            type: resolvedType,
+            value: randomValues
+              ? randomCombatValueForBand(band, positiveHighLimit, negativeHighLimit)
+              : (userValue ?? COMBAT_DEFAULT_VALUE),
             x: 50 + xScatter,
             y: 50 + yJitter,
             createdAt: now,
@@ -360,7 +362,7 @@ function CombatTextDemoComponent({
       timeouts.forEach(clearTimeout)
       timeouts.clear()
     }
-  }, [styleKey, hasUserType, userType, hasUserValue, userValue, spreadPx])
+  }, [styleKey, randomValues, userValue, spreadPx, positiveHighLimit, negativeHighLimit])
 
   return (
     <div
@@ -376,7 +378,7 @@ function CombatTextDemoComponent({
             top: `${inst.y}%`,
           }}
         >
-          <Component {...styleProps} value={inst.value} type={inst.type} />
+          <Component {...styleProps} value={inst.value} />
         </div>
       ))}
     </div>

@@ -407,10 +407,21 @@ interface PropFieldProps {
   config: PropConfig
   value: unknown
   onChange: (name: string, value: unknown) => void
+  /** All current prop values — used to evaluate disabledWhen conditions. */
+  allValues?: Record<string, unknown>
 }
 
-function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
-  if (config.disabled) return <DisabledField config={config} />
+function isDisabledByCondition(config: PropConfig, allValues?: Record<string, unknown>): boolean {
+  return (
+    config.disabledWhen != null &&
+    allValues != null &&
+    allValues[config.disabledWhen.prop] === config.disabledWhen.eq
+  )
+}
+
+function PropFieldComponent({ config, value, onChange, allValues }: PropFieldProps) {
+  if (config.disabled || isDisabledByCondition(config, allValues))
+    return <DisabledField config={config} />
 
   const handleChange = (v: unknown) => onChange(config.name, v)
 

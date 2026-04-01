@@ -107,14 +107,16 @@ function InspectorField({
   config,
   value,
   onChange,
+  allValues,
 }: {
   config: PropConfig
   value: unknown
   onChange: (name: string, value: unknown) => void
+  allValues?: Record<string, unknown>
 }) {
   return (
     <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]/35 p-3">
-      <PropField config={config} value={value} onChange={onChange} />
+      <PropField config={config} value={value} onChange={onChange} allValues={allValues} />
       {config.description != null && config.description !== '' && (
         <p className="mt-2 px-1 text-[11px] leading-relaxed text-text-tertiary">
           {config.description}
@@ -159,6 +161,7 @@ function InspectorGroup({
           config={config}
           value={propOverrides?.[config.name]}
           onChange={onChange}
+          allValues={propOverrides}
         />
       ))}
       {description != null && (
@@ -268,7 +271,14 @@ function PropRunField({
   }
 
   if (run.length === 1) {
-    return <InspectorField config={first} value={propOverrides?.[first.name]} onChange={onChange} />
+    return (
+      <InspectorField
+        config={first}
+        value={propOverrides?.[first.name]}
+        onChange={onChange}
+        allValues={propOverrides}
+      />
+    )
   }
 
   return <InspectorGroup configs={run} propOverrides={propOverrides} onChange={onChange} />

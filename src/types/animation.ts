@@ -137,6 +137,8 @@ interface PropConfigBase {
   disabled?: boolean
   /** Explanation shown when disabled (e.g. "Requires element ref"). */
   disabledReason?: string
+  /** Dynamically disable this field when another prop equals a given value. */
+  disabledWhen?: { prop: string; eq: unknown }
   /** Groups adjacent props with the same key into one bordered panel. Description is taken from the last prop in the group. */
   group?: string
 }

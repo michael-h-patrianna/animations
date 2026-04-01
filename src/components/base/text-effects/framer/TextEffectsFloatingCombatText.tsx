@@ -1,5 +1,6 @@
 /**
- * Floating damage/heal/gold number that pops in, drifts upward, and fades out.
+ * Floating number that pops in, drifts upward, and fades out.
+ * Color is determined by the numeric value and configurable thresholds.
  *
  * Copy-paste files: this file + TextEffectsFloatingCombatText.module.css
  * Runtime deps: react, motion
@@ -11,17 +12,24 @@ import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsFloatingCombatText.module.css'
 
-// eslint-disable-next-line animation-rules/no-hardcoded-colors -- 'gold' is a game mechanic identifier, not a CSS color
-type CombatType = 'damage' | 'heal' | 'gold' | 'neutral' | 'critical'
+type ColorBand = 'positive-high' | 'positive' | 'negative' | 'negative-high'
 
 interface TextEffectsFloatingCombatTextProps {
-  /** Text to display (string to allow prefixes like "+", "-"). @default '-42' */
+  /** Text to display (parsed as number for color band). @default '-42' */
   value?: string
-  /** Preset: damage (red), heal (green), gold (yellow), neutral (white), critical (large red + scale bump). @default 'damage' */
-  type?: CombatType
-  /** Override color. Overrides type color when set. */
-  color?: string
-  /** Base font size in px. Critical type applies 1.5x multiplier. @default 24 */
+  /** Color for values >= positiveHighLimit. */
+  colorPositiveHigh?: string
+  /** Color for values >= 0 (below positiveHighLimit). */
+  colorPositive?: string
+  /** Color for values < 0 (above -negativeHighLimit). */
+  colorNegative?: string
+  /** Color for values <= -negativeHighLimit. */
+  colorNegativeHigh?: string
+  /** Absolute value threshold for the positive-high band. @default 100 */
+  positiveHighLimit?: number
+  /** Absolute value threshold for the negative-high band. @default 100 */
+  negativeHighLimit?: number
+  /** Base font size in px. @default 24 */
   fontSize?: number
   /** How far the number floats upward in px. @default 60 */
   floatDistance?: number
@@ -37,10 +45,26 @@ interface TextEffectsFloatingCombatTextProps {
   onComplete?: () => void
 }
 
+function resolveColorBand(
+  value: string,
+  positiveHighLimit: number,
+  negativeHighLimit: number
+): ColorBand {
+  const num = parseFloat(value)
+  if (Number.isNaN(num) || num >= 0) {
+    return num >= positiveHighLimit ? 'positive-high' : 'positive'
+  }
+  return num <= -negativeHighLimit ? 'negative-high' : 'negative'
+}
+
 function TextEffectsFloatingCombatTextComponent({
   value = '-42',
-  type = 'damage',
-  color,
+  colorPositiveHigh,
+  colorPositive,
+  colorNegative,
+  colorNegativeHigh,
+  positiveHighLimit = 100,
+  negativeHighLimit = 100,
   fontSize = 24,
   floatDistance = 60,
   duration = 800,
@@ -50,16 +74,25 @@ function TextEffectsFloatingCombatTextComponent({
   onComplete,
 }: TextEffectsFloatingCombatTextProps) {
   const prefersReducedMotion = useReducedMotion()
-
   const driftX = useMemo(() => (Math.random() - 0.5) * 2 * spread, [spread])
-
-  const isCritical = type === 'critical'
-  const resolvedFontSize = isCritical ? fontSize * 1.5 : fontSize
-  const popScale = isCritical ? 1.3 : 1.1
   const durationS = duration / 1000
 
+  const band = resolveColorBand(value, positiveHighLimit, negativeHighLimit)
+
+  const colorMap: Record<ColorBand, string | undefined> = {
+    'positive-high': colorPositiveHigh,
+    positive: colorPositive,
+    negative: colorNegative,
+    'negative-high': colorNegativeHigh,
+  }
+  const overrideColor = colorMap[band]
   const colorStyle =
-    color !== undefined ? ({ '--pf-combat-text-color': color } as React.CSSProperties) : undefined
+    overrideColor !== undefined
+      ? ({ '--pf-combat-text-color': overrideColor } as React.CSSProperties)
+      : undefined
+
+  const isHigh = band === 'positive-high' || band === 'negative-high'
+  const popScale = isHigh ? 1.3 : 1.1
 
   if (prefersReducedMotion) {
     return (
@@ -67,17 +100,13 @@ function TextEffectsFloatingCombatTextComponent({
         className={styles['pf-combat-text-fm']}
         data-animation-id="text-effects__floating-combat-text"
         data-testid="combat-text"
-        data-type={type}
+        data-band={band}
         style={colorStyle}
       >
         <div
-          className={`${styles['pf-combat-text-fm__text']} ${isCritical ? styles['pf-combat-text-fm__text--critical'] : ''}`}
+          className={styles['pf-combat-text-fm__text']}
           data-testid="combat-text-value"
-          style={{
-            fontSize: resolvedFontSize,
-            fontWeight,
-            fontFamily,
-          }}
+          style={{ fontSize, fontWeight, fontFamily }}
         >
           {value}
         </div>
@@ -90,17 +119,13 @@ function TextEffectsFloatingCombatTextComponent({
       className={styles['pf-combat-text-fm']}
       data-animation-id="text-effects__floating-combat-text"
       data-testid="combat-text"
-      data-type={type}
+      data-band={band}
       style={colorStyle}
     >
       <m.div
-        className={`${styles['pf-combat-text-fm__text']} ${isCritical ? styles['pf-combat-text-fm__text--critical'] : ''}`}
+        className={styles['pf-combat-text-fm__text']}
         data-testid="combat-text-value"
-        style={{
-          fontSize: resolvedFontSize,
-          fontWeight,
-          fontFamily,
-        }}
+        style={{ fontSize, fontWeight, fontFamily }}
         initial={{ opacity: 1, scale: 0.8, y: 0, x: 0 }}
         animate={{
           opacity: [1, 1, 1, 0.5, 0],
