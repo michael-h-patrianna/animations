@@ -91,6 +91,7 @@ export interface Animation {
     | 'list-rotate'
     | 'score-pulse'
     | 'visibility-cycle'
+    | 'combat-text'
   previewMaxWidth?: number
   /** Freeform tags displayed as pills in the card footer (e.g. 'raf', 'lrc'). */
   tags?: string[]
@@ -348,6 +349,7 @@ export interface AnimationMetadata {
    * - `list-rotate`: cycles a ranked list by moving the top entry to the bottom
    * - `score-pulse`: periodically increments scores to trigger count-up animation
    * - `visibility-cycle`: toggles a `visible` prop on and off to demo entrance/exit
+   * - `combat-text`: spawns multiple instances at random positions, cycling damage/heal/gold/critical types
    */
   demoMode?:
     | 'burst'
@@ -359,6 +361,7 @@ export interface AnimationMetadata {
     | 'list-rotate'
     | 'score-pulse'
     | 'visibility-cycle'
+    | 'combat-text'
 
   /** Max width (px) for demo canvas and preview containers. Prevents wide animations from stretching full viewport. */
   previewMaxWidth?: number

@@ -14,6 +14,7 @@
 
 import { homeIcon1 } from '@/assets'
 import {
+  CombatTextDemo,
   ListRotateDemo,
   ScorePulseDemo,
   VisibilityCycleDemo,
@@ -73,7 +74,7 @@ function AnchorDemo({
 
 /** Standalone demo components indexed by mode. */
 const STANDALONE_DEMOS: Record<
-  'icon-dot' | 'status-row' | 'list-rotate' | 'score-pulse' | 'visibility-cycle',
+  'icon-dot' | 'status-row' | 'list-rotate' | 'score-pulse' | 'visibility-cycle' | 'combat-text',
   React.ComponentType<DemoComponentProps>
 > = {
   'icon-dot': IconDotDemo,
@@ -81,6 +82,7 @@ const STANDALONE_DEMOS: Record<
   'list-rotate': ListRotateDemo,
   'score-pulse': ScorePulseDemo,
   'visibility-cycle': VisibilityCycleDemo,
+  'combat-text': CombatTextDemo,
 }
 
 /**
@@ -104,7 +106,8 @@ export function DemoModeWrapper({
     case 'status-row':
     case 'list-rotate':
     case 'score-pulse':
-    case 'visibility-cycle': {
+    case 'visibility-cycle':
+    case 'combat-text': {
       const StandaloneDemo = STANDALONE_DEMOS[mode]
       return <StandaloneDemo Component={Component} controlProps={controlProps} />
     }

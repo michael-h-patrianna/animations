@@ -27,6 +27,7 @@ const DemoModeSchema = v.optional(
     'list-rotate',
     'score-pulse',
     'visibility-cycle',
+    'combat-text',
   ])
 )
 
