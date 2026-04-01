@@ -475,3 +475,54 @@
   letter-spacing: 0.05em;
   color: var(--text-tertiary);
 }
+
+/* ============================================
+   BANNER COMPONENT
+   ============================================ */
+
+[data-demo-ui] .banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.875rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-hover);
+  font-size: 0.8125rem;
+}
+
+[data-demo-ui] .banner-text {
+  color: var(--text-secondary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+[data-demo-ui] .banner-info {
+  border-color: color-mix(in oklch, var(--theme-accent) 30%, var(--border-subtle));
+  background-color: color-mix(in oklch, var(--theme-accent) 6%, transparent);
+}
+
+[data-demo-ui] .banner-info .banner-text {
+  color: var(--text-primary);
+}
+
+[data-demo-ui] .banner-warning {
+  border-color: color-mix(in oklch, var(--text-warning) 40%, var(--border-subtle));
+  background-color: var(--bg-warning);
+}
+
+[data-demo-ui] .banner-warning .banner-text {
+  color: var(--text-warning);
+}
+
+[data-demo-ui] .banner-error {
+  border-color: var(--border-danger);
+  background-color: var(--bg-danger);
+}
+
+[data-demo-ui] .banner-error .banner-text {
+  color: var(--text-danger);
+}

@@ -8,7 +8,7 @@ import {
   polarToXY,
   randBetween,
   randInt,
-} from '@/components/rewards/modal-celebrations/utils'
+} from '@/components/rewards/celebration-effects/utils'
 import { describe, expect, it } from 'vitest'
 
 describe('randBetween', () => {

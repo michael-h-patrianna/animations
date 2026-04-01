@@ -41,7 +41,7 @@ function TextEffectsGlitchTextComponent({
   return (
     <div
       className={`${styles['tfx-glitchtext__container']} ${className}`.trim()}
-      data-animation-id="text-effects__tfx-glitchtext"
+      data-animation-id="text-effects__glitch-text"
       style={
         color !== undefined
           ? ({ '--tfx-glitchtext-color': color } as React.CSSProperties)

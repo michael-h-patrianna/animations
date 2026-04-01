@@ -19,10 +19,10 @@ const lightsMeta: GroupMetadata = {
   demo: 'lights',
 }
 
-const modalCelebrationsMeta: GroupMetadata = {
-  id: 'modal-celebrations',
+const celebrationEffectsMeta: GroupMetadata = {
+  id: 'celebration-effects',
   title: 'Celebration effects',
-  demo: 'modalCelebrations',
+  demo: 'celebrationEffects',
 }
 
 const prizeRevealMeta: GroupMetadata = {
@@ -35,6 +35,6 @@ declareCategoryGroups('rewards', 'Game Elements & Rewards', [
   { metadata: collectionEffectsMeta, load: () => import('./collection-effects') },
   { metadata: iconAnimationsMeta, load: () => import('./icon-animations') },
   { metadata: lightsMeta, load: () => import('./lights') },
-  { metadata: modalCelebrationsMeta, load: () => import('./modal-celebrations') },
+  { metadata: celebrationEffectsMeta, load: () => import('./celebration-effects') },
   { metadata: prizeRevealMeta, load: () => import('./prize-reveal') },
 ])

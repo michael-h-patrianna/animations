@@ -19,7 +19,7 @@ beforeAll(async () => {
     loadLazyGroup('standard-effects-framer'),
     loadLazyGroup('standard-effects-css'),
     loadLazyGroup('modal-base-framer'),
-    loadLazyGroup('modal-orchestration-framer'),
+    loadLazyGroup('tile-animations-framer'),
     loadLazyGroup('collection-effects-framer'),
     loadLazyGroup('button-effects-framer'),
   ])
@@ -155,10 +155,10 @@ describe('App', () => {
   })
 
   it('uses the topbar base group title in the sidebar', async () => {
-    renderApp('/modal-orchestration-framer')
+    renderApp('/tile-animations-framer')
 
     const topbarTitle = await screen.findByTestId('topbar-title')
-    const sidebarGroup = await screen.findByTestId('sidebar-group-modal-orchestration')
+    const sidebarGroup = await screen.findByTestId('sidebar-group-tile-animations')
     const currentGroupTitle = topbarTitle.textContent
       ?.replace(/\s*\(?\d+\)?$/, '')
       .replace(/\s+\((?:Framer|CSS)\)$/, '')
@@ -226,6 +226,6 @@ describe('App', () => {
 
     const filterBanner = await screen.findByTestId('filter-banner')
     expect(filterBanner).toBeInTheDocument()
-    expect(filterBanner).toHaveTextContent('standard-effects__bounce')
+    expect(filterBanner).toHaveTextContent(/Showing: Bounce/)
   })
 })

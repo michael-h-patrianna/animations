@@ -5,7 +5,7 @@ import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'
 import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.webp'
 import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.webp'
 
-import styles from './framer/CardPackOpen.module.css'
+import styles from './framer/PrizeRevealCardPackOpen.module.css'
 
 /* ─── Shared types ─── */
 

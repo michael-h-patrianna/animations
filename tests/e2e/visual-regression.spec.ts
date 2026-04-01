@@ -21,10 +21,10 @@ const ALL_GROUPS = [
   { id: 'button-effects-framer', category: 'base' },
   // dialogs
   { id: 'modal-base-framer', category: 'dialogs' },
-  { id: 'modal-content-framer', category: 'dialogs' },
-  { id: 'modal-dismiss-framer', category: 'dialogs' },
+  { id: 'modal-content-choreography-framer', category: 'dialogs' },
+  { id: 'auto-dismiss-framer', category: 'dialogs' },
   { id: 'modal-open-framer', category: 'dialogs' },
-  { id: 'modal-orchestration-framer', category: 'dialogs' },
+  { id: 'tile-animations-framer', category: 'dialogs' },
   // progress
   { id: 'progress-bars-framer', category: 'progress' },
   { id: 'loading-states-framer', category: 'progress' },
@@ -36,7 +36,7 @@ const ALL_GROUPS = [
   { id: 'collection-effects-framer', category: 'rewards' },
   { id: 'icon-animations-framer', category: 'rewards' },
   { id: 'lights-framer', category: 'rewards' },
-  { id: 'modal-celebrations-framer', category: 'rewards' },
+  { id: 'celebration-effects-framer', category: 'rewards' },
   { id: 'prize-reveal-framer', category: 'rewards' },
 ]
 
@@ -44,7 +44,7 @@ const ALL_GROUPS = [
 // transitions produce non-deterministic renders. A higher threshold prevents
 // flaky failures while still catching large layout regressions.
 const NONDETERMINISTIC_GROUPS = new Set([
-  'modal-content-framer', // gradient sweep captured mid-transition
+  'modal-content-choreography-framer', // gradient sweep captured mid-transition
   'prize-reveal-framer', // random particle positions/sizes
 ])
 
@@ -79,10 +79,10 @@ test.describe('CSS vs Framer visual parity', () => {
     { base: 'button-effects', category: 'base' },
     // dialogs
     { base: 'modal-base', category: 'dialogs' },
-    { base: 'modal-content', category: 'dialogs' },
-    { base: 'modal-dismiss', category: 'dialogs' },
+    { base: 'modal-content-choreography', category: 'dialogs' },
+    { base: 'auto-dismiss', category: 'dialogs' },
     { base: 'modal-open', category: 'dialogs' },
-    { base: 'modal-orchestration', category: 'dialogs' },
+    { base: 'tile-animations', category: 'dialogs' },
     // progress
     { base: 'progress-bars', category: 'progress' },
     { base: 'loading-states', category: 'progress' },
@@ -94,7 +94,7 @@ test.describe('CSS vs Framer visual parity', () => {
     { base: 'collection-effects', category: 'rewards' },
     { base: 'icon-animations', category: 'rewards' },
     { base: 'lights', category: 'rewards' },
-    { base: 'modal-celebrations', category: 'rewards' },
+    { base: 'celebration-effects', category: 'rewards' },
     { base: 'prize-reveal', category: 'rewards' },
   ]
 

@@ -1,0 +1,56 @@
+import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbFloating.module.css'
+
+interface TextEffectsVerbFloatingProps {
+  /** The text to animate. Supports any length and whitespace characters.
+   * @default "LOREM IPSUM DOLOR"
+   */
+  text?: string
+  /** Text color. @default '#e8e4da' */
+  color?: string
+}
+
+/**
+ * Floating text animation with smooth up-and-down wave motion.
+ * Each character floats independently with alternating delays for a wave effect.
+ *
+ * @example
+ * <TextEffectsVerbFloating />
+ * <TextEffectsVerbFloating text="HELLO WORLD" />
+ * <TextEffectsVerbFloating text="A B C" />
+ */
+function TextEffectsVerbFloatingComponent({
+  text = 'LOREM IPSUM DOLOR',
+  color,
+}: TextEffectsVerbFloatingProps) {
+  const letters = useMemo(() => Array.from(text), [text])
+
+  return (
+    <div
+      className={styles['tfx-float-container']}
+      data-animation-id="text-effects__verb-floating"
+      aria-label={text}
+      style={
+        color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
+      }
+    >
+      <div className={styles['tfx-float-line']} aria-hidden="true">
+        {letters.map((ch, i) => (
+          <span
+            key={i}
+            className={[
+              styles['tfx-float-char'],
+              i % 2 === 1 ? styles['tfx-float-char--delayed'] : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            {ch === ' ' ? '\u00A0' : ch}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export const TextEffectsVerbFloating = memo(TextEffectsVerbFloatingComponent)

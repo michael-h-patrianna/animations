@@ -1,0 +1,16 @@
+/*
+ * Shared structural CSS for auto-dismiss animations.
+ * Toast visual styling provided by demo-blocks.css via DemoToast.
+ * Color tokens defined in src/components/demo-tokens.css (.pf-toast aliases).
+ */
+
+/* Catalog staging viewport — provides space for enter/exit animations */
+.pf-dismiss-stage {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}

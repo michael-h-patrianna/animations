@@ -72,6 +72,31 @@ Given animation id `modal-base__scale-gentle-pop`:
 2. Category = `dialogs` → `src/components/dialogs/modal-base/`
 3. Component = PascalCase of id → `ModalBaseScaleGentlePop.tsx` in `framer/` or `css/`
 
+## Group Name Lookup
+
+| UI Title              | Group ID                     | Folder Path                                          |
+| --------------------- | ---------------------------- | ---------------------------------------------------- |
+| Base modal animations | `modal-base`                 | `src/components/dialogs/modal-base/`                 |
+| Content choreography  | `modal-content-choreography` | `src/components/dialogs/modal-content-choreography/` |
+| Auto-dismiss patterns | `auto-dismiss`               | `src/components/dialogs/auto-dismiss/`               |
+| Modal open            | `modal-open`                 | `src/components/dialogs/modal-open/`                 |
+| Tile animations       | `tile-animations`            | `src/components/dialogs/tile-animations/`            |
+| Celebration effects   | `celebration-effects`        | `src/components/rewards/celebration-effects/`        |
+| Collection Effects    | `collection-effects`         | `src/components/rewards/collection-effects/`         |
+| Icon Animations       | `icon-animations`            | `src/components/rewards/icon-animations/`            |
+| Lights                | `lights`                     | `src/components/rewards/lights/`                     |
+| Prize Reveal          | `prize-reveal`               | `src/components/rewards/prize-reveal/`               |
+| Button effects        | `button-effects`             | `src/components/base/button-effects/`                |
+| Standard effects      | `standard-effects`           | `src/components/base/standard-effects/`              |
+| Text effects          | `text-effects`               | `src/components/base/text-effects/`                  |
+| Progress bars         | `progress-bars`              | `src/components/progress/progress-bars/`             |
+| Loading states        | `loading-states`             | `src/components/progress/loading-states/`            |
+| Timer effects         | `timer-effects`              | `src/components/realtime/timer-effects/`             |
+| Update indicators     | `update-indicators`          | `src/components/realtime/update-indicators/`         |
+| Realtime data         | `realtime-data`              | `src/components/realtime/realtime-data/`             |
+
+Categories: `base` = "Base Effects", `dialogs` = "Dialog & Modal Animations", `progress` = "Progress & Loading Animations", `realtime` = "Real-time Updates & Timers", `rewards` = "Game Elements & Rewards"
+
 ## Rendering Context
 
 - Components render as children of `AnimationCard` inside `GroupSection`

@@ -5,7 +5,7 @@ import cardPackBackImage from '@/assets/card-pack/card-back.webp'
 
 import { type CardData, type CardRarity, type FanPosition } from './CardPackParts'
 
-import styles from './framer/CardPackOpen.module.css'
+import styles from './framer/PrizeRevealCardPackOpen.module.css'
 
 /* ═══════════════════════════════════════════════════
    CARD NAME RIBBON — SVG text auto-scales to fit, wraps to 2 lines

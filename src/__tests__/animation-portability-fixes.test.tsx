@@ -1,9 +1,9 @@
 import { loadLazyCatalog, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import {
   coinImage,
-  modalCelebrationsFireworkParticle1Image,
-  modalCelebrationsFireworkParticle2Image,
-  modalCelebrationsFireworkParticle3Image,
+  celebrationEffectsFireworkParticle1Image,
+  celebrationEffectsFireworkParticle2Image,
+  celebrationEffectsFireworkParticle3Image,
   presentBox,
   presentBoxBalloon,
   pulseScroll,
@@ -12,12 +12,12 @@ import {
 import { StandardEffectsBlink } from '@/components/base/standard-effects/css/StandardEffectsBlink'
 import { StandardEffectsPulse } from '@/components/base/standard-effects/css/StandardEffectsPulse'
 import { StandardEffectsPulseCircle } from '@/components/base/standard-effects/css/StandardEffectsPulseCircle'
-import { ButtonFeedbackShakeGentle } from '@/components/base/button-effects/css/ButtonFeedbackShakeGentle'
+import { ButtonEffectsShakeGentle } from '@/components/base/button-effects/css/ButtonEffectsShakeGentle'
 import { ButtonEffectsRewardReadyPulse } from '@/components/base/button-effects/css/ButtonEffectsRewardReadyPulse'
 import { ButtonEffectsRipple } from '@/components/base/button-effects/css/ButtonEffectsRipple'
-import { ModalOrchestrationGridHighlight } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationGridHighlight'
-import { ModalOrchestrationMagneticHover } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationMagneticHover'
-import { metadata as springPhysicsCssMetadata } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationSpringPhysics.meta'
+import { TileAnimationsGridHighlight } from '@/components/dialogs/tile-animations/css/TileAnimationsGridHighlight'
+import { TileAnimationsMagneticHover } from '@/components/dialogs/tile-animations/css/TileAnimationsMagneticHover'
+import { metadata as springPhysicsCssMetadata } from '@/components/dialogs/tile-animations/css/TileAnimationsSpringPhysics.meta'
 import { TimerEffectsPillCountdownSoft } from '@/components/realtime/timer-effects/css/TimerEffectsPillCountdownSoft'
 import cssPillSoftStyles from '@/components/realtime/timer-effects/css/TimerEffectsPillCountdownSoft.module.css'
 import { metadata as collectionCoinBurstMetadata } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst.meta'
@@ -28,13 +28,13 @@ import { metadata as iconBounceMetadata } from '@/components/rewards/icon-animat
 import { metadata as iconFloatMetadata } from '@/components/rewards/icon-animations/framer/IconAnimationsFloat.meta'
 import { metadata as iconPulseMetadata } from '@/components/rewards/icon-animations/framer/IconAnimationsPulse.meta'
 import { metadata as iconShakeMetadata } from '@/components/rewards/icon-animations/framer/IconAnimationsShake.meta'
-import { ModalCelebrationsFireworksRing as CssModalCelebrationsFireworksRing } from '@/components/rewards/modal-celebrations/css/ModalCelebrationsFireworksRing'
-import { metadata as coinCascadeMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsCoinCascade.meta'
-import { metadata as coinsArcMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsCoinsArc.meta'
-import { metadata as coinsSwirlMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsCoinsSwirl.meta'
-import { ModalCelebrationsFireworksRing as FramerModalCelebrationsFireworksRing } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsFireworksRing'
-import { metadata as fireworkMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsFirework.meta'
-import { metadata as treasureParticlesMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsTreasureParticles.meta'
+import { CelebrationEffectsFireworksRing as CssCelebrationEffectsFireworksRing } from '@/components/rewards/celebration-effects/css/CelebrationEffectsFireworksRing'
+import { metadata as coinCascadeMetadata } from '@/components/rewards/celebration-effects/framer/CelebrationEffectsCoinCascade.meta'
+import { metadata as coinsArcMetadata } from '@/components/rewards/celebration-effects/framer/CelebrationEffectsCoinsArc.meta'
+import { metadata as coinsSwirlMetadata } from '@/components/rewards/celebration-effects/framer/CelebrationEffectsCoinsSwirl.meta'
+import { CelebrationEffectsFireworksRing as FramerCelebrationEffectsFireworksRing } from '@/components/rewards/celebration-effects/framer/CelebrationEffectsFireworksRing'
+import { metadata as fireworkMetadata } from '@/components/rewards/celebration-effects/framer/CelebrationEffectsFirework.meta'
+import { metadata as treasureParticlesMetadata } from '@/components/rewards/celebration-effects/framer/CelebrationEffectsTreasureParticles.meta'
 import { PrizeRevealPirateChestWin } from '@/components/rewards/prize-reveal/framer/PrizeRevealPirateChestWin'
 import fmPirateChestWinStyles from '@/components/rewards/prize-reveal/framer/PrizeRevealPirateChestWin.module.css'
 import { metadata as pirateChestNoWinCssMetadata } from '@/components/rewards/prize-reveal/css/PrizeRevealPirateChestNoWin.meta'
@@ -160,9 +160,9 @@ describe('animation portability fixes', () => {
     expect(fireworkDefaults).toEqual(
       expect.objectContaining({
         particleImages: [
-          modalCelebrationsFireworkParticle1Image,
-          modalCelebrationsFireworkParticle2Image,
-          modalCelebrationsFireworkParticle3Image,
+          celebrationEffectsFireworkParticle1Image,
+          celebrationEffectsFireworkParticle2Image,
+          celebrationEffectsFireworkParticle3Image,
         ],
       })
     )
@@ -234,9 +234,9 @@ describe('animation portability fixes', () => {
           <span>Pulse Child</span>
         </StandardEffectsPulse>
         <StandardEffectsPulseCircle size={88} color="#123456" ringColor="#abcdef" duration={1800} />
-        <ButtonFeedbackShakeGentle duration={180} trigger={false}>
+        <ButtonEffectsShakeGentle duration={180} trigger={false}>
           <button>Retry</button>
-        </ButtonFeedbackShakeGentle>
+        </ButtonEffectsShakeGentle>
         <ButtonEffectsRewardReadyPulse duration={2600} pulseScale={1.18} bobDistance={7}>
           <button>Claim</button>
         </ButtonEffectsRewardReadyPulse>
@@ -283,7 +283,7 @@ describe('animation portability fixes', () => {
     const { container } = render(
       <>
         {
-          <ModalOrchestrationGridHighlight
+          <TileAnimationsGridHighlight
             {...({ distance: 28, stagger: 120, duration: 300, columns: 3 } as Record<
               string,
               unknown
@@ -291,7 +291,7 @@ describe('animation portability fixes', () => {
           />
         }
         {
-          <ModalOrchestrationMagneticHover
+          <TileAnimationsMagneticHover
             {...({ tiltIntensity: 9, stagger: 90, duration: 420, columns: 2 } as Record<
               string,
               unknown
@@ -302,10 +302,10 @@ describe('animation portability fixes', () => {
     )
 
     const gridRoot = container.querySelector(
-      '[data-animation-id="modal-orchestration__grid-highlight"]'
+      '[data-animation-id="tile-animations__grid-highlight"]'
     ) as HTMLElement
     const magneticRoot = container.querySelector(
-      '[data-animation-id="modal-orchestration__magnetic-hover"]'
+      '[data-animation-id="tile-animations__magnetic-hover"]'
     ) as HTMLElement
 
     expect(gridRoot.style.getPropertyValue('--pf-grid-highlight-distance')).toBe('28px')
@@ -357,8 +357,8 @@ describe('animation portability fixes', () => {
   })
 
   it('uses particleCount to control fireworks ring ember density in both variants', () => {
-    const css = render(<CssModalCelebrationsFireworksRing particleCount={9} />)
-    const framer = render(<FramerModalCelebrationsFireworksRing particleCount={9} />)
+    const css = render(<CssCelebrationEffectsFireworksRing particleCount={9} />)
+    const framer = render(<FramerCelebrationEffectsFireworksRing particleCount={9} />)
 
     expect(countCssFireworksRingEmbers(css.container)).toBe(18)
     expect(countFramerFireworksRingEmbers(framer.container)).toBe(18)

@@ -76,8 +76,8 @@ describe('integration: full data flow pipeline', () => {
     expect(titles).toHaveLength(1)
     expect(titles[0]).toHaveTextContent(targetAnim.title)
 
-    // Filter banner should show the animation ID
-    expect(screen.getByTestId('filter-banner')).toHaveTextContent(targetAnim.id)
+    // Filter banner should show the animation display title
+    expect(screen.getByTestId('filter-banner')).toHaveTextContent(targetAnim.title)
   })
 
   it('invalid animationFilter shows error banner with "not found" message', () => {
@@ -93,7 +93,7 @@ describe('integration: full data flow pipeline', () => {
 
     expect(screen.getByTestId('filter-banner')).toHaveTextContent(/not found/)
     // The "Show all animations" button should be present
-    expect(screen.getByTestId('remove-filter-btn')).toBeVisible()
+    expect(screen.getByTestId('filter-banner-action')).toBeVisible()
   })
 
   it('CSS and Framer groups for the same base ID produce the same animation titles', () => {

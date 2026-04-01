@@ -65,7 +65,7 @@ describe('TextEffectsGlitchText (CSS)', () => {
   it('sets data-animation-id for registry contract', () => {
     const { container } = render(<TextEffectsGlitchText />)
     expect(
-      container.querySelector('[data-animation-id="text-effects__tfx-glitchtext"]')
+      container.querySelector('[data-animation-id="text-effects__glitch-text"]')
     ).toBeInTheDocument()
   })
 

@@ -1,5 +1,5 @@
 import { type CSSProperties } from 'react'
-import styles from './CardPackOpen.module.css'
+import styles from './PrizeRevealCardPackOpen.module.css'
 
 import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'
 import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.webp'

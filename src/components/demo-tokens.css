@@ -71,7 +71,7 @@
   /* Impact glow (modal-open landing effect) */
   --pf-demo-impact-glow-color: oklch(75% 0.1 300deg / 15%);
 
-  /* Toast (modal-dismiss) */
+  /* Toast (auto-dismiss) */
   --pf-demo-toast-progress-bg: oklch(85% 0.08 310deg / 16%);
   --pf-demo-toast-progress-1: #1bee02;
   --pf-demo-toast-progress-2: #00ad45;
@@ -85,7 +85,7 @@
   --pf-demo-active-color: oklch(100% 0 0deg / 95%);
   --pf-demo-active-glow: oklch(64% 0.13 310deg / 30%);
 
-  /* ── Aliases: modal-content (--pf-mc-*) ── */
+  /* ── Aliases: modal-content-choreography (--pf-mc-*) ── */
   --pf-mc-bg: var(--pf-demo-card-bg);
   --pf-mc-border: var(--pf-demo-card-border);
   --pf-mc-color: var(--pf-demo-card-color);

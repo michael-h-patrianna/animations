@@ -1,0 +1,69 @@
+/**
+ * Standalone: Copy this file + TextEffectsVerbTwirling.module.css into your app.
+ * Runtime deps: react, motion
+ * RN: Translates to Moti with MotiText — same animate/transition props.
+ */
+
+import * as m from 'motion/react-m'
+import { easeInOut, useReducedMotion } from 'motion/react'
+import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbTwirling.module.css'
+
+interface TextEffectsVerbTwirlingProps {
+  /** @default 'LOREM IPSUM DOLOR' */
+  text?: string
+  /** Text color. @default '#e8e4da' */
+  color?: string
+}
+
+function TextEffectsVerbTwirlingComponent({
+  text = 'LOREM IPSUM DOLOR',
+  color,
+}: TextEffectsVerbTwirlingProps) {
+  const prefersReducedMotion = useReducedMotion()
+  const letters = useMemo(() => Array.from(text), [text])
+
+  return (
+    <div
+      className={styles['pf-verb-twirl-fm']}
+      data-animation-id="text-effects__verb-twirling"
+      aria-label={text}
+      style={
+        color !== undefined
+          ? ({ '--pf-verb-twirl-color': color } as React.CSSProperties)
+          : undefined
+      }
+    >
+      <div className={styles['pf-verb-twirl-fm__line']} aria-hidden="true">
+        {letters.map((ch, i) => (
+          <m.span
+            key={i}
+            className={styles['pf-verb-twirl-fm__char']}
+            initial={prefersReducedMotion ? undefined : { rotate: 0, scale: 1 }}
+            animate={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    rotate: [0, 90, 180, 270, 360],
+                    scale: [1, 1.05, 1, 0.98, 1],
+                  }
+            }
+            transition={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    duration: 1.8,
+                    ease: easeInOut,
+                    times: [0, 0.25, 0.5, 0.75, 1],
+                  }
+            }
+          >
+            {ch === ' ' ? '\u00A0' : ch}
+          </m.span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export const TextEffectsVerbTwirling = memo(TextEffectsVerbTwirlingComponent)
