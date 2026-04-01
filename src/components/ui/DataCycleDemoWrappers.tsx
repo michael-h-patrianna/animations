@@ -238,3 +238,120 @@ function VisibilityCycleDemoComponent({
 }
 
 export const VisibilityCycleDemo = memo(VisibilityCycleDemoComponent)
+
+// ── CombatTextDemo ──────────────────────────────────────────────────────
+
+interface CombatTextInstance {
+  id: number
+  value: string
+  type: string
+  x: number
+  y: number
+  createdAt: number
+}
+
+// eslint-disable-next-line animation-rules/no-hardcoded-colors -- 'gold' is a game mechanic identifier, not a CSS color value
+const COMBAT_TYPES = ['damage', 'heal', 'gold', 'critical'] as const
+const COMBAT_SPAWN_MS = 800
+const COMBAT_LIFETIME_MS = 1200
+const COMBAT_MAX_INSTANCES = 8
+
+function randomCombatValue(type: string): string {
+  switch (type) {
+    case 'heal':
+      return `+${Math.floor(Math.random() * 45) + 5}`
+    case 'gold': // eslint-disable-line animation-rules/no-hardcoded-colors -- game mechanic identifier
+      return `+${Math.floor(Math.random() * 490) + 10}`
+    case 'critical':
+      return `-${Math.floor(Math.random() * 850) + 150}`
+    default:
+      return `-${Math.floor(Math.random() * 88) + 12}`
+  }
+}
+
+/**
+ * Spawns multiple floating combat text instances at random positions
+ * within the card, cycling through damage/heal/gold/critical types.
+ */
+function CombatTextDemoComponent({
+  Component,
+  controlProps,
+}: {
+  Component: React.ComponentType<Record<string, unknown>>
+  controlProps: Record<string, unknown>
+}) {
+  const [instances, setInstances] = useState<CombatTextInstance[]>([])
+  const nextIdRef = useRef(0)
+  const typeIndexRef = useRef(0)
+
+  useEffect(() => {
+    const timeouts = new Set<ReturnType<typeof setTimeout>>()
+    let mounted = true
+
+    const schedule = (fn: () => void, ms: number) => {
+      const id = setTimeout(() => {
+        timeouts.delete(id)
+        fn()
+      }, ms)
+      timeouts.add(id)
+    }
+
+    const spawn = () => {
+      if (!mounted) return
+
+      const now = Date.now()
+      const type = COMBAT_TYPES[typeIndexRef.current % COMBAT_TYPES.length]!
+      typeIndexRef.current += 1
+
+      setInstances((prev) => {
+        const alive = prev
+          .filter((inst) => now - inst.createdAt < COMBAT_LIFETIME_MS)
+          .slice(-COMBAT_MAX_INSTANCES + 1)
+
+        return [
+          ...alive,
+          {
+            id: nextIdRef.current++,
+            value: randomCombatValue(type),
+            type,
+            x: Math.random() * 60 + 20,
+            y: Math.random() * 30 + 35,
+            createdAt: now,
+          },
+        ]
+      })
+
+      schedule(spawn, COMBAT_SPAWN_MS)
+    }
+
+    schedule(spawn, 400)
+
+    return () => {
+      mounted = false
+      timeouts.forEach(clearTimeout)
+      timeouts.clear()
+    }
+  }, [])
+
+  return (
+    <div
+      style={{ position: 'relative', width: '100%', minHeight: 120 }}
+      data-testid="demo-combat-text"
+    >
+      {instances.map((inst) => (
+        <div
+          key={inst.id}
+          style={{
+            position: 'absolute',
+            left: `${inst.x}%`,
+            top: `${inst.y}%`,
+          }}
+        >
+          <Component {...controlProps} value={inst.value} type={inst.type} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export const CombatTextDemo = memo(CombatTextDemoComponent)
