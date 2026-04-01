@@ -1,0 +1,59 @@
+/* Layout-only styles for framer CountdownBurst variant */
+
+.pf-countdown-burst-fm {
+  --countdown-burst-countdown-color: #ecc3ff;
+  --countdown-burst-go-color: #4db88a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.pf-countdown-burst-fm__step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-countdown-burst-fm__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 6px solid var(--countdown-burst-active-color, var(--countdown-burst-countdown-color));
+  pointer-events: none;
+}
+
+.pf-countdown-burst-fm__glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    var(
+        --countdown-burst-glow-color,
+        color-mix(in srgb, var(--countdown-burst-countdown-color) 60%, transparent)
+      )
+      0%,
+    transparent 70%
+  );
+}
+
+.pf-countdown-burst-fm__number {
+  position: relative;
+  z-index: 1;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--countdown-burst-active-color, var(--countdown-burst-countdown-color));
+}
+
+.pf-countdown-burst-fm__particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--countdown-burst-active-color, var(--countdown-burst-countdown-color)) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
