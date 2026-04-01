@@ -392,6 +392,8 @@ export default defineConfig([
       'src/__tests__/component-behavior.test.tsx',
       // Screen flash tests: overlay structure, aria-hidden, CSS custom properties
       'src/__tests__/standard-effects.screen-flash.test.tsx',
+      // Stamp-down animation: data-animation-id queries, ring conditional rendering
+      'src/__tests__/standard-effects-stamp-down.test.tsx',
     ],
     rules: {
       'testing-library/no-node-access': 'off',
