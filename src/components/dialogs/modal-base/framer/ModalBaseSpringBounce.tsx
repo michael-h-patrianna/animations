@@ -1,7 +1,7 @@
 /**
  * Modal entrance — spring-physics bounce with overshoot settle.
  *
- * Copy-paste files: this file + MockModalContent.tsx + SharedTypes.ts
+ * Copy-paste files: this file + SharedModalPlaceholder.tsx + SharedTypes.ts
  * Runtime deps: react, motion
  */
 
@@ -9,7 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
+import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
 
 const DEFAULT_STIFFNESS = 280

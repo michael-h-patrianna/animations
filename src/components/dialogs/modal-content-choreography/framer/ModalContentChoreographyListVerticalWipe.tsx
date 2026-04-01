@@ -24,7 +24,7 @@ import {
   DemoModalHeader,
 } from '@/components/demo-blocks'
 import './ModalContentChoreographyListVerticalWipe.module.css'
-import { generateMockListItems } from '@/components/dialogs/modal-content-choreography/MockContentItems'
+import { generateDefaultListItems } from '@/components/dialogs/modal-content-choreography/SharedContentDefaults'
 import {
   MODAL_ENTRANCE,
   REDUCED_FADE,
@@ -85,7 +85,7 @@ function ModalContentChoreographyListVerticalWipeComponent({
     )
   }
 
-  const mockItems = generateMockListItems(DEFAULT_COUNT)
+  const mockItems = generateDefaultListItems(DEFAULT_COUNT)
 
   return (
     <div

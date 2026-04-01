@@ -238,3 +238,151 @@ function VisibilityCycleDemoComponent({
 }
 
 export const VisibilityCycleDemo = memo(VisibilityCycleDemoComponent)
+
+// ── CombatTextDemo ──────────────────────────────────────────────────────
+
+interface CombatTextInstance {
+  id: number
+  value: string
+  x: number
+  y: number
+  createdAt: number
+}
+
+const COMBAT_BANDS = ['positive', 'positive-high', 'negative', 'negative-high'] as const
+const COMBAT_SPAWN_MS = 800
+const COMBAT_LIFETIME_MS = 1200
+const COMBAT_MAX_INSTANCES = 8
+const COMBAT_DEFAULT_VALUE = '-42'
+
+function randomCombatValueForBand(
+  band: string,
+  positiveHighLimit: number,
+  negativeHighLimit: number
+): string {
+  switch (band) {
+    case 'positive':
+      return `+${Math.floor(Math.random() * (positiveHighLimit - 1))}`
+    case 'positive-high':
+      return `+${positiveHighLimit + Math.floor(Math.random() * positiveHighLimit * 4)}`
+    case 'negative':
+      return `-${Math.floor(Math.random() * (negativeHighLimit - 1)) + 1}`
+    case 'negative-high':
+      return `-${negativeHighLimit + Math.floor(Math.random() * negativeHighLimit * 4)}`
+    default:
+      return '-1'
+  }
+}
+
+/**
+ * Spawns multiple floating combat text instances from a central point,
+ * cycling through all four color bands (positive, positive-high, negative,
+ * negative-high) by generating random values that fall into each band.
+ *
+ * When the user hasn't changed the value from its default, the demo
+ * generates random values cycling through all bands for visual variety.
+ * When the user explicitly sets a value, all instances use that value.
+ * All other props (fontSize, duration, colors, thresholds) always flow
+ * through and trigger a full re-spawn so changes are immediately visible.
+ */
+function CombatTextDemoComponent({
+  Component,
+  controlProps,
+}: {
+  Component: React.ComponentType<Record<string, unknown>>
+  controlProps: Record<string, unknown>
+}) {
+  const [instances, setInstances] = useState<CombatTextInstance[]>([])
+  const nextIdRef = useRef(0)
+  const bandIndexRef = useRef(0)
+
+  const randomValues = controlProps.randomValues !== false
+  const userValue = controlProps.value as string | undefined
+
+  const { value: _v, randomValues: _rv, ...styleProps } = controlProps
+  const spreadPx = typeof styleProps.spread === 'number' ? styleProps.spread : 20
+  const positiveHighLimit =
+    typeof styleProps.positiveHighLimit === 'number' ? styleProps.positiveHighLimit : 100
+  const negativeHighLimit =
+    typeof styleProps.negativeHighLimit === 'number' ? styleProps.negativeHighLimit : 100
+  const styleKey = JSON.stringify(styleProps)
+
+  useEffect(() => {
+    setInstances([])
+    nextIdRef.current = 0
+    bandIndexRef.current = 0
+
+    const timeouts = new Set<ReturnType<typeof setTimeout>>()
+    let mounted = true
+
+    const schedule = (fn: () => void, ms: number) => {
+      const id = setTimeout(() => {
+        timeouts.delete(id)
+        fn()
+      }, ms)
+      timeouts.add(id)
+    }
+
+    const spawn = () => {
+      if (!mounted) return
+
+      const now = Date.now()
+      const band = COMBAT_BANDS[bandIndexRef.current % COMBAT_BANDS.length]!
+      bandIndexRef.current += 1
+
+      const xScatter = (Math.random() - 0.5) * spreadPx
+      const yJitter = (Math.random() - 0.5) * 10
+
+      setInstances((prev) => {
+        const alive = prev
+          .filter((inst) => now - inst.createdAt < COMBAT_LIFETIME_MS)
+          .slice(-COMBAT_MAX_INSTANCES + 1)
+
+        return [
+          ...alive,
+          {
+            id: nextIdRef.current++,
+            value: randomValues
+              ? randomCombatValueForBand(band, positiveHighLimit, negativeHighLimit)
+              : (userValue ?? COMBAT_DEFAULT_VALUE),
+            x: 50 + xScatter,
+            y: 50 + yJitter,
+            createdAt: now,
+          },
+        ]
+      })
+
+      schedule(spawn, COMBAT_SPAWN_MS)
+    }
+
+    schedule(spawn, 400)
+
+    return () => {
+      mounted = false
+      timeouts.forEach(clearTimeout)
+      timeouts.clear()
+    }
+  }, [styleKey, randomValues, userValue, spreadPx, positiveHighLimit, negativeHighLimit])
+
+  return (
+    <div
+      style={{ position: 'relative', width: '100%', minHeight: 120 }}
+      data-testid="demo-combat-text"
+    >
+      {instances.map((inst) => (
+        <div
+          key={inst.id}
+          style={{
+            position: 'absolute',
+            left: `${inst.x}%`,
+            top: `${inst.y}%`,
+          }}
+        >
+          <Component {...styleProps} value={inst.value} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export const CombatTextDemo = memo(CombatTextDemoComponent)

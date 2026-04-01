@@ -24,7 +24,7 @@ import {
   DemoModalHeader,
 } from '@/components/demo-blocks'
 import './ModalContentChoreographyFormFieldLeftReveal.module.css'
-import { generateMockFormFields } from '@/components/dialogs/modal-content-choreography/MockContentItems'
+import { generateDefaultFormFields } from '@/components/dialogs/modal-content-choreography/SharedContentDefaults'
 import {
   MODAL_ENTRANCE,
   REDUCED_FADE,
@@ -88,7 +88,7 @@ function ModalContentChoreographyFormFieldLeftRevealComponent({
     )
   }
 
-  const mockFields = generateMockFormFields(DEFAULT_COUNT)
+  const mockFields = generateDefaultFormFields(DEFAULT_COUNT)
 
   return (
     <div

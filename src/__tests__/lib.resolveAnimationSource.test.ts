@@ -241,7 +241,7 @@ describe('resolveAnimationSource', () => {
   })
 
   it('excludes Mock imports from shared tabs', async () => {
-    const tsxSource = `import { MockModalContent } from '@/MockModalContent'\nexport function A() {}`
+    const tsxSource = `import { DefaultModalContent } from '@/DefaultModalContent'\nexport function A() {}`
 
     const result = buildGroupExport(
       groupMeta,
@@ -251,7 +251,7 @@ describe('resolveAnimationSource', () => {
       {},
       {
         framerTsx: { './framer/A.tsx': vi.fn().mockResolvedValue(tsxSource) },
-        shared: { './MockModalContent.tsx': vi.fn().mockResolvedValue('mock content') },
+        shared: { './SharedModalPlaceholder.tsx': vi.fn().mockResolvedValue('mock content') },
       }
     )
 

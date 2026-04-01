@@ -1,13 +1,13 @@
 /**
  * Modal entrance — spring-physics bounce with overshoot settle. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseSpringBounce.module.css + MockModalContent.tsx + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseSpringBounce.module.css + SharedModalPlaceholder.tsx + SharedTypes.ts
  * Runtime deps: react
  */
 
 import { memo, type CSSProperties } from 'react'
 
-import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
+import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
 import styles from './ModalBaseSpringBounce.module.css'
 

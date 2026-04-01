@@ -11,7 +11,7 @@ import { useReducedMotion } from 'motion/react'
 import type { CSSProperties } from 'react'
 import { memo } from 'react'
 
-import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
+import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import './ModalBaseGlitchDigital.module.css'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
 

@@ -5,7 +5,7 @@
 
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
-import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/MockOpenModalContent'
+import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/SharedOpenModalPlaceholder'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
 import {
   useModalOpenLogic,

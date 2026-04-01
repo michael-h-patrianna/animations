@@ -1,16 +1,19 @@
 import { Button } from '@/demo-ui/components/ui/Button'
 import { ColorPicker } from '@/demo-ui/components/ui/ColorPicker'
+import { ColorGradientPicker } from '@/demo-ui/components/ui/ColorGradientPicker'
 import { Input } from '@/demo-ui/components/ui/Input'
 import { Select } from '@/demo-ui/components/ui/Select'
 import { Slider } from '@/demo-ui/components/ui/Slider'
 import { Switch } from '@/demo-ui/components/ui/Switch'
 import type { PropConfig, StyleObjectFieldConfig } from '@/types/animation'
+import type { ColorOrGradient } from '@/types/gradient'
 import { assertNever } from '@/utils/assertNever'
 import { memo, useCallback } from 'react'
 import {
   buildStyleObjectDefaultRecord,
   isStyleValueRecord,
   normalizeColorDefault,
+  normalizeColorOrGradient,
   parseStyleNumberValue,
   resolveColorArray,
   serializeStyleFieldValue,
@@ -113,7 +116,7 @@ function BooleanField({
   )
 }
 
-// ── Color field ──────────────────────────────────────────────────────────
+// ── Color field (solid-only or with gradient support) ───────────────────
 
 function ColorField({
   config,
@@ -121,15 +124,23 @@ function ColorField({
   onChange,
 }: {
   config: PropConfig & { type: 'color' }
-  value: string
-  onChange: (v: string) => void
+  value: ColorOrGradient
+  onChange: (v: ColorOrGradient) => void
 }) {
+  if (config.allowGradient === true) {
+    return (
+      <div data-testid={`prop-field-${config.name}`}>
+        <ColorGradientPicker label={config.label} value={value} onChange={onChange} />
+      </div>
+    )
+  }
+  const solidValue = typeof value === 'string' ? value : '#000000'
   return (
     <div data-testid={`prop-field-${config.name}`}>
       <ColorPicker
         label={config.label}
-        value={value !== '' ? value : '#000000'}
-        onChange={onChange}
+        value={solidValue !== '' ? solidValue : '#000000'}
+        onChange={onChange as (v: string) => void}
       />
     </div>
   )
@@ -396,10 +407,21 @@ interface PropFieldProps {
   config: PropConfig
   value: unknown
   onChange: (name: string, value: unknown) => void
+  /** All current prop values — used to evaluate disabledWhen conditions. */
+  allValues?: Record<string, unknown>
 }
 
-function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
-  if (config.disabled) return <DisabledField config={config} />
+function isDisabledByCondition(config: PropConfig, allValues?: Record<string, unknown>): boolean {
+  return (
+    config.disabledWhen != null &&
+    allValues != null &&
+    allValues[config.disabledWhen.prop] === config.disabledWhen.eq
+  )
+}
+
+function PropFieldComponent({ config, value, onChange, allValues }: PropFieldProps) {
+  if (config.disabled || isDisabledByCondition(config, allValues))
+    return <DisabledField config={config} />
 
   const handleChange = (v: unknown) => onChange(config.name, v)
 
@@ -432,8 +454,8 @@ function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
       return (
         <ColorField
           config={config}
-          value={normalizeColorDefault(typeof value === 'string' ? value : config.default)}
-          onChange={handleChange as (v: string) => void}
+          value={normalizeColorOrGradient(value, config.default)}
+          onChange={handleChange as (v: ColorOrGradient) => void}
         />
       )
     case 'select':

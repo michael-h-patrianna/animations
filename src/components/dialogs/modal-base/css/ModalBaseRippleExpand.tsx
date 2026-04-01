@@ -7,7 +7,7 @@
 
 import { memo } from 'react'
 
-import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
+import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
 import styles from './ModalBaseRippleExpand.module.css'
 

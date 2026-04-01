@@ -1,0 +1,69 @@
+/**
+ * Starburst / Radial Rays — CSS animation variant.
+ *
+ * Usage:
+ *   <div class="pf-starburst" role="img" aria-label="Starburst">
+ *     <div class="pf-starburst__rays"><svg>...</svg></div>
+ *     <div class="pf-starburst__content">...</div>
+ *   </div>
+ *
+ * Custom properties:
+ *   --pf-starburst-size: 200px
+ *   --pf-starburst-rotation-speed: 10s
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-starburst {
+  position: relative;
+  width: var(--pf-starburst-size, 200px);
+  height: var(--pf-starburst-size, 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.pf-starburst__rays {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation:
+    pf-starburst-fade-in 300ms ease-out forwards,
+    pf-starburst-rotate var(--pf-starburst-rotation-speed, 10s) linear 300ms infinite;
+}
+
+.pf-starburst__rays svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-starburst__content {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+@keyframes pf-starburst-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: var(--pf-starburst-opacity, 0.6);
+  }
+}
+
+@keyframes pf-starburst-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-starburst__rays {
+    --pf-starburst-opacity: 0.4;
+    animation: pf-starburst-fade-in 300ms ease-out forwards;
+  }
+}

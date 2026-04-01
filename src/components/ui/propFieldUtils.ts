@@ -6,12 +6,36 @@
  */
 
 import type { StyleObjectFieldConfig } from '@/types/animation'
+import { isLinearGradient, type ColorOrGradient } from '@/types/gradient'
 import { assertNever } from '@/utils/assertNever'
 import { resolveColorInputDefault } from '@/utils/colors'
 
 /** Type guard for plain objects (not arrays). */
 export function isStyleValueRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+/**
+ * Normalizes a color value for the inspector.
+ * Gradient objects pass through unchanged; strings are normalized as solid colors.
+ */
+export function normalizeColorOrGradient(
+  value: unknown,
+  fallback?: ColorOrGradient
+): ColorOrGradient {
+  if (isLinearGradient(value as ColorOrGradient)) return value as ColorOrGradient
+  if (typeof value === 'string' && value !== '') {
+    const resolved = resolveColorInputDefault(value)
+    return resolved !== '' ? resolved : value
+  }
+  if (fallback != null) {
+    if (isLinearGradient(fallback)) return fallback
+    if (typeof fallback === 'string') {
+      const resolved = resolveColorInputDefault(fallback)
+      return resolved !== '' ? resolved : fallback
+    }
+  }
+  return '#000000'
 }
 
 /** Resolves a color default, falling back to the raw value if resolution fails. */

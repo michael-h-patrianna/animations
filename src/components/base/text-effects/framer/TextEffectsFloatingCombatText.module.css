@@ -1,0 +1,42 @@
+/* Floating Combat Text — Framer Motion layout (no keyframes) */
+.pf-combat-text-fm {
+  --pf-combat-text-color: #4ade80;
+  --pf-combat-text-shadow-dark: rgb(0 0 0 / 50%);
+  --pf-combat-text-shadow-soft: rgb(0 0 0 / 30%);
+
+  position: relative;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+/* Value-based color bands via data attribute */
+.pf-combat-text-fm[data-band='positive'] {
+  --pf-combat-text-color: #4ade80;
+}
+
+.pf-combat-text-fm[data-band='positive-high'] {
+  --pf-combat-text-color: #fbbf24;
+}
+
+.pf-combat-text-fm[data-band='negative'] {
+  --pf-combat-text-color: #f87171;
+}
+
+.pf-combat-text-fm[data-band='negative-high'] {
+  --pf-combat-text-color: #ef4444;
+}
+
+.pf-combat-text-fm__text {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1;
+  color: var(--pf-combat-text-color);
+  text-shadow:
+    0 1px 3px var(--pf-combat-text-shadow-dark),
+    0 0 8px var(--pf-combat-text-shadow-soft);
+  will-change: transform, opacity;
+}

@@ -19,9 +19,9 @@ function transformLine(line: string): string | null {
     return cleaned.trim() === '' ? null : cleaned
   }
 
-  // Replace MockModalContent import with a guidance comment
-  if (/import\s+\{?\s*MockModalContent\s*\}?\s+from/.test(line)) {
-    return '// Replace <MockModalContent /> below with your own content'
+  // Replace DefaultModalContent import with a guidance comment
+  if (/import\s+\{?\s*DefaultModalContent\s*\}?\s+from/.test(line)) {
+    return '// Replace <DefaultModalContent /> below with your own content'
   }
 
   return line

@@ -1,0 +1,68 @@
+import type { AnimationMetadata } from '@/types/animation'
+
+export const metadata: AnimationMetadata = {
+  id: 'standard-effects__starburst',
+  urlSlugFramer: '/standard-effects-framer?animation=standard-effects__starburst',
+  urlSlugCss: '/standard-effects-css?animation=standard-effects__starburst',
+  title: 'Starburst',
+  description:
+    'Rotating radial light rays. Place behind a reward icon, badge, or any element that needs a highlight background. Configurable ray count, width ratio, color, size, and rotation speed.',
+  tier: 2,
+  infinite: true,
+  disableReplay: true,
+  props: [
+    {
+      type: 'color',
+      name: 'rayColor',
+      label: 'Ray Color',
+      default: 'rgba(255, 180, 0, 0.15)',
+      allowGradient: true,
+    },
+    {
+      type: 'number',
+      name: 'rayCount',
+      label: 'Ray Count',
+      default: 12,
+      min: 4,
+      max: 24,
+      step: 2,
+    },
+    {
+      type: 'number',
+      name: 'rayWidth',
+      label: 'Ray Width',
+      description: 'Fraction of each slice the colored ray fills (0 = hairline, 1 = no gap)',
+      default: 0.5,
+      min: 0.05,
+      max: 0.95,
+      step: 0.05,
+    },
+    {
+      type: 'number',
+      name: 'rotationSpeed',
+      label: 'Rotation Speed',
+      default: 10000,
+      min: 3000,
+      max: 30000,
+      step: 1000,
+      unit: 'ms',
+    },
+    {
+      type: 'number',
+      name: 'size',
+      label: 'Size',
+      default: 200,
+      min: 80,
+      max: 500,
+      step: 10,
+      unit: 'px',
+    },
+    {
+      type: 'string',
+      name: 'children',
+      label: 'Children',
+      disabled: true,
+      disabledReason: 'ReactNode — pass as JSX children',
+    },
+  ],
+}

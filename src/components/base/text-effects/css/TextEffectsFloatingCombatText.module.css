@@ -1,0 +1,115 @@
+/**
+ * Floating Combat Text — Pure CSS Implementation
+ *
+ * GPU-accelerated floating text effect with configurable drift, distance, and pop scale.
+ * Uses CSS custom properties for per-instance randomized horizontal drift.
+ * Namespaced with tfx-combattext__ prefix to prevent style conflicts.
+ */
+
+.tfx-combattext__container {
+  --tfx-combattext-color: #4ade80;
+  --tfx-combattext-drift-x: 0px;
+  --tfx-combattext-float-distance: 60px;
+  --tfx-combattext-pop-scale: 1.1;
+  --tfx-combattext-shadow-dark: rgb(0 0 0 / 50%);
+  --tfx-combattext-shadow-soft: rgb(0 0 0 / 30%);
+
+  position: relative;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  contain: layout style;
+}
+
+/* Value-based color bands via data attribute */
+.tfx-combattext__container[data-band='positive'] {
+  --tfx-combattext-color: #4ade80;
+}
+
+.tfx-combattext__container[data-band='positive-high'] {
+  --tfx-combattext-color: #fbbf24;
+}
+
+.tfx-combattext__container[data-band='negative'] {
+  --tfx-combattext-color: #f87171;
+}
+
+.tfx-combattext__container[data-band='negative-high'] {
+  --tfx-combattext-color: #ef4444;
+}
+
+.tfx-combattext__text {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1;
+  color: var(--tfx-combattext-color);
+  text-shadow:
+    0 1px 3px var(--tfx-combattext-shadow-dark),
+    0 0 8px var(--tfx-combattext-shadow-soft);
+
+  will-change: transform, opacity;
+  animation: tfx-combattext-float 800ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation-fill-mode: both;
+}
+
+/*
+ * Keyframe sequence:
+ *   0%   — mount: scale 0.8, opacity 1, at origin
+ *  12.5% — pop: scale to pop-scale, stay at origin
+ *  37.5% — begin float, still visible, 30% of travel
+ *  75%   — 75% of travel, begin major fade
+ * 100%   — fully faded, at float distance + drift
+ */
+@keyframes tfx-combattext-float {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(0.8, 0.8, 1);
+  }
+
+  12.5% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0)
+      scale3d(var(--tfx-combattext-pop-scale), var(--tfx-combattext-pop-scale), 1);
+  }
+
+  37.5% {
+    opacity: 1;
+    transform: translate3d(
+        calc(var(--tfx-combattext-drift-x) * 0.3),
+        calc(var(--tfx-combattext-float-distance) * -0.3),
+        0
+      )
+      scale3d(1.05, 1.05, 1);
+  }
+
+  75% {
+    opacity: 0.5;
+    transform: translate3d(
+        calc(var(--tfx-combattext-drift-x) * 0.75),
+        calc(var(--tfx-combattext-float-distance) * -0.75),
+        0
+      )
+      scale3d(0.95, 0.95, 1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(
+        var(--tfx-combattext-drift-x),
+        calc(var(--tfx-combattext-float-distance) * -1),
+        0
+      )
+      scale3d(0.9, 0.9, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-combattext__text {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

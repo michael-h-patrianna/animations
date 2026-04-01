@@ -35,7 +35,7 @@ export const CONTENT_TRANSITION_MS = 300 + STAGGER_DELAY_MS * (CONTENT_ITEMS.len
  * Setting `revealed` to false reverses the transitions (content fades out in reverse).
  * `onClose` is called when the user clicks the X or Close button.
  */
-export function MockOpenModalContent({
+export function DefaultOpenModalContent({
   revealed,
   onClose,
 }: {
@@ -119,5 +119,5 @@ export function ModalOpenPlaceholder({
   onClose?: () => void
 }) {
   if (children !== undefined) return <>{children}</>
-  return <MockOpenModalContent revealed={revealed} onClose={onClose} />
+  return <DefaultOpenModalContent revealed={revealed} onClose={onClose} />
 }

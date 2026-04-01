@@ -27,6 +27,7 @@ const DemoModeSchema = v.optional(
     'list-rotate',
     'score-pulse',
     'visibility-cycle',
+    'combat-text',
   ])
 )
 
@@ -57,6 +58,7 @@ const PropConfigBaseSchema = {
   description: v.optional(v.string()),
   disabled: v.optional(v.boolean()),
   disabledReason: v.optional(v.string()),
+  disabledWhen: v.optional(v.object({ prop: v.string(), eq: v.unknown() })),
   group: v.optional(v.string()),
 }
 

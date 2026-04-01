@@ -14,7 +14,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import { generateMockListItems } from '@/components/dialogs/modal-content-choreography/MockContentItems'
+import { generateDefaultListItems } from '@/components/dialogs/modal-content-choreography/SharedContentDefaults'
 import {
   toItemArray,
   type ContentStaggerProps,
@@ -65,7 +65,7 @@ function ModalContentChoreographyListVerticalWipeComponent({
     )
   }
 
-  const mockItems = generateMockListItems(DEFAULT_COUNT)
+  const mockItems = generateDefaultListItems(DEFAULT_COUNT)
 
   return (
     <div

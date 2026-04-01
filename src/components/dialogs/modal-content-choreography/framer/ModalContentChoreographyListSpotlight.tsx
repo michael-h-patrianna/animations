@@ -23,7 +23,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import { generateMockListItems } from '@/components/dialogs/modal-content-choreography/MockContentItems'
+import { generateDefaultListItems } from '@/components/dialogs/modal-content-choreography/SharedContentDefaults'
 import {
   MODAL_ENTRANCE,
   REDUCED_FADE,
@@ -84,7 +84,7 @@ function ModalContentChoreographyListSpotlightComponent({
     )
   }
 
-  const mockItems = generateMockListItems(DEFAULT_COUNT)
+  const mockItems = generateDefaultListItems(DEFAULT_COUNT)
   const buttonStaggerBase = 0.3 + staggerS * DEFAULT_COUNT + 0.05
 
   return (

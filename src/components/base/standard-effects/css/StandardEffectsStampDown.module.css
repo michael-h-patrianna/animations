@@ -1,0 +1,54 @@
+/**
+ * Stamp Down / Impact Land — apply to any HTML element.
+ *
+ * Usage: <div class="pf-stamp-down">content</div>
+ *
+ * Custom properties:
+ *   --pf-stamp-down-duration: 350ms
+ *   --pf-stamp-down-start-scale: 2
+ *   --pf-stamp-down-rotation: 2deg
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-stamp-down {
+  display: inline-flex;
+  animation: pf-stamp-down var(--pf-stamp-down-duration, 350ms) cubic-bezier(0.4, 0, 0.2, 1)
+    forwards;
+}
+
+@keyframes pf-stamp-down {
+  0% {
+    transform: scale(var(--pf-stamp-down-start-scale, 2)) rotate(0deg);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  }
+  43% {
+    transform: scale(0.92) rotate(calc(-1 * var(--pf-stamp-down-rotation, 2deg)));
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  71% {
+    transform: scale(1.04) rotate(calc(0.3 * var(--pf-stamp-down-rotation, 2deg)));
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-stamp-down {
+    animation: pf-stamp-down-reduced 150ms ease-out forwards;
+  }
+
+  @keyframes pf-stamp-down-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
