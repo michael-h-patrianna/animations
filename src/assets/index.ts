@@ -69,9 +69,9 @@ import gemDiamondImage from '@/assets/celebration-effects/gem-diamond.webp'
 import gemEmeraldImage from '@/assets/celebration-effects/gem-emerald.webp'
 import gemRubyImage from '@/assets/celebration-effects/gem-ruby.webp'
 import gemSapphireImage from '@/assets/celebration-effects/gem-sapphire.webp'
-import modalCelebrationsFireworkParticle1Image from '@/assets/celebration-effects/firework-particle-1.webp'
-import modalCelebrationsFireworkParticle2Image from '@/assets/celebration-effects/firework-particle-2.webp'
-import modalCelebrationsFireworkParticle3Image from '@/assets/celebration-effects/firework-particle-3.webp'
+import celebrationEffectsFireworkParticle1Image from '@/assets/celebration-effects/firework-particle-1.webp'
+import celebrationEffectsFireworkParticle2Image from '@/assets/celebration-effects/firework-particle-2.webp'
+import celebrationEffectsFireworkParticle3Image from '@/assets/celebration-effects/firework-particle-3.webp'
 import githubIcon from '@/assets/github.svg'
 import homeIcon1 from '@/assets/home-icon1.webp'
 import homeIcon2 from '@/assets/home-icon2.webp'
@@ -163,9 +163,9 @@ export {
   gemEmeraldImage,
   gemRubyImage,
   gemSapphireImage,
-  modalCelebrationsFireworkParticle1Image,
-  modalCelebrationsFireworkParticle2Image,
-  modalCelebrationsFireworkParticle3Image,
+  celebrationEffectsFireworkParticle1Image,
+  celebrationEffectsFireworkParticle2Image,
+  celebrationEffectsFireworkParticle3Image,
   githubIcon,
   homeIcon1,
   homeIcon2,

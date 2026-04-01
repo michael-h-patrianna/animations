@@ -22,7 +22,7 @@ const lightsMeta: GroupMetadata = {
 const celebrationEffectsMeta: GroupMetadata = {
   id: 'celebration-effects',
   title: 'Celebration effects',
-  demo: 'modalCelebrations',
+  demo: 'celebrationEffects',
 }
 
 const prizeRevealMeta: GroupMetadata = {

@@ -16,9 +16,9 @@ import {
 } from 'react'
 import styles from './CelebrationEffectsFirework.module.css'
 
-import modalCelebrationsFireworkParticle1Image from '@/assets/celebration-effects/firework-particle-1.webp'
-import modalCelebrationsFireworkParticle2Image from '@/assets/celebration-effects/firework-particle-2.webp'
-import modalCelebrationsFireworkParticle3Image from '@/assets/celebration-effects/firework-particle-3.webp'
+import celebrationEffectsFireworkParticle1Image from '@/assets/celebration-effects/firework-particle-1.webp'
+import celebrationEffectsFireworkParticle2Image from '@/assets/celebration-effects/firework-particle-2.webp'
+import celebrationEffectsFireworkParticle3Image from '@/assets/celebration-effects/firework-particle-3.webp'
 import type { CelebrationBaseProps } from '@/components/rewards/celebration-effects/SharedCelebrationTypes'
 import { CELEBRATION_COLORS_HEX } from '@/components/rewards/celebration-effects/SharedCelebrationTypes'
 import {
@@ -38,9 +38,9 @@ import {
 /* ─── Defaults ─── */
 
 const DEFAULT_PARTICLE_IMAGES = [
-  modalCelebrationsFireworkParticle1Image,
-  modalCelebrationsFireworkParticle2Image,
-  modalCelebrationsFireworkParticle3Image,
+  celebrationEffectsFireworkParticle1Image,
+  celebrationEffectsFireworkParticle2Image,
+  celebrationEffectsFireworkParticle3Image,
 ]
 
 const DEFAULT_COLORS = CELEBRATION_COLORS_HEX

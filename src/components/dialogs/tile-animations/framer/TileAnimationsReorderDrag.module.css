@@ -1,4 +1,4 @@
-/* Layout styles for ModalOrchestrationReorderDrag (framer variant) */
+/* Layout styles for TileAnimationsReorderDrag (framer variant) */
 .pf-reorder-drag-fm {
   --pf-drag-shadow: 0 6px 15px var(--pf-demo-card-shadow, rgb(0 0 0 / 20%));
   display: flex;

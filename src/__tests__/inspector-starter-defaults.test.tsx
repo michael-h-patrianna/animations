@@ -1,8 +1,8 @@
 import {
   coinImage,
-  modalCelebrationsFireworkParticle1Image,
-  modalCelebrationsFireworkParticle2Image,
-  modalCelebrationsFireworkParticle3Image,
+  celebrationEffectsFireworkParticle1Image,
+  celebrationEffectsFireworkParticle2Image,
+  celebrationEffectsFireworkParticle3Image,
   presentBox,
   presentBoxBalloon,
   pulseScroll,
@@ -70,9 +70,9 @@ describe('animation inspector starter defaults', () => {
     expect(fireworkDefaults).toEqual(
       expect.objectContaining({
         particleImages: [
-          modalCelebrationsFireworkParticle1Image,
-          modalCelebrationsFireworkParticle2Image,
-          modalCelebrationsFireworkParticle3Image,
+          celebrationEffectsFireworkParticle1Image,
+          celebrationEffectsFireworkParticle2Image,
+          celebrationEffectsFireworkParticle3Image,
         ],
       })
     )

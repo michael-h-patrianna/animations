@@ -20,9 +20,9 @@
 import { shallowClone } from '@/utils/clone'
 import {
   coinImage,
-  modalCelebrationsFireworkParticle1Image,
-  modalCelebrationsFireworkParticle2Image,
-  modalCelebrationsFireworkParticle3Image,
+  celebrationEffectsFireworkParticle1Image,
+  celebrationEffectsFireworkParticle2Image,
+  celebrationEffectsFireworkParticle3Image,
   presentBox,
   presentBoxBalloon,
   pulseScroll,
@@ -32,9 +32,9 @@ import {
 const DEFAULT_COIN_PARTICLE_IMAGES = [coinImage] as const
 
 const DEFAULT_FIREWORK_PARTICLE_IMAGES = [
-  modalCelebrationsFireworkParticle1Image,
-  modalCelebrationsFireworkParticle2Image,
-  modalCelebrationsFireworkParticle3Image,
+  celebrationEffectsFireworkParticle1Image,
+  celebrationEffectsFireworkParticle2Image,
+  celebrationEffectsFireworkParticle3Image,
 ] as const
 
 const INSPECTOR_STARTER_DEFAULTS: Record<string, Record<string, unknown>> = {
