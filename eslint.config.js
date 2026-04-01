@@ -394,6 +394,8 @@ export default defineConfig([
       'src/__tests__/standard-effects.screen-flash.test.tsx',
       // Stamp-down animation: data-animation-id queries, ring conditional rendering
       'src/__tests__/standard-effects-stamp-down.test.tsx',
+      // Starburst tests: inspect SVG path count, viewBox, fill attributes
+      'src/__tests__/starburst.test.tsx',
     ],
     rules: {
       'testing-library/no-node-access': 'off',

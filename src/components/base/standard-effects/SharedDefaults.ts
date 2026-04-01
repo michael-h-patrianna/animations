@@ -7,3 +7,7 @@ export const INDICATOR_RADIAL_RING_COLOR = 'rgb(236 195 255 / 32%)'
 export const PULSE_GLOW_COLOR = 'rgb(198 255 119 / 30%)'
 export const SCREEN_FLASH_COLOR = 'rgba(255, 255, 255, 0.9)'
 export const STAMP_DOWN_RING_COLOR = 'rgba(255, 255, 255, 0.3)'
+
+/** Default colors for starburst / radial rays effect. */
+export const STARBURST_RAY_COLOR = 'rgba(255, 180, 0, 0.15)'
+export const STARBURST_GLOW_COLOR = 'rgba(255, 220, 100, 0.8)'
