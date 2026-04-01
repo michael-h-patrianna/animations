@@ -15,7 +15,7 @@ export const metadata: AnimationMetadata = {
       name: 'count',
       label: 'Count From',
       default: 3,
-      min: 1,
+      min: 0,
       max: 10,
       step: 1,
     },

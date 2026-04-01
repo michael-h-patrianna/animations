@@ -17,9 +17,9 @@ interface TimerEffectsCountdownBurstProps {
   count?: number
   /** Text shown on the final "go" step. Default: "GO!" */
   goText?: string
-  /** Duration of each numbered step in ms. Default: 800. */
+  /** Total duration of each numbered step (entrance + hold + exit) in ms. Default: 800. */
   stepDuration?: number
-  /** Hold duration on the GO step before calling onComplete, in ms. Default: 700. */
+  /** Total duration of the GO step (entrance + hold) before calling onComplete, in ms. Default: 700. */
   goDuration?: number
   /** Color of the text, ring, glow, and particles during numbered steps. Default: "#ecc3ff". */
   countdownColor?: string
@@ -63,28 +63,42 @@ function TimerEffectsCountdownBurstComponent({
   const onStepRef = useRef(onStep)
   onStepRef.current = onStep
 
+  // Reduced motion: simple crossfade, no ring/particles/glow
+  const enterTransition = prefersReducedMotion
+    ? { duration: 0.01 }
+    : { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] as const }
+
+  const exitTransition = prefersReducedMotion
+    ? { duration: 0.01 }
+    : { duration: EXIT_S, ease: 'easeOut' as const }
+
   // Fire onStep when current changes
   useEffect(() => {
     onStepRef.current?.(current)
   }, [current])
 
-  // Hold timer — starts only after entrance animation completes.
-  // This ensures stepDuration = visible hold time, not total time including entrance.
+  // Hold timer — starts after entrance animation completes.
+  // Subtract entrance/exit durations so total step time ≈ stepDuration,
+  // matching the CSS variant where stepDuration is the full keyframe duration.
+  const enterMs = enterTransition.duration * 1000
+  const exitMs = EXIT_S * 1000
   useEffect(() => {
     if (!holdReady) return
     if (current > 0) {
+      const holdMs = Math.max(0, stepDuration - enterMs - exitMs)
       const timer = setTimeout(() => {
         setHoldReady(false)
         setCurrent((c) => c - 1)
-      }, stepDuration)
+      }, holdMs)
       return () => clearTimeout(timer)
     }
-    // GO step — hold then complete
+    // GO step — no exit, so only subtract entrance
+    const holdMs = Math.max(0, goDuration - enterMs)
     const timer = setTimeout(() => {
       onCompleteRef.current?.()
-    }, goDuration)
+    }, holdMs)
     return () => clearTimeout(timer)
-  }, [holdReady, current, stepDuration, goDuration])
+  }, [holdReady, current, stepDuration, goDuration, enterMs, exitMs])
 
   // Reset when count prop changes
   useEffect(() => {
@@ -157,15 +171,6 @@ function TimerEffectsCountdownBurstComponent({
     height: particleSize,
   }
 
-  // Reduced motion: simple crossfade, no ring/particles/glow
-  const enterTransition = prefersReducedMotion
-    ? { duration: 0.01 }
-    : { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] as const }
-
-  const exitTransition = prefersReducedMotion
-    ? { duration: 0.01 }
-    : { duration: EXIT_S, ease: 'easeOut' as const }
-
   return (
     <div
       className={styles['pf-countdown-burst-fm']}
@@ -180,7 +185,7 @@ function TimerEffectsCountdownBurstComponent({
           initial={prefersReducedMotion ? { opacity: 0 } : { scale: 0, rotate: -30, opacity: 0 }}
           animate={
             prefersReducedMotion
-              ? { opacity: 1 }
+              ? { opacity: 1, transition: enterTransition }
               : {
                   scale: [0, 1.3, 1],
                   rotate: [-30, 10, 0],

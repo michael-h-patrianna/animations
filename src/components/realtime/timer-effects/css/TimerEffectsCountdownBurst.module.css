@@ -199,9 +199,12 @@
  * Reduced motion — simple crossfade, no ring/particles/glow
  * ---------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .pf-countdown-burst__step,
+  .pf-countdown-burst__step {
+    animation: countdown-burst-reduced var(--step-duration, 800ms) ease-out both;
+  }
+
   .pf-countdown-burst__step--go {
-    animation: countdown-burst-reduced 0.15s ease-out both;
+    animation: countdown-burst-reduced-go var(--step-duration, 800ms) ease-out both;
   }
 
   .pf-countdown-burst__ring,
@@ -215,9 +218,29 @@
   }
 }
 
+/* Numbered step: fade in, hold, fade out — preserves step duration and exit trigger */
 @keyframes countdown-burst-reduced {
   0% {
     opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* GO step: fade in and hold — no exit */
+@keyframes countdown-burst-reduced-go {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
   }
   100% {
     opacity: 1;
