@@ -53,4 +53,48 @@ test.describe('Standard Effects', () => {
 
     expect(framerIds.sort()).toEqual(cssIds.sort())
   })
+
+  test('screen flash renders with visible overlay in framer mode', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('standard-effects-framer')
+
+    const card = catalogPage.card('standard-effects__screen-flash')
+    const stage = await catalogPage.cardStage(card)
+    const box = await stage.boundingBox()
+
+    expect(box).not.toBeNull()
+    expect(box!.width).toBeGreaterThan(30)
+    expect(box!.height).toBeGreaterThan(30)
+  })
+
+  test('screen flash renders with visible overlay in css mode', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('standard-effects-css')
+
+    const card = catalogPage.card('standard-effects__screen-flash')
+    const stage = await catalogPage.cardStage(card)
+    const box = await stage.boundingBox()
+
+    expect(box).not.toBeNull()
+    expect(box!.width).toBeGreaterThan(30)
+    expect(box!.height).toBeGreaterThan(30)
+  })
+
+  test('screen flash overlay fades to invisible after animation completes', async ({
+    catalogPage,
+  }) => {
+    await catalogPage.gotoGroup('standard-effects-framer')
+
+    const card = catalogPage.card('standard-effects__screen-flash')
+    await catalogPage.cardStage(card)
+
+    await expect
+      .poll(
+        async () => {
+          const overlay = card.locator('[aria-hidden="true"]').first()
+          const opacity = await overlay.evaluate((el) => window.getComputedStyle(el).opacity)
+          return Number(opacity)
+        },
+        { timeout: 5_000 }
+      )
+      .toBeLessThan(0.1)
+  })
 })

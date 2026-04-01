@@ -390,6 +390,8 @@ export default defineConfig([
       'src/__tests__/demo-ui.toggle-group.test.tsx',
       // Component behavioral tests: particle count, label presence, CSS custom properties
       'src/__tests__/component-behavior.test.tsx',
+      // Screen flash tests: overlay structure, aria-hidden, CSS custom properties
+      'src/__tests__/standard-effects.screen-flash.test.tsx',
     ],
     rules: {
       'testing-library/no-node-access': 'off',
