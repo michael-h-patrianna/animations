@@ -51,19 +51,19 @@
   }
 
   to {
-    opacity: 0.6;
+    opacity: var(--pf-starburst-opacity, 0.6);
   }
 }
 
 @keyframes pf-starburst-rotate {
   to {
-    rotate: 360deg;
+    transform: rotate(360deg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pf-starburst__rays {
+    --pf-starburst-opacity: 0.4;
     animation: pf-starburst-fade-in 300ms ease-out forwards;
-    opacity: 0.4;
   }
 }
