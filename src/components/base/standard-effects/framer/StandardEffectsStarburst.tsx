@@ -12,7 +12,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useId, useMemo, type ReactNode } from 'react'
 import { STARBURST_RAY_COLOR } from '@/components/base/standard-effects/SharedDefaults'
-import { isLinearGradient, toSvgGradientCoords, type ColorOrGradient } from '@/types/gradient'
+import { isLinearGradient, type ColorOrGradient } from '@/types/gradient'
 
 interface StandardEffectsStarburstProps {
   /** Color of the ray wedges — solid CSS color or linear gradient. */
@@ -65,12 +65,24 @@ function StandardEffectsStarburstComponent({
   }, [rayCount, rayWidth, radius])
 
   const isGradient = isLinearGradient(rayColor)
-  const fillValue = isGradient ? `url(#${gradientId})` : (rayColor as string)
 
-  const gradientCoords = useMemo(() => {
+  // Per-ray gradients: each wedge gets its own linearGradient running from
+  // center → outer edge along the wedge's radial midline.
+  const rayGradients = useMemo(() => {
     if (!isGradient) return null
-    return toSvgGradientCoords(rayColor.angle, size)
-  }, [isGradient, rayColor, size])
+    const clampedCount = Math.max(4, Math.min(24, rayCount))
+    const clampedWidth = Math.max(0.05, Math.min(0.95, rayWidth))
+    const sliceAngle = (2 * Math.PI) / clampedCount
+    return Array.from({ length: clampedCount }, (_, i) => {
+      const midAngle = i * sliceAngle + (sliceAngle * clampedWidth) / 2
+      return {
+        x1: radius,
+        y1: radius,
+        x2: radius + radius * Math.cos(midAngle),
+        y2: radius + radius * Math.sin(midAngle),
+      }
+    })
+  }, [isGradient, rayCount, rayWidth, radius])
 
   return (
     <div
@@ -114,27 +126,34 @@ function StandardEffectsStarburstComponent({
           height={size}
           style={{ display: 'block' }}
         >
-          {isGradient && gradientCoords != null && (
+          {isGradient && rayGradients != null && (
             <defs>
-              <linearGradient
-                id={gradientId}
-                gradientUnits="userSpaceOnUse"
-                x1={gradientCoords.x1}
-                y1={gradientCoords.y1}
-                x2={gradientCoords.x2}
-                y2={gradientCoords.y2}
-              >
-                {rayColor.stops
-                  .slice()
-                  .sort((a, b) => a.position - b.position)
-                  .map((stop, i) => (
-                    <stop key={i} offset={`${stop.position}%`} stopColor={stop.color} />
-                  ))}
-              </linearGradient>
+              {rayGradients.map((coords, i) => (
+                <linearGradient
+                  key={i}
+                  id={`${gradientId}-${i}`}
+                  gradientUnits="userSpaceOnUse"
+                  x1={coords.x1}
+                  y1={coords.y1}
+                  x2={coords.x2}
+                  y2={coords.y2}
+                >
+                  {rayColor.stops
+                    .slice()
+                    .sort((a, b) => a.position - b.position)
+                    .map((stop, si) => (
+                      <stop key={si} offset={`${stop.position}%`} stopColor={stop.color} />
+                    ))}
+                </linearGradient>
+              ))}
             </defs>
           )}
           {wedgePaths.map((d, i) => (
-            <path key={i} d={d} fill={fillValue} />
+            <path
+              key={i}
+              d={d}
+              fill={isGradient ? `url(#${gradientId}-${i})` : (rayColor as string)}
+            />
           ))}
         </svg>
       </m.div>
