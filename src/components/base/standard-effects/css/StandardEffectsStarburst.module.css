@@ -1,0 +1,115 @@
+/**
+ * Starburst / Radial Rays — CSS animation variant.
+ *
+ * Usage:
+ *   <div class="pf-starburst" role="img" aria-label="Starburst">
+ *     <div class="pf-starburst__rays"><svg>...</svg></div>
+ *     <div class="pf-starburst__glow"></div>
+ *     <div class="pf-starburst__content">...</div>
+ *   </div>
+ *
+ * Custom properties:
+ *   --pf-starburst-ray-color: rgba(255, 180, 0, 0.15)
+ *   --pf-starburst-glow-color: rgba(255, 220, 100, 0.8)
+ *   --pf-starburst-size: 200px
+ *   --pf-starburst-rotation-speed: 10s
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-starburst {
+  position: relative;
+  width: var(--pf-starburst-size, 200px);
+  height: var(--pf-starburst-size, 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.pf-starburst__rays {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation:
+    pf-starburst-fade-in 300ms ease-out forwards,
+    pf-starburst-rotate var(--pf-starburst-rotation-speed, 10s) linear 300ms infinite;
+}
+
+.pf-starburst__rays svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-starburst__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30%;
+  height: 30%;
+  margin-left: -15%;
+  margin-top: -15%;
+  border-radius: 50%;
+  background: var(--pf-starburst-glow-color, rgb(255 220 100 / 80%));
+  pointer-events: none;
+  opacity: 0;
+  animation:
+    pf-starburst-glow-entrance 300ms ease-out forwards,
+    pf-starburst-breathe 2s ease-in-out 300ms infinite;
+}
+
+.pf-starburst__content {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+@keyframes pf-starburst-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.6;
+  }
+}
+
+@keyframes pf-starburst-rotate {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes pf-starburst-glow-entrance {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.55;
+  }
+}
+
+@keyframes pf-starburst-breathe {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-starburst__rays {
+    animation: pf-starburst-fade-in 300ms ease-out forwards;
+    opacity: 0.4;
+  }
+
+  .pf-starburst__glow {
+    animation: none;
+    opacity: 0.5;
+  }
+}

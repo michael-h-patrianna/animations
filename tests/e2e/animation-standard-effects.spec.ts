@@ -53,4 +53,64 @@ test.describe('Standard Effects', () => {
 
     expect(framerIds.sort()).toEqual(cssIds.sort())
   })
+
+  test.describe('Starburst animation', () => {
+    test('framer variant renders SVG rays with meaningful dimensions', async ({ catalogPage }) => {
+      await catalogPage.gotoGroup('standard-effects-framer')
+
+      const card = catalogPage.card('standard-effects__starburst')
+      const stage = await catalogPage.cardStage(card)
+      const box = await stage.boundingBox()
+
+      expect(box).not.toBeNull()
+      expect(box!.width).toBeGreaterThan(50)
+      expect(box!.height).toBeGreaterThan(50)
+
+      const rayCount = await card.locator('svg path').count()
+      expect(rayCount).toBeGreaterThanOrEqual(4)
+    })
+
+    test('CSS variant renders SVG rays with meaningful dimensions', async ({ catalogPage }) => {
+      await catalogPage.gotoGroup('standard-effects-css')
+
+      const card = catalogPage.card('standard-effects__starburst')
+      const stage = await catalogPage.cardStage(card)
+      const box = await stage.boundingBox()
+
+      expect(box).not.toBeNull()
+      expect(box!.width).toBeGreaterThan(50)
+      expect(box!.height).toBeGreaterThan(50)
+
+      const rayCount = await card.locator('svg path').count()
+      expect(rayCount).toBeGreaterThanOrEqual(4)
+    })
+
+    test('starburst is visually contained within its card', async ({ catalogPage }) => {
+      await catalogPage.gotoGroup('standard-effects-framer')
+
+      const card = catalogPage.card('standard-effects__starburst')
+      const stage = await catalogPage.cardStage(card)
+      const stageBox = await stage.boundingBox()
+
+      const animRoot = card.locator('[data-animation-id="standard-effects__starburst"]')
+      const animBox = await animRoot.boundingBox()
+
+      expect(stageBox).not.toBeNull()
+      expect(animBox).not.toBeNull()
+      expect(animBox!.x).toBeGreaterThanOrEqual(stageBox!.x - 1)
+      expect(animBox!.y).toBeGreaterThanOrEqual(stageBox!.y - 1)
+      expect(animBox!.x + animBox!.width).toBeLessThanOrEqual(stageBox!.x + stageBox!.width + 1)
+      expect(animBox!.y + animBox!.height).toBeLessThanOrEqual(stageBox!.y + stageBox!.height + 1)
+    })
+
+    test('starburst exists in both code modes', async ({ catalogPage }) => {
+      await catalogPage.gotoGroup('standard-effects-framer')
+      const framerCard = catalogPage.card('standard-effects__starburst')
+      await expect(framerCard).toBeVisible()
+
+      await catalogPage.gotoGroup('standard-effects-css')
+      const cssCard = catalogPage.card('standard-effects__starburst')
+      await expect(cssCard).toBeVisible()
+    })
+  })
 })
