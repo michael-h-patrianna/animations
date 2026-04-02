@@ -5,7 +5,7 @@ import { highlightCode } from '@/lib/highlighter'
 import { logger } from '@/services/logger'
 import { cleanSourceForDisplay } from '@/lib/sourceTransform'
 import type { SourceTab } from '@/types/animation'
-import { CopyCheckIcon, CopyIcon } from '@/components/ui/icons/CopyIcon'
+import { CopyCheckIcon, CopyIcon } from '@/components/ui/icons'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './CodeViewerModal.css'
 

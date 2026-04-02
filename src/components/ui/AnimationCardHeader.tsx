@@ -1,8 +1,4 @@
-import { CodeIcon } from '@/components/ui/icons/CodeIcon'
-import { LinkIcon } from '@/components/ui/icons/LinkIcon'
-import { MonitorIcon } from '@/components/ui/icons/MonitorIcon'
-import { SmartphoneIcon } from '@/components/ui/icons/SmartphoneIcon'
-import { ChevronDown } from '@/components/ui/icons/ChevronDown'
+import { ChevronDown, CodeIcon, LinkIcon, MonitorIcon, SmartphoneIcon } from '@/components/ui/icons'
 
 // ── Description ───────────────────────────────────────────────────────────
 
