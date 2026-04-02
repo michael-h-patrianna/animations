@@ -57,6 +57,7 @@ function getShakeKeyframes() {
 export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: string }) {
   const isShaking = phase === 'anticipation'
   const isVisible = phase === 'arrival' || phase === 'anticipation'
+  const shake = getShakeKeyframes()
 
   if (!isVisible) return null
 
@@ -78,16 +79,7 @@ export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: st
       }}
     >
       <m.div
-        animate={
-          isShaking
-            ? {
-                x: getShakeKeyframes().x,
-                y: getShakeKeyframes().y,
-                rotate: getShakeKeyframes().rot,
-                scaleX: getShakeKeyframes().sx,
-              }
-            : {}
-        }
+        animate={isShaking ? { x: shake.x, y: shake.y, rotate: shake.rot, scaleX: shake.sx } : {}}
         transition={isShaking ? { duration: 1.0, ease: 'linear' } : {}}
       >
         <img

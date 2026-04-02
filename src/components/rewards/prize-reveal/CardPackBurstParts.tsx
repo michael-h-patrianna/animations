@@ -234,7 +234,7 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
         const dist = 20 + rarity * 12 + Math.random() * 10
         return { id: i, angle, dist, size: 4 + Math.random() * 6 }
       }),
-    [particleCount, rarity]
+    [rarity]
   )
 
   return (

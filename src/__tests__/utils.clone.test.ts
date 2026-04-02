@@ -23,10 +23,14 @@ describe('isRecord', () => {
     expect(isRecord(undefined)).toBe(false)
   })
 
-  it('returns true for class instances (they are objects)', () => {
-    expect(isRecord(new Date())).toBe(true)
-    expect(isRecord(new Map())).toBe(true)
-    expect(isRecord(/regex/)).toBe(true)
+  it('returns false for class instances (not plain objects)', () => {
+    expect(isRecord(new Date())).toBe(false)
+    expect(isRecord(new Map())).toBe(false)
+    expect(isRecord(/regex/)).toBe(false)
+  })
+
+  it('returns true for null-prototype objects', () => {
+    expect(isRecord(Object.create(null) as Record<string, unknown>)).toBe(true)
   })
 })
 

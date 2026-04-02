@@ -166,9 +166,13 @@ function CollectionEffectsCoinBurstComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  // Reduced motion: skip particle animation, fire onComplete immediately
+  // Reduced motion: skip particle animation, fire onComplete exactly once
+  const completedRef = useRef(false)
   useEffect(() => {
-    if (prefersReducedMotion && onComplete) onComplete()
+    if (prefersReducedMotion && onComplete && !completedRef.current) {
+      completedRef.current = true
+      onComplete()
+    }
   }, [prefersReducedMotion, onComplete])
 
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1

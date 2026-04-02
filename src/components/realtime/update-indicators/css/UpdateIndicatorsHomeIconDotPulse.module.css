@@ -1,10 +1,5 @@
 /* Dot pulse: gentle scale + glowing ring cycle */
 
-/* BEM modifier — ensures dot stacks above ring (mirrors radar pattern) */
-:global(.pf-update-indicator__dot--pulse) {
-  z-index: 1;
-}
-
 .pf-dot-pulse-anim {
   animation: pf-ui-dot-pulse var(--pf-dot-pulse-dur, 1400ms) ease-in-out;
   animation-fill-mode: both;
