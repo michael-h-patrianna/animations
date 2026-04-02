@@ -7,6 +7,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import styles from './CollectionEffectsCoinBurst.module.css'
@@ -132,6 +133,7 @@ function CollectionEffectsCoinBurstComponent({
   duration,
   onComplete,
 }: CollectionEffectProps) {
+  const prefersReducedMotion = useReducedMotion()
   const durationS = duration !== undefined ? duration / 1000 : DEFAULT_DURATION_S
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -164,7 +166,22 @@ function CollectionEffectsCoinBurstComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
+  // Reduced motion: skip particle animation, fire onComplete immediately
+  useEffect(() => {
+    if (prefersReducedMotion && onComplete) onComplete()
+  }, [prefersReducedMotion, onComplete])
+
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
+
+  if (prefersReducedMotion) {
+    return (
+      <div
+        ref={containerRef}
+        className={styles['pf-coin-burst-fm']}
+        data-animation-id="collection-effects__coin-burst"
+      />
+    )
+  }
 
   return (
     <div

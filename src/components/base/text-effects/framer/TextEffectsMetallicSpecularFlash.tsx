@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, type Variants } from 'motion/react'
+import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsMetallicSpecularFlash.module.css'
 
@@ -20,46 +20,60 @@ function TextEffectsMetallicSpecularFlashComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsMetallicSpecularFlashProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0, scaleX: 0.995 },
-    show: {
-      opacity: 1,
-      scaleX: 1,
-      transition: {
-        duration: 0.14,
-        ease: easeOut,
-        when: 'beforeChildren',
-        staggerChildren: 0.02,
-        delayChildren: 0.05,
-      },
-    },
-    settle: {
-      scale: [1, 1.01, 1],
-      transition: { duration: 0.32, ease: [0.2, 0, 0, 1] as const, delay: 0.55 },
-    },
-  }
+  const containerVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        show: {
+          opacity: 1,
+          transition: { duration: 0.3, when: 'beforeChildren', staggerChildren: 0.01 },
+        },
+      }
+    : {
+        hidden: { opacity: 0, scaleX: 0.995 },
+        show: {
+          opacity: 1,
+          scaleX: 1,
+          transition: {
+            duration: 0.14,
+            ease: easeOut,
+            when: 'beforeChildren',
+            staggerChildren: 0.02,
+            delayChildren: 0.05,
+          },
+        },
+        settle: {
+          scale: [1, 1.01, 1],
+          transition: { duration: 0.32, ease: [0.2, 0, 0, 1] as const, delay: 0.55 },
+        },
+      }
 
-  const letterVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: [0, 1, 1, 1] as number[],
-      color: [
-        'var(--pf-msf-base-color)',
-        'var(--pf-msf-highlight-color)',
-        'var(--pf-msf-shadow-color)',
-        'var(--pf-msf-base-color)',
-      ] as string[],
-      skewX: [0, 4, -1, 0] as number[],
-      scaleX: [1, 1.08, 0.995, 1] as number[],
-      transition: {
-        duration: 0.42,
-        ease: easeInOut,
-        times: [0, 0.25, 0.55, 1],
-      },
-    },
-  }
+  const letterVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { duration: 0.2 } },
+      }
+    : {
+        hidden: { opacity: 0 },
+        show: {
+          opacity: [0, 1, 1, 1] as number[],
+          color: [
+            'var(--pf-msf-base-color)',
+            'var(--pf-msf-highlight-color)',
+            'var(--pf-msf-shadow-color)',
+            'var(--pf-msf-base-color)',
+          ] as string[],
+          skewX: [0, 4, -1, 0] as number[],
+          scaleX: [1, 1.08, 0.995, 1] as number[],
+          transition: {
+            duration: 0.42,
+            ease: easeInOut,
+            times: [0, 0.25, 0.55, 1],
+          },
+        },
+      }
 
   return (
     <m.div
@@ -68,7 +82,7 @@ function TextEffectsMetallicSpecularFlashComponent({
       aria-label={text}
       variants={containerVariants}
       initial="hidden"
-      animate={['show', 'settle']}
+      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
       style={
         color !== undefined ? ({ '--pf-msf-base-color': color } as React.CSSProperties) : undefined
       }

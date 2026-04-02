@@ -1,5 +1,10 @@
 /* Dot bounce: elastic overshoot entrance + idle scale bob */
 
+/* BEM modifier — ensures dot stacks above ring (mirrors radar pattern) */
+:global(.pf-update-indicator__dot--bounce) {
+  z-index: 1;
+}
+
 .pf-dot-bounce-enter {
   opacity: 0;
   animation:
