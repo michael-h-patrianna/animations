@@ -54,7 +54,7 @@ describe('shallowClone', () => {
     expect(shallowClone('hello')).toBe('hello')
     expect(shallowClone(true)).toBe(true)
     expect(shallowClone(null)).toBe(null)
-    // undefined + null must pass through without wrapping into {} or []
+    // Verify undefined passes through without wrapping into {} or []
     const undefinedResult = shallowClone(undefined)
     expect(typeof undefinedResult === 'undefined' && undefinedResult === undefined).toBe(true)
   })
@@ -83,5 +83,16 @@ describe('shallowClone', () => {
   it('handles empty objects', () => {
     const cloned = shallowClone({})
     expect(cloned).toEqual({})
+  })
+
+  it('returns class instances as-is (not spread-cloned)', () => {
+    const date = new Date()
+    expect(shallowClone(date)).toBe(date)
+
+    const map = new Map([['a', 1]])
+    expect(shallowClone(map)).toBe(map)
+
+    const regex = /test/
+    expect(shallowClone(regex)).toBe(regex)
   })
 })
