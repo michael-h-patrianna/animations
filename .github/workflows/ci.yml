@@ -68,35 +68,9 @@ jobs:
       - name: Bundle size check
         run: npm run build:check-size
 
-  e2e:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    needs: quality
-
-    steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-node@v5
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-
-      - run: npm ci
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit firefox
-
-      - name: Run E2E tests
-        run: npm run test:e2e
-
-      - name: Upload test report
-        uses: actions/upload-artifact@v6
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7
+  # E2E tests disabled in CI — cancel-in-progress kills long-running
+  # Playwright runs on every push, so they never complete. Run locally
+  # with `npm run test:e2e` before merging.
 
   lighthouse:
     name: Lighthouse CI
