@@ -249,58 +249,6 @@
   margin-top: 16px;
 }
 
-/* ── Grid: responsive card grid ── */
-.pf-demo-grid {
-  display: grid;
-  gap: 12px;
-}
-
-/* ── Tab bar: horizontal tab row ── */
-.pf-demo-tab-bar {
-  display: flex;
-  gap: 8px;
-  border-bottom: 1px solid var(--pf-demo-card-border);
-  padding-bottom: 8px;
-}
-
-/* ── Tab: single tab button ── */
-.pf-demo-tab {
-  flex: 1;
-  padding: 6px 12px;
-  border-radius: 8px 8px 0 0;
-  background: var(--pf-demo-card-bg);
-  border: 1px solid var(--pf-demo-card-border);
-  border-bottom: none;
-  text-align: center;
-  font-size: 13px;
-  color: var(--pf-demo-card-color);
-  cursor: pointer;
-}
-
-.pf-demo-tab--active {
-  background: var(--pf-demo-active-bg);
-  border-color: var(--pf-demo-active-border);
-  color: var(--pf-demo-active-color);
-  box-shadow: 0 0 0 1px var(--pf-demo-active-glow);
-}
-
-/* ── Step indicator: wizard step pill ── */
-.pf-demo-step-indicator {
-  display: flex;
-  gap: 8px;
-}
-
-.pf-demo-step {
-  flex: 1;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: var(--pf-demo-card-bg);
-  border: 1px solid var(--pf-demo-card-border);
-  text-align: center;
-  font-size: 12px;
-  color: var(--pf-demo-card-color);
-}
-
 /* ── Box: rounded rectangle with centered label ── */
 .pf-demo-box {
   padding: 24px 32px;
@@ -320,11 +268,4 @@
   font-weight: 600;
   color: var(--pf-demo-card-color);
   text-align: center;
-}
-
-.pf-demo-step--active {
-  background: var(--pf-demo-active-bg);
-  border: 2px solid var(--pf-demo-active-border);
-  color: var(--pf-demo-active-color);
-  box-shadow: 0 0 0 1px var(--pf-demo-active-glow);
 }

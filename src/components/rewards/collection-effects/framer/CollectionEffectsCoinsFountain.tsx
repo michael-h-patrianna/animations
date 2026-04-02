@@ -7,6 +7,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import styles from './CollectionEffectsCoinsFountain.module.css'
@@ -183,6 +184,7 @@ function CollectionEffectsCoinsFountainComponent({
   duration,
   onComplete,
 }: CollectionEffectProps) {
+  const prefersReducedMotion = useReducedMotion()
   const durationS = duration !== undefined ? duration / 1000 : DEFAULT_DURATION_S
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -216,6 +218,25 @@ function CollectionEffectsCoinsFountainComponent({
   }, [cleanupMs])
 
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
+
+  // Reduced motion: skip particle animation, fire onComplete exactly once
+  const completedRef = useRef(false)
+  useEffect(() => {
+    if (prefersReducedMotion && onComplete && !completedRef.current) {
+      completedRef.current = true
+      onComplete()
+    }
+  }, [prefersReducedMotion, onComplete])
+
+  if (prefersReducedMotion) {
+    return (
+      <div
+        ref={containerRef}
+        className={styles['pf-coins-fountain-fm']}
+        data-animation-id="collection-effects__coins-fountain"
+      />
+    )
+  }
 
   return (
     <div

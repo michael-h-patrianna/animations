@@ -1,6 +1,4 @@
-import { CloseIcon } from '@/components/ui/icons/CloseIcon'
-import { MonitorIcon } from '@/components/ui/icons/MonitorIcon'
-import { SmartphoneIcon } from '@/components/ui/icons/SmartphoneIcon'
+import { CloseIcon, MonitorIcon, SmartphoneIcon } from '@/components/ui/icons'
 import { Button, useLayoutStore } from '@/demo-ui'
 import { useEscapeClose, useFocusTrap } from '@/hooks/useModalAccessibility'
 import type { PreviewPosition } from '@/types/animation'

@@ -5,6 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsTypewriter.module.css'
 
@@ -25,6 +26,7 @@ function TextEffectsTypewriterComponent({
   cursor = '|',
   color,
 }: TextEffectsTypewriterProps) {
+  const prefersReducedMotion = useReducedMotion()
   const chars = useMemo(() => text.split(''), [text])
 
   return (
@@ -43,9 +45,15 @@ function TextEffectsTypewriterComponent({
             key={index}
             className={styles['pf-typewriter-fm__char']}
             data-testid="typewriter-char"
-            initial={{ opacity: 0, display: 'none' }}
+            initial={
+              prefersReducedMotion
+                ? { opacity: 1, display: 'inline-block' }
+                : { opacity: 0, display: 'none' }
+            }
             animate={{ opacity: 1, display: 'inline-block' }}
-            transition={{ duration: 0, delay: index * charDelay }}
+            transition={
+              prefersReducedMotion ? { duration: 0 } : { duration: 0, delay: index * charDelay }
+            }
           >
             {char === ' ' ? '\u00A0' : char}
           </m.span>
@@ -54,14 +62,18 @@ function TextEffectsTypewriterComponent({
         <m.span
           className={styles['pf-typewriter-fm__cursor']}
           initial={{ opacity: 1 }}
-          animate={{ opacity: [1, 1, 0, 0] }}
-          transition={{
-            duration: 1,
-            repeat: Infinity,
-            times: [0, 0.5, 0.5, 1],
-            ease: 'linear' as const,
-            delay: chars.length * charDelay,
-          }}
+          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: [1, 1, 0, 0] }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : {
+                  duration: 1,
+                  repeat: Infinity,
+                  times: [0, 0.5, 0.5, 1],
+                  ease: 'linear' as const,
+                  delay: chars.length * charDelay,
+                }
+          }
         >
           {cursor}
         </m.span>

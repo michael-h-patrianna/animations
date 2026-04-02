@@ -26,7 +26,7 @@
  * Runtime deps: react, motion
  */
 import * as m from 'motion/react-m'
-import { animate, useMotionValue } from 'motion/react'
+import { animate, useMotionValue, useReducedMotion } from 'motion/react'
 import {
   memo,
   useCallback,
@@ -72,6 +72,7 @@ function ProgressBarsCircularLevelComponent({
   className,
   style,
 }: ProgressBarsCircularLevelProps) {
+  const prefersReducedMotion = useReducedMotion()
   // SVG geometry — viewBox is 100×100, stroke scaled proportionally
   // Size comes from CSS custom property; default 120px → svgStroke ≈ 6.67
   const svgStroke = (strokeWidth / 120) * 100
@@ -181,6 +182,13 @@ function ProgressBarsCircularLevelComponent({
     const levelsGained = currentFloor - prevFloor
     const fill = safe % 1
 
+    if (prefersReducedMotion) {
+      // Skip all animations — jump to final state immediately
+      prevFloorRef.current = currentFloor
+      fillMV.jump(fill)
+      return
+    }
+
     if (levelsGained > 0 && !animatingRef.current) {
       prevFloorRef.current = currentFloor
       animatingRef.current = true
@@ -190,7 +198,7 @@ function ProgressBarsCircularLevelComponent({
       animate(fillMV, fill, { duration: 0.25, ease: [0.4, 0, 0.2, 1] })
     }
     // When animating: skip — syncTrigger will re-run this after animation
-  }, [progress, syncTrigger, fillMV, runLevelUp])
+  }, [progress, syncTrigger, fillMV, runLevelUp, prefersReducedMotion])
 
   return (
     <div

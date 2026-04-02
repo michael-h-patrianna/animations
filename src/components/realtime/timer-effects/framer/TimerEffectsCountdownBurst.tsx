@@ -8,7 +8,7 @@
 
 import * as m from 'motion/react-m'
 import { AnimatePresence, useReducedMotion } from 'motion/react'
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 
 import styles from './TimerEffectsCountdownBurst.module.css'
 
@@ -56,8 +56,8 @@ function TimerEffectsCountdownBurstComponent({
   const prefersReducedMotion = useReducedMotion()
   const startCount = Math.max(0, Math.round(countProp))
   const [current, setCurrent] = useState(startCount)
-  // True once the step's entrance animation finishes — starts the hold timer.
-  const [holdReady, setHoldReady] = useState(false)
+  /** True for the very first step (no preceding exit animation). */
+  const isFirstStep = useRef(true)
   const onCompleteRef = useRef(onComplete)
   onCompleteRef.current = onComplete
   const onStepRef = useRef(onStep)
@@ -77,38 +77,35 @@ function TimerEffectsCountdownBurstComponent({
     onStepRef.current?.(current)
   }, [current])
 
-  // Hold timer — starts after entrance animation completes.
-  // Subtract entrance/exit durations so total step time ≈ stepDuration,
-  // matching the CSS variant where stepDuration is the full keyframe duration.
-  const enterMs = enterTransition.duration * 1000
+  // Step timer — each step lasts stepDuration (or goDuration for the GO step).
+  // The entrance and exit animations from AnimatePresence run within this period.
+  // This mirrors the CSS variant where the keyframe duration IS the step duration.
+  //
+  // The first step has no preceding exit animation, so we subtract exitMs to keep
+  // pacing consistent: every number is visible for the same total duration.
   const exitMs = EXIT_S * 1000
   useEffect(() => {
-    if (!holdReady) return
     if (current > 0) {
-      const holdMs = Math.max(0, stepDuration - enterMs - exitMs)
+      const adjustedDuration = isFirstStep.current ? stepDuration - exitMs : stepDuration
+      isFirstStep.current = false
       const timer = setTimeout(() => {
-        setHoldReady(false)
         setCurrent((c) => c - 1)
-      }, holdMs)
+      }, adjustedDuration)
       return () => clearTimeout(timer)
     }
-    // GO step — no exit, so only subtract entrance
-    const holdMs = Math.max(0, goDuration - enterMs)
+    // GO step — hold then fire onComplete
+    isFirstStep.current = false
     const timer = setTimeout(() => {
       onCompleteRef.current?.()
-    }, holdMs)
+    }, goDuration)
     return () => clearTimeout(timer)
-  }, [holdReady, current, stepDuration, goDuration, enterMs, exitMs])
+  }, [current, stepDuration, goDuration, exitMs])
 
   // Reset when count prop changes
   useEffect(() => {
     setCurrent(Math.max(0, Math.round(countProp)))
-    setHoldReady(false)
+    isFirstStep.current = true
   }, [countProp])
-
-  const handleEntranceComplete = useCallback(() => {
-    setHoldReady(true)
-  }, [])
 
   const isGo = current === 0
   const displayText = isGo ? goText : String(current)
@@ -202,7 +199,6 @@ function TimerEffectsCountdownBurstComponent({
                   transition: exitTransition,
                 }
           }
-          onAnimationComplete={handleEntranceComplete}
         >
           {/* Expanding ring */}
           {!prefersReducedMotion && (

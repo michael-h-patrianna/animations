@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, type Variants } from 'motion/react'
+import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsLightSweepDraw.module.css'
 
@@ -20,46 +20,60 @@ function TextEffectsLightSweepDrawComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsLightSweepDrawProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0, scaleY: 0.98 },
-    show: {
-      opacity: 1,
-      scaleY: 1,
-      transition: {
-        duration: 0.2,
-        ease: easeOut,
-        when: 'beforeChildren',
-        staggerChildren: 0.04,
-        delayChildren: 0.15,
-      },
-    },
-    settle: {
-      scale: [1, 1.02, 1],
-      transition: { duration: 0.6, ease: [0.2, 0, 0, 1] as const, delay: 0.95 },
-    },
-  }
+  const containerVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        show: {
+          opacity: 1,
+          transition: { duration: 0.3, when: 'beforeChildren', staggerChildren: 0.01 },
+        },
+      }
+    : {
+        hidden: { opacity: 0, scaleY: 0.98 },
+        show: {
+          opacity: 1,
+          scaleY: 1,
+          transition: {
+            duration: 0.2,
+            ease: easeOut,
+            when: 'beforeChildren',
+            staggerChildren: 0.04,
+            delayChildren: 0.15,
+          },
+        },
+        settle: {
+          scale: [1, 1.02, 1],
+          transition: { duration: 0.6, ease: [0.2, 0, 0, 1] as const, delay: 0.95 },
+        },
+      }
 
-  const letterVariants: Variants = {
-    hidden: { opacity: 0, y: 6 },
-    show: {
-      opacity: [0, 1, 1] as number[],
-      y: [6, 0, 0] as number[],
-      color: [
-        'var(--pf-lsd-base-color)',
-        'var(--pf-lsd-highlight-color)',
-        'var(--pf-lsd-base-color)',
-      ] as string[],
-      skewX: [0, 1.5, 0] as number[],
-      scale: [1, 1.04, 1] as number[],
-      transition: {
-        duration: 0.6,
-        ease: easeInOut,
-        times: [0, 0.45, 1],
-      },
-    },
-  }
+  const letterVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { duration: 0.2 } },
+      }
+    : {
+        hidden: { opacity: 0, y: 6 },
+        show: {
+          opacity: [0, 1, 1] as number[],
+          y: [6, 0, 0] as number[],
+          color: [
+            'var(--pf-lsd-base-color)',
+            'var(--pf-lsd-highlight-color)',
+            'var(--pf-lsd-base-color)',
+          ] as string[],
+          skewX: [0, 1.5, 0] as number[],
+          scale: [1, 1.04, 1] as number[],
+          transition: {
+            duration: 0.6,
+            ease: easeInOut,
+            times: [0, 0.45, 1],
+          },
+        },
+      }
 
   return (
     <m.div
@@ -68,7 +82,7 @@ function TextEffectsLightSweepDrawComponent({
       aria-label={text}
       variants={containerVariants}
       initial="hidden"
-      animate={['show', 'settle']}
+      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
       style={
         color !== undefined ? ({ '--pf-lsd-base-color': color } as React.CSSProperties) : undefined
       }
