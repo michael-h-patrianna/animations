@@ -2,6 +2,44 @@ import '@testing-library/jest-dom/vitest'
 import { act } from '@testing-library/react'
 
 /**
+ * Node.js v22+ ships a built-in `globalThis.localStorage` that requires
+ * `--localstorage-file` to function. Without it, `.setItem` / `.getItem`
+ * are undefined. Happy-dom provides its own implementation on `window`,
+ * but zustand's persist middleware captures `window.localStorage` at module
+ * init time — if it runs before happy-dom's setup, it gets Node's broken
+ * version. This polyfill ensures a working in-memory Storage is always
+ * available, regardless of environment initialization order.
+ */
+if (typeof globalThis.localStorage?.setItem !== 'function') {
+  const store = new Map<string, string>()
+  const memoryStorage: Storage = {
+    get length() {
+      return store.size
+    },
+    clear() {
+      store.clear()
+    },
+    getItem(key: string) {
+      return store.get(key) ?? null
+    },
+    key(index: number) {
+      return [...store.keys()][index] ?? null
+    },
+    removeItem(key: string) {
+      store.delete(key)
+    },
+    setItem(key: string, value: string) {
+      store.set(key, value)
+    },
+  }
+  Object.defineProperty(globalThis, 'localStorage', {
+    value: memoryStorage,
+    writable: true,
+    configurable: true,
+  })
+}
+
+/**
  * IntersectionObserver mock with controllable triggering.
  *
  * By default, auto-triggers with isIntersecting: true via setTimeout(0)
