@@ -194,9 +194,17 @@
 
 @media (prefers-reduced-motion: reduce) {
   .lights-circle-static-3__bulb,
+  .lights-circle-static-3__bulb-wrapper:first-child .lights-circle-static-3__bulb {
+    animation: none;
+    background-color: var(--bulb-on);
+    box-shadow:
+      0 0 4px var(--bulb-on-glow70),
+      0 0 6px var(--bulb-on-glow50);
+  }
+
   .lights-circle-static-3__glow,
-  .lights-circle-static-3__bulb-wrapper:first-child .lights-circle-static-3__bulb,
   .lights-circle-static-3__bulb-wrapper:first-child .lights-circle-static-3__glow {
     animation: none;
+    opacity: 0.5;
   }
 }

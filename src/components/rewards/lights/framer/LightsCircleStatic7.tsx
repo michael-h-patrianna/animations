@@ -14,7 +14,7 @@ const linearEase = 'linear' as const
 
 // Glow variant for comet trail - long gradual fadeout
 const glowVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.5 },
   show: {
     opacity: [0, 1, 0.9, 0.75, 0.6, 0.45, 0.3, 0.15, 0, 0],
     transition: {
@@ -51,8 +51,8 @@ function LightsCircleStatic7({
   const bulbVariants = useMemo(
     () => ({
       hidden: {
-        backgroundColor: colors.off,
-        boxShadow: `0 0 2px ${colors.offGlow30}`,
+        backgroundColor: colors.on,
+        boxShadow: `0 0 4px ${colors.onGlow70}, 0 0 6px ${colors.onGlow50}`,
       },
       show: {
         backgroundColor: [

@@ -21,7 +21,7 @@ const containerVariants = {
 
 // Strong beat glow variant (1st in group) - brightest and longest
 const glowVariantsStrong = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.5 },
   show: {
     opacity: [0, 0.4, 1, 1, 0.7, 0.3, 0, 0],
     transition: {
@@ -37,7 +37,7 @@ const strongTimes: number[] = [0, 0.01, 0.03, 0.08, 0.1, 0.12, 0.14, 1]
 
 // Weak beat glow variant (2nd and 3rd in group) - dimmer and shorter
 const glowVariantsWeak = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.5 },
   show: {
     opacity: [0, 0.2, 0.7, 0.7, 0.4, 0.15, 0, 0],
     transition: {
@@ -77,8 +77,8 @@ function LightsCircleStatic6({
   const bulbVariantsStrong = useMemo(
     () => ({
       hidden: {
-        backgroundColor: colors.off,
-        boxShadow: `0 0 2px ${colors.offGlow30}`,
+        backgroundColor: colors.on,
+        boxShadow: `0 0 4px ${colors.onGlow70}, 0 0 6px ${colors.onGlow50}`,
       },
       show: {
         backgroundColor: [
@@ -115,8 +115,8 @@ function LightsCircleStatic6({
   const bulbVariantsWeak = useMemo(
     () => ({
       hidden: {
-        backgroundColor: colors.off,
-        boxShadow: `0 0 2px ${colors.offGlow30}`,
+        backgroundColor: colors.on,
+        boxShadow: `0 0 4px ${colors.onGlow70}, 0 0 6px ${colors.onGlow50}`,
       },
       show: {
         backgroundColor: [
