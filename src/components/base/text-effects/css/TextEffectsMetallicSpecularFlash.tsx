@@ -21,18 +21,18 @@ function TextEffectsMetallicSpecularFlashComponent({
 
   return (
     <div
-      className={styles['tfx-metallic-specular-flash']}
+      className={styles['pf-tfx-metallic-specular-flash']}
       data-animation-id="text-effects__metallic-specular-flash"
       aria-label={text}
       style={
         color !== undefined ? ({ '--tfx-msf-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className={styles['tfx-metallic-specular-flash__line']} aria-hidden="true">
+      <div className={styles['pf-tfx-metallic-specular-flash__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={styles['tfx-metallic-specular-flash__letter']}
+            className={styles['pf-tfx-metallic-specular-flash__letter']}
             style={{ animationDelay: `${0.05 + i * 0.02}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}

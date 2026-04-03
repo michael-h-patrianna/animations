@@ -237,7 +237,7 @@ function TextEffectsCounterIncrementComponent({
 
   return (
     <div
-      className={styles['tfx-cinc-container']}
+      className={styles['pf-tfx-cinc-container']}
       data-testid="counter-container"
       data-animation-id="text-effects__counter-increment"
       style={
@@ -246,11 +246,11 @@ function TextEffectsCounterIncrementComponent({
           : undefined
       }
     >
-      <div className={styles['tfx-cinc-value-wrapper']}>
-        <span ref={valueRef} className={styles['tfx-cinc-value']}>
-          {prefix !== undefined && <span className={styles['tfx-cinc-label']}>{prefix}</span>}
+      <div className={styles['pf-tfx-cinc-value-wrapper']}>
+        <span ref={valueRef} className={styles['pf-tfx-cinc-value']}>
+          {prefix !== undefined && <span className={styles['pf-tfx-cinc-label']}>{prefix}</span>}
           <span ref={numberRef}>{formatRef.current(from)}</span>
-          {suffix !== undefined && <span className={styles['tfx-cinc-label']}>{suffix}</span>}
+          {suffix !== undefined && <span className={styles['pf-tfx-cinc-label']}>{suffix}</span>}
         </span>
 
         {/* Target mode: pre-rendered particles with CSS animation-delay */}
@@ -258,7 +258,7 @@ function TextEffectsCounterIncrementComponent({
           steps.map((step, i) => (
             <span
               key={i}
-              className={styles['tfx-cinc-particle']}
+              className={styles['pf-tfx-cinc-particle']}
               style={{ animationDelay: `${step.timing}ms` }}
             >
               +{formatRef.current(step.incrementAmount)}
@@ -273,7 +273,7 @@ function TextEffectsCounterIncrementComponent({
               ref={(el) => {
                 poolRef.current[i] = el
               }}
-              className={styles['tfx-cinc-particle-slot']}
+              className={styles['pf-tfx-cinc-particle-slot']}
             />
           ))}
       </div>

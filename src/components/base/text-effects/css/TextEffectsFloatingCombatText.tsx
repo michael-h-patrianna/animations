@@ -87,7 +87,7 @@ function TextEffectsFloatingCombatTextComponent({
 
   return (
     <div
-      className={styles['tfx-combattext__container']}
+      className={styles['pf-tfx-combattext__container']}
       data-animation-id="text-effects__floating-combat-text"
       data-testid="combat-text"
       data-band={band}
@@ -98,7 +98,7 @@ function TextEffectsFloatingCombatTextComponent({
       }
     >
       <div
-        className={styles['tfx-combattext__text']}
+        className={styles['pf-tfx-combattext__text']}
         data-testid="combat-text-value"
         style={
           {

@@ -32,18 +32,18 @@ function TextEffectsVerbFallingComponent({
 
   return (
     <div
-      className={styles['tfx-fall-container']}
+      className={styles['pf-tfx-fall-container']}
       data-animation-id="text-effects__verb-falling"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className={styles['tfx-fall-line']} aria-hidden="true">
+      <div className={styles['pf-tfx-fall-line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={styles['tfx-fall-char']}
+            className={styles['pf-tfx-fall-char']}
             style={{ animationDelay: `${i * stepDelay}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}

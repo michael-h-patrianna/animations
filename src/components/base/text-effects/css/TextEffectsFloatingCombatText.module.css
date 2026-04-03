@@ -6,7 +6,7 @@
  * Namespaced with tfx-combattext__ prefix to prevent style conflicts.
  */
 
-.tfx-combattext__container {
+.pf-tfx-combattext__container {
   --tfx-combattext-color: #4ade80;
   --tfx-combattext-drift-x: 0px;
   --tfx-combattext-float-distance: 60px;
@@ -24,23 +24,23 @@
 }
 
 /* Value-based color bands via data attribute */
-.tfx-combattext__container[data-band='positive'] {
+.pf-tfx-combattext__container[data-band='positive'] {
   --tfx-combattext-color: #4ade80;
 }
 
-.tfx-combattext__container[data-band='positive-high'] {
+.pf-tfx-combattext__container[data-band='positive-high'] {
   --tfx-combattext-color: #fbbf24;
 }
 
-.tfx-combattext__container[data-band='negative'] {
+.pf-tfx-combattext__container[data-band='negative'] {
   --tfx-combattext-color: #f87171;
 }
 
-.tfx-combattext__container[data-band='negative-high'] {
+.pf-tfx-combattext__container[data-band='negative-high'] {
   --tfx-combattext-color: #ef4444;
 }
 
-.tfx-combattext__text {
+.pf-tfx-combattext__text {
   position: absolute;
   pointer-events: none;
   white-space: nowrap;
@@ -107,7 +107,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-combattext__text {
+  .pf-tfx-combattext__text {
     animation: none;
     opacity: 1;
     transform: none;

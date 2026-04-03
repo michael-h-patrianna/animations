@@ -1,4 +1,4 @@
-.tfx-jog-container {
+.pf-tfx-jog-container {
   --pf-verb-color: #e8e4da;
   display: flex;
   align-items: center;
@@ -8,12 +8,12 @@
   contain: layout style;
 }
 
-.tfx-jog-line {
+.pf-tfx-jog-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tfx-jog-char {
+.pf-tfx-jog-char {
   --lsd-highlightColor: #fff;
   display: inline-block;
   color: var(--pf-verb-color);
@@ -25,7 +25,7 @@
   animation: tfx-jog-animation 1.2s ease-in-out infinite;
 }
 
-.tfx-jog-char--delayed {
+.pf-tfx-jog-char--delayed {
   animation-delay: 0.15s;
 }
 
@@ -48,7 +48,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-jog-char {
+  .pf-tfx-jog-char {
     animation: none;
   }
 }

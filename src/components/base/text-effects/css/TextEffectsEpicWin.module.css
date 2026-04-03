@@ -8,7 +8,7 @@
 
 /* === Container & Layout === */
 
-.tfe-epic-win {
+.pf-tfe-epic-win {
   --text-effects-epic-win-color: #ffd700;
   --text-effects-epic-win-color-1: rgb(0 0 0 / 8%);
   --text-effects-epic-win-color-2: rgb(0 0 0 / 15%);
@@ -32,7 +32,7 @@
   contain: layout style;
 }
 
-.tfe-epic-win__text-container {
+.pf-tfe-epic-win__text-container {
   position: relative;
   display: flex;
   align-items: center;
@@ -43,7 +43,7 @@
 
 /* === Shadow Layers === */
 
-.tfe-epic-win__shadow-far {
+.pf-tfe-epic-win__shadow-far {
   position: absolute;
   font-size: 32px;
   font-weight: 900;
@@ -57,7 +57,7 @@
   will-change: transform, opacity;
 }
 
-.tfe-epic-win__shadow-mid {
+.pf-tfe-epic-win__shadow-mid {
   position: absolute;
   font-size: 32px;
   font-weight: 900;
@@ -73,7 +73,7 @@
 
 /* === Main Text === */
 
-.tfe-epic-win__main-text {
+.pf-tfe-epic-win__main-text {
   position: relative;
   font-size: 32px;
   font-weight: 900;
@@ -85,7 +85,7 @@
 
 /* === Character Elements === */
 
-.tfe-epic-win__char {
+.pf-tfe-epic-win__char {
   display: inline-block;
   position: relative;
   transform-origin: center center;
@@ -96,7 +96,7 @@
   will-change: transform, opacity;
 }
 
-.tfe-epic-win__char-inner {
+.pf-tfe-epic-win__char-inner {
   display: inline-block;
   position: relative;
   /* Metallic gold gradient */
@@ -116,7 +116,7 @@
 
 /* === Character Glow Burst === */
 
-.tfe-epic-win__char-glow {
+.pf-tfe-epic-win__char-glow {
   position: absolute;
   inset: -8px;
   background: linear-gradient(180deg, var(--text-effects-epic-win-bg), transparent 60%);
@@ -181,46 +181,46 @@
 
 /* === Animation Application === */
 
-.tfe-epic-win--animate .tfe-epic-win__shadow-far {
+.pf-tfe-epic-win--animate .pf-tfe-epic-win__shadow-far {
   animation: tfeEpicWinShadowFar 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-.tfe-epic-win--animate .tfe-epic-win__shadow-mid {
+.pf-tfe-epic-win--animate .pf-tfe-epic-win__shadow-mid {
   animation: tfeEpicWinShadowMid 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 50ms both;
 }
 
-.tfe-epic-win--animate .tfe-epic-win__char {
+.pf-tfe-epic-win--animate .pf-tfe-epic-win__char {
   animation: tfeEpicWinCharEntrance 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   /* Stagger delay: 100ms base + (index * 40ms) */
   animation-delay: calc(100ms + (var(--char-index) * 40ms));
 }
 
-.tfe-epic-win--animate .tfe-epic-win__char-glow {
+.pf-tfe-epic-win--animate .pf-tfe-epic-win__char-glow {
   animation: tfeEpicWinGlowBurst 600ms ease-out both;
   /* Stagger delay: 500ms base + (index * 40ms) */
   animation-delay: calc(500ms + (var(--char-index) * 40ms));
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfe-epic-win--animate .tfe-epic-win__shadow-far {
+  .pf-tfe-epic-win--animate .pf-tfe-epic-win__shadow-far {
     animation: none;
     opacity: 0.2;
     transform: translate3d(0, 6px, 0) scale(1);
   }
 
-  .tfe-epic-win--animate .tfe-epic-win__shadow-mid {
+  .pf-tfe-epic-win--animate .pf-tfe-epic-win__shadow-mid {
     animation: none;
     opacity: 0.3;
     transform: translate3d(0, 3px, 0) scale(1);
   }
 
-  .tfe-epic-win--animate .tfe-epic-win__char {
+  .pf-tfe-epic-win--animate .pf-tfe-epic-win__char {
     animation: none;
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1) rotateY(0deg);
   }
 
-  .tfe-epic-win--animate .tfe-epic-win__char-glow {
+  .pf-tfe-epic-win--animate .pf-tfe-epic-win__char-glow {
     animation: none;
     opacity: 0;
   }

@@ -1,4 +1,4 @@
-.tfx-jump-container {
+.pf-tfx-jump-container {
   --pf-verb-color: #e8e4da;
   display: flex;
   align-items: center;
@@ -8,12 +8,12 @@
   contain: layout style;
 }
 
-.tfx-jump-line {
+.pf-tfx-jump-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tfx-jump-char {
+.pf-tfx-jump-char {
   --lsd-highlightColor: #fff;
   display: inline-block;
   color: var(--pf-verb-color);
@@ -44,7 +44,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-jump-char {
+  .pf-tfx-jump-char {
     animation: tfx-jump-reduced 500ms ease-in-out;
   }
 

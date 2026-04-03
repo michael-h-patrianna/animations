@@ -1,5 +1,5 @@
 /* Wave text effect - GPU-accelerated continuous animation */
-.tfx-wave-text-container {
+.pf-tfx-wave-text-container {
   --text-effects-wave-text-color: #3b82f6;
   --text-effects-wave-text-text-shadow: rgb(0 0 0 / 15%);
   --text-effects-wave-text-bg: rgb(147 197 253 / 40%);
@@ -12,14 +12,14 @@
   contain: layout style;
 }
 
-.tfx-wave-text-wrapper {
+.pf-tfx-wave-text-wrapper {
   display: flex;
   font-size: 24px;
   font-weight: 800;
   letter-spacing: 2px;
 }
 
-.tfx-wave-char {
+.pf-tfx-wave-char {
   display: inline-block;
   position: relative;
   color: var(--text-effects-wave-text-color);
@@ -31,7 +31,7 @@
 }
 
 /* Highlight effect using pseudo-element to minimize DOM nodes */
-.tfx-wave-char--highlight::before {
+.pf-tfx-wave-char--highlight::before {
   content: '';
   position: absolute;
   inset: -20% -10%;
@@ -87,11 +87,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-wave-char {
+  .pf-tfx-wave-char {
     animation: none;
   }
 
-  .tfx-wave-char--highlight::before {
+  .pf-tfx-wave-char--highlight::before {
     animation: none;
     opacity: 0;
   }

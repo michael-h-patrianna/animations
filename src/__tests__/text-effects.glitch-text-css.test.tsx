@@ -9,7 +9,7 @@ const g = (cls: string) => `.${glitchStyles[cls]}`
 /** Counts elements containing the given text within the container's text layers. */
 function countTextInLayers(container: HTMLElement, text: string): number {
   const layers = container.querySelectorAll(
-    `${g('tfx-glitchtext__base')}, ${g('tfx-glitchtext__layer--cyan')}, ${g('tfx-glitchtext__layer--magenta')}`
+    `${g('pf-tfx-glitchtext__base')}, ${g('pf-tfx-glitchtext__layer--cyan')}, ${g('pf-tfx-glitchtext__layer--magenta')}`
   )
   return Array.from(layers).filter((el) => el.textContent?.includes(text)).length
 }
@@ -48,18 +48,18 @@ describe('TextEffectsGlitchText (CSS)', () => {
 
   it('renders BEM class structure required for CSS animations', () => {
     const { container } = render(<TextEffectsGlitchText />)
-    expect(container.querySelector(g('tfx-glitchtext__container'))).toBeInTheDocument()
-    expect(container.querySelector(g('tfx-glitchtext__base'))).toBeInTheDocument()
-    expect(container.querySelector(g('tfx-glitchtext__layer--cyan'))).toBeInTheDocument()
-    expect(container.querySelector(g('tfx-glitchtext__layer--magenta'))).toBeInTheDocument()
-    expect(container.querySelector(g('tfx-glitchtext__bars'))).toBeInTheDocument()
+    expect(container.querySelector(g('pf-tfx-glitchtext__container'))).toBeInTheDocument()
+    expect(container.querySelector(g('pf-tfx-glitchtext__base'))).toBeInTheDocument()
+    expect(container.querySelector(g('pf-tfx-glitchtext__layer--cyan'))).toBeInTheDocument()
+    expect(container.querySelector(g('pf-tfx-glitchtext__layer--magenta'))).toBeInTheDocument()
+    expect(container.querySelector(g('pf-tfx-glitchtext__bars'))).toBeInTheDocument()
   })
 
   it('applies custom className alongside component classes', () => {
     const { container } = render(<TextEffectsGlitchText className="custom-class" />)
-    const el = container.querySelector(g('tfx-glitchtext__container'))
+    const el = container.querySelector(g('pf-tfx-glitchtext__container'))
     expect(el).toHaveClass('custom-class')
-    expect(el).toHaveClass(glitchStyles['tfx-glitchtext__container'])
+    expect(el).toHaveClass(glitchStyles['pf-tfx-glitchtext__container'])
   })
 
   it('sets data-animation-id for registry contract', () => {
@@ -71,31 +71,31 @@ describe('TextEffectsGlitchText (CSS)', () => {
 
   it('marks decorative layers as aria-hidden for accessibility', () => {
     const { container } = render(<TextEffectsGlitchText />)
-    expect(container.querySelector(g('tfx-glitchtext__layer--cyan'))).toHaveAttribute(
+    expect(container.querySelector(g('pf-tfx-glitchtext__layer--cyan'))).toHaveAttribute(
       'aria-hidden',
       'true'
     )
-    expect(container.querySelector(g('tfx-glitchtext__layer--magenta'))).toHaveAttribute(
+    expect(container.querySelector(g('pf-tfx-glitchtext__layer--magenta'))).toHaveAttribute(
       'aria-hidden',
       'true'
     )
-    expect(container.querySelector(g('tfx-glitchtext__bars'))).toHaveAttribute(
+    expect(container.querySelector(g('pf-tfx-glitchtext__bars'))).toHaveAttribute(
       'aria-hidden',
       'true'
     )
     // Base text must NOT be aria-hidden (screen readers need it)
-    expect(container.querySelector(g('tfx-glitchtext__base'))).not.toHaveAttribute('aria-hidden')
+    expect(container.querySelector(g('pf-tfx-glitchtext__base'))).not.toHaveAttribute('aria-hidden')
   })
 
   it('sets will-change hints for GPU-accelerated animations', () => {
     const { container } = render(<TextEffectsGlitchText />)
-    expect(container.querySelector(g('tfx-glitchtext__base'))).toHaveStyle({
+    expect(container.querySelector(g('pf-tfx-glitchtext__base'))).toHaveStyle({
       willChange: 'transform',
     })
-    expect(container.querySelector(g('tfx-glitchtext__layer--cyan'))).toHaveStyle({
+    expect(container.querySelector(g('pf-tfx-glitchtext__layer--cyan'))).toHaveStyle({
       willChange: 'transform, opacity',
     })
-    expect(container.querySelector(g('tfx-glitchtext__layer--magenta'))).toHaveStyle({
+    expect(container.querySelector(g('pf-tfx-glitchtext__layer--magenta'))).toHaveStyle({
       willChange: 'transform, opacity',
     })
   })
@@ -110,6 +110,6 @@ describe('TextEffectsGlitchText (CSS)', () => {
 
   it('renders empty string without crashing', () => {
     const { container } = render(<TextEffectsGlitchText text="" />)
-    expect(container.querySelector(g('tfx-glitchtext__container'))).toBeInTheDocument()
+    expect(container.querySelector(g('pf-tfx-glitchtext__container'))).toBeInTheDocument()
   })
 })

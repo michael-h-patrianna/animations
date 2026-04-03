@@ -1,4 +1,4 @@
-.tfx-fall-container {
+.pf-tfx-fall-container {
   --pf-verb-color: #e8e4da;
   display: flex;
   align-items: center;
@@ -8,12 +8,12 @@
   contain: layout style;
 }
 
-.tfx-fall-line {
+.pf-tfx-fall-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tfx-fall-char {
+.pf-tfx-fall-char {
   --lsd-highlightColor: #fff;
   display: inline-block;
   color: var(--pf-verb-color);
@@ -45,7 +45,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-fall-char {
+  .pf-tfx-fall-char {
     animation: tfx-fall-reduced 300ms ease-out both;
   }
 

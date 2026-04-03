@@ -15,7 +15,7 @@ function TextEffectsEpicWinComponent({
 }) {
   return (
     <div
-      className={`${styles['tfe-epic-win']} ${styles['tfe-epic-win--animate']}`}
+      className={`${styles['pf-tfe-epic-win']} ${styles['pf-tfe-epic-win--animate']}`}
       data-animation-id="text-effects__epic-win"
       data-testid="epic-win"
       style={
@@ -24,23 +24,26 @@ function TextEffectsEpicWinComponent({
           : undefined
       }
     >
-      <div className={styles['tfe-epic-win__text-container']}>
+      <div className={styles['pf-tfe-epic-win__text-container']}>
         {/* Layered shadow elements for depth */}
-        <div className={styles['tfe-epic-win__shadow-far']}>{text}</div>
-        <div className={styles['tfe-epic-win__shadow-mid']}>{text}</div>
+        <div className={styles['pf-tfe-epic-win__shadow-far']}>{text}</div>
+        <div className={styles['pf-tfe-epic-win__shadow-mid']}>{text}</div>
 
         {/* Main metallic gradient text with per-character animation */}
-        <div className={styles['tfe-epic-win__main-text']}>
+        <div className={styles['pf-tfe-epic-win__main-text']}>
           {text.split('').map((char, index) => (
             <span
               key={index}
-              className={styles['tfe-epic-win__char']}
+              className={styles['pf-tfe-epic-win__char']}
               data-testid="epic-char"
               style={{ '--char-index': index } as React.CSSProperties}
             >
-              <span className={styles['tfe-epic-win__char-inner']}>
+              <span className={styles['pf-tfe-epic-win__char-inner']}>
                 {char === ' ' ? '\u00A0' : char}
-                <span className={styles['tfe-epic-win__char-glow']} data-testid="epic-char-glow" />
+                <span
+                  className={styles['pf-tfe-epic-win__char-glow']}
+                  data-testid="epic-char-glow"
+                />
               </span>
             </span>
           ))}

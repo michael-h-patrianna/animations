@@ -1,5 +1,5 @@
 /* Metallic Specular Flash - Pure CSS version */
-.tfx-metallic-specular-flash {
+.pf-tfx-metallic-specular-flash {
   --tfx-msf-base-color: #e8e4da;
   --tfx-msf-highlight-color: #fff;
   --tfx-msf-shadow-color: color-mix(in srgb, var(--tfx-msf-base-color), black 20%);
@@ -9,12 +9,12 @@
   animation: tfx-metallic-container 1s cubic-bezier(0.2, 0, 0, 1) both;
 }
 
-.tfx-metallic-specular-flash__line {
+.pf-tfx-metallic-specular-flash__line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tfx-metallic-specular-flash__letter {
+.pf-tfx-metallic-specular-flash__letter {
   display: inline-block;
   will-change: opacity, transform;
   color: var(--tfx-msf-base-color);
@@ -81,12 +81,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-metallic-specular-flash {
+  .pf-tfx-metallic-specular-flash {
     animation: none;
     opacity: 1;
   }
 
-  .tfx-metallic-specular-flash__letter {
+  .pf-tfx-metallic-specular-flash__letter {
     animation: tfx-metallic-reduced 300ms ease-out both;
     transform: none;
   }
