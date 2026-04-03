@@ -15,7 +15,7 @@
 
 import * as m from 'motion/react-m'
 import { AnimatePresence, useReducedMotion } from 'motion/react'
-import { memo, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 import styles from './TileAnimationsTabMorph.module.css'
@@ -64,14 +64,32 @@ function TileAnimationsTabMorphComponent({
       ? labels
       : Array.from({ length: count }, (_, i) => `Tab ${i + 1}`)
 
-  const handleTabClick = (index: number) => {
-    if (onTabChange !== undefined) {
-      onTabChange(index)
-    }
-    if (!isControlled) {
-      setInternalIndex(index)
-    }
-  }
+  const handleTabClick = useCallback(
+    (index: number) => {
+      if (onTabChange !== undefined) {
+        onTabChange(index)
+      }
+      if (!isControlled) {
+        setInternalIndex(index)
+      }
+    },
+    [isControlled, onTabChange]
+  )
+
+  const handleTabKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      let nextIndex: number | null = null
+      if (e.key === 'ArrowRight') nextIndex = (safeIndex + 1) % count
+      else if (e.key === 'ArrowLeft') nextIndex = (safeIndex - 1 + count) % count
+      else if (e.key === 'Home') nextIndex = 0
+      else if (e.key === 'End') nextIndex = count - 1
+      if (nextIndex !== null) {
+        e.preventDefault()
+        handleTabClick(nextIndex)
+      }
+    },
+    [safeIndex, count, handleTabClick]
+  )
 
   const noMotion = !!prefersReducedMotion
   const staggerS = stagger / 1000
@@ -124,13 +142,17 @@ function TileAnimationsTabMorphComponent({
       animate="visible"
       data-animation-id="tile-animations__tab-morph"
     >
-      <div className={styles['pf-tab-morph-fm__nav']}>
+      <div className={styles['pf-tab-morph-fm__nav']} role="tablist">
         {tabLabels.map((label, i) => (
           <m.div
             key={i}
+            role="tab"
+            aria-selected={i === safeIndex}
+            tabIndex={i === safeIndex ? 0 : -1}
             className={`${styles['pf-tab-morph-fm__tab']}${i === safeIndex ? ` ${styles['pf-tab-morph-fm__tab--active']}` : ''}`}
             variants={tabVariants}
             onClick={() => handleTabClick(i)}
+            onKeyDown={handleTabKeyDown}
             data-testid={`tab-morph-tab-${i}`}
           >
             {label}
@@ -138,7 +160,7 @@ function TileAnimationsTabMorphComponent({
         ))}
       </div>
 
-      <div className={styles['pf-tab-morph-fm__content']}>
+      <div className={styles['pf-tab-morph-fm__content']} role="tabpanel">
         <AnimatePresence mode="wait">
           <m.div
             key={safeIndex}

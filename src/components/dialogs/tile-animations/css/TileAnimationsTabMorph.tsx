@@ -79,6 +79,21 @@ function TileAnimationsTabMorphComponent({
     [isControlled, onTabChange]
   )
 
+  const handleTabKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      let nextIndex: number | null = null
+      if (e.key === 'ArrowRight') nextIndex = (safeIndex + 1) % count
+      else if (e.key === 'ArrowLeft') nextIndex = (safeIndex - 1 + count) % count
+      else if (e.key === 'Home') nextIndex = 0
+      else if (e.key === 'End') nextIndex = count - 1
+      if (nextIndex !== null) {
+        e.preventDefault()
+        handleTabClick(nextIndex)
+      }
+    },
+    [safeIndex, count, handleTabClick]
+  )
+
   const enterClass = styles['pf-tab-morph__panel--enter'] ?? ''
   const exitLeftClass = styles['pf-tab-morph__panel--exit-left'] ?? ''
   const exitRightClass = styles['pf-tab-morph__panel--exit-right'] ?? ''
@@ -121,13 +136,17 @@ function TileAnimationsTabMorphComponent({
 
   return (
     <div className={styles['pf-tab-morph']} data-animation-id="tile-animations__tab-morph">
-      <div className={styles['pf-tab-morph__nav']}>
+      <div className={styles['pf-tab-morph__nav']} role="tablist">
         {tabLabels.map((label, i) => (
           <div
             key={i}
+            role="tab"
+            aria-selected={i === safeIndex}
+            tabIndex={i === safeIndex ? 0 : -1}
             className={`${styles['pf-tab-morph__tab']} ${styles['pf-tab-morph__tab--animated']}${i === safeIndex ? ` ${styles['pf-tab-morph__tab--active']}` : ''}`}
             style={{ animationDelay: `${(i * stagger) / 1000}s` }}
             onClick={() => handleTabClick(i)}
+            onKeyDown={handleTabKeyDown}
             data-testid={`tab-morph-tab-${i}`}
           >
             {label}
@@ -135,7 +154,7 @@ function TileAnimationsTabMorphComponent({
         ))}
       </div>
 
-      <div className={styles['pf-tab-morph__content']}>
+      <div className={styles['pf-tab-morph__content']} role="tabpanel">
         <div
           ref={panelRef}
           className={`${styles['pf-tab-morph__panel']} ${styles['pf-tab-morph__panel--enter']}`}
