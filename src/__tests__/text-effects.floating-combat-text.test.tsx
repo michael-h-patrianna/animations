@@ -161,11 +161,10 @@ describe('TextEffectsFloatingCombatText (CSS)', () => {
 
   it('renders BEM class structure', () => {
     const { container } = render(<CssVariant />)
-    expect(container.querySelector(`.${cssStyles['tfx-combattext__container']}`)).toHaveAttribute(
-      'data-testid',
-      'combat-text'
-    )
-    expect(container.querySelector(`.${cssStyles['tfx-combattext__text']}`)).toHaveAttribute(
+    expect(
+      container.querySelector(`.${cssStyles['pf-tfx-combattext__container']}`)
+    ).toHaveAttribute('data-testid', 'combat-text')
+    expect(container.querySelector(`.${cssStyles['pf-tfx-combattext__text']}`)).toHaveAttribute(
       'data-testid',
       'combat-text-value'
     )

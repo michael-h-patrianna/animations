@@ -32,18 +32,18 @@ function TextEffectsVerbJumpingComponent({
 
   return (
     <div
-      className={styles['tfx-jump-container']}
+      className={styles['pf-tfx-jump-container']}
       data-animation-id="text-effects__verb-jumping"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className={styles['tfx-jump-line']} aria-hidden="true">
+      <div className={styles['pf-tfx-jump-line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={styles['tfx-jump-char']}
+            className={styles['pf-tfx-jump-char']}
             style={{ animationDelay: `${i * stepDelay}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}

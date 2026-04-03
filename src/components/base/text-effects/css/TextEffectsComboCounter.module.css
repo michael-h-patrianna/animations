@@ -1,5 +1,5 @@
 /* Container */
-.tfx-combo-container {
+.pf-tfx-combo-container {
   --text-effects-combo-counter-number-color: #ef4444;
   --text-effects-combo-counter-label-color: #f59e0b;
   --text-effects-combo-counter-bonus-color: #ffd700;
@@ -38,7 +38,7 @@
   contain: layout style;
 }
 
-.tfx-combo-main {
+.pf-tfx-combo-main {
   position: relative;
   display: flex;
   align-items: center;
@@ -46,7 +46,7 @@
 }
 
 /* Number Container */
-.tfx-combo-number-container {
+.pf-tfx-combo-number-container {
   position: absolute;
   top: 50%;
   right: calc(100% + 2px);
@@ -59,7 +59,7 @@
   transform: translateY(-50%);
 }
 
-.tfx-combo-current-number {
+.pf-tfx-combo-current-number {
   position: relative;
   font-size: 36px;
   font-weight: 900;
@@ -69,7 +69,7 @@
 }
 
 /* Number Digit - GPU Optimized */
-.tfx-combo-digit {
+.pf-tfx-combo-digit {
   display: block;
   position: relative;
   font-size: 36px;
@@ -98,7 +98,7 @@
 }
 
 /* Number Wrapper with entrance animation */
-.tfx-combo-number-wrapper {
+.pf-tfx-combo-number-wrapper {
   display: flex;
   align-items: center;
   position: relative;
@@ -114,7 +114,7 @@
 }
 
 /* Hit Marker */
-.tfx-combo-hit-marker {
+.pf-tfx-combo-hit-marker {
   position: relative;
   z-index: 1;
   font-size: 24px;
@@ -134,7 +134,7 @@
 }
 
 /* Combo Text Wrapper */
-.tfx-combo-text-wrapper {
+.pf-tfx-combo-text-wrapper {
   font-size: 20px;
   font-weight: 800;
   letter-spacing: 2px;
@@ -146,7 +146,7 @@
 }
 
 /* Individual Letters - Staggered Animation */
-.tfx-combo-letter {
+.pf-tfx-combo-letter {
   display: inline-block;
   color: var(--text-effects-combo-counter-color-1);
   text-shadow:
@@ -163,24 +163,24 @@
   opacity: 0;
 }
 
-.tfx-combo-letter:nth-child(1) {
+.pf-tfx-combo-letter:nth-child(1) {
   animation-delay: 200ms;
 }
-.tfx-combo-letter:nth-child(2) {
+.pf-tfx-combo-letter:nth-child(2) {
   animation-delay: 240ms;
 }
-.tfx-combo-letter:nth-child(3) {
+.pf-tfx-combo-letter:nth-child(3) {
   animation-delay: 280ms;
 }
-.tfx-combo-letter:nth-child(4) {
+.pf-tfx-combo-letter:nth-child(4) {
   animation-delay: 320ms;
 }
-.tfx-combo-letter:nth-child(5) {
+.pf-tfx-combo-letter:nth-child(5) {
   animation-delay: 360ms;
 }
 
 /* Perfect Bonus Text */
-.tfx-combo-bonus {
+.pf-tfx-combo-bonus {
   font-size: 14px;
   font-weight: 700;
   color: var(--text-effects-combo-counter-color-2-81);
@@ -207,7 +207,7 @@
    This matches Motion's independent per-property interpolation.
    ========================================================================== */
 
-.tfx-combo-particle-track {
+.pf-tfx-combo-particle-track {
   position: absolute;
   right: 0;
   top: 50%;
@@ -217,7 +217,7 @@
   transform: translateY(-50%);
 }
 
-.tfx-combo-particle {
+.pf-tfx-combo-particle {
   display: block;
   font-size: 14px;
   font-weight: 700;
@@ -352,33 +352,33 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-combo-number-wrapper {
+  .pf-tfx-combo-number-wrapper {
     animation: tfx-combo-reduced-fade 300ms ease-out forwards;
   }
 
-  .tfx-combo-digit {
+  .pf-tfx-combo-digit {
     animation: none;
     opacity: 1;
   }
 
-  .tfx-combo-hit-marker {
+  .pf-tfx-combo-hit-marker {
     animation: tfx-combo-reduced-fade 300ms 100ms ease-out forwards;
   }
 
-  .tfx-combo-letter {
+  .pf-tfx-combo-letter {
     animation: tfx-combo-reduced-fade 300ms 150ms ease-out forwards;
   }
 
-  .tfx-combo-particle-track {
+  .pf-tfx-combo-particle-track {
     animation: none;
   }
 
-  .tfx-combo-particle {
+  .pf-tfx-combo-particle {
     animation: none;
     opacity: 0;
   }
 
-  .tfx-combo-bonus {
+  .pf-tfx-combo-bonus {
     animation: tfx-combo-reduced-fade 300ms 600ms ease-out forwards;
   }
 

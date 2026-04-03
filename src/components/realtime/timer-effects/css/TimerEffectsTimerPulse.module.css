@@ -45,3 +45,9 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-timer-pulse__value {
+    animation: none;
+  }
+}

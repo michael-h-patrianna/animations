@@ -21,18 +21,18 @@ function TextEffectsLightSweepDrawComponent({
 
   return (
     <div
-      className={styles['tfx-light-sweep-draw']}
+      className={styles['pf-tfx-light-sweep-draw']}
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
       style={
         color !== undefined ? ({ '--tfx-lsd-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className={styles['tfx-light-sweep-draw__line']} aria-hidden="true">
+      <div className={styles['pf-tfx-light-sweep-draw__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={styles['tfx-light-sweep-draw__letter']}
+            className={styles['pf-tfx-light-sweep-draw__letter']}
             style={{ animationDelay: `${0.15 + i * 0.04}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}

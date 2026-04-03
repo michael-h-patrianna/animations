@@ -105,3 +105,13 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-segment--glowing {
+    animation: none;
+  }
+
+  .pf-segment__flash {
+    animation: none;
+  }
+}

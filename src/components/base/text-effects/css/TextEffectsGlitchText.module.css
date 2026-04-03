@@ -7,7 +7,7 @@
  */
 
 /* CSS Custom Properties for easy customization */
-.tfx-glitchtext__container {
+.pf-tfx-glitchtext__container {
   /* Typography */
   --tfx-glitchtext-size: 24px;
   --tfx-glitchtext-weight: 900;
@@ -34,7 +34,7 @@
 }
 
 /* Base text layer - primary white text with horizontal glitches */
-.tfx-glitchtext__base {
+.pf-tfx-glitchtext__base {
   font-size: var(--tfx-glitchtext-size);
   font-weight: var(--tfx-glitchtext-weight);
   letter-spacing: var(--tfx-glitchtext-spacing);
@@ -46,7 +46,7 @@
 }
 
 /* Shared styles for RGB offset layers */
-.tfx-glitchtext__layer {
+.pf-tfx-glitchtext__layer {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -58,7 +58,7 @@
 }
 
 /* Cyan layer - creates blue/cyan RGB offset */
-.tfx-glitchtext__layer--cyan {
+.pf-tfx-glitchtext__layer--cyan {
   color: var(--tfx-glitchtext-cyan);
   z-index: 2;
   opacity: 0.7;
@@ -66,7 +66,7 @@
 }
 
 /* Magenta layer - creates red/pink RGB offset */
-.tfx-glitchtext__layer--magenta {
+.pf-tfx-glitchtext__layer--magenta {
   color: var(--tfx-glitchtext-magenta);
   z-index: 1;
   opacity: 0.7;
@@ -74,7 +74,7 @@
 }
 
 /* Horizontal scan line distortion bars */
-.tfx-glitchtext__bars {
+.pf-tfx-glitchtext__bars {
   position: absolute;
   top: 45%;
   left: 0;
@@ -210,17 +210,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-glitchtext__base {
+  .pf-tfx-glitchtext__base {
     animation: none;
   }
 
-  .tfx-glitchtext__layer--cyan,
-  .tfx-glitchtext__layer--magenta {
+  .pf-tfx-glitchtext__layer--cyan,
+  .pf-tfx-glitchtext__layer--magenta {
     animation: none;
     opacity: 0;
   }
 
-  .tfx-glitchtext__bars {
+  .pf-tfx-glitchtext__bars {
     animation: none;
     opacity: 0;
   }

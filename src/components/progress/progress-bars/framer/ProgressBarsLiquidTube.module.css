@@ -1,9 +1,9 @@
 .pf-liquid-tube-fm {
-  --pf-liquid-tube-fm__glass-bg: rgb(255 255 255 / 4%);
-  --pf-liquid-tube-fm__glass-border: rgb(255 255 255 / 12%);
-  --pf-liquid-tube-fm__glass-shadow: rgb(0 0 0 / 30%);
-  --pf-liquid-tube-fm__fill: #60a5fa;
-  --pf-liquid-tube-fm__fill-glow: rgb(96 165 250 / 30%);
+  --liquid-tube-glass-bg: rgb(255 255 255 / 4%);
+  --liquid-tube-glass-border: rgb(255 255 255 / 12%);
+  --liquid-tube-glass-shadow: rgb(0 0 0 / 30%);
+  --liquid-tube-fill: #60a5fa;
+  --liquid-tube-fill-glow: rgb(96 165 250 / 30%);
   --liquid-tube-bubble: rgb(255 255 255 / 25%);
 
   display: flex;
@@ -15,10 +15,10 @@
 .pf-liquid-tube-fm__glass {
   width: 56px;
   height: 148px;
-  border: 2px solid var(--pf-liquid-tube-fm__glass-border);
+  border: 2px solid var(--liquid-tube-glass-border);
   border-radius: 28px;
-  background: var(--pf-liquid-tube-fm__glass-bg);
-  box-shadow: inset 0 2px 8px var(--pf-liquid-tube-fm__glass-shadow);
+  background: var(--liquid-tube-glass-bg);
+  box-shadow: inset 0 2px 8px var(--liquid-tube-glass-shadow);
   position: relative;
   overflow: hidden;
 }
@@ -28,9 +28,9 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background: var(--pf-liquid-tube-fm__fill);
+  background: var(--liquid-tube-fill);
   border-radius: 0 0 24px 24px;
-  box-shadow: 0 -4px 12px var(--pf-liquid-tube-fm__fill-glow);
+  box-shadow: 0 -4px 12px var(--liquid-tube-fill-glow);
 }
 
 .pf-liquid-tube-fm__surface {
@@ -45,7 +45,7 @@
 .pf-liquid-tube-fm__wave {
   width: 100%;
   height: 100%;
-  background: var(--pf-liquid-tube-fm__fill);
+  background: var(--liquid-tube-fill);
   border-radius: 50%;
   opacity: 0.7;
 }

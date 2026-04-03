@@ -431,14 +431,14 @@ function CelebrationEffectsTreasureParticlesComponent({
       {/* Center flash */}
       <m.span
         className="pf-celebration__flash"
-        initial={{ scale: 0, opacity: 0 }}
+        initial={{ scale: 0, opacity: 0, x: '-50%', y: '-50%' }}
         animate={{ scale: [0, 1.8, 0.6], opacity: [0, 0.9, 0] }}
         transition={{ duration: 0.5, times: [0, 0.35, 1], ease: 'easeOut' }}
       />
       {/* Ambient glow */}
       <m.span
         className="pf-celebration__glow"
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 0, x: '-50%', y: '-50%' }}
         animate={{ opacity: [0, 0.6, 0.3, 0] }}
         transition={{ duration: 1.8, times: [0, 0.15, 0.5, 1], ease: 'easeOut' }}
       />

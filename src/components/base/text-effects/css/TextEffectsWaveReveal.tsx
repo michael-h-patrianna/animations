@@ -45,22 +45,22 @@ function TextEffectsWaveRevealComponent({
   ]
   return (
     <div
-      className={styles['tfx-wave-reveal-container']}
+      className={styles['pf-tfx-wave-reveal-container']}
       data-animation-id="text-effects__wave-reveal"
     >
-      <div className={styles['tfx-wave-reveal-wrapper']}>
+      <div className={styles['pf-tfx-wave-reveal-wrapper']}>
         {lines.map((line, lineIndex) => {
           const lineStart = initialDelay + lineIndex * lineDelay
           return (
             <div
               key={lineIndex}
-              className={styles['tfx-wave-reveal-line']}
+              className={styles['pf-tfx-wave-reveal-line']}
               style={{ color: line.color, '--line-index': lineIndex } as React.CSSProperties}
             >
               {line.text.split('').map((char, charIndex) => (
                 <span
                   key={charIndex}
-                  className={styles['tfx-wave-reveal-char']}
+                  className={styles['pf-tfx-wave-reveal-char']}
                   style={{
                     animationDelay: `${lineStart + charIndex * charDelay}s`,
                   }}

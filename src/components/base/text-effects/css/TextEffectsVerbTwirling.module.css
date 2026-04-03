@@ -1,4 +1,4 @@
-.tfx-twirl-container {
+.pf-tfx-twirl-container {
   --pf-verb-color: #e8e4da;
   display: flex;
   align-items: center;
@@ -8,12 +8,12 @@
   contain: layout style;
 }
 
-.tfx-twirl-line {
+.pf-tfx-twirl-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tfx-twirl-char {
+.pf-tfx-twirl-char {
   --lsd-highlightColor: #fff;
   display: inline-block;
   color: var(--pf-verb-color);
@@ -44,7 +44,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-twirl-char {
+  .pf-tfx-twirl-char {
     animation: tfx-twirl-reduced 500ms ease-in-out;
   }
 

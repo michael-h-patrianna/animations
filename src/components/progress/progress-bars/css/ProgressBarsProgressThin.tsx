@@ -50,6 +50,7 @@ export function ProgressBarsProgressThin({
           <div
             className={styles['pf-progress-fill']}
             role="progressbar"
+            aria-label="Progress"
             aria-valuenow={Math.round((progress ?? 1) * 100)}
             aria-valuemin={0}
             aria-valuemax={100}

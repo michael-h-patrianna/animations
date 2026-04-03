@@ -77,6 +77,7 @@ export function ProgressBarsProgressThin({
             className={styles['pf-progress-fill-fm']}
             data-testid="progress-fill"
             role="progressbar"
+            aria-label="Progress"
             aria-valuenow={Math.round((progress ?? 1) * 100)}
             aria-valuemin={0}
             aria-valuemax={100}

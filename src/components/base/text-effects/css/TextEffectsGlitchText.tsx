@@ -40,7 +40,7 @@ function TextEffectsGlitchTextComponent({
 
   return (
     <div
-      className={`${styles['tfx-glitchtext__container']} ${className}`.trim()}
+      className={`${styles['pf-tfx-glitchtext__container']} ${className}`.trim()}
       data-animation-id="text-effects__glitch-text"
       style={
         color !== undefined
@@ -49,11 +49,11 @@ function TextEffectsGlitchTextComponent({
       }
     >
       {/* Main text layer */}
-      <div className={styles['tfx-glitchtext__base']}>{content}</div>
+      <div className={styles['pf-tfx-glitchtext__base']}>{content}</div>
 
       {/* Cyan RGB offset layer */}
       <div
-        className={`${styles['tfx-glitchtext__layer']} ${styles['tfx-glitchtext__layer--cyan']}`}
+        className={`${styles['pf-tfx-glitchtext__layer']} ${styles['pf-tfx-glitchtext__layer--cyan']}`}
         aria-hidden="true"
       >
         {content}
@@ -61,14 +61,14 @@ function TextEffectsGlitchTextComponent({
 
       {/* Magenta RGB offset layer */}
       <div
-        className={`${styles['tfx-glitchtext__layer']} ${styles['tfx-glitchtext__layer--magenta']}`}
+        className={`${styles['pf-tfx-glitchtext__layer']} ${styles['pf-tfx-glitchtext__layer--magenta']}`}
         aria-hidden="true"
       >
         {content}
       </div>
 
       {/* Horizontal scan line distortion bars */}
-      <div className={styles['tfx-glitchtext__bars']} aria-hidden="true" />
+      <div className={styles['pf-tfx-glitchtext__bars']} aria-hidden="true" />
     </div>
   )
 }

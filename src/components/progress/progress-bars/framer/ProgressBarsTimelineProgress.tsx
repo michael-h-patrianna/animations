@@ -42,7 +42,14 @@ export function ProgressBarsTimelineProgress({
       style={style}
       data-animation-id="progress-bars__timeline-progress"
     >
-      <div className={styles['pf-timeline-progress-fm__track']}>
+      <div
+        className={styles['pf-timeline-progress-fm__track']}
+        role="progressbar"
+        aria-label="Progress"
+        aria-valuenow={Math.round((progress ?? 0) * 100)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         {Array.from({ length: steps }, (_, index) => {
           const isActive = index < activeSteps
 

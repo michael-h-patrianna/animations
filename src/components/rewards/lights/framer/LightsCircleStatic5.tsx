@@ -14,7 +14,7 @@ const easeInOut: [number, number, number, number] = [0.42, 0, 0.58, 1]
 
 // Glow variant for sparkle effect
 const glowVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.5 },
   show: {
     opacity: [0, 0.3, 1, 0.6, 0.2, 0, 0],
     transition: {
@@ -61,8 +61,8 @@ function LightsCircleStatic5({
   const bulbVariants = useMemo(
     () => ({
       hidden: {
-        backgroundColor: colors.off,
-        boxShadow: `0 0 2px ${colors.offGlow30}`,
+        backgroundColor: colors.on,
+        boxShadow: `0 0 4px ${colors.onGlow70}, 0 0 6px ${colors.onGlow50}`,
       },
       show: {
         backgroundColor: [

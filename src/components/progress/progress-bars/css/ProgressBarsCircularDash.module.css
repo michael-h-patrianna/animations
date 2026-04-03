@@ -1,4 +1,4 @@
-.circular-dash-container-css {
+.pf-circular-dash-css {
   --circular-dash-active: #2dd4bf;
   --circular-dash-inactive: rgb(255 255 255 / 10%);
   --circular-dash-text: rgb(255 255 255 / 95%);
@@ -11,13 +11,13 @@
   width: 100%;
 }
 
-.circular-dash-wrapper-css {
+.pf-circular-dash-css__wrapper {
   position: relative;
   width: var(--circular-dash-size);
   height: var(--circular-dash-size);
 }
 
-.circular-dash-segment-container-css {
+.pf-circular-dash-css__segment {
   position: absolute;
   top: 0;
   left: 50%;
@@ -28,7 +28,7 @@
   pointer-events: none;
 }
 
-.circular-dash-pill-css {
+.pf-circular-dash-css__pill {
   width: 6px;
   height: 16px;
   border-radius: 3px;
@@ -39,7 +39,7 @@
     background-color 0.1s;
 }
 
-.circular-dash-center-css {
+.pf-circular-dash-css__center {
   position: absolute;
   top: 50%;
   left: 50%;

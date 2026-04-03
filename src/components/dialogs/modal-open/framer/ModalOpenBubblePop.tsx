@@ -11,29 +11,20 @@ import { memo, useMemo } from 'react'
 
 import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/SharedOpenModalPlaceholder'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
-import {
-  useModalOpenLogic,
-  type DemoPreset,
-} from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import { useModalOpenLogic } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
 import {
   computeBubblePopCloseTrajectory,
   computeBubblePopTrajectory,
 } from '@/components/dialogs/modal-open/BubblePopTrajectory'
+import { BUBBLE_POP_PRESETS } from '@/components/dialogs/modal-open/SharedPresets'
 import {
   type ExtendedTrajectoryArrays,
   type ModalOpenProps,
 } from '@/components/dialogs/modal-open/SharedTypes'
 
-const PRESETS: DemoPreset[] = [
-  { label: 'Soy', force: 0.02, duration: 1200, reveal: 35 },
-  { label: 'Soft', force: 0.1, duration: 900, reveal: 45 },
-  { label: 'Harder', force: 0.6, duration: 550, reveal: 60 },
-  { label: 'Daddy', force: 1.0, duration: 380, reveal: 70 },
-]
-
 function ModalOpenBubblePopComponent(props: ModalOpenProps) {
-  const s = useModalOpenLogic(props, PRESETS)
+  const s = useModalOpenLogic(props, BUBBLE_POP_PRESETS)
   const reduced = useReducedMotion() === true
 
   const openTraj = useMemo(() => {
@@ -59,7 +50,7 @@ function ModalOpenBubblePopComponent(props: ModalOpenProps) {
     >
       {s.isDemoMode && s.phase === 'idle' && (
         <SharedDemoTriggers
-          presets={PRESETS}
+          presets={BUBBLE_POP_PRESETS}
           buttonListRef={s.buttonListRef}
           onClickButton={s.handleDemoClick}
         />

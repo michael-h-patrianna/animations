@@ -211,7 +211,14 @@ function ProgressBarsCircularLevelCssComponent({
       style={style}
       data-animation-id="progress-bars__circular-level"
     >
-      <div className={styles['pf-circular-level-css__wrapper']}>
+      <div
+        className={styles['pf-circular-level-css__wrapper']}
+        role="progressbar"
+        aria-label="Progress"
+        aria-valuenow={Math.round((Math.max(0, progress) % 1) * 100)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         {bursts.map((id) => (
           <div key={id} className={styles['pf-circular-level-css__aura-host']}>
             <div

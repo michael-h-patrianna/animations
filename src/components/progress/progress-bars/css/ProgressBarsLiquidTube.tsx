@@ -14,21 +14,34 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
 
   return (
     <div
-      className={`${styles['liquid-tube-container-css']}${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-liquid-tube']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__liquid-tube"
     >
-      <div className={styles['liquid-tube-glass-css']}>
+      <div
+        className={styles['pf-liquid-tube__glass']}
+        role="progressbar"
+        aria-label="Progress"
+        aria-valuenow={Math.round(percent)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         <div
-          className={styles['liquid-tube-fill-css']}
+          className={styles['pf-liquid-tube__fill']}
           style={{ transform: `translateY(${100 - percent}%)` }}
         >
-          <div className={styles['liquid-tube-surface-css']}>
-            <div className={styles['liquid-wave-css']} />
+          <div className={styles['pf-liquid-tube__surface']}>
+            <div className={styles['pf-liquid-tube__wave']} />
           </div>
-          <div className={`${styles['liquid-bubble-css']} ${styles['bubble-1']}`} />
-          <div className={`${styles['liquid-bubble-css']} ${styles['bubble-2']}`} />
-          <div className={`${styles['liquid-bubble-css']} ${styles['bubble-3']}`} />
+          <div
+            className={`${styles['pf-liquid-tube__bubble']} ${styles['pf-liquid-tube__bubble--1']}`}
+          />
+          <div
+            className={`${styles['pf-liquid-tube__bubble']} ${styles['pf-liquid-tube__bubble--2']}`}
+          />
+          <div
+            className={`${styles['pf-liquid-tube__bubble']} ${styles['pf-liquid-tube__bubble--3']}`}
+          />
         </div>
       </div>
     </div>

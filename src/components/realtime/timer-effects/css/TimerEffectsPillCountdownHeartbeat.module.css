@@ -236,3 +236,9 @@
 .pf-timer-expired :global(.pf-pill-countdown-heartbeat__glow) {
   animation: pf-heartbeat-glow-expired 600ms ease-in-out infinite;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pill-countdown-heartbeat-container :global(.pf-pill-countdown-heartbeat__glow) {
+    animation: none !important; /* stylelint-disable-line declaration-no-important -- must override all phase-specific infinite glow animations for a11y */
+  }
+}

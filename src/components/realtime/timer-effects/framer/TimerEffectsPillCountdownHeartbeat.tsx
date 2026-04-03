@@ -2,7 +2,7 @@
  * Pill countdown with organic heartbeat pulse effect.
  * Heartbeat rate and glow intensity increase at fixed-second thresholds.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + TimerEffectsPillCountdownHeartbeat.module.css + ../shared.css (heartbeat section)
+ * Copy-paste files: this file + TimerEffectsPillCountdownHeartbeat.module.css + ../SharedTypes.ts + ../SharedTimer.ts + ../SharedFormat.ts + ../SharedPillPhaseTheme.ts
  * Runtime deps: react, motion
  */
 
@@ -141,7 +141,7 @@ function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
       data-animation-id="timer-effects__pill-countdown-heartbeat"
     >
       <m.div
-        className={`${styles['pf-pill-countdown-heartbeat-fm']} ${heartbeatLevel}`}
+        className={`${styles['pf-pill-countdown-heartbeat-fm']} ${styles[`${heartbeatLevel}-fm`] ?? ''}`}
         style={{ ...pillThemeStyle }}
       >
         <m.span

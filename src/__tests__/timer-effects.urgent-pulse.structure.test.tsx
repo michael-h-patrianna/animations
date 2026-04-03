@@ -27,10 +27,10 @@ describe('timer-effects urgent-pulse DOM structure', () => {
 
     // Both should have the timer container class
     expect(
-      css.container.querySelector(`.${cssUrgentPulseStyles['timer-urgent-pulse']}`)
+      css.container.querySelector(`.${cssUrgentPulseStyles['pf-urgent-pulse']}`)
     ).toBeInTheDocument()
     expect(
-      framer.container.querySelector(`.${fmUrgentPulseStyles['timer-urgent-pulse-fm']}`)
+      framer.container.querySelector(`.${fmUrgentPulseStyles['pf-urgent-pulse-fm']}`)
     ).toBeInTheDocument()
   })
 })

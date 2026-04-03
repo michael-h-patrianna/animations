@@ -23,6 +23,7 @@ import styles from './ProgressBarsZoomedProgress.module.css'
 export function ProgressBarsZoomedProgress({ progress, className, style }: ProgressBarProps) {
   const prefersReducedMotion = useReducedMotion()
   const isControlled = progress !== undefined
+  const clampedProgress = Math.max(0, Math.min(1, progress ?? 0))
   const [level, setLevel] = useState(1)
   const [levelPoints, setLevelPoints] = useState([0, 0, 0])
   const [levelReached, setLevelReached] = useState([true, false, false])
@@ -31,7 +32,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
   // Controlled mode: derive level from progress
   useEffect(() => {
     if (!isControlled) return
-    const p = progress ?? 0
+    const p = clampedProgress
     if (p >= 1) {
       setLevel(3)
       setLevelPoints([3, 6, 9])
@@ -47,7 +48,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
       setLevelPoints([lvl1, 0, 0])
       setLevelReached([true, false, false])
     }
-  }, [isControlled, progress])
+  }, [isControlled, clampedProgress])
 
   // Demo mode: scripted level-up
   useEffect(() => {
@@ -95,6 +96,9 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
   const trackPosition = 25 - 40 * (level - 1)
   const progress1Scale = levelPoints[0]! / 3
   const progress2Scale = levelPoints[1]! / 6
+  const ariaPercent = isControlled
+    ? Math.round(clampedProgress * 100)
+    : Math.round(((levelPoints[0]! + levelPoints[1]! + levelPoints[2]!) / 18) * 100)
 
   const levelBounceVariants = prefersReducedMotion
     ? {
@@ -119,7 +123,15 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
       style={style}
       data-animation-id="progress-bars__zoomed-progress"
     >
-      <div className={styles['pf-zoomed-progress-fm__track']} style={{ left: `${trackPosition}%` }}>
+      <div
+        className={styles['pf-zoomed-progress-fm__track']}
+        role="progressbar"
+        aria-label="Progress"
+        aria-valuenow={ariaPercent}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        style={{ left: `${trackPosition}%` }}
+      >
         <div
           className={`${styles['pf-zoomed-progress-fm__bar']} ${styles['pf-zoomed-progress-fm__bar--one']}`}
         >

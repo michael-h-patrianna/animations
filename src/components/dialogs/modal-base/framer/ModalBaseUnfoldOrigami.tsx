@@ -1,7 +1,7 @@
 /**
  * Modal entrance — origami unfold from rotateX(-180) with scale-up.
  *
- * Copy-paste files: this file + SharedTypes.ts
+ * Copy-paste files: this file + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react, motion
  */
 

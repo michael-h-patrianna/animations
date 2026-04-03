@@ -50,3 +50,13 @@
 .pf-pill-timer__pill--extreme :global(.pf-pill-timer__glow) {
   animation: extreme-buzz-glow 180ms ease-out;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pill-timer__pill--extreme {
+    animation: none;
+  }
+
+  .pf-pill-timer__pill--extreme :global(.pf-pill-timer__glow) {
+    animation: none;
+  }
+}

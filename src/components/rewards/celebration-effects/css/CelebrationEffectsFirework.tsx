@@ -117,7 +117,7 @@ function CelebrationEffectsFireworkComponent({
     return (
       <div
         ref={containerRef}
-        className={`${styles['mc-firework']} ${styles['mc-firework--css']}`}
+        className={`${styles['pf-firework']} ${styles['pf-firework--css']}`}
         data-animation-id="celebration-effects__firework"
       />
     )
@@ -126,13 +126,13 @@ function CelebrationEffectsFireworkComponent({
   return (
     <div
       ref={containerRef}
-      className={`${styles['mc-firework']} ${styles['mc-firework--css']}`}
+      className={`${styles['pf-firework']} ${styles['pf-firework--css']}`}
       data-animation-id="celebration-effects__firework"
     >
       {bursts.map((burst, bi) => (
         <div
           key={burst.id}
-          className={styles['mc-firework__burst']}
+          className={styles['pf-firework__burst']}
           style={{
             left: `${burst.posX}%`,
             top: `${burst.posY}%`,
@@ -141,7 +141,7 @@ function CelebrationEffectsFireworkComponent({
           {burst.particles.map((particle, pi) => (
             <span
               key={particle.id}
-              className={styles['mc-firework__particle']}
+              className={styles['pf-firework__particle']}
               style={
                 {
                   '--fw-x': `${particle.x}px`,
@@ -158,7 +158,7 @@ function CelebrationEffectsFireworkComponent({
             >
               {hasImages ? (
                 <img
-                  className={styles['mc-firework__particle-image']}
+                  className={styles['pf-firework__particle-image']}
                   src={particleImages[particle.imageIndex % particleImages.length]}
                   alt=""
                 />

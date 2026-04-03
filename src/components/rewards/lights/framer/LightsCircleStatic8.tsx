@@ -20,7 +20,7 @@ const containerVariants = {
 
 // Regular bulb glow variant
 const glowVariantsRegular = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.5 },
   show: {
     opacity: [0, 0.3, 0.9, 0.9, 0.6, 0.2, 0, 0],
     transition: {
@@ -36,7 +36,7 @@ const regularTimes: number[] = [0, 0.02, 0.04, 0.08, 0.1, 0.12, 0.14, 1]
 
 // Collision bulb glow variant (where they meet with white flash)
 const glowVariantsCollision = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.5 },
   show: {
     opacity: [0, 0.4, 1, 1, 1, 0.7, 0.3, 0, 0],
     transition: {
@@ -80,8 +80,8 @@ function LightsCircleStatic8({
   const bulbVariantsRegular = useMemo(
     () => ({
       hidden: {
-        backgroundColor: colors.off,
-        boxShadow: `0 0 2px ${colors.offGlow30}`,
+        backgroundColor: colors.on,
+        boxShadow: `0 0 4px ${colors.onGlow70}, 0 0 6px ${colors.onGlow50}`,
       },
       show: {
         backgroundColor: [
@@ -118,8 +118,8 @@ function LightsCircleStatic8({
   const bulbVariantsCollision = useMemo(
     () => ({
       hidden: {
-        backgroundColor: colors.off,
-        boxShadow: `0 0 2px ${colors.offGlow30}`,
+        backgroundColor: colors.on,
+        boxShadow: `0 0 4px ${colors.onGlow70}, 0 0 6px ${colors.onGlow50}`,
       },
       show: {
         backgroundColor: [

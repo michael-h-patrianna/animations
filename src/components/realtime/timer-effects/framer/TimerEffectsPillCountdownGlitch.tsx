@@ -2,7 +2,7 @@
  * Pill countdown with digital glitch/corruption effect.
  * Glitch intensity increases at fixed-second thresholds with chromatic aberration text copies.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + TimerEffectsPillCountdownGlitch.module.css + ../shared.css (glitch section)
+ * Copy-paste files: this file + TimerEffectsPillCountdownGlitch.module.css + ../SharedTypes.ts + ../SharedTimer.ts + ../SharedFormat.ts + ../SharedPillPhaseTheme.ts
  * Runtime deps: react, motion
  */
 
@@ -143,7 +143,7 @@ function TimerEffectsPillCountdownGlitchComponent(props: TimerEffectProps) {
       data-animation-id="timer-effects__pill-countdown-glitch"
     >
       <m.div
-        className={`${styles['pf-pill-countdown-glitch-fm']} ${glitchLevel}`}
+        className={`${styles['pf-pill-countdown-glitch-fm']} ${styles[`${glitchLevel}-fm`] ?? ''}`}
         style={{ ...pillThemeStyle }}
       >
         <m.span

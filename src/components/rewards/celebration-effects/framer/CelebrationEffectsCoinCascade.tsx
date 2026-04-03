@@ -3,7 +3,7 @@
  * Falls from emitY to the bottom of a boundary element (viewport by default),
  * adapting to any container size.
  *
- * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../SharedFallbackCoin.tsx + ../utils.ts + ../shared.css
+ * Copy-paste files: this file + CoinCascadeParticles.ts + ../SharedCelebrationTypes.ts + ../SharedFallbackCoin.tsx + ../utils.ts + ../shared.css
  * Runtime deps: react, motion
  */
 

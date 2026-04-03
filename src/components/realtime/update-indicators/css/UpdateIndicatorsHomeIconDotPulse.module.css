@@ -6,14 +6,44 @@
   will-change: transform;
 }
 
+.pf-dot-pulse-anim::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--pf-dot-pulse-ring-size, 8px));
+  border: var(--pf-dot-pulse-ring-size, 8px) solid var(--pf-dot-pulse-ring, rgb(255 73 103 / 25%));
+  border-radius: 9999px;
+  opacity: 0;
+  animation: pf-ui-dot-pulse-ring var(--pf-dot-pulse-dur, 1400ms) ease-in-out;
+  animation-fill-mode: both;
+  pointer-events: none;
+}
+
 @keyframes pf-ui-dot-pulse {
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 var(--pf-dot-pulse-ring, rgb(255 73 103 / 0%));
   }
   50% {
     transform: scale(1.1);
-    box-shadow: 0 0 0 8px var(--pf-dot-pulse-ring, rgb(255 73 103 / 25%));
+  }
+}
+
+@keyframes pf-ui-dot-pulse-ring {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-dot-pulse-anim {
+    animation: none;
+  }
+
+  .pf-dot-pulse-anim::after {
+    animation: none;
   }
 }

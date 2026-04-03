@@ -6,7 +6,7 @@
  */
 
 /* Container - relative positioning for absolute surge rings */
-.tfx-breakthrough-container {
+.pf-tfx-breakthrough-container {
   --text-effects-level-breakthrough-color: #ffce1a;
   --text-effects-level-breakthrough-text-shadow-1: color-mix(
     in srgb,
@@ -18,7 +18,7 @@
 }
 
 /* Text wrapper - holds both start and end text layers */
-.tfx-breakthrough-text-wrapper {
+.pf-tfx-breakthrough-text-wrapper {
   position: relative;
   z-index: 2;
   will-change: transform;
@@ -26,7 +26,7 @@
 }
 
 /* Base text styling shared by both start and end text */
-.tfx-breakthrough-text {
+.pf-tfx-breakthrough-text {
   font-size: 36px;
   font-weight: bold;
   color: var(--text-effects-level-breakthrough-color);
@@ -36,12 +36,12 @@
 }
 
 /* Start text - fades out at breakthrough peak */
-.tfx-breakthrough-text-start {
+.pf-tfx-breakthrough-text-start {
   animation: tfx-breakthrough-fade-out 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
 
 /* End text - positioned absolutely over start text, fades in at breakthrough peak */
-.tfx-breakthrough-text-end {
+.pf-tfx-breakthrough-text-end {
   position: absolute;
   inset: 0;
   opacity: 0;
@@ -50,7 +50,7 @@
 }
 
 /* Surge ring base - absolute positioned behind text */
-.tfx-breakthrough-surge {
+.pf-tfx-breakthrough-surge {
   position: absolute;
   inset: 0;
   opacity: 0;
@@ -60,7 +60,7 @@
 }
 
 /* Outer surge ring - 6px thick band at 75-82% radius */
-.tfx-breakthrough-surge-outer {
+.pf-tfx-breakthrough-surge-outer {
   background: radial-gradient(
     circle,
     transparent 75%,
@@ -70,7 +70,7 @@
 }
 
 /* Inner surge ring - 6px thick band at 65-72% radius, delayed start */
-.tfx-breakthrough-surge-inner {
+.pf-tfx-breakthrough-surge-inner {
   background: radial-gradient(
     circle,
     transparent 65%,
@@ -151,20 +151,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-breakthrough-text-wrapper {
+  .pf-tfx-breakthrough-text-wrapper {
     animation: none;
   }
 
-  .tfx-breakthrough-text-start {
+  .pf-tfx-breakthrough-text-start {
     animation: tfx-breakthrough-crossfade-out 300ms ease-out forwards;
   }
 
-  .tfx-breakthrough-text-end {
+  .pf-tfx-breakthrough-text-end {
     animation: tfx-breakthrough-crossfade-in 300ms ease-out forwards;
     text-shadow: none;
   }
 
-  .tfx-breakthrough-surge {
+  .pf-tfx-breakthrough-surge {
     animation: none;
     opacity: 0;
   }

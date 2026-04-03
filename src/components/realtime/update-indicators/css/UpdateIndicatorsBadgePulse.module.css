@@ -13,3 +13,9 @@
     box-shadow: 0 0 18px var(--pf-badge-pulse-glow, rgb(236 195 255 / 40%));
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-badge-pulse {
+    animation: none;
+  }
+}

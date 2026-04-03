@@ -45,7 +45,14 @@ export function ProgressBarsCircularDash({
       style={style}
       data-animation-id="progress-bars__circular-dash"
     >
-      <div className={styles['pf-circular-dash-fm__wrapper']}>
+      <div
+        className={styles['pf-circular-dash-fm__wrapper']}
+        role="progressbar"
+        aria-label="Progress"
+        aria-valuenow={percent}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         {Array.from({ length: segments }, (_, i) => (
           <div
             key={i}

@@ -1,7 +1,7 @@
 /**
  * Modal entrance — elastic zoom with multi-bounce overshoot.
  *
- * Copy-paste files: this file + SharedTypes.ts
+ * Copy-paste files: this file + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react, motion
  */
 

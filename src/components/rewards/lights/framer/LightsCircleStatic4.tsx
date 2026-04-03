@@ -14,7 +14,7 @@ const easeInOut: [number, number, number, number] = [0.42, 0, 0.58, 1]
 
 // Winner bulb glow variant (first bulb - celebration)
 const glowVariantsWinner = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.5 },
   show: {
     opacity: [0, 0, 1, 1],
     transition: {
@@ -34,7 +34,7 @@ const reverseChaseTimes: number[] = [
 ]
 
 const glowVariantsRegular = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.5 },
   show: {
     opacity: [
       0, // 0%: off
@@ -97,8 +97,8 @@ function LightsCircleStatic4({
   const bulbVariantsWinner = useMemo(
     () => ({
       hidden: {
-        backgroundColor: colors.off,
-        boxShadow: `0 0 2px ${colors.offGlow30}`,
+        backgroundColor: colors.on,
+        boxShadow: `0 0 4px ${colors.onGlow70}, 0 0 6px ${colors.onGlow50}`,
       },
       show: {
         backgroundColor: [colors.off, colors.off, colors.on, colors.on],
@@ -122,8 +122,8 @@ function LightsCircleStatic4({
   const bulbVariantsRegular = useMemo(
     () => ({
       hidden: {
-        backgroundColor: colors.off,
-        boxShadow: `0 0 2px ${colors.offGlow30}`,
+        backgroundColor: colors.on,
+        boxShadow: `0 0 4px ${colors.onGlow70}, 0 0 6px ${colors.onGlow50}`,
       },
       show: {
         backgroundColor: [

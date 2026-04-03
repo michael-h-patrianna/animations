@@ -1,4 +1,4 @@
-/* Styles for ModalOrchestrationSpringPhysics (CSS variant) */
+/* Styles for TileAnimationsSpringPhysics (CSS variant) */
 .pf-spring-physics {
   width: 100%;
   display: grid;
@@ -8,7 +8,7 @@
 
 .pf-spring-physics__item {
   /* Animation wrapper only — visual card styling comes from children */
-  cursor: grab;
+  cursor: pointer;
   user-select: none;
   opacity: 0;
   transform: scale(0) translateY(-100px);
@@ -54,7 +54,6 @@
 }
 
 .pf-spring-physics__item--landed:active {
-  cursor: grabbing;
   transform: scale(0.95);
   transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
 }

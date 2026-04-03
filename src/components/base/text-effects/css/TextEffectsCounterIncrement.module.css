@@ -4,7 +4,7 @@
    ========================================================================== */
 
 /* Container */
-.tfx-cinc-container {
+.pf-tfx-cinc-container {
   --text-effects-counter-increment-color: #c6ff77;
   --text-effects-counter-increment-color-1: var(--text-effects-counter-increment-color);
   --text-effects-counter-increment-color-2: color-mix(
@@ -58,7 +58,7 @@
 }
 
 /* Value Wrapper - Contains number and particles */
-.tfx-cinc-value-wrapper {
+.pf-tfx-cinc-value-wrapper {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -67,7 +67,7 @@
 }
 
 /* Counter Value - Main number display (pop animated via WAAPI) */
-.tfx-cinc-value {
+.pf-tfx-cinc-value {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -97,7 +97,7 @@
 }
 
 /* Prefix/suffix label inside the value display */
-.tfx-cinc-label {
+.pf-tfx-cinc-label {
   font-size: inherit;
   font-weight: inherit;
   letter-spacing: inherit;
@@ -107,7 +107,7 @@
    Target-mode particles — pre-rendered with CSS animation-delay
    ========================================================================== */
 
-.tfx-cinc-particle {
+.pf-tfx-cinc-particle {
   position: absolute;
   left: 100%;
   top: -10px;
@@ -125,15 +125,15 @@
 }
 
 /* Particle color variations for visual interest */
-.tfx-cinc-particle:nth-child(2n) {
+.pf-tfx-cinc-particle:nth-child(2n) {
   color: var(--text-effects-counter-increment-color-2);
 }
 
-.tfx-cinc-particle:nth-child(3n) {
+.pf-tfx-cinc-particle:nth-child(3n) {
   color: var(--text-effects-counter-increment-color-3);
 }
 
-.tfx-cinc-particle:nth-child(4n) {
+.pf-tfx-cinc-particle:nth-child(4n) {
   color: var(--text-effects-counter-increment-color-4);
 }
 
@@ -141,7 +141,7 @@
    Continuous-mode particle pool — animated via WAAPI, no CSS animation
    ========================================================================== */
 
-.tfx-cinc-particle-slot {
+.pf-tfx-cinc-particle-slot {
   position: absolute;
   left: 100%;
   top: -10px;
@@ -184,7 +184,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-cinc-particle {
+  .pf-tfx-cinc-particle {
     animation: none;
     opacity: 0;
   }

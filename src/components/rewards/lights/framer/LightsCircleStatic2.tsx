@@ -19,7 +19,7 @@ const chaseTimes: number[] = [
 const chaseEase: [number, number, number, number] = [0.42, 0, 0.58, 1]
 
 const glowVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0.5 },
   show: {
     opacity: [0, 0.1, 0.25, 0.45, 0.7, 0.9, 0.9, 0.75, 0.6, 0.4, 0.2, 0.08, 0, 0],
     transition: {
@@ -64,8 +64,8 @@ function LightsCircleStatic2({
   const bulbVariants = useMemo(
     () => ({
       hidden: {
-        backgroundColor: colors.off,
-        boxShadow: `0 0 2px ${colors.offGlow30}`,
+        backgroundColor: colors.on,
+        boxShadow: `0 0 4px ${colors.onGlow70}, 0 0 6px ${colors.onGlow50}`,
       },
       show: {
         backgroundColor: [

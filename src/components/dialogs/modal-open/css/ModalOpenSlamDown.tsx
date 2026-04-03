@@ -7,29 +7,20 @@ import { memo, useEffect, useMemo, useRef } from 'react'
 
 import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/SharedOpenModalPlaceholder'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
-import {
-  useModalOpenLogic,
-  type DemoPreset,
-} from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import { useModalOpenLogic } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
 import {
   computeSlamDownCloseTrajectory,
   computeSlamDownTrajectory,
 } from '@/components/dialogs/modal-open/SlamDownTrajectory'
+import { SLAM_DOWN_PRESETS } from '@/components/dialogs/modal-open/SharedPresets'
 import {
   shouldReduceMotion,
   type ModalOpenProps,
 } from '@/components/dialogs/modal-open/SharedTypes'
 
-const PRESETS: DemoPreset[] = [
-  { label: 'Soy', force: 0.02, duration: 1100, reveal: 45 },
-  { label: 'Soft', force: 0.1, duration: 850, reveal: 55 },
-  { label: 'Harder', force: 0.6, duration: 550, reveal: 65 },
-  { label: 'Daddy', force: 1.0, duration: 450, reveal: 72 },
-]
-
 function ModalOpenSlamDownComponent(props: ModalOpenProps) {
-  const s = useModalOpenLogic(props, PRESETS)
+  const s = useModalOpenLogic(props, SLAM_DOWN_PRESETS)
   const modalRef = useRef<HTMLDivElement>(null)
 
   const openTraj = useMemo(() => {
@@ -60,7 +51,7 @@ function ModalOpenSlamDownComponent(props: ModalOpenProps) {
 
     const keyframes: Keyframe[] = traj.times.map((t, i) => ({
       offset: t,
-      transform: `translate(${traj.x[i]}px, ${traj.y[i]}px) scale(${traj.scale[i]})`,
+      transform: `translate(${traj.x[i]}px, ${traj.y[i]}px) scale(${traj.scale[i]}) scaleX(${traj.scaleX[i]}) scaleY(${traj.scaleY[i]})`,
       opacity: traj.opacity[i],
     }))
 
@@ -89,7 +80,7 @@ function ModalOpenSlamDownComponent(props: ModalOpenProps) {
     <div ref={s.containerRef} className="pf-mo-container" data-animation-id="modal-open__slam-down">
       {s.isDemoMode && s.phase === 'idle' && (
         <SharedDemoTriggers
-          presets={PRESETS}
+          presets={SLAM_DOWN_PRESETS}
           buttonListRef={s.buttonListRef}
           onClickButton={s.handleDemoClick}
         />

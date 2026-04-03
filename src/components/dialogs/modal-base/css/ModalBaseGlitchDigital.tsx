@@ -1,14 +1,15 @@
 /**
  * Modal entrance — digital glitch with RGB channel separation. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseGlitchDigital.module.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseGlitchDigital.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts + @/utils/useCssReducedMotionCallback.ts
  * Runtime deps: react
  */
 
-import { memo } from 'react'
+import { memo, useRef } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
+import { useCssReducedMotionCallback } from '@/utils/useCssReducedMotionCallback'
 import styles from './ModalBaseGlitchDigital.module.css'
 
 const DEFAULT_DURATION = 600
@@ -26,6 +27,9 @@ function ModalBaseGlitchDigitalComponent({
   style,
   onAnimationComplete,
 }: ModalBaseGlitchDigitalProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  useCssReducedMotionCallback(containerRef, onAnimationComplete)
+
   const cssVars = {
     '--pf-entrance-duration': `${duration}ms`,
     '--pf-glitch-intensity': intensity,
@@ -43,6 +47,7 @@ function ModalBaseGlitchDigitalComponent({
           aria-hidden="true"
         />
         <div
+          ref={containerRef}
           className={`${styles['pf-modal-glitch__content']}${className ? ` ${className}` : ''}`}
           style={style}
           onAnimationEnd={(event) => {

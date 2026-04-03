@@ -12,10 +12,10 @@ const fs = (cls: string) => `.${fmComboStyles[cls]}`
 describe('TextEffectsComboCounter layout', () => {
   it('anchors the CSS variant number absolutely so it can grow left', () => {
     const { container } = render(<CssComboCounter from={7} to={1000} />)
-    const numberWrapper = container.querySelector(cs('tfx-combo-number-wrapper'))
-    const numberContainer = container.querySelector(cs('tfx-combo-number-container'))
-    const digit = container.querySelector(cs('tfx-combo-digit'))
-    const hitMarker = container.querySelector(cs('tfx-combo-hit-marker'))
+    const numberWrapper = container.querySelector(cs('pf-tfx-combo-number-wrapper'))
+    const numberContainer = container.querySelector(cs('pf-tfx-combo-number-container'))
+    const digit = container.querySelector(cs('pf-tfx-combo-digit'))
+    const hitMarker = container.querySelector(cs('pf-tfx-combo-hit-marker'))
 
     expect(numberWrapper).toBeInTheDocument()
     expect(numberContainer).toBeInTheDocument()

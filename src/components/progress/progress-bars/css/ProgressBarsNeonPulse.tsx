@@ -31,24 +31,29 @@ export function ProgressBarsNeonPulse({
 
   return (
     <div
-      className={`${styles['neon-pulse-container-css']}${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-neon-pulse']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__neon-pulse"
     >
-      <div className={styles['neon-pulse-track-css']}>
+      <div className={styles['pf-neon-pulse__track']}>
         <div
-          className={styles['neon-pulse-fill-css']}
+          className={styles['pf-neon-pulse__fill']}
+          role="progressbar"
+          aria-label={label}
+          aria-valuenow={Math.round(displayProgress * 100)}
+          aria-valuemin={0}
+          aria-valuemax={100}
           style={{ transform: `scaleX(${displayProgress})` }}
         >
-          <div className={styles['neon-pulse-flicker-css']} />
+          <div className={styles['pf-neon-pulse__flicker']} />
         </div>
         <div
-          className={styles['neon-pulse-glow-css']}
+          className={styles['pf-neon-pulse__glow']}
           style={{ transform: `scaleX(${displayProgress})` }}
         />
       </div>
       {label !== undefined && label !== '' && (
-        <div className={styles['neon-pulse-label-css']}>{label}</div>
+        <div className={styles['pf-neon-pulse__label']}>{label}</div>
       )}
     </div>
   )

@@ -14,7 +14,7 @@
  * - `--retro-bit-bg`           — container background
  * - `--retro-bit-active`       — active segment color
  * - `--retro-bit-inactive`     — inactive segment color
- * - `--pf-retro-bit-fm__label-color`  — label text color
+ * - `--retro-bit-label-color`  — label text color
  *
  * Files to copy: this file + ProgressBarsRetroBit.module.css + ../SharedTypes.ts
  */
@@ -45,7 +45,14 @@ export function ProgressBarsRetroBit({
       style={style}
       data-animation-id="progress-bars__retro-bit"
     >
-      <div className={styles['pf-retro-bit-fm__frame']}>
+      <div
+        className={styles['pf-retro-bit-fm__frame']}
+        role="progressbar"
+        aria-label={label}
+        aria-valuenow={Math.min(100, Math.max(0, Math.round(displayProgress * 100)))}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         {Array.from({ length: segments }, (_, i) => (
           <m.div
             key={i}

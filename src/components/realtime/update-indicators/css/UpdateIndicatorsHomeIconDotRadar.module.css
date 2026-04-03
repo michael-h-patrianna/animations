@@ -19,7 +19,7 @@
   border: 2px solid var(--pf-dot-radar-ring-color, rgb(255 73 103 / 50%));
   opacity: 0;
   animation: pf-ui-ring-expand var(--pf-dot-radar-dur, 1600ms) ease-out;
-  animation-fill-mode: both;
+  animation-fill-mode: forwards;
 }
 
 @keyframes pf-ui-ring-expand {
@@ -33,5 +33,11 @@
   100% {
     transform: scale(1.9);
     opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-dot-radar-ring {
+    animation: none;
   }
 }

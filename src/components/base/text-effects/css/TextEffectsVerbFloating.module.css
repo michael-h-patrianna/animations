@@ -1,4 +1,4 @@
-.tfx-float-container {
+.pf-tfx-float-container {
   --pf-verb-color: #e8e4da;
   display: flex;
   align-items: center;
@@ -8,12 +8,12 @@
   contain: layout style;
 }
 
-.tfx-float-line {
+.pf-tfx-float-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tfx-float-char {
+.pf-tfx-float-char {
   --lsd-highlightColor: #fff;
   display: inline-block;
   color: var(--pf-verb-color);
@@ -25,7 +25,7 @@
   animation: tfx-float-animation 3s ease-in-out infinite;
 }
 
-.tfx-float-char--delayed {
+.pf-tfx-float-char--delayed {
   animation-delay: 0.15s;
 }
 
@@ -53,7 +53,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-float-char {
+  .pf-tfx-float-char {
     animation: none;
   }
 }

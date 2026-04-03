@@ -1,4 +1,4 @@
-.scifi-loader-container-css {
+.pf-scifi-loader-css {
   --scifi-bg: #0f172a;
   --scifi-border: rgb(56 189 248 / 10%);
   --scifi-shine: rgb(255 255 255 / 4%);
@@ -25,7 +25,7 @@
   width: 100%;
 }
 
-.scifi-loader-track-css {
+.pf-scifi-loader-css__track {
   height: 16px;
   background: var(--scifi-track);
   border: 1px solid var(--scifi-track-border);
@@ -35,7 +35,7 @@
   container-type: inline-size;
 }
 
-.scifi-loader-fill-css {
+.pf-scifi-loader-css__fill {
   height: 100%;
   background: linear-gradient(90deg, var(--scifi-fill) 0%, var(--scifi-accent) 100%);
   width: 100%;
@@ -44,7 +44,7 @@
   box-shadow: 0 0 14px var(--scifi-fill-glow);
 }
 
-.scifi-loader-glint-css {
+.pf-scifi-loader-css__glint {
   position: absolute;
   top: 0;
   left: 0;
@@ -63,7 +63,7 @@
   }
 }
 
-.scifi-loader-decor-top-css {
+.pf-scifi-loader-css__decor-top {
   position: absolute;
   top: 12px;
   left: 12px;
@@ -72,7 +72,7 @@
   background: var(--scifi-decor);
 }
 
-.scifi-loader-decor-bottom-css {
+.pf-scifi-loader-css__decor-bottom {
   position: absolute;
   bottom: 12px;
   right: 12px;
@@ -81,7 +81,7 @@
   background: var(--scifi-decor);
 }
 
-.scifi-loader-text-css {
+.pf-scifi-loader-css__text {
   margin-top: 12px;
   font-family: monospace;
   font-size: 11px;
@@ -91,4 +91,10 @@
   font-variant-numeric: tabular-nums;
   color: var(--scifi-text);
   text-shadow: 0 0 10px var(--scifi-text-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-scifi-loader-css__glint {
+    animation: none;
+  }
 }

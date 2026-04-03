@@ -25,7 +25,7 @@ function TextEffectsLevelBreakthroughComponent({
 }: TextEffectsLevelBreakthroughProps) {
   return (
     <div
-      className={`${styles['tfx-breakthrough-container']} ${className}`.trim()}
+      className={`${styles['pf-tfx-breakthrough-container']} ${className}`.trim()}
       data-animation-id="text-effects__level-breakthrough"
       data-testid="breakthrough-container"
       style={
@@ -35,22 +35,22 @@ function TextEffectsLevelBreakthroughComponent({
       }
     >
       <div
-        className={`${styles['tfx-breakthrough-surge']} ${styles['tfx-breakthrough-surge-outer']}`}
+        className={`${styles['pf-tfx-breakthrough-surge']} ${styles['pf-tfx-breakthrough-surge-outer']}`}
         data-testid="surge-outer"
       />
       <div
-        className={`${styles['tfx-breakthrough-surge']} ${styles['tfx-breakthrough-surge-inner']}`}
+        className={`${styles['pf-tfx-breakthrough-surge']} ${styles['pf-tfx-breakthrough-surge-inner']}`}
         data-testid="surge-inner"
       />
-      <div className={styles['tfx-breakthrough-text-wrapper']}>
+      <div className={styles['pf-tfx-breakthrough-text-wrapper']}>
         <div
-          className={`${styles['tfx-breakthrough-text']} ${styles['tfx-breakthrough-text-start']}`}
+          className={`${styles['pf-tfx-breakthrough-text']} ${styles['pf-tfx-breakthrough-text-start']}`}
           data-testid="text-start"
         >
           {startText}
         </div>
         <div
-          className={`${styles['tfx-breakthrough-text']} ${styles['tfx-breakthrough-text-end']}`}
+          className={`${styles['pf-tfx-breakthrough-text']} ${styles['pf-tfx-breakthrough-text-end']}`}
           data-testid="text-end"
         >
           {endText}

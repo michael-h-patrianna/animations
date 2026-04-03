@@ -1,7 +1,7 @@
 /**
  * Modal entrance — slides up from below with subtle scale and fade.
  *
- * Copy-paste files: this file + SharedTypes.ts
+ * Copy-paste files: this file + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react, motion
  */
 

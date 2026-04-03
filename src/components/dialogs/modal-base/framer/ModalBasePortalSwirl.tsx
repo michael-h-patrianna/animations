@@ -1,7 +1,7 @@
 /**
  * Modal entrance — portal swirl with 720deg rotation, scale from zero, and morphing border-radius.
  *
- * Copy-paste files: this file + SharedTypes.ts
+ * Copy-paste files: this file + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react, motion
  */
 

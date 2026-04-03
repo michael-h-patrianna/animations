@@ -4,7 +4,7 @@
  * Cursor blinks after all characters have appeared.
  */
 
-.tfx-typewriter {
+.pf-tfx-typewriter {
   --tfx-typewriter-color: #10b981;
   display: flex;
   align-items: center;
@@ -14,7 +14,7 @@
   contain: layout style;
 }
 
-.tfx-typewriter__text {
+.pf-tfx-typewriter__text {
   font-size: 20px;
   font-weight: 600;
   font-family: 'Courier New', Courier, monospace;
@@ -22,14 +22,14 @@
   color: var(--tfx-typewriter-color);
 }
 
-.tfx-typewriter__char {
+.pf-tfx-typewriter__char {
   display: inline-block;
   opacity: 0;
   animation: tfx-typewriter-reveal 0s forwards;
   /* animation-delay set via inline style */
 }
 
-.tfx-typewriter__cursor {
+.pf-tfx-typewriter__cursor {
   display: inline-block;
   font-weight: 300;
   opacity: 0;
@@ -53,5 +53,17 @@
   50%,
   100% {
     opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-tfx-typewriter__char {
+    animation: none;
+    opacity: 1;
+  }
+
+  .pf-tfx-typewriter__cursor {
+    animation: none;
+    opacity: 1;
   }
 }

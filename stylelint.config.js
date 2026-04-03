@@ -5,6 +5,7 @@ import { noHardcodedColorsRule } from './stylelint-rules/no-hardcoded-colors.js'
 import { noZIndexMagicRule } from './stylelint-rules/no-z-index-magic.js'
 import { noIgnoredDisplayPropertiesRule } from './stylelint-rules/no-ignored-display-properties.js'
 import { noImportantInKeyframesRule } from './stylelint-rules/no-important-in-keyframes.js'
+import { requireReducedMotionRule } from './stylelint-rules/require-reduced-motion.js'
 
 // ===========================================================================
 // CONFIG INTEGRITY — prevents AI agents from downgrading errors to warnings
@@ -48,6 +49,8 @@ export default enforceNoWarnings({
     noZIndexMagicRule,
     noIgnoredDisplayPropertiesRule,
     noImportantInKeyframesRule,
+    // Accessibility enforcement
+    requireReducedMotionRule,
     // Defensive CSS (catches missing defensive patterns AI agents skip)
     'stylelint-plugin-defensive-css',
   ],
@@ -68,6 +71,10 @@ export default enforceNoWarnings({
     'animation-rules/no-z-index-magic': true,
     'animation-rules/no-ignored-display-properties': true,
     'animation-rules/no-important-in-keyframes': true,
+
+    // Disabled globally — enabled for css/ variant files via overrides.
+    // Framer variants handle reduced motion via JS (useReducedMotion).
+    'animation-rules/require-reduced-motion': null,
 
     // =====================================================================
     // ANTI-AI-SLOP: built-in rules that catch AI-generated garbage
@@ -280,6 +287,25 @@ export default enforceNoWarnings({
               `"${prop}" is banned in demo-blocks.css — demo-blocks are content primitives with no animations. Functional animations belong in component-specific CSS files (e.g. DemoToast.css).`,
           },
         ],
+      },
+    },
+    // ── Layer 2: CSS animation CSS — require reduced motion ──
+    // CSS variants use @keyframes for animation. Every file with @keyframes
+    // must include @media (prefers-reduced-motion: reduce) for accessibility.
+    {
+      files: ['src/components/**/css/*.module.css'],
+      rules: {
+        'animation-rules/require-reduced-motion': true,
+        // Enforce pf- prefix on CSS variant class selectors.
+        // Disabled pending migration — lights group (8 files) still uses unprefixed names.
+        // Enable after lights are migrated. Pattern tested and ready.
+        // 'selector-class-pattern': [
+        //   '^pf-[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*(__[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*)?(--[a-zA-Z0-9][a-zA-Z0-9-]*)?$',
+        //   {
+        //     message:
+        //       'CSS variant class selectors must start with "pf-" prefix (e.g. .pf-modal, .pf-modal__content). See docs/meta/styleguide.md.',
+        //   },
+        // ],
       },
     },
   ],

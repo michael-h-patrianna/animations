@@ -107,3 +107,13 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-timer-flash-soft__pill {
+    animation: none;
+  }
+
+  .pf-timer-flash-soft__glow {
+    animation: none;
+  }
+}

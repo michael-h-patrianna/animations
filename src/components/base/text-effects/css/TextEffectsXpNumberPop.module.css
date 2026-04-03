@@ -1,5 +1,5 @@
 /* Container */
-.tfx-xp-container {
+.pf-tfx-xp-container {
   --text-effects-xp-number-pop-color: #c6ff77;
   --text-effects-xp-number-pop-bg-1: var(--text-effects-xp-number-pop-color);
   --text-effects-xp-number-pop-bg-2: color-mix(
@@ -68,7 +68,7 @@
 }
 
 /* Number Wrapper - GPU Optimized */
-.tfx-xp-number-wrapper {
+.pf-tfx-xp-number-wrapper {
   display: flex;
   align-items: baseline;
   position: relative;
@@ -85,7 +85,7 @@
 }
 
 /* Number Value */
-.tfx-xp-number-value {
+.pf-tfx-xp-number-value {
   font-size: 56px;
   font-weight: 900;
   background: linear-gradient(
@@ -107,7 +107,7 @@
 }
 
 /* Label (prefix/suffix) */
-.tfx-xp-label {
+.pf-tfx-xp-label {
   font-size: 24px;
   margin-left: 8px;
   font-weight: 700;
@@ -122,7 +122,7 @@
   opacity: 0;
 }
 
-.tfx-xp-label--prefix {
+.pf-tfx-xp-label--prefix {
   margin-left: 0;
   margin-right: 4px;
 }
@@ -131,7 +131,7 @@
    Floating Particles
    ========================================================================== */
 
-.tfx-xp-particle {
+.pf-tfx-xp-particle {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -153,41 +153,41 @@
 }
 
 /* Particle Sizes - Inner layer larger, outer layer smaller */
-.tfx-xp-particle:nth-child(-n + 5) {
+.pf-tfx-xp-particle:nth-child(-n + 5) {
   font-size: 18px;
 }
 
-.tfx-xp-particle:nth-child(n + 6) {
+.pf-tfx-xp-particle:nth-child(n + 6) {
   font-size: 14px;
 }
 
 /* Particle Colors - Gradient from bright green to lime */
-.tfx-xp-particle:nth-child(1),
-.tfx-xp-particle:nth-child(6) {
+.pf-tfx-xp-particle:nth-child(1),
+.pf-tfx-xp-particle:nth-child(6) {
   color: var(--text-effects-xp-number-pop-bg-1);
   text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-1);
 }
 
-.tfx-xp-particle:nth-child(2),
-.tfx-xp-particle:nth-child(7) {
+.pf-tfx-xp-particle:nth-child(2),
+.pf-tfx-xp-particle:nth-child(7) {
   color: var(--text-effects-xp-number-pop-color-1);
   text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-2);
 }
 
-.tfx-xp-particle:nth-child(3),
-.tfx-xp-particle:nth-child(8) {
+.pf-tfx-xp-particle:nth-child(3),
+.pf-tfx-xp-particle:nth-child(8) {
   color: var(--text-effects-xp-number-pop-bg-2);
   text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-3);
 }
 
-.tfx-xp-particle:nth-child(4),
-.tfx-xp-particle:nth-child(9) {
+.pf-tfx-xp-particle:nth-child(4),
+.pf-tfx-xp-particle:nth-child(9) {
   color: var(--text-effects-xp-number-pop-color-2);
   text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-4);
 }
 
-.tfx-xp-particle:nth-child(5),
-.tfx-xp-particle:nth-child(10) {
+.pf-tfx-xp-particle:nth-child(5),
+.pf-tfx-xp-particle:nth-child(10) {
   color: var(--text-effects-xp-number-pop-color-3);
   text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-5);
 }
@@ -254,17 +254,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-xp-number-wrapper {
+  .pf-tfx-xp-number-wrapper {
     animation: tfx-xp-reduced-fade 300ms ease-out forwards;
     transform: none;
     opacity: 0;
   }
 
-  .tfx-xp-label {
+  .pf-tfx-xp-label {
     animation: tfx-xp-reduced-fade 300ms 200ms ease-out forwards;
   }
 
-  .tfx-xp-particle {
+  .pf-tfx-xp-particle {
     animation: none;
     opacity: 0;
   }

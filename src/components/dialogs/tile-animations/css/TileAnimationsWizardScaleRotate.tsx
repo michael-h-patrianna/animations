@@ -76,7 +76,7 @@ function TileAnimationsWizardScaleRotateComponent({
             key={i}
             className={`${styles['pf-wizard-scale__panel']} ${styles['pf-wizard-scale__panel--visible']}`}
             style={{
-              animationDelay: `${(i * stagger) / 1000}s`,
+              animationDelay: `${((labels.length + i) * stagger) / 1000}s`,
               animationDuration: `${duration / 1000}s`,
             }}
           >

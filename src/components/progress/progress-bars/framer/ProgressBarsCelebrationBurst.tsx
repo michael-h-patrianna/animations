@@ -131,6 +131,11 @@ export function ProgressBarsCelebrationBurst({
         <div className={styles['pf-progress-track-fm']}>
           <m.div
             className={styles['pf-progress-fill-fm']}
+            role="progressbar"
+            aria-label="Progress"
+            aria-valuenow={Math.round(targetProgress * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
             style={{ scaleX: fillMV, transformOrigin: 'left center' }}
           />
         </div>

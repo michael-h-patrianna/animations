@@ -38,3 +38,9 @@
     transform: translateX(-100%);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animation-id='realtime-data__win-ticker'] :global(.pf-realtime-data__ticker-text) {
+    animation: none;
+  }
+}

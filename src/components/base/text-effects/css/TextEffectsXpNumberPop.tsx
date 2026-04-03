@@ -123,7 +123,7 @@ function TextEffectsXpNumberPopComponent({
 
   return (
     <div
-      className={styles['tfx-xp-container']}
+      className={styles['pf-tfx-xp-container']}
       data-animation-id="text-effects__xp-number-pop"
       data-testid="xp-container"
       style={
@@ -136,7 +136,7 @@ function TextEffectsXpNumberPopComponent({
       {particles.map((particle, i) => (
         <div
           key={i}
-          className={styles['tfx-xp-particle']}
+          className={styles['pf-tfx-xp-particle']}
           data-testid="xp-particle"
           style={
             {
@@ -151,10 +151,10 @@ function TextEffectsXpNumberPopComponent({
       ))}
 
       {/* Main number with labels */}
-      <div className={styles['tfx-xp-number-wrapper']}>
+      <div className={styles['pf-tfx-xp-number-wrapper']}>
         {prefix !== undefined && (
           <span
-            className={`${styles['tfx-xp-label']} ${styles['tfx-xp-label--prefix']}`}
+            className={`${styles['pf-tfx-xp-label']} ${styles['pf-tfx-xp-label--prefix']}`}
             data-testid="xp-label"
           >
             {prefix}
@@ -162,13 +162,13 @@ function TextEffectsXpNumberPopComponent({
         )}
         <span
           ref={numberRef}
-          className={styles['tfx-xp-number-value']}
+          className={styles['pf-tfx-xp-number-value']}
           data-testid="xp-number-value"
         >
           {formatRef.current(from)}
         </span>
         {suffix !== undefined && (
-          <span className={styles['tfx-xp-label']} data-testid="xp-label">
+          <span className={styles['pf-tfx-xp-label']} data-testid="xp-label">
             {suffix}
           </span>
         )}

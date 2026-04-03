@@ -1,14 +1,15 @@
 /**
  * Modal entrance — 3D card flip from 180deg with scale-up. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseFlip3d.module.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseFlip3d.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts + @/utils/useCssReducedMotionCallback.ts
  * Runtime deps: react
  */
 
-import { memo } from 'react'
+import { memo, useRef } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
+import { useCssReducedMotionCallback } from '@/utils/useCssReducedMotionCallback'
 import styles from './ModalBaseFlip3d.module.css'
 
 const DEFAULT_DURATION = 800
@@ -26,12 +27,16 @@ function ModalBaseFlip3dComponent({
   style,
   onAnimationComplete,
 }: ModalBaseFlip3dProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  useCssReducedMotionCallback(containerRef, onAnimationComplete)
+
   return (
     <div
       data-animation-id="modal-base__flip-3d"
       style={{ '--pf-entrance-duration': `${duration}ms`, perspective } as React.CSSProperties}
     >
       <div
+        ref={containerRef}
         className={`${styles['pf-modal-flip-3d']}${className ? ` ${className}` : ''}`}
         style={style}
         onAnimationEnd={(event) => {

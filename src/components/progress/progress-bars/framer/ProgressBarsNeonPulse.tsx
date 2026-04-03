@@ -48,6 +48,11 @@ export function ProgressBarsNeonPulse({
       <div className={styles['pf-neon-pulse-fm__track']}>
         <m.div
           className={styles['pf-neon-pulse-fm__fill']}
+          role="progressbar"
+          aria-label={label}
+          aria-valuenow={Math.round(displayProgress * 100)}
+          aria-valuemin={0}
+          aria-valuemax={100}
           initial={false}
           animate={{ scaleX: displayProgress }}
           transition={{ ease: 'linear', duration: prefersReducedMotion ? 0.05 : 0.1 }}

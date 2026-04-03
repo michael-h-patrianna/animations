@@ -123,7 +123,7 @@ function TextEffectsComboCounterComponent({
 
   return (
     <div
-      className={styles['tfx-combo-container']}
+      className={styles['pf-tfx-combo-container']}
       data-animation-id="text-effects__combo-counter"
       style={
         {
@@ -139,11 +139,11 @@ function TextEffectsComboCounterComponent({
         } as React.CSSProperties
       }
     >
-      <div className={styles['tfx-combo-main']}>
-        <div className={styles['tfx-combo-number-wrapper']}>
-          <div className={styles['tfx-combo-number-container']}>
-            <div className={styles['tfx-combo-current-number']}>
-              <span className={styles['tfx-combo-digit']}>
+      <div className={styles['pf-tfx-combo-main']}>
+        <div className={styles['pf-tfx-combo-number-wrapper']}>
+          <div className={styles['pf-tfx-combo-number-container']}>
+            <div className={styles['pf-tfx-combo-current-number']}>
+              <span className={styles['pf-tfx-combo-digit']}>
                 <span ref={numberRef}>{formatRef.current(from)}</span>
               </span>
             </div>
@@ -153,7 +153,7 @@ function TextEffectsComboCounterComponent({
               return (
                 <div
                   key={i}
-                  className={styles['tfx-combo-particle-track']}
+                  className={styles['pf-tfx-combo-particle-track']}
                   style={
                     {
                       '--particle-x': `${x}px`,
@@ -163,7 +163,7 @@ function TextEffectsComboCounterComponent({
                   }
                 >
                   <span
-                    className={styles['tfx-combo-particle']}
+                    className={styles['pf-tfx-combo-particle']}
                     style={{ animationDelay: `${delay}ms` }}
                   >
                     +{formatRef.current(milestone.value)}
@@ -173,19 +173,19 @@ function TextEffectsComboCounterComponent({
             })}
           </div>
 
-          <div className={styles['tfx-combo-hit-marker']}>×</div>
+          <div className={styles['pf-tfx-combo-hit-marker']}>×</div>
         </div>
 
-        <div className={styles['tfx-combo-text-wrapper']}>
+        <div className={styles['pf-tfx-combo-text-wrapper']}>
           {label.split('').map((char, index) => (
-            <span key={index} className={styles['tfx-combo-letter']}>
+            <span key={index} className={styles['pf-tfx-combo-letter']}>
               {char}
             </span>
           ))}
         </div>
       </div>
 
-      {bonusText !== undefined && <div className={styles['tfx-combo-bonus']}>{bonusText}</div>}
+      {bonusText !== undefined && <div className={styles['pf-tfx-combo-bonus']}>{bonusText}</div>}
     </div>
   )
 }

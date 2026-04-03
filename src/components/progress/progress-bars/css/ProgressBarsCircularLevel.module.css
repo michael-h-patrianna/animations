@@ -116,5 +116,9 @@
   }
 }
 
-/* stylelint-disable declaration-no-important -- must override animation for a11y */
-/* stylelint-enable declaration-no-important */
+@media (prefers-reduced-motion: reduce) {
+  .pf-circular-level-css__aura--primary,
+  .pf-circular-level-css__aura--secondary {
+    animation: none;
+  }
+}

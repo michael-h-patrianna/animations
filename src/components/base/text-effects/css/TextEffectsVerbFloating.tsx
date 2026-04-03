@@ -27,20 +27,20 @@ function TextEffectsVerbFloatingComponent({
 
   return (
     <div
-      className={styles['tfx-float-container']}
+      className={styles['pf-tfx-float-container']}
       data-animation-id="text-effects__verb-floating"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className={styles['tfx-float-line']} aria-hidden="true">
+      <div className={styles['pf-tfx-float-line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
             className={[
-              styles['tfx-float-char'],
-              i % 2 === 1 ? styles['tfx-float-char--delayed'] : '',
+              styles['pf-tfx-float-char'],
+              i % 2 === 1 ? styles['pf-tfx-float-char--delayed'] : '',
             ]
               .filter(Boolean)
               .join(' ')}

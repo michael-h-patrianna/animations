@@ -3,7 +3,7 @@
  * Particles fall from emitY to the bottom of a boundary element (viewport by default),
  * adapting to any container size. 11-point gravity curve for smooth motion at any distance.
  *
- * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
+ * Copy-paste files: this file + CelebrationEffectsConfettiRain.module.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
  * Runtime deps: react, motion
  */
 

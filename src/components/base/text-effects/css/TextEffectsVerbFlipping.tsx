@@ -27,18 +27,18 @@ function TextEffectsVerbFlippingComponent({
 
   return (
     <div
-      className={styles['tfx-flip-container']}
+      className={styles['pf-tfx-flip-container']}
       data-animation-id="text-effects__verb-flipping"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className={styles['tfx-flip-line']} aria-hidden="true">
+      <div className={styles['pf-tfx-flip-line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={`${styles['tfx-flip-char']} ${i % 2 === 1 ? styles['tfx-flip-char--delayed'] : ''}`}
+            className={`${styles['pf-tfx-flip-char']} ${i % 2 === 1 ? styles['pf-tfx-flip-char--delayed'] : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>

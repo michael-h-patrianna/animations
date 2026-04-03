@@ -11,31 +11,22 @@ import { memo, useEffect, useMemo, useRef } from 'react'
 
 import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/SharedOpenModalPlaceholder'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
-import {
-  useModalOpenLogic,
-  type DemoPreset,
-} from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import { useModalOpenLogic } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
 import styles from './ModalOpenFlyIn.module.css'
 import {
   computeArcCloseTrajectory,
   computeArcTrajectory,
 } from '@/components/dialogs/modal-open/FlyInTrajectory'
+import { FLY_IN_PRESETS } from '@/components/dialogs/modal-open/SharedPresets'
 import {
   MIN_ARC_DISTANCE,
   shouldReduceMotion,
   type ModalOpenProps,
 } from '@/components/dialogs/modal-open/SharedTypes'
 
-const PRESETS: DemoPreset[] = [
-  { label: 'Soy', force: 0.02, duration: 1200, reveal: 40 },
-  { label: 'Soft', force: 0.1, duration: 900, reveal: 50 },
-  { label: 'Harder', force: 0.6, duration: 520, reveal: 65 },
-  { label: 'Daddy', force: 1.0, duration: 400, reveal: 72 },
-]
-
 function ModalOpenFlyInComponent(props: ModalOpenProps) {
-  const s = useModalOpenLogic(props, PRESETS)
+  const s = useModalOpenLogic(props, FLY_IN_PRESETS)
   const modalRef = useRef<HTMLDivElement>(null)
   const animRef = useRef<Animation | null>(null)
 
@@ -114,7 +105,7 @@ function ModalOpenFlyInComponent(props: ModalOpenProps) {
     <div ref={s.containerRef} className="pf-mo-container" data-animation-id="modal-open__fly-in">
       {s.isDemoMode && s.phase === 'idle' && (
         <SharedDemoTriggers
-          presets={PRESETS}
+          presets={FLY_IN_PRESETS}
           buttonListRef={s.buttonListRef}
           onClickButton={s.handleDemoClick}
         />

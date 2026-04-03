@@ -20,3 +20,11 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-modal-flip-3d {
+    animation: none;
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+  }
+}

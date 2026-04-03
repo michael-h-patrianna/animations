@@ -55,15 +55,12 @@ function TimerEffectsUrgentPulseComponent(props: TimerEffectProps) {
   }
 
   return (
-    <div
-      className={styles['timer-urgent-pulse-demo']}
-      data-animation-id="timer-effects__urgent-pulse"
-    >
+    <div className={styles['pf-urgent-pulse-demo']} data-animation-id="timer-effects__urgent-pulse">
       <div
-        className={`${styles['timer-urgent-pulse']} timer-urgent-pulse--${phase}`}
+        className={styles['pf-urgent-pulse']}
         style={phaseColor !== undefined ? { backgroundColor: phaseColor } : undefined}
       >
-        <span className={styles['timer-urgent-pulse__value']} style={valueStyle}>
+        <span className={styles['pf-urgent-pulse__value']} style={valueStyle}>
           {formatTime(seconds)}
         </span>
       </div>

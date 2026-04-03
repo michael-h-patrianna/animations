@@ -22,3 +22,11 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-modal-scale-pop {
+    animation: none;
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -11,10 +11,10 @@
  * ```
  *
  * Styleable CSS custom properties:
- * - `--liquid-tube-border`  — tube border color
- * - `--liquid-tube-bg`      — tube background
- * - `--pf-liquid-tube-fm__fill`    — liquid color
- * - `--liquid-tube-bubble`  — bubble color
+ * - `--liquid-tube-glass-border`  — tube border color
+ * - `--liquid-tube-glass-bg`      — tube background
+ * - `--liquid-tube-fill`          — liquid color
+ * - `--liquid-tube-bubble`        — bubble color
  *
  * Files to copy: this file + ProgressBarsLiquidTube.module.css + ../SharedTypes.ts
  */
@@ -34,7 +34,14 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
       style={style}
       data-animation-id="progress-bars__liquid-tube"
     >
-      <div className={styles['pf-liquid-tube-fm__glass']}>
+      <div
+        className={styles['pf-liquid-tube-fm__glass']}
+        role="progressbar"
+        aria-label="Progress"
+        aria-valuenow={Math.round(percent)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         <m.div
           className={styles['pf-liquid-tube-fm__fill']}
           animate={{ y: `${100 - percent}%` }}

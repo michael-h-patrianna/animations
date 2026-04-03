@@ -19,3 +19,11 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-modal-slide-right {
+    animation: none;
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}

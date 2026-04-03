@@ -23,19 +23,26 @@ export function ProgressBarsCircularDash({
 
   return (
     <div
-      className={`${styles['circular-dash-container-css']}${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-circular-dash-css']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__circular-dash"
     >
-      <div className={styles['circular-dash-wrapper-css']}>
+      <div
+        className={styles['pf-circular-dash-css__wrapper']}
+        role="progressbar"
+        aria-label="Progress"
+        aria-valuenow={percent}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         {Array.from({ length: segments }, (_, i) => (
           <div
             key={i}
-            className={styles['circular-dash-segment-container-css']}
+            className={styles['pf-circular-dash-css__segment']}
             style={{ transform: `rotate(${(i / segments) * 360}deg)` }}
           >
             <div
-              className={styles['circular-dash-pill-css']}
+              className={styles['pf-circular-dash-css__pill']}
               style={{
                 opacity: i < activeSegments ? 1 : 0.2,
                 backgroundColor:
@@ -46,7 +53,7 @@ export function ProgressBarsCircularDash({
             />
           </div>
         ))}
-        <div className={styles['circular-dash-center-css']}>{percent}%</div>
+        <div className={styles['pf-circular-dash-css__center']}>{percent}%</div>
       </div>
     </div>
   )

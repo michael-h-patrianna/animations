@@ -44,7 +44,7 @@
 }
 
 /* Styles scoped for TextEffectsCharacterReveal */
-.tfx-char-reveal-container {
+.pf-tfx-char-reveal-container {
   --text-effects-character-reveal-color: #ffd700;
   --text-effects-character-reveal-subtitle-color: color-mix(
     in srgb,
@@ -75,7 +75,7 @@
   contain: layout style; /* Isolate from grid layout thrashing */
 }
 
-.tfx-char-reveal-text-container {
+.pf-tfx-char-reveal-text-container {
   position: relative;
   height: 30px;
   display: flex;
@@ -84,8 +84,8 @@
 }
 
 /* Common styles for text layers */
-.tfx-char-reveal-shadow-text,
-.tfx-char-reveal-main-text {
+.pf-tfx-char-reveal-shadow-text,
+.pf-tfx-char-reveal-main-text {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -94,11 +94,11 @@
   letter-spacing: 3px;
 }
 
-.tfx-char-reveal-shadow-text {
+.pf-tfx-char-reveal-shadow-text {
   animation: tfx-char-reveal-fade-in 600ms ease-out 200ms both;
 }
 
-.tfx-char-reveal-shadow-char {
+.pf-tfx-char-reveal-shadow-char {
   display: inline-block;
   text-transform: uppercase;
   color: var(--text-effects-character-reveal-color-1);
@@ -108,11 +108,11 @@
   will-change: opacity; /* Pre-composite for smoother staggered animation */
 }
 
-.tfx-char-reveal-main-text {
+.pf-tfx-char-reveal-main-text {
   animation: tfx-char-reveal-fade-in 300ms linear 500ms both;
 }
 
-.tfx-char-reveal-main-char {
+.pf-tfx-char-reveal-main-char {
   display: inline-block;
   text-transform: uppercase;
   background: linear-gradient(
@@ -131,7 +131,7 @@
   will-change: opacity, transform; /* Pre-composite for complex gradient text + transform */
 }
 
-.tfx-char-reveal-subtitle {
+.pf-tfx-char-reveal-subtitle {
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
@@ -144,26 +144,26 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfx-char-reveal-shadow-text {
+  .pf-tfx-char-reveal-shadow-text {
     animation: none;
     opacity: 1;
   }
 
-  .tfx-char-reveal-shadow-char {
+  .pf-tfx-char-reveal-shadow-char {
     animation: none;
     opacity: 0.5;
   }
 
-  .tfx-char-reveal-main-text {
+  .pf-tfx-char-reveal-main-text {
     animation: none;
     opacity: 1;
   }
 
-  .tfx-char-reveal-main-char {
+  .pf-tfx-char-reveal-main-char {
     animation: tfx-char-reveal-reduced 300ms ease-out both;
   }
 
-  .tfx-char-reveal-subtitle {
+  .pf-tfx-char-reveal-subtitle {
     animation: tfx-char-reveal-reduced 300ms ease-out 300ms both;
   }
 

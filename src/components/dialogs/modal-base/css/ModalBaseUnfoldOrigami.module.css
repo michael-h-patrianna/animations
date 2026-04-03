@@ -20,3 +20,11 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-modal-origami {
+    animation: none;
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
+  }
+}

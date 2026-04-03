@@ -81,3 +81,14 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-timer-flash__pill {
+    animation: none;
+  }
+
+  .pf-timer-flash__glow {
+    animation: none;
+    display: none;
+  }
+}

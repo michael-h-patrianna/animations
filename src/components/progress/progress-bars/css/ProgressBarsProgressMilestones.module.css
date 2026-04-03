@@ -106,3 +106,10 @@
   opacity: 1;
   color: var(--milestone-active-color);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-progress-milestones .milestone-ring {
+    animation: none;
+    display: none;
+  }
+}

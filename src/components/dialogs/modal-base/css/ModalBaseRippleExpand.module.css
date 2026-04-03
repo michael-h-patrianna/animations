@@ -27,3 +27,11 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-modal-ripple {
+    animation: none;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
