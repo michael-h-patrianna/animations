@@ -11,10 +11,10 @@
  * ```
  *
  * Styleable CSS custom properties:
- * - `--liquid-tube-border`  — tube border color
- * - `--liquid-tube-bg`      — tube background
- * - `--pf-liquid-tube-fm__fill`    — liquid color
- * - `--liquid-tube-bubble`  — bubble color
+ * - `--liquid-tube-glass-border`  — tube border color
+ * - `--liquid-tube-glass-bg`      — tube background
+ * - `--liquid-tube-fill`          — liquid color
+ * - `--liquid-tube-bubble`        — bubble color
  *
  * Files to copy: this file + ProgressBarsLiquidTube.module.css + ../SharedTypes.ts
  */

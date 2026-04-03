@@ -1,4 +1,4 @@
-.neon-pulse-container-css {
+.pf-neon-pulse {
   --neon-pulse-bg: #0a0a0f;
   --neon-pulse-edge: rgb(236 72 153 / 12%);
   --neon-pulse-shine: rgb(255 255 255 / 4%);
@@ -27,7 +27,7 @@
   width: 100%;
 }
 
-.neon-pulse-track-css {
+.pf-neon-pulse__track {
   width: 100%;
   height: var(--neon-pulse-height);
   background: var(--neon-pulse-track);
@@ -36,7 +36,7 @@
   border-radius: 6px;
 }
 
-.neon-pulse-fill-css {
+.pf-neon-pulse__fill {
   height: 100%;
   width: 100%;
   background: linear-gradient(90deg, var(--neon-pulse-fill) 0%, var(--neon-pulse-fill-to) 100%);
@@ -50,15 +50,15 @@
     0 0 4px var(--neon-pulse-glow-tight);
 }
 
-.neon-pulse-flicker-css {
+.pf-neon-pulse__flicker {
   position: absolute;
   inset: 0;
   background: var(--neon-pulse-flicker);
   border-radius: inherit;
-  animation: neon-flicker 0.4s linear infinite;
+  animation: pf-neon-flicker 0.4s linear infinite;
 }
 
-@keyframes neon-flicker {
+@keyframes pf-neon-flicker {
   0% {
     opacity: 1;
   }
@@ -82,7 +82,7 @@
   }
 }
 
-.neon-pulse-glow-css {
+.pf-neon-pulse__glow {
   position: absolute;
   top: -2px;
   left: 0;
@@ -95,7 +95,7 @@
   transition: transform 0.03s linear;
 }
 
-.neon-pulse-label-css {
+.pf-neon-pulse__label {
   color: var(--neon-pulse-fill);
   font-family: 'Courier New', monospace;
   font-size: 11px;
@@ -103,4 +103,19 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   text-shadow: 0 0 12px var(--neon-pulse-label-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-neon-pulse__flicker {
+    animation: none;
+    opacity: 1;
+  }
+
+  .pf-neon-pulse__fill {
+    transition: none;
+  }
+
+  .pf-neon-pulse__glow {
+    transition: none;
+  }
 }

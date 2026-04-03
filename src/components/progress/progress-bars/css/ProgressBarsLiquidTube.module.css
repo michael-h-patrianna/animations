@@ -1,4 +1,4 @@
-.liquid-tube-container-css {
+.pf-liquid-tube {
   --liquid-tube-glass-bg: rgb(255 255 255 / 4%);
   --liquid-tube-glass-border: rgb(255 255 255 / 12%);
   --liquid-tube-glass-shadow: rgb(0 0 0 / 30%);
@@ -12,7 +12,7 @@
   width: 100%;
 }
 
-.liquid-tube-glass-css {
+.pf-liquid-tube__glass {
   width: 56px;
   height: 148px;
   border: 2px solid var(--liquid-tube-glass-border);
@@ -23,7 +23,7 @@
   overflow: hidden;
 }
 
-.liquid-tube-fill-css {
+.pf-liquid-tube__fill {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -35,7 +35,7 @@
   transition: transform 0.05s linear;
 }
 
-.liquid-tube-surface-css {
+.pf-liquid-tube__surface {
   position: absolute;
   top: -10px;
   left: 0;
@@ -44,16 +44,16 @@
   overflow: hidden;
 }
 
-.liquid-wave-css {
+.pf-liquid-tube__wave {
   width: 100%;
   height: 100%;
   background: var(--liquid-tube-fill);
   border-radius: 50%;
   opacity: 0.7;
-  animation: liquid-wave 2s linear infinite;
+  animation: pf-liquid-tube-wave 2s linear infinite;
 }
 
-@keyframes liquid-wave {
+@keyframes pf-liquid-tube-wave {
   0% {
     transform: translateX(-50%);
   }
@@ -62,7 +62,7 @@
   }
 }
 
-.liquid-bubble-css {
+.pf-liquid-tube__bubble {
   position: absolute;
   bottom: 0;
   width: 6px;
@@ -72,20 +72,20 @@
   opacity: 0;
 }
 
-.bubble-1 {
+.pf-liquid-tube__bubble--1 {
   left: 20%;
-  animation: liquid-bubble 3s ease-in infinite;
+  animation: pf-liquid-tube-bubble 3s ease-in infinite;
 }
-.bubble-2 {
+.pf-liquid-tube__bubble--2 {
   left: 50%;
-  animation: liquid-bubble 4s ease-in 1s infinite;
+  animation: pf-liquid-tube-bubble 4s ease-in 1s infinite;
 }
-.bubble-3 {
+.pf-liquid-tube__bubble--3 {
   left: 80%;
-  animation: liquid-bubble 2.5s ease-in 0.5s infinite;
+  animation: pf-liquid-tube-bubble 2.5s ease-in 0.5s infinite;
 }
 
-@keyframes liquid-bubble {
+@keyframes pf-liquid-tube-bubble {
   0% {
     transform: translateY(0);
     opacity: 0;
@@ -96,5 +96,23 @@
   100% {
     transform: translateY(-100px);
     opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-liquid-tube__wave {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .pf-liquid-tube__bubble--1,
+  .pf-liquid-tube__bubble--2,
+  .pf-liquid-tube__bubble--3 {
+    animation: none;
+    display: none;
+  }
+
+  .pf-liquid-tube__fill {
+    transition: none;
   }
 }
