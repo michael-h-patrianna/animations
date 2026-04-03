@@ -28,3 +28,10 @@
     background-position: -200% 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-skeleton {
+    animation: none;
+    background-position: 0 0;
+  }
+}
