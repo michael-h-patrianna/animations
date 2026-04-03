@@ -118,6 +118,10 @@ export function ProgressBarsProgressMilestones({
         <div className={styles['pf-progress-track-fm']}>
           <div
             className={styles['pf-progress-fill-fm']}
+            role="progressbar"
+            aria-valuenow={Math.round(displayProgress * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
             data-testid="progress-fill"
             style={{ transformOrigin: 'left center', transform: `scaleX(${displayProgress})` }}
           />

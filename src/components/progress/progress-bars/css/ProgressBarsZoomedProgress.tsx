@@ -82,6 +82,10 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
     >
       <div
         className={styles['pf-zoomed-progress__track']}
+        role="progressbar"
+        aria-valuenow={Math.round((progress ?? 0) * 100)}
+        aria-valuemin={0}
+        aria-valuemax={100}
         style={{ transform: `translateX(${trackTranslateX}%) translateY(-50%) scale(1.2)` }}
       >
         <div

@@ -38,6 +38,10 @@ export function ProgressBarsNeonPulse({
       <div className={styles['pf-neon-pulse__track']}>
         <div
           className={styles['pf-neon-pulse__fill']}
+          role="progressbar"
+          aria-valuenow={Math.round(displayProgress * 100)}
+          aria-valuemin={0}
+          aria-valuemax={100}
           style={{ transform: `scaleX(${displayProgress})` }}
         >
           <div className={styles['pf-neon-pulse__flicker']} />

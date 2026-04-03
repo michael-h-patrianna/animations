@@ -41,6 +41,10 @@ export function ProgressBarsProgressMilestones({
         <div className={styles['pf-progress-track']}>
           <div
             className={styles['pf-progress-fill']}
+            role="progressbar"
+            aria-valuenow={Math.round(displayProgress * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
             style={{ transform: `scaleX(${displayProgress})` }}
           />
         </div>

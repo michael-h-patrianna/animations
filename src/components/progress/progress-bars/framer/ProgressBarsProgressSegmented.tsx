@@ -90,6 +90,10 @@ export function ProgressBarsProgressSegmented({
         <div className={styles['pf-progress-track-fm']}>
           <m.div
             className={styles['pf-progress-fill-fm']}
+            role="progressbar"
+            aria-valuenow={Math.round(displayProgress * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
             style={{
               transformOrigin: 'left center',
               borderRadius: '8px 0 0 8px',

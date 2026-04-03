@@ -25,15 +25,21 @@ export function ProgressBarsRetroBit({
 
   return (
     <div
-      className={`${styles['retro-bit-container-css']}${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-retro-bit-css']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__retro-bit"
     >
-      <div className={styles['retro-bit-frame-css']}>
+      <div
+        className={styles['pf-retro-bit-css__frame']}
+        role="progressbar"
+        aria-valuenow={Math.round(displayProgress * 100)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         {Array.from({ length: segments }, (_, i) => (
           <div
             key={i}
-            className={styles['retro-bit-segment-css']}
+            className={styles['pf-retro-bit-css__segment']}
             style={{
               opacity: i < activeCount ? 1 : 0.1,
               backgroundColor:
@@ -43,7 +49,7 @@ export function ProgressBarsRetroBit({
         ))}
       </div>
       {label !== undefined && label !== '' && (
-        <div className={styles['retro-bit-label-css']}>{label}</div>
+        <div className={styles['pf-retro-bit-css__label']}>{label}</div>
       )}
     </div>
   )

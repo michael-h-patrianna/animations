@@ -55,6 +55,10 @@ export function ProgressBarsSciFiLoader({
       <div ref={trackRef} className={styles['pf-scifi-loader-fm__track']}>
         <m.div
           className={styles['pf-scifi-loader-fm__fill']}
+          role="progressbar"
+          aria-valuenow={percent}
+          aria-valuemin={0}
+          aria-valuemax={100}
           initial={false}
           animate={{ scaleX: displayProgress }}
           transition={{

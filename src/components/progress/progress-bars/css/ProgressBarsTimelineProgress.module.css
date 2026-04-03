@@ -97,3 +97,17 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-timeline-progress.is-demo .pf-timeline-progress__step {
+    animation: none;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .pf-timeline-progress.is-demo .pf-timeline-progress__connector {
+    animation: none;
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}

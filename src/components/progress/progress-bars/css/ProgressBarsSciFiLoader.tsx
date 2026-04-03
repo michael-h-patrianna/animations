@@ -22,20 +22,24 @@ export function ProgressBarsSciFiLoader({
 
   return (
     <div
-      className={`${styles['scifi-loader-container-css']}${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-scifi-loader-css']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__sci-fi-loader"
     >
-      <div className={styles['scifi-loader-track-css']}>
+      <div className={styles['pf-scifi-loader-css__track']}>
         <div
-          className={styles['scifi-loader-fill-css']}
+          className={styles['pf-scifi-loader-css__fill']}
+          role="progressbar"
+          aria-valuenow={percent}
+          aria-valuemin={0}
+          aria-valuemax={100}
           style={{ transform: `scaleX(${displayProgress})` }}
         />
-        <div className={styles['scifi-loader-glint-css']} />
+        <div className={styles['pf-scifi-loader-css__glint']} />
       </div>
-      <div className={styles['scifi-loader-decor-top-css']} />
-      <div className={styles['scifi-loader-decor-bottom-css']} />
-      <div className={styles['scifi-loader-text-css']}>
+      <div className={styles['pf-scifi-loader-css__decor-top']} />
+      <div className={styles['pf-scifi-loader-css__decor-bottom']} />
+      <div className={styles['pf-scifi-loader-css__text']}>
         {label} {percent}%
       </div>
     </div>

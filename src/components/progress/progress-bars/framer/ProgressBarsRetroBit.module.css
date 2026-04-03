@@ -1,12 +1,12 @@
 .pf-retro-bit-fm {
   --retro-bit-bg: #050505;
   --retro-bit-border: #166534;
-  --pf-retro-bit-fm__frame-shadow: rgb(0 0 0 / 50%);
+  --retro-bit-frame-shadow: rgb(0 0 0 / 50%);
   --retro-bit-active: #4ade80;
   --retro-bit-inactive: rgb(22 101 52 / 20%);
   --retro-bit-glow: rgb(74 222 128 / 40%);
-  --pf-retro-bit-fm__label-color: #4ade80;
-  --pf-retro-bit-fm__label-glow: rgb(74 222 128 / 50%);
+  --retro-bit-label-color: #4ade80;
+  --retro-bit-label-glow: rgb(74 222 128 / 50%);
 
   display: flex;
   flex-direction: column;
@@ -25,7 +25,7 @@
   padding: 6px;
   border: 3px solid var(--retro-bit-border);
   background: var(--retro-bit-bg);
-  box-shadow: inset 0 2px 6px var(--pf-retro-bit-fm__frame-shadow);
+  box-shadow: inset 0 2px 6px var(--retro-bit-frame-shadow);
 }
 
 .pf-retro-bit-fm__segment {
@@ -39,10 +39,10 @@
 }
 
 .pf-retro-bit-fm__label {
-  color: var(--pf-retro-bit-fm__label-color);
+  color: var(--retro-bit-label-color);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  text-shadow: 0 0 10px var(--pf-retro-bit-fm__label-glow);
+  text-shadow: 0 0 10px var(--retro-bit-label-glow);
 }

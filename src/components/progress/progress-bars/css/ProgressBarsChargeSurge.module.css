@@ -101,3 +101,18 @@
     transform: scale(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-charge-surge .milestone-container.is-anticipating .milestone-marker {
+    animation: none;
+  }
+
+  .pf-charge-surge .milestone-container.is-active .milestone-marker {
+    animation: none;
+  }
+
+  .pf-charge-surge .surge-wave {
+    animation: none;
+    display: none;
+  }
+}

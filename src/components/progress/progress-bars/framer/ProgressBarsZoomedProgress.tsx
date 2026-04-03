@@ -119,7 +119,14 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
       style={style}
       data-animation-id="progress-bars__zoomed-progress"
     >
-      <div className={styles['pf-zoomed-progress-fm__track']} style={{ left: `${trackPosition}%` }}>
+      <div
+        className={styles['pf-zoomed-progress-fm__track']}
+        role="progressbar"
+        aria-valuenow={Math.round((progress ?? 0) * 100)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        style={{ left: `${trackPosition}%` }}
+      >
         <div
           className={`${styles['pf-zoomed-progress-fm__bar']} ${styles['pf-zoomed-progress-fm__bar--one']}`}
         >

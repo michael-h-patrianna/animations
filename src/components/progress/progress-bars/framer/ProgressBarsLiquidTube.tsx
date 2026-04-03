@@ -34,7 +34,13 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
       style={style}
       data-animation-id="progress-bars__liquid-tube"
     >
-      <div className={styles['pf-liquid-tube-fm__glass']}>
+      <div
+        className={styles['pf-liquid-tube-fm__glass']}
+        role="progressbar"
+        aria-valuenow={Math.round(percent)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         <m.div
           className={styles['pf-liquid-tube-fm__fill']}
           animate={{ y: `${100 - percent}%` }}

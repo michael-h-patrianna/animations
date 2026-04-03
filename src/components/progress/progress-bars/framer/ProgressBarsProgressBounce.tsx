@@ -38,6 +38,10 @@ export function ProgressBarsProgressBounce({ progress, className, style }: Progr
         <div className={styles['pf-progress-track-fm']}>
           <m.div
             className={styles['pf-progress-fill-fm']}
+            role="progressbar"
+            aria-valuenow={Math.round(target * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
             animate={{ scaleX: target }}
             transition={
               prefersReducedMotion
