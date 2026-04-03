@@ -49,8 +49,10 @@
     "test:e2e:headed": "node ./scripts/run-playwright.mjs --headed",
     "test:e2e:report": "playwright show-report",
     "build:check-size": "node scripts/check-bundle-size.mjs",
+    "generate:groups": "node scripts/codegen/generate-group-indexes.mjs",
+    "generate:groups:check": "node scripts/codegen/generate-group-indexes.mjs --check",
     "lighthouse": "lhci autorun",
-    "validate": "npm run type-check && npm run lint && npm run format:check && npm test && npm run build && npm run build:check-size",
+    "validate": "npm run generate:groups:check && npm run type-check && npm run lint && npm run format:check && npm test && npm run build && npm run build:check-size",
     "prepare": "husky"
   },
   "dependencies": {

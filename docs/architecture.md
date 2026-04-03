@@ -163,44 +163,12 @@ Shared infrastructure files at group root must match `SKIP_PATTERN` in `src/lib/
 1. Create folder: `src/components/<category>/<new-group>/`
 2. Create subfolders: `framer/` and `css/`
 3. Create `shared.css` with group-level layout styles
-4. Create `index.ts` with template below
-5. Add animations to subfolders
-6. Import and add to category's `index.ts`
+4. Add the group to the manifest in `scripts/codegen/generate-group-indexes.mjs`
+5. Run `npm run generate:groups` to create the `index.ts`
+6. Add animations to subfolders
+7. Import and add to category's `index.ts`
 
-**Group Index Template** (`src/components/<category>/<new-group>/index.ts`):
-
-```typescript
-import './shared.css'
-import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
-import { buildGroupExport } from '@/lib/groupBuilder'
-
-// Side-effect: load framer-variant non-module CSS (layout only — animation CSS banned by lint)
-import.meta.glob(['./framer/*.css', '!./framer/*.module.css'], { eager: true })
-
-const metadata: GroupMetadata = {
-  id: 'new-group',
-  title: 'New Group Title',
-  demo: 'Description of group purpose',
-}
-
-export const groupExport = buildGroupExport(
-  metadata,
-  import.meta.glob<Record<string, unknown>>('./framer/*.tsx'),
-  import.meta.glob<{ metadata: AnimationMetadata }>('./framer/*.meta.ts', { eager: true }),
-  import.meta.glob<Record<string, unknown>>('./css/*.tsx'),
-  import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true }),
-  {
-    framerTsx: import.meta.glob<string>('./framer/*.tsx', { query: '?raw', import: 'default' }),
-    framerCss: import.meta.glob<string>('./framer/*.{css,module.css}', {
-      query: '?raw',
-      import: 'default',
-    }),
-    cssTsx: import.meta.glob<string>('./css/*.tsx', { query: '?raw', import: 'default' }),
-    cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),
-    shared: import.meta.glob<string>('./*.{ts,tsx}', { query: '?raw', import: 'default' }),
-  }
-)
-```
+Group `index.ts` files are **generated** — do not create or edit them by hand. The manifest in `scripts/codegen/generate-group-indexes.mjs` is the single source of truth. The generator detects `shared.css` from the filesystem automatically.
 
 ---
 
