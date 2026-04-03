@@ -296,16 +296,6 @@ export default enforceNoWarnings({
       files: ['src/components/**/css/*.module.css'],
       rules: {
         'animation-rules/require-reduced-motion': true,
-        // Enforce pf- prefix on CSS variant class selectors.
-        // Disabled pending migration — lights group (8 files) still uses unprefixed names.
-        // Enable after lights are migrated. Pattern tested and ready.
-        // 'selector-class-pattern': [
-        //   '^pf-[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*(__[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*)?(--[a-zA-Z0-9][a-zA-Z0-9-]*)?$',
-        //   {
-        //     message:
-        //       'CSS variant class selectors must start with "pf-" prefix (e.g. .pf-modal, .pf-modal__content). See docs/meta/styleguide.md.',
-        //   },
-        // ],
       },
     },
   ],

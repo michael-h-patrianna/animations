@@ -436,12 +436,6 @@ export interface AnimationExport {
 
   /** Metadata describing the animation */
   metadata: AnimationMetadata
-
-  /** Raw source code of the component (.tsx), loaded via ?raw import */
-  source?: string
-
-  /** Raw source code of the co-located CSS file, loaded via ?raw import */
-  cssSource?: string
 }
 
 /**
