@@ -35,10 +35,12 @@ function UpdateIndicatorsHomeIconDotSweepComponent({
   const haloSize = Math.round(dotSize * 1.43)
   const haloEdgeOffset = dotEdgeOffset + (haloSize - dotSize) / 2
 
+  const ringSize = Math.round(dotSize * 0.71)
   const dotStyle = {
     ['--pf-dot-sweep-color' as string]: dotColor,
     ['--pf-dot-sweep-accent' as string]: accentColor,
     ['--pf-dot-sweep-ring' as string]: ringTint(dotColor, 22),
+    ['--pf-dot-sweep-ring-size' as string]: `${ringSize}px`,
     ['--pf-dot-sweep-dur' as string]: `${duration}ms`,
     width: dotSize,
     height: dotSize,

@@ -17,3 +17,10 @@
     transform: scale(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-badge-pop {
+    animation: none;
+    transform: scale(1);
+  }
+}

@@ -21,3 +21,9 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-live-ping {
+    animation: none;
+  }
+}
