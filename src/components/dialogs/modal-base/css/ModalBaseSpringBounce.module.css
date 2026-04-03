@@ -29,3 +29,11 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-modal-spring {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

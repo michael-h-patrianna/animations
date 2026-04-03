@@ -1,14 +1,15 @@
 /**
  * Modal entrance — spring-physics bounce with overshoot settle. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseSpringBounce.module.css + SharedModalPlaceholder.tsx + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseSpringBounce.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react
  */
 
-import { memo, type CSSProperties } from 'react'
+import { memo, useRef, type CSSProperties } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
+import { useCssReducedMotionCallback } from '@/utils/useCssReducedMotionCallback'
 import styles from './ModalBaseSpringBounce.module.css'
 
 interface SpringBounceProps extends ModalEntranceProps {
@@ -23,6 +24,9 @@ function ModalBaseSpringBounceComponent({
   duration = 820,
   onAnimationComplete,
 }: SpringBounceProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  useCssReducedMotionCallback(containerRef, onAnimationComplete)
+
   const mergedStyle = {
     ...style,
     ['--pf-spring-bounce-duration' as string]: `${duration}ms`,
@@ -31,6 +35,7 @@ function ModalBaseSpringBounceComponent({
   return (
     <div data-animation-id="modal-base__spring-bounce">
       <div
+        ref={containerRef}
         className={`${styles['pf-modal-spring']}${className ? ` ${className}` : ''}`}
         style={mergedStyle}
         onAnimationEnd={(event) => {

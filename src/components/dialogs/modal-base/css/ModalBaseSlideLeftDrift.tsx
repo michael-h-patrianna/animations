@@ -1,14 +1,15 @@
 /**
  * Modal entrance — drifts in from the right with subtle scale and fade. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseSlideLeftDrift.module.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseSlideLeftDrift.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react
  */
 
-import { memo } from 'react'
+import { memo, useRef } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
+import { useCssReducedMotionCallback } from '@/utils/useCssReducedMotionCallback'
 import styles from './ModalBaseSlideLeftDrift.module.css'
 
 const DEFAULT_DURATION = 420
@@ -26,6 +27,9 @@ function ModalBaseSlideLeftDriftComponent({
   style,
   onAnimationComplete,
 }: ModalBaseSlideLeftDriftProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  useCssReducedMotionCallback(containerRef, onAnimationComplete)
+
   const cssVars = {
     '--pf-entrance-duration': `${duration}ms`,
     '--pf-slide-distance': `${distance}px`,
@@ -34,6 +38,7 @@ function ModalBaseSlideLeftDriftComponent({
   return (
     <div data-animation-id="modal-base__slide-left-drift">
       <div
+        ref={containerRef}
         className={`${styles['pf-modal-slide-left']}${className ? ` ${className}` : ''}`}
         style={{ ...style, ...cssVars }}
         onAnimationEnd={(event) => {

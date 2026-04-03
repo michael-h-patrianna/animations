@@ -1,7 +1,7 @@
 /**
  * Modal entrance — CRT TV power-on effect: horizontal line expands vertically.
  *
- * Copy-paste files: this file + SharedTypes.ts
+ * Copy-paste files: this file + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react, motion
  */
 

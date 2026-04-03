@@ -21,3 +21,11 @@
     border-radius: 12px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-modal-portal {
+    animation: none;
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}

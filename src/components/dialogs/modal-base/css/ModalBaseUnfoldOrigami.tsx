@@ -1,14 +1,15 @@
 /**
  * Modal entrance — origami unfold from rotateX(-180). CSS variant.
  *
- * Copy-paste files: this file + ModalBaseUnfoldOrigami.module.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseUnfoldOrigami.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react
  */
 
-import { memo } from 'react'
+import { memo, useRef } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
+import { useCssReducedMotionCallback } from '@/utils/useCssReducedMotionCallback'
 import styles from './ModalBaseUnfoldOrigami.module.css'
 
 const DEFAULT_DURATION = 900
@@ -26,12 +27,16 @@ function ModalBaseUnfoldOrigamiComponent({
   style,
   onAnimationComplete,
 }: ModalBaseUnfoldOrigamiProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  useCssReducedMotionCallback(containerRef, onAnimationComplete)
+
   return (
     <div
       data-animation-id="modal-base__unfold-origami"
       style={{ '--pf-entrance-duration': `${duration}ms`, perspective } as React.CSSProperties}
     >
       <div
+        ref={containerRef}
         className={`${styles['pf-modal-origami']}${className ? ` ${className}` : ''}`}
         style={style}
         onAnimationEnd={(event) => {

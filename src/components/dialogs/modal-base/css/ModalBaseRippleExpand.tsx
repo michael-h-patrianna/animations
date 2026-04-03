@@ -1,14 +1,15 @@
 /**
  * Modal entrance — ripple expand from zero with scale overshoot settle. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseRippleExpand.module.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseRippleExpand.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react
  */
 
-import { memo } from 'react'
+import { memo, useRef } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/SharedModalPlaceholder'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
+import { useCssReducedMotionCallback } from '@/utils/useCssReducedMotionCallback'
 import styles from './ModalBaseRippleExpand.module.css'
 
 const DEFAULT_DURATION = 550
@@ -20,9 +21,13 @@ function ModalBaseRippleExpandComponent({
   style,
   onAnimationComplete,
 }: ModalEntranceProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  useCssReducedMotionCallback(containerRef, onAnimationComplete)
+
   return (
     <div data-animation-id="modal-base__ripple-expand">
       <div
+        ref={containerRef}
         className={`${styles['pf-modal-ripple']}${className ? ` ${className}` : ''}`}
         style={{ ...style, '--pf-entrance-duration': `${duration}ms` } as React.CSSProperties}
         onAnimationEnd={(event) => {

@@ -1,7 +1,7 @@
 /**
  * Modal entrance — gentle scale pop from 85% with fade.
  *
- * Copy-paste files: this file + SharedTypes.ts
+ * Copy-paste files: this file + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
  * Runtime deps: react, motion
  */
 

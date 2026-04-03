@@ -96,3 +96,17 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-modal-glitch__ghost--green,
+  .pf-modal-glitch__ghost--pink {
+    animation: none;
+    opacity: 0;
+  }
+
+  .pf-modal-glitch__content {
+    animation: none;
+    opacity: 1;
+    transform: skewX(0deg);
+  }
+}
