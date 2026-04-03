@@ -100,3 +100,10 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .lights-circle-static-5__bulb,
+  .lights-circle-static-5__glow {
+    animation: none;
+  }
+}

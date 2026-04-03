@@ -248,3 +248,12 @@
     transform: rotate(0deg) scale(1.01);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .lights-circle-static-4__bulb,
+  .lights-circle-static-4__glow,
+  .lights-circle-static-4__bulb-wrapper:first-child .lights-circle-static-4__bulb,
+  .lights-circle-static-4__bulb-wrapper:first-child .lights-circle-static-4__glow {
+    animation: none;
+  }
+}

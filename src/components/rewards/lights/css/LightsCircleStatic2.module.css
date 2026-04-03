@@ -160,27 +160,9 @@
   }
 }
 
-/* Secondary animation 1: Subtle rotation wiggle (follow-through) */
-@keyframes lights-circle-wiggle-2 {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(1deg);
-  }
-  75% {
-    transform: rotate(-1deg);
-  }
-}
-
-/* Secondary animation 2: Gentle breathing scale (appeal) */
-@keyframes lights-circle-breathe-2 {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
+@media (prefers-reduced-motion: reduce) {
+  .lights-circle-static-2__bulb,
+  .lights-circle-static-2__glow {
+    animation: none;
   }
 }

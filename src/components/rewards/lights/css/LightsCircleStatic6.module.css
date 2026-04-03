@@ -202,3 +202,16 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .lights-circle-static-6__bulb,
+  .lights-circle-static-6__glow,
+  .lights-circle-static-6__bulb-wrapper.beat-1 .lights-circle-static-6__bulb,
+  .lights-circle-static-6__bulb-wrapper.beat-1 .lights-circle-static-6__glow,
+  .lights-circle-static-6__bulb-wrapper.beat-2 .lights-circle-static-6__bulb,
+  .lights-circle-static-6__bulb-wrapper.beat-2 .lights-circle-static-6__glow,
+  .lights-circle-static-6__bulb-wrapper.beat-3 .lights-circle-static-6__bulb,
+  .lights-circle-static-6__bulb-wrapper.beat-3 .lights-circle-static-6__glow {
+    animation: none;
+  }
+}

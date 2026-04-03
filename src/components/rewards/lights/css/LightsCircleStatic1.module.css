@@ -367,3 +367,21 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .lights-circle-static-1__bulb-wrapper.even,
+  .lights-circle-static-1__bulb-wrapper.odd {
+    animation: none;
+  }
+
+  .lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__bulb,
+  .lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__filament,
+  .lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__glow-outer,
+  .lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__glow-inner,
+  .lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__bulb,
+  .lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__filament,
+  .lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__glow-outer,
+  .lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__glow-inner {
+    animation: none;
+  }
+}

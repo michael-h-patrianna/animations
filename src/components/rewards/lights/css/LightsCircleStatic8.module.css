@@ -195,3 +195,14 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .lights-circle-static-8__bulb,
+  .lights-circle-static-8__glow,
+  .lights-circle-static-8__bulb-wrapper.first-half .lights-circle-static-8__bulb,
+  .lights-circle-static-8__bulb-wrapper.first-half .lights-circle-static-8__glow,
+  .lights-circle-static-8__bulb-wrapper.second-half .lights-circle-static-8__bulb,
+  .lights-circle-static-8__bulb-wrapper.second-half .lights-circle-static-8__glow {
+    animation: none;
+  }
+}

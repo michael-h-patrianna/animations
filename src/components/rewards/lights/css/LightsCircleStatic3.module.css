@@ -192,13 +192,11 @@
   }
 }
 
-/* Secondary animation: Gentle breathing scale (appeal) */
-@keyframes lights-circle-breathe-3 {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
+@media (prefers-reduced-motion: reduce) {
+  .lights-circle-static-3__bulb,
+  .lights-circle-static-3__glow,
+  .lights-circle-static-3__bulb-wrapper:first-child .lights-circle-static-3__bulb,
+  .lights-circle-static-3__bulb-wrapper:first-child .lights-circle-static-3__glow {
+    animation: none;
   }
 }
