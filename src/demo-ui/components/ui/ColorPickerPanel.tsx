@@ -119,19 +119,46 @@ function SaturationArea({
   hsv,
   svRef,
   onMouseDown,
+  onHsvChange,
 }: {
   hsv: HSVA
   svRef: React.RefObject<HTMLDivElement | null>
   onMouseDown: (e: React.MouseEvent) => void
+  onHsvChange: (hsv: HSVA) => void
 }) {
+  const STEP = 0.02
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    let { s, v } = hsv
+    switch (e.key) {
+      case 'ArrowRight':
+        s = Math.min(1, s + STEP)
+        break
+      case 'ArrowLeft':
+        s = Math.max(0, s - STEP)
+        break
+      case 'ArrowUp':
+        v = Math.min(1, v + STEP)
+        break
+      case 'ArrowDown':
+        v = Math.max(0, v - STEP)
+        break
+      default:
+        return
+    }
+    e.preventDefault()
+    onHsvChange({ ...hsv, s, v })
+  }
+
   return (
     <div
       ref={svRef}
       className="w-full h-[160px] rounded-lg relative cursor-crosshair overflow-hidden shadow-lg ring-1 ring-border-default group"
       onMouseDown={onMouseDown}
+      onKeyDown={handleKeyDown}
       style={sx({ backgroundColor: `hsl(${String(hsv.h * 360)}, 100%, 50%)` })}
-      role="slider"
+      role="application"
       aria-label="Saturation and brightness"
+      aria-roledescription="2D color area"
       aria-valuetext={`Saturation ${String(Math.round(hsv.s * 100))}%, Brightness ${String(Math.round(hsv.v * 100))}%`}
       tabIndex={0}
     >
@@ -438,9 +465,13 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
     [hsv, handleHsvChange]
   )
 
+  // Stable ref so the drag effect doesn't re-subscribe listeners on every HSV change
+  const updateSVRef = useRef(updateSV)
+  updateSVRef.current = updateSV
+
   useEffect(() => {
     if (!isDraggingSV) return
-    const onMove = (e: MouseEvent) => updateSV(e.clientX, e.clientY)
+    const onMove = (e: MouseEvent) => updateSVRef.current(e.clientX, e.clientY)
     const onUp = () => setIsDraggingSV(false)
     window.addEventListener('mousemove', onMove)
     window.addEventListener('mouseup', onUp)
@@ -448,7 +479,7 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
       window.removeEventListener('mousemove', onMove)
       window.removeEventListener('mouseup', onUp)
     }
-  }, [isDraggingSV, updateSV])
+  }, [isDraggingSV])
 
   const handleEyedropper = () => pickEyedropper(handleHsvChange)
   const handleCopy = () => copyColor(value)
@@ -474,6 +505,7 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
           setIsDraggingSV(true)
           updateSV(e.clientX, e.clientY)
         }}
+        onHsvChange={handleHsvChange}
       />
       <ColorSliders hsv={hsv} disableAlpha={disableAlpha} onHsvChange={handleHsvChange} />
       <ColorInputs state={state} disableAlpha={disableAlpha} value={value} />
