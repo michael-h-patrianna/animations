@@ -1,7 +1,7 @@
 /* TimerEffectsUrgentPulse - Framer Motion styles */
 
 /* Container for urgent pulse demo */
-.timer-urgent-pulse-demo-fm {
+.pf-urgent-pulse-demo-fm {
   --timer-effects-urgent-pulse-border: rgb(255 255 255 / 30%);
   --timer-effects-urgent-pulse-bg-1: #ffa500;
   --timer-effects-urgent-pulse-bg-2: #ff8c00;
@@ -15,7 +15,7 @@
 }
 
 /* Urgent pulse timer pill container */
-.timer-urgent-pulse-fm {
+.pf-urgent-pulse-fm {
   position: relative;
   min-width: 80px;
   min-height: 36px;
@@ -29,7 +29,7 @@
 }
 
 /* Base amber gradient layer - always visible */
-.timer-urgent-pulse-fm__gradient-base {
+.pf-urgent-pulse-fm__gradient-base {
   position: absolute;
   inset: 0;
   background: linear-gradient(
@@ -42,7 +42,7 @@
 }
 
 /* Top red gradient layer - opacity animated by Framer */
-.timer-urgent-pulse-fm__gradient-top {
+.pf-urgent-pulse-fm__gradient-top {
   position: absolute;
   inset: 0;
   background: linear-gradient(
@@ -56,7 +56,7 @@
 }
 
 /* Timer value text */
-.timer-urgent-pulse-fm__value {
+.pf-urgent-pulse-fm__value {
   position: relative;
   z-index: 3;
   font-variant-numeric: tabular-nums;

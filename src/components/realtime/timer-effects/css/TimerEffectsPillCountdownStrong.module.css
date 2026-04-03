@@ -43,3 +43,13 @@
 .pf-pill-timer__pill--strong :global(.pf-pill-timer__glow) {
   animation: strong-snap-glow 160ms ease-out;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pill-timer__pill--strong {
+    animation: none;
+  }
+
+  .pf-pill-timer__pill--strong :global(.pf-pill-timer__glow) {
+    animation: none;
+  }
+}

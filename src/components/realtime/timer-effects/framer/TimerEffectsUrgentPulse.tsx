@@ -64,11 +64,11 @@ function TimerEffectsUrgentPulseComponent(props: TimerEffectProps) {
 
   return (
     <div
-      className={styles['timer-urgent-pulse-demo-fm']}
+      className={styles['pf-urgent-pulse-demo-fm']}
       data-animation-id="timer-effects__urgent-pulse"
     >
       <m.div
-        className={styles['timer-urgent-pulse-fm']}
+        className={styles['pf-urgent-pulse-fm']}
         animate={{ scale: scaleValues }}
         transition={{
           duration,
@@ -79,9 +79,9 @@ function TimerEffectsUrgentPulseComponent(props: TimerEffectProps) {
           ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
         }}
       >
-        <div className={styles['timer-urgent-pulse-fm__gradient-base']} />
+        <div className={styles['pf-urgent-pulse-fm__gradient-base']} />
         <m.div
-          className={styles['timer-urgent-pulse-fm__gradient-top']}
+          className={styles['pf-urgent-pulse-fm__gradient-top']}
           animate={{ opacity: opacityValues }}
           transition={{
             duration,
@@ -89,7 +89,7 @@ function TimerEffectsUrgentPulseComponent(props: TimerEffectProps) {
             ease: 'easeInOut',
           }}
         />
-        <span className={styles['timer-urgent-pulse-fm__value']} style={valueStyle}>
+        <span className={styles['pf-urgent-pulse-fm__value']} style={valueStyle}>
           {formatTime(seconds)}
         </span>
       </m.div>

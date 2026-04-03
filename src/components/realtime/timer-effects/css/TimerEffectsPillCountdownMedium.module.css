@@ -39,3 +39,13 @@
 .pf-pill-timer__pill--medium :global(.pf-pill-timer__glow) {
   animation: medium-blip-glow 320ms ease-out;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pill-timer__pill--medium {
+    animation: none;
+  }
+
+  .pf-pill-timer__pill--medium :global(.pf-pill-timer__glow) {
+    animation: none;
+  }
+}

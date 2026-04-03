@@ -19,3 +19,9 @@
 .pf-pill-timer__pill--soft {
   animation: soft-pulse 240ms ease-out;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pill-timer__pill--soft {
+    animation: none;
+  }
+}

@@ -57,7 +57,7 @@ function TimerEffectsCountdownBurstComponent({
   const startCount = Math.max(0, Math.round(countProp))
   const [current, setCurrent] = useState(startCount)
   /** True for the very first step (no preceding exit animation). */
-  const isFirstStep = useRef(true)
+  const isFirstStepRef = useRef(true)
   const onCompleteRef = useRef(onComplete)
   onCompleteRef.current = onComplete
   const onStepRef = useRef(onStep)
@@ -86,15 +86,15 @@ function TimerEffectsCountdownBurstComponent({
   const exitMs = EXIT_S * 1000
   useEffect(() => {
     if (current > 0) {
-      const adjustedDuration = isFirstStep.current ? stepDuration - exitMs : stepDuration
-      isFirstStep.current = false
+      const adjustedDuration = isFirstStepRef.current ? stepDuration - exitMs : stepDuration
+      isFirstStepRef.current = false
       const timer = setTimeout(() => {
         setCurrent((c) => c - 1)
       }, adjustedDuration)
       return () => clearTimeout(timer)
     }
     // GO step — hold then fire onComplete
-    isFirstStep.current = false
+    isFirstStepRef.current = false
     const timer = setTimeout(() => {
       onCompleteRef.current?.()
     }, goDuration)
@@ -104,7 +104,7 @@ function TimerEffectsCountdownBurstComponent({
   // Reset when count prop changes
   useEffect(() => {
     setCurrent(Math.max(0, Math.round(countProp)))
-    isFirstStep.current = true
+    isFirstStepRef.current = true
   }, [countProp])
 
   const isGo = current === 0

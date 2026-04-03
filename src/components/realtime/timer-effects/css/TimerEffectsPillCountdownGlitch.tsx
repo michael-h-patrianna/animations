@@ -2,7 +2,7 @@
  * Pill countdown with digital glitch/corruption effect — CSS variant.
  * Glitch intensity increases as time runs out, with chromatic aberration text copies.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + shared.css (glitch section) + TimerEffectsPillCountdownGlitch.module.css
+ * Copy-paste files: this file + TimerEffectsPillCountdownGlitch.module.css + ../SharedTypes.ts + ../SharedTimer.ts + ../SharedFormat.ts + ../SharedPillPhaseTheme.ts
  * Runtime deps: react
  */
 

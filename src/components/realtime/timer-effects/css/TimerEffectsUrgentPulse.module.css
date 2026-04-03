@@ -1,7 +1,7 @@
 /* TimerEffectsUrgentPulse - CSS animations */
 
 /* Container for urgent pulse demo */
-.timer-urgent-pulse-demo {
+.pf-urgent-pulse-demo {
   --timer-effects-urgent-pulse-bg-1: #ffa500;
   --timer-effects-urgent-pulse-bg-2: #ff8c00;
   --timer-effects-urgent-pulse-border: rgb(255 255 255 / 30%);
@@ -17,7 +17,7 @@
 }
 
 /* Urgent pulse timer pill with two-layer gradient approach */
-.timer-urgent-pulse {
+.pf-urgent-pulse {
   position: relative;
   min-width: 80px;
   min-height: 36px;
@@ -38,7 +38,7 @@
 }
 
 /* Top red gradient layer - opacity crossfades */
-.timer-urgent-pulse::before {
+.pf-urgent-pulse::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -54,7 +54,7 @@
 }
 
 /* Timer value text */
-.timer-urgent-pulse__value {
+.pf-urgent-pulse__value {
   position: relative;
   z-index: 1;
   font-variant-numeric: tabular-nums;
@@ -88,7 +88,7 @@
 
 /* Reduced motion: slow pulse with static mid-gradient */
 @media (prefers-reduced-motion: reduce) {
-  .timer-urgent-pulse {
+  .pf-urgent-pulse {
     animation: urgent-pulse-scale-slow 1000ms ease-in-out infinite;
     /* Mid-gradient: blend of amber and red */
     background: linear-gradient(
@@ -98,7 +98,7 @@
     );
   }
 
-  .timer-urgent-pulse::before {
+  .pf-urgent-pulse::before {
     /* Static mid-gradient opacity */
     opacity: 0.5;
     animation: none;

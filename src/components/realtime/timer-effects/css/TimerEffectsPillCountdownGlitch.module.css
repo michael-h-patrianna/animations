@@ -216,3 +216,9 @@
 .pf-glitch-severe :global(.pf-pill-countdown-glitch__copy--after) {
   color: var(--timer-effects-pill-countdown-glitch-bg-1-ff);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.pf-pill-countdown-glitch__glow) {
+    animation: none !important; /* stylelint-disable-line declaration-no-important -- must override all phase-specific infinite glow animations for a11y */
+  }
+}
