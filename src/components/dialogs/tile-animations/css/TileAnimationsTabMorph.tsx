@@ -13,13 +13,14 @@
  * </TileAnimationsTabMorph>
  */
 
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 
 import styles from './TileAnimationsTabMorph.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_TAB_COUNT = 4
+const EXIT_DURATION_MS = 200
 
 interface TileAnimationsTabMorphProps {
   /** Panel content — each child is one tab's content. When omitted, renders placeholder panels. */
@@ -48,8 +49,10 @@ function TileAnimationsTabMorphComponent({
   stagger = 260,
 }: TileAnimationsTabMorphProps) {
   const [internalIndex, setInternalIndex] = useState(0)
+  /** The index currently rendered in the panel. Lags behind safeIndex during exit. */
+  const [displayedIndex, setDisplayedIndex] = useState(0)
   const panelRef = useRef<HTMLDivElement>(null)
-  const prevIndexRef = useRef(0)
+  const exitTimerRef = useRef(0)
 
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_TAB_COUNT)
@@ -64,38 +67,57 @@ function TileAnimationsTabMorphComponent({
       ? labels
       : Array.from({ length: count }, (_, i) => `Tab ${i + 1}`)
 
-  const handleTabClick = (index: number) => {
-    if (onTabChange !== undefined) {
-      onTabChange(index)
-    }
-    if (!isControlled) {
-      setInternalIndex(index)
-    }
-  }
+  const handleTabClick = useCallback(
+    (index: number) => {
+      if (onTabChange !== undefined) {
+        onTabChange(index)
+      }
+      if (!isControlled) {
+        setInternalIndex(index)
+      }
+    },
+    [isControlled, onTabChange]
+  )
 
-  // Handle panel slide transitions
   const enterClass = styles['pf-tab-morph__panel--enter'] ?? ''
   const exitLeftClass = styles['pf-tab-morph__panel--exit-left'] ?? ''
   const exitRightClass = styles['pf-tab-morph__panel--exit-right'] ?? ''
 
+  // Transition panel: exit old content, then swap to new content with enter animation
   useEffect(() => {
+    if (safeIndex === displayedIndex) return
+
     const panel = panelRef.current
-    if (panel === null) return
+    if (panel === null) {
+      setDisplayedIndex(safeIndex)
+      return
+    }
 
-    const isForward = safeIndex > prevIndexRef.current
+    // Cancel any in-flight exit transition (handles rapid clicks)
+    clearTimeout(exitTimerRef.current)
 
+    const isForward = safeIndex > displayedIndex
     panel.classList.remove(enterClass, exitLeftClass, exitRightClass)
     panel.classList.add(isForward ? exitLeftClass : exitRightClass)
 
-    const exitTimeout = setTimeout(() => {
+    exitTimerRef.current = window.setTimeout(() => {
+      setDisplayedIndex(safeIndex)
       panel.classList.remove(exitLeftClass, exitRightClass)
       panel.classList.add(enterClass)
-    }, 200)
+    }, EXIT_DURATION_MS)
 
-    prevIndexRef.current = safeIndex
+    return () => {
+      clearTimeout(exitTimerRef.current)
+      // Clean up transition classes when the effect re-runs (e.g. rapid tab clicks)
+      panel.classList.remove(exitLeftClass, exitRightClass)
+      if (!panel.classList.contains(enterClass)) {
+        panel.classList.add(enterClass)
+      }
+    }
+  }, [safeIndex, displayedIndex, enterClass, exitLeftClass, exitRightClass])
 
-    return () => clearTimeout(exitTimeout)
-  }, [safeIndex, enterClass, exitLeftClass, exitRightClass])
+  // Clean up timer on unmount
+  useEffect(() => () => clearTimeout(exitTimerRef.current), [])
 
   return (
     <div className={styles['pf-tab-morph']} data-animation-id="tile-animations__tab-morph">
@@ -118,7 +140,7 @@ function TileAnimationsTabMorphComponent({
           ref={panelRef}
           className={`${styles['pf-tab-morph__panel']} ${styles['pf-tab-morph__panel--enter']}`}
         >
-          {renderItems[safeIndex]}
+          {renderItems[displayedIndex]}
         </div>
       </div>
     </div>
