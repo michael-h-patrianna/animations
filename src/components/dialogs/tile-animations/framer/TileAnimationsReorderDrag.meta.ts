@@ -2,6 +2,8 @@ import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata = {
   id: 'tile-animations__reorder-drag',
+  urlSlugFramer: '/tile-animations-framer?animation=tile-animations__reorder-drag',
+  urlSlugCss: '/tile-animations-css?animation=tile-animations__reorder-drag',
   title: 'Reorder Drag',
   description:
     'Drag-to-reorder tile list with lift effect (scale + shadow) while dragging. Displaced tiles slide out of the way in real time. Configurable tile count, gap, and drag scale.',

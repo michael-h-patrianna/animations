@@ -1,4 +1,4 @@
-/* Layout styles for ModalOrchestrationSpringPhysics (framer variant) */
+/* Layout styles for TileAnimationsSpringPhysics (framer variant) */
 .pf-spring-physics-fm {
   width: 100%;
   display: grid;
@@ -8,10 +8,6 @@
 
 .pf-spring-physics-fm__item {
   /* Animation wrapper only — visual card styling comes from children */
-  cursor: grab;
+  cursor: pointer;
   user-select: none;
-}
-
-.pf-spring-physics-fm__item:active {
-  cursor: grabbing;
 }
