@@ -542,3 +542,47 @@
 .pf-cs-css[data-prize-count='4'] .pf-cs-css__prize-amount {
   font-size: 16px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-cs-css__crystal-wrap {
+    animation: none;
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  .pf-cs-css__energy-mote {
+    animation: none;
+  }
+
+  .pf-cs-css__flash {
+    animation: none;
+  }
+
+  .pf-cs-css__prismatic-ring {
+    animation: none;
+  }
+
+  .pf-cs-css__shard {
+    animation: none;
+  }
+
+  .pf-cs-css__dust-particle {
+    animation: none;
+  }
+
+  .pf-cs-css__prize {
+    animation: none;
+    opacity: 1;
+    transform: translate(var(--slot-x), var(--slot-y)) scale(1);
+  }
+
+  .pf-cs-css__prize--claimed {
+    animation: none;
+  }
+
+  .pf-cs-css__frame-image {
+    animation: none;
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}

@@ -218,3 +218,37 @@
       rotate(var(--spin-end, 240deg));
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pirate-chest-win-css__chest {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .pf-pirate-chest-win-css__chest.is-shaking {
+    animation: none;
+  }
+
+  .pf-pirate-chest-win-css__chest.is-reveal {
+    animation: none;
+  }
+
+  .pf-pirate-chest-win-css__rays-enter {
+    animation: none;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .pf-pirate-chest-win-css__rays-spin {
+    animation: none;
+  }
+
+  .pf-pirate-chest-win-css__rays {
+    animation: none;
+  }
+
+  .pf-pirate-chest-win-css__coin {
+    animation: none;
+  }
+}

@@ -932,3 +932,122 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-arcane-portal-css__ambient {
+    animation: none;
+    opacity: 1;
+  }
+
+  .pf-arcane-portal-css__ring-wrap {
+    animation: none;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .pf-arcane-portal-css__ring-wrap.is-charge {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__ring-wrap.is-erupt {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__ring-image {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__ring-glow {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .pf-arcane-portal-css__ring-wrap.is-charge .pf-arcane-portal-css__ring-glow {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__ring-wrap.is-erupt .pf-arcane-portal-css__ring-glow {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__vortex {
+    animation: none;
+    opacity: 0.75;
+    scale: 1;
+  }
+
+  .pf-arcane-portal-css__vortex.is-charge {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__vortex.is-erupt {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__particle {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__rune {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__shockwave {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__burst {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__prize {
+    animation: none;
+    opacity: 1;
+    transform: translate(var(--slot-x, 0), var(--slot-y, 0));
+    scale: 1;
+  }
+
+  .pf-arcane-portal-css__prize-aura {
+    animation: none;
+    opacity: 0.6;
+    scale: 1;
+  }
+
+  .pf-arcane-portal-css__materialize-ring {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__sigil-wrap {
+    animation: none;
+    opacity: 0.75;
+    transform: scale(1);
+  }
+
+  .pf-arcane-portal-css__sigil-image {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__motes-orbit {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__prize-icon {
+    animation: none;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .pf-arcane-portal-css__prize-text {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .pf-arcane-portal-css__claim-burst {
+    animation: none;
+  }
+
+  .pf-arcane-portal-css__prize.is-claiming {
+    animation: none;
+  }
+}

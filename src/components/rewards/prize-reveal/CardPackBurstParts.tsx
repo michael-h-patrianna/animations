@@ -224,18 +224,16 @@ export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
 
 export function RarityBurst({ rarity, position }: { rarity: CardRarity; position: FanPosition }) {
   const burstScale = 0.5 + rarity * 0.45
-  const particleCount = 3 + rarity * 3
   const color = RARITY_COLORS[rarity]
 
-  const particles = useMemo(
-    () =>
-      Array.from({ length: particleCount }, (_, i) => {
-        const angle = (i / particleCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.4
-        const dist = 20 + rarity * 12 + Math.random() * 10
-        return { id: i, angle, dist, size: 4 + Math.random() * 6 }
-      }),
-    [rarity]
-  )
+  const particles = useMemo(() => {
+    const count = 3 + rarity * 3
+    return Array.from({ length: count }, (_, i) => {
+      const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.4
+      const dist = 20 + rarity * 12 + Math.random() * 10
+      return { id: i, angle, dist, size: 4 + Math.random() * 6 }
+    })
+  }, [rarity])
 
   return (
     <div

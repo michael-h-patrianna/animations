@@ -557,3 +557,66 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-chest-gc-sc-css__chest {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .pf-chest-gc-sc-css__chest.is-shaking {
+    animation: none;
+  }
+
+  .pf-chest-gc-sc-css__chest.is-reveal {
+    animation: none;
+  }
+
+  .pf-chest-gc-sc-css__burst {
+    animation: none;
+  }
+
+  .pf-chest-gc-sc-css__sparkle {
+    animation: none;
+  }
+
+  .pf-chest-gc-sc-css__prize {
+    animation: none;
+    opacity: 1;
+    transform: translate(calc(-50% + var(--fly-x, 0px)), 0) scale(1);
+  }
+
+  .pf-chest-gc-sc-css__prize-glow {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  .pf-chest-gc-sc-css__prize-rays-wrap {
+    animation: none;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .pf-chest-gc-sc-css__prize-rays-spin {
+    animation: none;
+  }
+
+  .pf-chest-gc-sc-css__prize-rays {
+    animation: none;
+  }
+
+  .pf-chest-gc-sc-css__prize-text {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .pf-chest-gc-sc-css__claim-burst {
+    animation: none;
+  }
+
+  .pf-chest-gc-sc-css__prize.is-claiming {
+    animation: none;
+  }
+}

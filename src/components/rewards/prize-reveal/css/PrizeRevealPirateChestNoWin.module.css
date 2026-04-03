@@ -90,3 +90,19 @@
     transform: translateY(0) scale(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pirate-chest-no-win-css__chest {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .pf-pirate-chest-no-win-css__chest.is-shaking {
+    animation: none;
+  }
+
+  .pf-pirate-chest-no-win-css__chest.is-reveal {
+    animation: none;
+  }
+}

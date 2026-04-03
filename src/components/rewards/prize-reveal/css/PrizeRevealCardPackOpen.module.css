@@ -1288,3 +1288,117 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-card-pack-css__pack-body {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0) scaleX(1) scaleY(1);
+  }
+
+  .pf-card-pack-css__pack-shaker--shaking {
+    animation: none;
+  }
+
+  .pf-card-pack-css__arrival-dust {
+    animation: none;
+  }
+
+  .pf-card-pack-css__seam {
+    animation: none;
+  }
+
+  .pf-card-pack-css__edge-spark {
+    animation: none;
+  }
+
+  .pf-card-pack-css__seam-crack {
+    animation: none;
+  }
+
+  .pf-card-pack-css__tear-flap {
+    animation: none;
+  }
+
+  .pf-card-pack-css__tear-body {
+    animation: none;
+  }
+
+  .pf-card-pack-css__tear-debris {
+    animation: none;
+  }
+
+  .pf-card-pack-css__tear-flash {
+    animation: none;
+  }
+
+  .pf-card-pack-css__light-spill {
+    animation: none;
+  }
+
+  .pf-card-pack-css__stage--burst {
+    animation: none;
+  }
+
+  .pf-card-pack-css__confetti-piece {
+    animation: none;
+  }
+
+  .pf-card-pack-css__card-slot {
+    animation: none;
+    opacity: 1;
+    transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0))
+      translateY(var(--card-y, 0)) rotate(var(--card-rotate, 0deg)) scale(1);
+  }
+
+  .pf-card-pack-css__card-slot--float {
+    animation: none;
+  }
+
+  .pf-card-pack-css__card-slot--collected {
+    animation: none;
+  }
+
+  .pf-card-pack-css__rarity-glow {
+    animation: none;
+  }
+
+  .pf-card-pack-css__rarity-flash {
+    animation: none;
+  }
+
+  .pf-card-pack-css__rarity-ring {
+    animation: none;
+  }
+
+  .pf-card-pack-css__rarity-spark {
+    animation: none;
+  }
+
+  .pf-card-pack-css__land-shimmer {
+    animation: none;
+  }
+
+  .pf-card-pack-css__inspect-overlay {
+    animation: none;
+    opacity: 1;
+  }
+
+  .pf-card-pack-css__screen-flash {
+    animation: none;
+  }
+
+  .pf-card-pack-css__collect-burst {
+    animation: none;
+  }
+
+  .pf-card-pack-css__new-badge {
+    animation: none;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .pf-card-pack-css__card--rarity-5 .pf-card-pack-css__card-front .pf-card-pack-css__card-frame {
+    animation: none;
+  }
+}
