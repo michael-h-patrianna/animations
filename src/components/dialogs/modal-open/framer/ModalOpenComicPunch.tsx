@@ -11,29 +11,20 @@ import { memo, useMemo } from 'react'
 
 import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/SharedOpenModalPlaceholder'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
-import {
-  useModalOpenLogic,
-  type DemoPreset,
-} from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import { useModalOpenLogic } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
 import {
   computeComicPunchCloseTrajectory,
   computeComicPunchTrajectory,
 } from '@/components/dialogs/modal-open/ComicPunchTrajectory'
+import { COMIC_PUNCH_PRESETS } from '@/components/dialogs/modal-open/SharedPresets'
 import {
   type ExtendedTrajectoryArrays,
   type ModalOpenProps,
 } from '@/components/dialogs/modal-open/SharedTypes'
 
-const PRESETS: DemoPreset[] = [
-  { label: 'Soy', force: 0.02, duration: 1000, reveal: 45 },
-  { label: 'Soft', force: 0.1, duration: 700, reveal: 55 },
-  { label: 'Harder', force: 0.6, duration: 480, reveal: 60 },
-  { label: 'Daddy', force: 1.0, duration: 350, reveal: 68 },
-]
-
 function ModalOpenComicPunchComponent(props: ModalOpenProps) {
-  const s = useModalOpenLogic(props, PRESETS)
+  const s = useModalOpenLogic(props, COMIC_PUNCH_PRESETS)
   const reduced = useReducedMotion() === true
 
   const openTraj = useMemo(() => {
@@ -59,7 +50,7 @@ function ModalOpenComicPunchComponent(props: ModalOpenProps) {
     >
       {s.isDemoMode && s.phase === 'idle' && (
         <SharedDemoTriggers
-          presets={PRESETS}
+          presets={COMIC_PUNCH_PRESETS}
           buttonListRef={s.buttonListRef}
           onClickButton={s.handleDemoClick}
         />

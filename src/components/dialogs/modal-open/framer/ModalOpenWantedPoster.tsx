@@ -13,19 +13,10 @@ import { memo, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/SharedOpenModalPlaceholder'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
-import {
-  useModalOpenLogic,
-  type DemoPreset,
-} from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import { useModalOpenLogic } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
+import { WANTED_POSTER_PRESETS } from '@/components/dialogs/modal-open/SharedPresets'
 import { type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
-
-const PRESETS: DemoPreset[] = [
-  { label: 'Soy', force: 0.02, duration: 1200, reveal: 30 },
-  { label: 'Soft', force: 0.1, duration: 900, reveal: 40 },
-  { label: 'Harder', force: 0.6, duration: 550, reveal: 55 },
-  { label: 'Daddy', force: 1.0, duration: 380, reveal: 68 },
-]
 
 const SAMPLES = 24
 
@@ -88,7 +79,7 @@ function reverseUnroll(data: UnrollData): UnrollData {
 }
 
 function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
-  const s = useModalOpenLogic(props, PRESETS)
+  const s = useModalOpenLogic(props, WANTED_POSTER_PRESETS)
   const reduced = useReducedMotion() === true
   const contentRef = useRef<HTMLDivElement>(null)
   const [modalHeight, setModalHeight] = useState(0)
@@ -114,7 +105,7 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
     >
       {s.isDemoMode && s.phase === 'idle' && (
         <SharedDemoTriggers
-          presets={PRESETS}
+          presets={WANTED_POSTER_PRESETS}
           buttonListRef={s.buttonListRef}
           onClickButton={s.handleDemoClick}
         />

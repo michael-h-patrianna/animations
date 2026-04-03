@@ -11,29 +11,20 @@ import { memo, useMemo } from 'react'
 
 import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/SharedOpenModalPlaceholder'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
-import {
-  useModalOpenLogic,
-  type DemoPreset,
-} from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import { useModalOpenLogic } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
 import {
   computeSlamDownCloseTrajectory,
   computeSlamDownTrajectory,
 } from '@/components/dialogs/modal-open/SlamDownTrajectory'
+import { SLAM_DOWN_PRESETS } from '@/components/dialogs/modal-open/SharedPresets'
 import {
   type ExtendedTrajectoryArrays,
   type ModalOpenProps,
 } from '@/components/dialogs/modal-open/SharedTypes'
 
-const PRESETS: DemoPreset[] = [
-  { label: 'Soy', force: 0.02, duration: 1100, reveal: 45 },
-  { label: 'Soft', force: 0.1, duration: 850, reveal: 55 },
-  { label: 'Harder', force: 0.6, duration: 550, reveal: 65 },
-  { label: 'Daddy', force: 1.0, duration: 450, reveal: 72 },
-]
-
 function ModalOpenSlamDownComponent(props: ModalOpenProps) {
-  const s = useModalOpenLogic(props, PRESETS)
+  const s = useModalOpenLogic(props, SLAM_DOWN_PRESETS)
   const reduced = useReducedMotion() === true
 
   const openTraj = useMemo(() => {
@@ -55,7 +46,7 @@ function ModalOpenSlamDownComponent(props: ModalOpenProps) {
     <div ref={s.containerRef} className="pf-mo-container" data-animation-id="modal-open__slam-down">
       {s.isDemoMode && s.phase === 'idle' && (
         <SharedDemoTriggers
-          presets={PRESETS}
+          presets={SLAM_DOWN_PRESETS}
           buttonListRef={s.buttonListRef}
           onClickButton={s.handleDemoClick}
         />
@@ -70,12 +61,26 @@ function ModalOpenSlamDownComponent(props: ModalOpenProps) {
             initial={
               reduced
                 ? { scale: s.isClosing ? 1 : 0.85, opacity: s.isClosing ? 1 : 0 }
-                : { x: traj.x[0], y: traj.y[0], scale: traj.scale[0], opacity: traj.opacity[0] }
+                : {
+                    x: traj.x[0],
+                    y: traj.y[0],
+                    scale: traj.scale[0],
+                    scaleX: traj.scaleX[0],
+                    scaleY: traj.scaleY[0],
+                    opacity: traj.opacity[0],
+                  }
             }
             animate={
               reduced
                 ? { scale: s.isClosing ? 0.85 : 1, opacity: s.isClosing ? 0 : 1 }
-                : { x: traj.x, y: traj.y, scale: traj.scale, opacity: traj.opacity }
+                : {
+                    x: traj.x,
+                    y: traj.y,
+                    scale: traj.scale,
+                    scaleX: traj.scaleX,
+                    scaleY: traj.scaleY,
+                    opacity: traj.opacity,
+                  }
             }
             transition={
               reduced
