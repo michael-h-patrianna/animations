@@ -95,6 +95,9 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
   const trackPosition = 25 - 40 * (level - 1)
   const progress1Scale = levelPoints[0]! / 3
   const progress2Scale = levelPoints[1]! / 6
+  const ariaPercent = isControlled
+    ? Math.round((progress ?? 0) * 100)
+    : Math.round(((levelPoints[0]! + levelPoints[1]! + levelPoints[2]!) / 18) * 100)
 
   const levelBounceVariants = prefersReducedMotion
     ? {
@@ -122,7 +125,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
       <div
         className={styles['pf-zoomed-progress-fm__track']}
         role="progressbar"
-        aria-valuenow={Math.round((progress ?? 0) * 100)}
+        aria-valuenow={ariaPercent}
         aria-valuemin={0}
         aria-valuemax={100}
         style={{ left: `${trackPosition}%` }}

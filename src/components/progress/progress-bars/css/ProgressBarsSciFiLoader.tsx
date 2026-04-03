@@ -30,6 +30,7 @@ export function ProgressBarsSciFiLoader({
         <div
           className={styles['pf-scifi-loader-css__fill']}
           role="progressbar"
+          aria-label={label}
           aria-valuenow={percent}
           aria-valuemin={0}
           aria-valuemax={100}

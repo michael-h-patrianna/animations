@@ -147,7 +147,9 @@ function TileAnimationsTabMorphComponent({
           <m.div
             key={i}
             role="tab"
+            id={`tab-morph-tab-${i}`}
             aria-selected={i === safeIndex}
+            aria-controls="tab-morph-panel"
             tabIndex={i === safeIndex ? 0 : -1}
             className={`${styles['pf-tab-morph-fm__tab']}${i === safeIndex ? ` ${styles['pf-tab-morph-fm__tab--active']}` : ''}`}
             variants={tabVariants}
@@ -160,7 +162,12 @@ function TileAnimationsTabMorphComponent({
         ))}
       </div>
 
-      <div className={styles['pf-tab-morph-fm__content']} role="tabpanel">
+      <div
+        className={styles['pf-tab-morph-fm__content']}
+        role="tabpanel"
+        id="tab-morph-panel"
+        aria-labelledby={`tab-morph-tab-${safeIndex}`}
+      >
         <AnimatePresence mode="wait">
           <m.div
             key={safeIndex}

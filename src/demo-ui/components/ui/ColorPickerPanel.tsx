@@ -157,9 +157,8 @@ function SaturationArea({
       onKeyDown={handleKeyDown}
       style={sx({ backgroundColor: `hsl(${String(hsv.h * 360)}, 100%, 50%)` })}
       role="application"
-      aria-label="Saturation and brightness"
+      aria-label={`Saturation ${String(Math.round(hsv.s * 100))}%, Brightness ${String(Math.round(hsv.v * 100))}%`}
       aria-roledescription="2D color area"
-      aria-valuetext={`Saturation ${String(Math.round(hsv.s * 100))}%, Brightness ${String(Math.round(hsv.v * 100))}%`}
       tabIndex={0}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-white to-transparent" />
