@@ -43,6 +43,7 @@ export function ProgressBarsCelebrationBurst({
           <div
             className={styles['pf-progress-fill']}
             role="progressbar"
+            aria-label="Progress"
             aria-valuenow={Math.round(displayProgress * 100)}
             aria-valuemin={0}
             aria-valuemax={100}

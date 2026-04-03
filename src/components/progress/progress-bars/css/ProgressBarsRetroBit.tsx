@@ -33,7 +33,7 @@ export function ProgressBarsRetroBit({
         className={styles['pf-retro-bit-css__frame']}
         role="progressbar"
         aria-label={label}
-        aria-valuenow={Math.round(displayProgress * 100)}
+        aria-valuenow={Math.min(100, Math.max(0, Math.round(displayProgress * 100)))}
         aria-valuemin={0}
         aria-valuemax={100}
       >

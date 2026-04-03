@@ -89,6 +89,10 @@ function TileAnimationsTabMorphComponent({
       if (nextIndex !== null) {
         e.preventDefault()
         handleTabClick(nextIndex)
+        const nextTab = document.querySelector<HTMLElement>(
+          `[data-testid="tab-morph-tab-${nextIndex}"]`
+        )
+        nextTab?.focus()
       }
     },
     [safeIndex, count, handleTabClick]

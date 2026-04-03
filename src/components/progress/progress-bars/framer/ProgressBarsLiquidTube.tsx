@@ -37,6 +37,7 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
       <div
         className={styles['pf-liquid-tube-fm__glass']}
         role="progressbar"
+        aria-label="Progress"
         aria-valuenow={Math.round(percent)}
         aria-valuemin={0}
         aria-valuemax={100}

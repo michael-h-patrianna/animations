@@ -5,7 +5,7 @@
  * Copy-paste files: not needed — demo-only constants.
  */
 
-import type { DemoPreset } from './SharedModalOpenLogic'
+import type { DemoPreset } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 
 export const BUBBLE_POP_PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1200, reveal: 35 },

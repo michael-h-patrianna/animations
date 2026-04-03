@@ -1,7 +1,7 @@
 /**
  * Modal entrance — spring-physics bounce with overshoot settle. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseSpringBounce.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseSpringBounce.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts + @/utils/useCssReducedMotionCallback.ts
  * Runtime deps: react
  */
 

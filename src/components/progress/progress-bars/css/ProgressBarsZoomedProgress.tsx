@@ -86,6 +86,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
       <div
         className={styles['pf-zoomed-progress__track']}
         role="progressbar"
+        aria-label="Progress"
         aria-valuenow={ariaPercent}
         aria-valuemin={0}
         aria-valuemax={100}

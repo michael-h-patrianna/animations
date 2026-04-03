@@ -1,7 +1,7 @@
 /**
  * Modal entrance — digital glitch with RGB channel separation. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseGlitchDigital.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseGlitchDigital.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts + @/utils/useCssReducedMotionCallback.ts
  * Runtime deps: react
  */
 

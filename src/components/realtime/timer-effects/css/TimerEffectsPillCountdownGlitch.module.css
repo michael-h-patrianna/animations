@@ -218,7 +218,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :global(.pf-pill-countdown-glitch__glow) {
+  .pf-pill-countdown-glitch-container :global(.pf-pill-countdown-glitch__glow) {
     animation: none !important; /* stylelint-disable-line declaration-no-important -- must override all phase-specific infinite glow animations for a11y */
   }
 }

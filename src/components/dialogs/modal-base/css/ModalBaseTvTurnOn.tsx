@@ -1,7 +1,7 @@
 /**
  * Modal entrance — CRT TV power-on effect. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseTvTurnOn.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseTvTurnOn.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts + @/utils/useCssReducedMotionCallback.ts
  * Runtime deps: react
  */
 

@@ -119,6 +119,7 @@ export function ProgressBarsProgressMilestones({
           <div
             className={styles['pf-progress-fill-fm']}
             role="progressbar"
+            aria-label="Progress"
             aria-valuenow={Math.round(displayProgress * 100)}
             aria-valuemin={0}
             aria-valuemax={100}

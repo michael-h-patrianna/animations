@@ -132,6 +132,7 @@ export function ProgressBarsCelebrationBurst({
           <m.div
             className={styles['pf-progress-fill-fm']}
             role="progressbar"
+            aria-label="Progress"
             aria-valuenow={Math.round(targetProgress * 100)}
             aria-valuemin={0}
             aria-valuemax={100}

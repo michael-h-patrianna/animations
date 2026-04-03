@@ -1,7 +1,7 @@
 /**
  * Modal entrance — gentle scale pop from 85% with fade. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseScaleGentlePop.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseScaleGentlePop.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts + @/utils/useCssReducedMotionCallback.ts
  * Runtime deps: react
  */
 

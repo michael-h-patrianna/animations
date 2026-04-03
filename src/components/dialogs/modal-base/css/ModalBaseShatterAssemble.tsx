@@ -1,7 +1,7 @@
 /**
  * Modal entrance — shatter-assemble with jittery rotation. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseShatterAssemble.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseShatterAssemble.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts + @/utils/useCssReducedMotionCallback.ts
  * Runtime deps: react
  */
 

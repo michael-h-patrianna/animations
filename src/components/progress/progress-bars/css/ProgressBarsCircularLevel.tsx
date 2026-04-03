@@ -214,6 +214,7 @@ function ProgressBarsCircularLevelCssComponent({
       <div
         className={styles['pf-circular-level-css__wrapper']}
         role="progressbar"
+        aria-label="Progress"
         aria-valuenow={Math.round((Math.max(0, progress) % 1) * 100)}
         aria-valuemin={0}
         aria-valuemax={100}

@@ -48,6 +48,7 @@ export function ProgressBarsCircularDash({
       <div
         className={styles['pf-circular-dash-fm__wrapper']}
         role="progressbar"
+        aria-label="Progress"
         aria-valuenow={percent}
         aria-valuemin={0}
         aria-valuemax={100}

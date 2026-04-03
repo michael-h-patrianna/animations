@@ -1,7 +1,7 @@
 /**
  * Modal entrance — ripple expand from zero with scale overshoot settle. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseRippleExpand.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseRippleExpand.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts + @/utils/useCssReducedMotionCallback.ts
  * Runtime deps: react
  */
 

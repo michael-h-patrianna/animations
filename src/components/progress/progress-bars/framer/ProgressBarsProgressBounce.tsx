@@ -39,6 +39,7 @@ export function ProgressBarsProgressBounce({ progress, className, style }: Progr
           <m.div
             className={styles['pf-progress-fill-fm']}
             role="progressbar"
+            aria-label="Progress"
             aria-valuenow={Math.round(target * 100)}
             aria-valuemin={0}
             aria-valuemax={100}

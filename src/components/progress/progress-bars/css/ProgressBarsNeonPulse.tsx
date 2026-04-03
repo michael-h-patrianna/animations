@@ -39,6 +39,7 @@ export function ProgressBarsNeonPulse({
         <div
           className={styles['pf-neon-pulse__fill']}
           role="progressbar"
+          aria-label={label}
           aria-valuenow={Math.round(displayProgress * 100)}
           aria-valuemin={0}
           aria-valuemax={100}

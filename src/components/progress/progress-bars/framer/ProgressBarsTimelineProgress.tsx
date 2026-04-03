@@ -45,6 +45,7 @@ export function ProgressBarsTimelineProgress({
       <div
         className={styles['pf-timeline-progress-fm__track']}
         role="progressbar"
+        aria-label="Progress"
         aria-valuenow={Math.round((progress ?? 0) * 100)}
         aria-valuemin={0}
         aria-valuemax={100}

@@ -1,7 +1,7 @@
 /**
  * Modal entrance — origami unfold from rotateX(-180). CSS variant.
  *
- * Copy-paste files: this file + ModalBaseUnfoldOrigami.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseUnfoldOrigami.module.css + ../SharedModalPlaceholder.tsx + ../SharedTypes.ts + @/utils/useCssReducedMotionCallback.ts
  * Runtime deps: react
  */
 
