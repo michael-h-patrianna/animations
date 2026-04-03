@@ -139,3 +139,17 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-coin-magnet__arrival-flash {
+    animation: none;
+  }
+
+  .pf-coin-magnet__particle--magnet {
+    animation: none;
+  }
+
+  .pf-coin-magnet__particle--burst {
+    animation: none;
+  }
+}

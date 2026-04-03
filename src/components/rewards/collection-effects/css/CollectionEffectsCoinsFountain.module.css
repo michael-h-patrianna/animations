@@ -141,3 +141,13 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-coins-fountain__particle {
+    animation: none;
+  }
+
+  .pf-coins-fountain__flash {
+    animation: none;
+  }
+}

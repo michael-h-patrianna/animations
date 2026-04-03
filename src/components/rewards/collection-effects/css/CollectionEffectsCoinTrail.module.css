@@ -97,3 +97,13 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-coin-trail__particle--claim {
+    animation: none;
+  }
+
+  .pf-coin-trail__particle--swirl {
+    animation: none;
+  }
+}
