@@ -1,16 +1,16 @@
-.mc-firework {
+.pf-firework {
   position: relative;
   width: 100%;
   min-height: var(--pf-demo-height, 220px);
   pointer-events: none;
 }
 
-.mc-firework .mc-firework__burst {
+.pf-firework .pf-firework__burst {
   position: absolute;
   pointer-events: none;
 }
 
-.mc-firework--css .mc-firework__particle {
+.pf-firework--css .pf-firework__particle {
   position: absolute;
   left: 0;
   top: 0;
@@ -19,18 +19,18 @@
   opacity: 0;
   pointer-events: none;
   will-change: transform, opacity;
-  animation: mc-firework-cycle var(--fw-cycle-duration, 2.5s) linear 1;
+  animation: pf-firework-cycle var(--fw-cycle-duration, 2.5s) linear 1;
   animation-delay: var(--fw-delay, 0s);
 }
 
-.mc-firework--css .mc-firework__particle-image {
+.pf-firework--css .pf-firework__particle-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
   pointer-events: none;
 }
 
-@keyframes mc-firework-cycle {
+@keyframes pf-firework-cycle {
   0% {
     transform: translate(0, 0) rotate(0deg) scale(0);
     opacity: 0;
@@ -67,5 +67,11 @@
       )
       rotate(calc(var(--fw-rotation, 0deg) + 180deg)) scale(0);
     opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-firework--css .pf-firework__particle {
+    animation: none;
   }
 }
