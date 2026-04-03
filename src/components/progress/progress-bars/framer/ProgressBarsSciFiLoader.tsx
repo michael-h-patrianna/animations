@@ -43,7 +43,7 @@ export function ProgressBarsSciFiLoader({
   useLayoutEffect(() => {
     if (trackRef.current) setTrackWidth(trackRef.current.offsetWidth)
   }, [])
-  const displayProgress = progress ?? 0
+  const displayProgress = Math.min(1, Math.max(0, progress ?? 0))
   const percent = Math.round(displayProgress * 100)
 
   return (

@@ -9,6 +9,7 @@ import styles from './ProgressBarsZoomedProgress.module.css'
 
 export function ProgressBarsZoomedProgress({ progress, className, style }: ProgressBarProps) {
   const isControlled = progress !== undefined
+  const clampedProgress = Math.max(0, Math.min(1, progress ?? 0))
   const [level, setLevel] = useState(1)
   const [levelPoints, setLevelPoints] = useState([0, 0, 0])
   const [levelReached, setLevelReached] = useState([true, false, false])
@@ -16,7 +17,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
 
   useEffect(() => {
     if (!isControlled) return
-    const p = progress ?? 0
+    const p = clampedProgress
     if (p >= 1) {
       setLevel(3)
       setLevelPoints([3, 6, 9])
@@ -30,7 +31,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
       setLevelPoints([Math.round(p * 2 * 3), 0, 0])
       setLevelReached([true, false, false])
     }
-  }, [isControlled, progress])
+  }, [isControlled, clampedProgress])
 
   useEffect(() => {
     if (isControlled) return
@@ -73,7 +74,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
   const trackTranslateX = ((-40 * (level - 1)) / 75) * 100
   const progress1Scale = levelPoints[0]! / 3
   const ariaPercent = isControlled
-    ? Math.round((progress ?? 0) * 100)
+    ? Math.round(clampedProgress * 100)
     : Math.round(((levelPoints[0]! + levelPoints[1]! + levelPoints[2]!) / 18) * 100)
   const progress2Scale = levelPoints[1]! / 6
 

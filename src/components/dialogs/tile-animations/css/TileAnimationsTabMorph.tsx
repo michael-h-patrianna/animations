@@ -13,7 +13,7 @@
  * </TileAnimationsTabMorph>
  */
 
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useId, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 
 import styles from './TileAnimationsTabMorph.module.css'
@@ -48,9 +48,12 @@ function TileAnimationsTabMorphComponent({
   onTabChange,
   stagger = 260,
 }: TileAnimationsTabMorphProps) {
+  const baseId = useId()
   const [internalIndex, setInternalIndex] = useState(0)
   /** The index currently rendered in the panel. Lags behind safeIndex during exit. */
-  const [displayedIndex, setDisplayedIndex] = useState(0)
+  const [displayedIndex, setDisplayedIndex] = useState(() =>
+    activeIndex !== undefined ? Math.max(0, activeIndex) : 0
+  )
   const panelRef = useRef<HTMLDivElement>(null)
   const exitTimerRef = useRef(0)
 
@@ -145,9 +148,9 @@ function TileAnimationsTabMorphComponent({
           <div
             key={i}
             role="tab"
-            id={`tab-morph-css-tab-${i}`}
+            id={`${baseId}-tab-${i}`}
             aria-selected={i === safeIndex}
-            aria-controls="tab-morph-css-panel"
+            aria-controls={`${baseId}-panel`}
             tabIndex={i === safeIndex ? 0 : -1}
             className={`${styles['pf-tab-morph__tab']} ${styles['pf-tab-morph__tab--animated']}${i === safeIndex ? ` ${styles['pf-tab-morph__tab--active']}` : ''}`}
             style={{ animationDelay: `${(i * stagger) / 1000}s` }}
@@ -163,8 +166,8 @@ function TileAnimationsTabMorphComponent({
       <div
         className={styles['pf-tab-morph__content']}
         role="tabpanel"
-        id="tab-morph-css-panel"
-        aria-labelledby={`tab-morph-css-tab-${safeIndex}`}
+        id={`${baseId}-panel`}
+        aria-labelledby={`${baseId}-tab-${safeIndex}`}
       >
         <div
           ref={panelRef}

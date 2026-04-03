@@ -15,7 +15,7 @@
 
 import * as m from 'motion/react-m'
 import { AnimatePresence, useReducedMotion } from 'motion/react'
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback, useId, useState } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 import styles from './TileAnimationsTabMorph.module.css'
@@ -49,6 +49,7 @@ function TileAnimationsTabMorphComponent({
   stagger = 260,
 }: TileAnimationsTabMorphProps) {
   const prefersReducedMotion = useReducedMotion()
+  const baseId = useId()
   const [internalIndex, setInternalIndex] = useState(0)
 
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
@@ -151,9 +152,9 @@ function TileAnimationsTabMorphComponent({
           <m.div
             key={i}
             role="tab"
-            id={`tab-morph-tab-${i}`}
+            id={`${baseId}-tab-${i}`}
             aria-selected={i === safeIndex}
-            aria-controls="tab-morph-panel"
+            aria-controls={`${baseId}-panel`}
             tabIndex={i === safeIndex ? 0 : -1}
             className={`${styles['pf-tab-morph-fm__tab']}${i === safeIndex ? ` ${styles['pf-tab-morph-fm__tab--active']}` : ''}`}
             variants={tabVariants}
@@ -169,8 +170,8 @@ function TileAnimationsTabMorphComponent({
       <div
         className={styles['pf-tab-morph-fm__content']}
         role="tabpanel"
-        id="tab-morph-panel"
-        aria-labelledby={`tab-morph-tab-${safeIndex}`}
+        id={`${baseId}-panel`}
+        aria-labelledby={`${baseId}-tab-${safeIndex}`}
       >
         <AnimatePresence mode="wait">
           <m.div

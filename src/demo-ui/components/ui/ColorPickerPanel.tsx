@@ -142,6 +142,14 @@ function SaturationArea({
       case 'ArrowDown':
         v = Math.max(0, v - STEP)
         break
+      case 'Home':
+        s = 0
+        v = 0
+        break
+      case 'End':
+        s = 1
+        v = 1
+        break
       default:
         return
     }
