@@ -224,7 +224,9 @@ function AnimationCardComponent(props: AnimationCardProps) {
   const { triggerReplay } = card.playback
   const previousReplayVersionRef = useRef(externalReplayVersion)
   const reducedMotion = useLayoutStore((s) => s.reducedMotion)
+  const showProfiler = useLayoutStore((s) => s.showProfiler)
   const previousReducedMotionRef = useRef(reducedMotion)
+  const previousShowProfilerRef = useRef(showProfiler)
 
   useEffect(() => {
     if (externalReplayVersion === previousReplayVersionRef.current) return
@@ -239,6 +241,14 @@ function AnimationCardComponent(props: AnimationCardProps) {
     previousReducedMotionRef.current = reducedMotion
     triggerReplay()
   }, [reducedMotion, triggerReplay])
+
+  // Remount animations when profiler is toggled so React.Profiler's
+  // onRender fires immediately, populating the render-time badge.
+  useEffect(() => {
+    if (showProfiler === previousShowProfilerRef.current) return
+    previousShowProfilerRef.current = showProfiler
+    if (showProfiler) triggerReplay()
+  }, [showProfiler, triggerReplay])
 
   return <CardBody card={card} props={props} effectiveControlType={effectiveControlType} />
 }
