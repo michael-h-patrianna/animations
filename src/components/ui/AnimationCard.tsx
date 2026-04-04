@@ -242,7 +242,7 @@ function AnimationCardComponent(props: AnimationCardProps) {
     triggerReplay()
   }, [reducedMotion, triggerReplay])
 
-  // Remount animations when profiler is toggled so React.Profiler's
+  // Remount animations when profiler is enabled so React.Profiler's
   // onRender fires immediately, populating the render-time badge.
   useEffect(() => {
     if (showProfiler === previousShowProfilerRef.current) return
