@@ -1,13 +1,18 @@
 import { AnimationCard } from '@/components/ui/AnimationCard'
+import { useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+const initialLayoutState = useLayoutStore.getState()
+
 beforeEach(() => {
   vi.useFakeTimers()
+  useLayoutStore.setState({ ...initialLayoutState, showProfiler: false })
 })
 
 afterEach(() => {
+  useLayoutStore.setState(initialLayoutState)
   vi.clearAllTimers()
   vi.useRealTimers()
 })
@@ -331,5 +336,21 @@ describe('AnimationCard — edge cases and boundary conditions', () => {
 
     renderCard({ tier: 4 })
     expect(screen.getByTestId('tier-badge')).toHaveTextContent('4 full')
+  })
+
+  it('remounts animation content when profiler is enabled', () => {
+    renderCard()
+
+    const contentBefore = screen.getByTestId('animation-content')
+    expect(contentBefore.isConnected).toBe(true)
+
+    act(() => {
+      useLayoutStore.setState({ showProfiler: true })
+    })
+
+    const contentAfter = screen.getByTestId('animation-content')
+    // Old node was detached — remount triggered by profiler toggle
+    expect(contentBefore.isConnected).toBe(false)
+    expect(contentAfter.isConnected).toBe(true)
   })
 })
