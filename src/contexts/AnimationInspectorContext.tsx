@@ -69,6 +69,14 @@ export { buildPropDefaults, hasDirtyPropOverrides } from '@/contexts/inspectorPr
 
 // ── Overrides & Replay ─────────────────────────────────────────────────────
 
+/** Returns true if a persisted image value is a Vite-bundled asset path that may be stale. */
+function isStaleAssetUrl(value: unknown, type: 'image' | 'images'): boolean {
+  if (type === 'image') return typeof value === 'string' && value.startsWith('/assets/')
+  return (
+    Array.isArray(value) && value.some((u) => typeof u === 'string' && u.startsWith('/assets/'))
+  )
+}
+
 /** Manages per-animation prop overrides and replay version counters. Persists overrides to localStorage. */
 function useOverridesAndReplay() {
   const [overridesByAnimationId, setOverridesByAnimationId] =
@@ -102,8 +110,34 @@ function useOverridesAndReplay() {
   }, [])
 
   const getPropOverrides = useCallback(
-    (animationId: string, propsConfig?: PropConfig[]) =>
-      overridesByAnimationId[animationId] ?? buildPropDefaults(propsConfig, animationId),
+    (animationId: string, propsConfig?: PropConfig[]) => {
+      const persisted = overridesByAnimationId[animationId]
+      if (persisted == null) return buildPropDefaults(propsConfig, animationId)
+
+      // `image` and `images` props may hold Vite content-hashed asset URLs
+      // (e.g. `/assets/coin-CjCfGiJU.webp`) that become stale — and 404 — after a
+      // redeploy. Replace them with fresh defaults when the stored value looks like
+      // a bundled asset path. User-supplied external URLs (e.g. `https://…`) are
+      // preserved as-is because users expect their custom input to stick.
+      const imageProps = (propsConfig ?? []).filter(
+        (p) => p.type === 'image' || p.type === 'images'
+      )
+      if (imageProps.length === 0) return persisted
+
+      const freshDefaults = buildPropDefaults(propsConfig, animationId)
+
+      const staleImageEntries = imageProps
+        .filter(
+          (p) =>
+            p.name in freshDefaults &&
+            isStaleAssetUrl(persisted[p.name], p.type as 'image' | 'images')
+        )
+        .map((p) => [p.name, freshDefaults[p.name]] as const)
+
+      return staleImageEntries.length > 0
+        ? { ...persisted, ...Object.fromEntries(staleImageEntries) }
+        : persisted
+    },
     [overridesByAnimationId]
   )
 
