@@ -48,6 +48,11 @@ function updateNesting(ch: string, paren: number, bracket: number): [number, num
   return [paren, bracket]
 }
 
+function pushTrimmed(parts: string[], raw: string): void {
+  const trimmed = raw.trim()
+  if (trimmed !== '') parts.push(trimmed)
+}
+
 /** Splits a CSS selector list at top-level commas, respecting parens/brackets/quotes. */
 function splitSelectorList(selectorText: string): string[] {
   const parts: string[] = []
@@ -72,14 +77,13 @@ function splitSelectorList(selectorText: string): string[] {
     ;[parenDepth, bracketDepth] = updateNesting(ch, parenDepth, bracketDepth)
 
     if (ch === ',' && parenDepth === 0 && bracketDepth === 0) {
-      parts.push(current.trim())
+      pushTrimmed(parts, current)
       current = ''
       continue
     }
     current += ch
   }
-  const last = current.trim()
-  if (last !== '') parts.push(last)
+  pushTrimmed(parts, current)
   return parts
 }
 
