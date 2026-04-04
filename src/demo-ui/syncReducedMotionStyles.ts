@@ -64,19 +64,16 @@ function isReducedMotionMedia(rule: CSSRule): rule is CSSMediaRule {
 }
 
 function hasNestedRules(rule: CSSRule): boolean {
-  return (
-    !(rule instanceof CSSMediaRule) &&
-    'cssRules' in rule &&
-    ((rule as CSSGroupingRule).cssRules?.length ?? 0) > 0
-  )
+  return 'cssRules' in rule && ((rule as CSSGroupingRule).cssRules?.length ?? 0) > 0
 }
 
 function extractReducedMotionRules(rules: CSSRuleList, out: string[]): void {
   for (const rule of rules) {
     if (isReducedMotionMedia(rule)) {
       mirrorMediaRuleContents(rule, out)
+      continue
     }
-    // Recurse into @layer, @supports, etc. — skip the media rules we already handled
+    // Recurse into @layer, @supports, non-reduced @media, etc.
     if (hasNestedRules(rule)) {
       extractReducedMotionRules((rule as CSSGroupingRule).cssRules, out)
     }

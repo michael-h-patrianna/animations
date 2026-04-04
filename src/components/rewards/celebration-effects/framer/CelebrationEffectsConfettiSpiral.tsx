@@ -119,11 +119,12 @@ function buildSpiralParticle(
     opacities.push(opacityAt(t, peakOp))
   }
 
+  const palette = colors.length > 0 ? colors : CELEBRATION_COLORS_HEX
   const hasImages = images.length > 0
   return {
     id,
     shape: pickRandom(CONFETTI_SHAPES),
-    color: colors[id % colors.length]!,
+    color: palette[id % palette.length]!,
     imageUrl: hasImages ? images[id % images.length] : undefined,
     xs,
     ys,

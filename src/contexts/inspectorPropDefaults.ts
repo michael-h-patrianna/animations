@@ -85,19 +85,22 @@ function normalizeForComparison(value: unknown): unknown {
   return value === 'none' ? 'transparent' : value
 }
 
-/** Shallow-equality check that handles records, arrays, and primitives. */
+/** Normalized equality check that handles records, arrays, and primitives. */
 function valuesEqual(a: unknown, b: unknown): boolean {
-  if (isRecord(a) && isRecord(b)) {
-    const keys = new Set([...Object.keys(a), ...Object.keys(b)])
+  const left = normalizeForComparison(a)
+  const right = normalizeForComparison(b)
+
+  if (isRecord(left) && isRecord(right)) {
+    const keys = new Set([...Object.keys(left), ...Object.keys(right)])
     for (const key of keys) {
-      if (a[key] !== b[key]) return false
+      if (!valuesEqual(left[key], right[key])) return false
     }
     return true
   }
-  if (Array.isArray(a) && Array.isArray(b)) {
-    return a.length === b.length && a.every((v, i) => v === b[i])
+  if (Array.isArray(left) && Array.isArray(right)) {
+    return left.length === right.length && left.every((v, i) => valuesEqual(v, right[i]))
   }
-  return a === b
+  return left === right
 }
 
 /** Returns true when any interactive prop differs from its default value. */
@@ -108,9 +111,7 @@ export function hasDirtyPropOverrides(
 ): boolean {
   const defaults = buildPropDefaults(propsConfig, animationId)
   for (const key of Object.keys(overrides)) {
-    const current = normalizeForComparison(overrides[key])
-    const def = normalizeForComparison(defaults[key])
-    if (!valuesEqual(current, def)) return true
+    if (!valuesEqual(overrides[key], defaults[key])) return true
   }
   return false
 }

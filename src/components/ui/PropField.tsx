@@ -432,7 +432,8 @@ function coerceBoolean(value: unknown, fallback: boolean): boolean {
 }
 
 function coerceStringArray(value: unknown, fallback: string[]): string[] {
-  return Array.isArray(value) ? (value as string[]) : fallback
+  if (!Array.isArray(value)) return fallback
+  return value.every((item) => typeof item === 'string') ? (value as string[]) : fallback
 }
 
 function coerceSelectValue(value: unknown, config: PropConfig & { type: 'select' }): string {
