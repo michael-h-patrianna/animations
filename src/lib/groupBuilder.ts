@@ -253,6 +253,52 @@ function languageFromPath(path: string): 'tsx' | 'css' {
   return path.endsWith('.css') ? 'css' : 'tsx'
 }
 
+/** Loads raw source strings (tsx + css) for a single variant's loaders. */
+async function loadVariantSources(
+  loaders?: SourceLoaders
+): Promise<{ tsx?: string; css?: string }> {
+  const [tsx, css] = await Promise.all([
+    loaders?.tsx?.() ?? Promise.resolve(undefined),
+    loaders?.css?.() ?? Promise.resolve(undefined),
+  ])
+  return { tsx, css }
+}
+
+/** Appends Component and CSS source tabs for loaded variant sources. */
+function appendVariantTabs(tabs: SourceTab[], sources: { tsx?: string; css?: string }): void {
+  if (sources.tsx !== undefined)
+    tabs.push({ label: 'Component', code: sources.tsx, language: 'tsx' })
+  if (sources.css !== undefined) tabs.push({ label: 'CSS', code: sources.css, language: 'css' })
+}
+
+/** Scans a variant's source for group-level imports and adds their loaders to the map. */
+function discoverSharedImports(
+  source: string | undefined,
+  loaders: SourceLoaders | undefined,
+  sharedToLoad: Map<string, RawSourceLoader>
+): void {
+  if (source === undefined || !loaders?.shared) return
+  for (const importPath of extractGroupImports(source)) {
+    const resolved = resolveImportToGroupRoot(importPath, loaders.subdir)
+    const match = findSharedLoader(loaders.shared, resolved)
+    if (match && !sharedToLoad.has(match.path)) {
+      sharedToLoad.set(match.path, match.loader)
+    }
+  }
+}
+
+/** Loads all discovered shared files in parallel and returns them as SourceTabs. */
+async function loadSharedTabs(sharedToLoad: Map<string, RawSourceLoader>): Promise<SourceTab[]> {
+  if (sharedToLoad.size === 0) return []
+  const entries = [...sharedToLoad.entries()].sort(([a], [b]) => a.localeCompare(b))
+  const loaded = await Promise.all(entries.map(([, loader]) => loader()))
+  return entries.map(([path], i) => ({
+    label: filenameFromPath(path),
+    code: loaded[i]!,
+    language: languageFromPath(path),
+  }))
+}
+
 /**
  * Resolves raw source code for both tech variants of an animation.
  * Returns a `SourceTab[]` with:
@@ -267,60 +313,41 @@ export async function resolveAnimationSource(
   const framerLoaders = framerEntry ? sourceLoaderRegistry.get(framerEntry) : undefined
   const cssLoaders = cssEntry ? sourceLoaderRegistry.get(cssEntry) : undefined
 
-  // Phase 1: Load the main component sources
-  const [framerTsx, framerCss, cssTsx, cssCss] = await Promise.all([
-    framerLoaders?.tsx?.() ?? Promise.resolve(undefined),
-    framerLoaders?.css?.() ?? Promise.resolve(undefined),
-    cssLoaders?.tsx?.() ?? Promise.resolve(undefined),
-    cssLoaders?.css?.() ?? Promise.resolve(undefined),
+  const [framerSources, cssSources] = await Promise.all([
+    loadVariantSources(framerLoaders),
+    loadVariantSources(cssLoaders),
   ])
 
   const tabs: SourceTab[] = []
-  if (framerTsx !== undefined) tabs.push({ label: 'Component', code: framerTsx, language: 'tsx' })
-  if (framerCss !== undefined) tabs.push({ label: 'CSS', code: framerCss, language: 'css' })
-  if (cssTsx !== undefined) tabs.push({ label: 'Component', code: cssTsx, language: 'tsx' })
-  if (cssCss !== undefined) tabs.push({ label: 'CSS', code: cssCss, language: 'css' })
+  appendVariantTabs(tabs, framerSources)
+  appendVariantTabs(tabs, cssSources)
 
-  // Phase 2: Discover and load shared dependencies from imports
-  const sharedToLoad = new Map<string, RawSourceLoader>() // glob path → loader (deduplicated)
+  const sharedToLoad = new Map<string, RawSourceLoader>()
+  discoverSharedImports(framerSources.tsx, framerLoaders, sharedToLoad)
+  discoverSharedImports(cssSources.tsx, cssLoaders, sharedToLoad)
 
-  if (framerTsx !== undefined && framerLoaders?.shared) {
-    for (const importPath of extractGroupImports(framerTsx)) {
-      const resolved = resolveImportToGroupRoot(importPath, framerLoaders.subdir)
-      const match = findSharedLoader(framerLoaders.shared, resolved)
-      if (match && !sharedToLoad.has(match.path)) {
-        sharedToLoad.set(match.path, match.loader)
-      }
-    }
-  }
-
-  if (cssTsx !== undefined && cssLoaders?.shared) {
-    for (const importPath of extractGroupImports(cssTsx)) {
-      const resolved = resolveImportToGroupRoot(importPath, cssLoaders.subdir)
-      const match = findSharedLoader(cssLoaders.shared, resolved)
-      if (match && !sharedToLoad.has(match.path)) {
-        sharedToLoad.set(match.path, match.loader)
-      }
-    }
-  }
-
-  // Load all shared files in parallel
-  if (sharedToLoad.size > 0) {
-    const entries = [...sharedToLoad.entries()].sort(([a], [b]) => a.localeCompare(b))
-    const loadedShared = await Promise.all(entries.map(([, loader]) => loader()))
-
-    for (let i = 0; i < entries.length; i++) {
-      const [path] = entries[i]!
-      const code = loadedShared[i]!
-      tabs.push({
-        label: filenameFromPath(path),
-        code,
-        language: languageFromPath(path),
-      })
-    }
-  }
-
+  tabs.push(...(await loadSharedTabs(sharedToLoad)))
   return tabs
+}
+
+/** Optional raw source glob results passed to `buildGroupExport`. */
+type RawSourceGlobs = {
+  framerTsx?: Record<string, RawSourceLoader>
+  framerCss?: Record<string, RawSourceLoader>
+  cssTsx?: Record<string, RawSourceLoader>
+  cssCss?: Record<string, RawSourceLoader>
+  shared?: Record<string, RawSourceLoader>
+}
+
+/** Merges group-root shared files with helper files found in framer/css subdirs. */
+function mergeSharedLoaders(rawSources: RawSourceGlobs): Record<string, RawSourceLoader> {
+  const framerHelpers = collectHelperLoaders(rawSources.framerTsx, rawSources.framerCss)
+  const cssHelpers = collectHelperLoaders(rawSources.cssTsx, rawSources.cssCss)
+  return {
+    ...(rawSources.shared ?? {}),
+    ...framerHelpers,
+    ...cssHelpers,
+  }
 }
 
 /**
@@ -362,42 +389,21 @@ export function buildGroupExport(
   framerMeta: Record<string, MetaModule>,
   cssComponents: Record<string, ComponentModuleLoader>,
   cssMeta: Record<string, MetaModule>,
-  rawSources?: {
-    framerTsx?: Record<string, RawSourceLoader>
-    framerCss?: Record<string, RawSourceLoader>
-    cssTsx?: Record<string, RawSourceLoader>
-    cssCss?: Record<string, RawSourceLoader>
-    shared?: Record<string, RawSourceLoader>
-  }
+  rawSources?: RawSourceGlobs
 ): GroupExport {
-  // Collect helper files from framer/css subdirs (files matching SKIP_PATTERN)
-  const framerHelpers = collectHelperLoaders(rawSources?.framerTsx, rawSources?.framerCss)
-  const cssHelpers = collectHelperLoaders(rawSources?.cssTsx, rawSources?.cssCss)
-
-  // Merge group-root shared files + all subdir helpers into one pool
-  const allShared: Record<string, RawSourceLoader> = {
-    ...(rawSources?.shared ?? {}),
-    ...framerHelpers,
-    ...cssHelpers,
-  }
+  const src = rawSources ?? {}
+  const allShared = mergeSharedLoaders(src)
 
   return {
     metadata,
     framer: buildAnimationMap(
       framerComponents,
       framerMeta,
-      rawSources?.framerTsx,
-      rawSources?.framerCss,
+      src.framerTsx,
+      src.framerCss,
       allShared,
       'framer'
     ),
-    css: buildAnimationMap(
-      cssComponents,
-      cssMeta,
-      rawSources?.cssTsx,
-      rawSources?.cssCss,
-      allShared,
-      'css'
-    ),
+    css: buildAnimationMap(cssComponents, cssMeta, src.cssTsx, src.cssCss, allShared, 'css'),
   }
 }

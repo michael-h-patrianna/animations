@@ -305,6 +305,60 @@ interface FlipCardProps {
 
 const INSPECT_SPRING = { type: 'spring' as const, stiffness: 260, damping: 26, mass: 1 }
 
+function resolveSlotAnimate(
+  position: FanPosition,
+  collected: boolean,
+  selected: boolean,
+  anySelected: boolean,
+  fanInDone: boolean
+) {
+  if (collected) {
+    return {
+      x: [position.x, position.x * 0.3],
+      y: [position.y, -320],
+      scale: [1, 0.15],
+      opacity: [1, 0],
+      rotate: [position.rotate, 0],
+    }
+  }
+  if (selected) return { x: 0, y: -10, scale: 1.4, opacity: 1, rotate: 0 }
+  if (anySelected) {
+    return { x: position.x, y: position.y, scale: 0.88, opacity: 0.3, rotate: position.rotate }
+  }
+  if (fanInDone) {
+    return { x: position.x, y: position.y, scale: 1, opacity: 1, rotate: position.rotate }
+  }
+  return {
+    x: position.x,
+    y: position.y,
+    scale: [0, 1.12, 1],
+    opacity: 1,
+    rotate: position.rotate,
+  }
+}
+
+function resolveSlotTransition(
+  collected: boolean,
+  inspecting: boolean,
+  fanInDone: boolean,
+  collectIndex: number,
+  fanDelay: number
+) {
+  if (collected) {
+    return { duration: 0.65, delay: collectIndex * 0.08, ease: [0.4, 0, 1, 1] as const }
+  }
+  if (inspecting || fanInDone) return INSPECT_SPRING
+  return { duration: 0.5, delay: fanDelay, ease: [0.34, 1.56, 0.64, 1] as const }
+}
+
+function resolveSlotStyle(selected: boolean, canTap: boolean, anySelected: boolean): CSSProperties {
+  return {
+    zIndex: selected ? 20 : undefined,
+    cursor: canTap && !anySelected ? 'pointer' : selected ? 'pointer' : undefined,
+    pointerEvents: anySelected && !selected ? 'none' : undefined,
+  }
+}
+
 /**
  * Single card in the fan — orchestrates fan-in, flip, floating idle, select, and collect
  * motion sequences via Framer Motion. Manages its own `fanInDone` gate to distinguish the
@@ -331,45 +385,13 @@ export function FlipCard({
   const canTap = idle && flipped && !collected && onSelect != null
   const inspecting = selected || anySelected
 
-  const slotAnimate = collected
-    ? {
-        x: [position.x, position.x * 0.3],
-        y: [position.y, -320],
-        scale: [1, 0.15],
-        opacity: [1, 0],
-        rotate: [position.rotate, 0],
-      }
-    : selected
-      ? { x: 0, y: -10, scale: 1.4, opacity: 1, rotate: 0 }
-      : anySelected
-        ? { x: position.x, y: position.y, scale: 0.88, opacity: 0.3, rotate: position.rotate }
-        : fanInDone
-          ? { x: position.x, y: position.y, scale: 1, opacity: 1, rotate: position.rotate }
-          : {
-              x: position.x,
-              y: position.y,
-              scale: [0, 1.12, 1],
-              opacity: 1,
-              rotate: position.rotate,
-            }
-
-  const slotTransition = collected
-    ? { duration: 0.65, delay: collectIndex * 0.08, ease: [0.4, 0, 1, 1] as const }
-    : inspecting || fanInDone
-      ? INSPECT_SPRING
-      : { duration: 0.5, delay: fanDelay, ease: [0.34, 1.56, 0.64, 1] as const }
-
   return (
     <m.div
       className={`${styles['pf-card-pack-fm__card-slot']} ${styles[`pf-card-pack-fm__card--rarity-${card.rarity}`] ?? ''}`}
-      style={{
-        zIndex: selected ? 20 : undefined,
-        cursor: canTap && !anySelected ? 'pointer' : selected ? 'pointer' : undefined,
-        pointerEvents: anySelected && !selected ? 'none' : undefined,
-      }}
+      style={resolveSlotStyle(selected, canTap, anySelected)}
       initial={{ x: 0, y: 0, scale: 0, opacity: 0, rotate: 0 }}
-      animate={slotAnimate}
-      transition={slotTransition}
+      animate={resolveSlotAnimate(position, collected, selected, anySelected, fanInDone)}
+      transition={resolveSlotTransition(collected, inspecting, fanInDone, collectIndex, fanDelay)}
       onClick={canTap ? onSelect : undefined}
       onAnimationComplete={() => {
         if (!fanInDone && !collected) setFanInDone(true)

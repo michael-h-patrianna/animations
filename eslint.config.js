@@ -7,6 +7,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
+import sonarjs from 'eslint-plugin-sonarjs'
 import testingLibrary from 'eslint-plugin-testing-library'
 
 import { rules as animationRuleDefinitions } from './eslint-rules/animation-rules.js'
@@ -40,6 +41,7 @@ export default defineConfig([
     },
     plugins: {
       jsdoc,
+      sonarjs,
       'animation-rules': animationRulesPlugin,
     },
     rules: {
@@ -62,6 +64,9 @@ export default defineConfig([
         },
       ],
       'no-console': 'error',
+      'sonarjs/cognitive-complexity': ['error', 15],
+      complexity: 'off',
+      'max-depth': ['error', 4],
       'jsdoc/require-param': 'off',
       'jsdoc/require-returns': 'off',
       // Allow _-prefixed variables to signal intentional discard (e.g. const [_unused, setSomething])
@@ -168,6 +173,8 @@ export default defineConfig([
     },
     rules: {
       'max-lines-per-function': 'off',
+      'sonarjs/cognitive-complexity': 'off',
+      'max-depth': 'off',
       // Test assertions and setup use truthiness idiomatically (e.g. expect(el).toBeTruthy())
       '@typescript-eslint/strict-boolean-expressions': 'off',
       'animation-rules/no-shallow-assertions': 'error',
@@ -260,6 +267,11 @@ export default defineConfig([
       // Splitting into sub-components would create artificial decomposition with no
       // reuse value and would break the self-contained component contract.
       'max-lines-per-function': 'off',
+      // Animation components have branchy render logic: many optional props each
+      // producing conditional JSX fragments. Higher cognitive complexity limit
+      // accommodates the single-component portability contract.
+      'sonarjs/cognitive-complexity': ['error', 25],
+      'max-depth': ['error', 5],
       // Animation files may exceed the global 500-line limit but are capped at 450
       // (skip blanks + comments). Components beyond this should extract config,
       // hooks, or sub-components into a sibling *Config.ts or *Parts.tsx file.
@@ -450,6 +462,8 @@ export default defineConfig([
       'jsdoc/require-jsdoc': 'off',
       // E2E describe blocks are inherently long — tests are sequential user flows
       'max-lines-per-function': 'off',
+      'sonarjs/cognitive-complexity': 'off',
+      'max-depth': 'off',
       '@typescript-eslint/strict-boolean-expressions': 'off',
       // E2E tests use color name strings ('cyan', 'magenta') as accent/theme
       // identifiers in test data — not as hardcoded color values in UI code.

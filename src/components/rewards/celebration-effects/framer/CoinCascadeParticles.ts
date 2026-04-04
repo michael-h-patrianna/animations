@@ -51,6 +51,51 @@ export function measureFallDistance(
   return Math.max(bottomBound - emitYPx, 100)
 }
 
+/* ─── Keyframe helpers (extracted from makeCoins to reduce cognitive complexity) ─── */
+
+type CoinMotion = {
+  startX: number
+  fallDist: number
+  wobbleAmp: number
+  wobbleFreq: number
+  bounceH: number
+}
+
+function positionAtStop(t: number, m: CoinMotion): { x: number; y: number } {
+  if (t <= 0.65) {
+    const ft = t / 0.65
+    return {
+      y: m.fallDist * ft * ft,
+      x: m.startX + m.wobbleAmp * Math.sin(m.wobbleFreq * Math.PI * ft),
+    }
+  }
+  if (t <= 0.86) {
+    const bt = (t - 0.65) / 0.21
+    return {
+      y: m.fallDist - m.bounceH * Math.sin(Math.PI * bt),
+      x: m.startX + m.wobbleAmp * Math.sin(m.wobbleFreq * Math.PI) * (1 - bt * 0.3),
+    }
+  }
+  const st = (t - 0.86) / 0.14
+  return {
+    y: m.fallDist - m.bounceH * 0.12 * Math.sin(Math.PI * st),
+    x: m.startX + m.wobbleAmp * Math.sin(m.wobbleFreq * Math.PI) * 0.7 * (1 - st),
+  }
+}
+
+function scaleAtStop(t: number): number {
+  if (t < 0.05) return 0.3 + 0.7 * (t / 0.05)
+  if (t < 0.65) return 1.0
+  if (t < 0.86) return 0.85 + 0.15 * Math.cos((Math.PI * (t - 0.65)) / 0.21)
+  return 0.85 - 0.55 * ((t - 0.86) / 0.14)
+}
+
+function opacityAtStop(t: number, basePeak: number): number {
+  if (t < 0.05) return basePeak * (t / 0.05)
+  if (t < 0.78) return basePeak
+  return basePeak * Math.max(0, 1 - (t - 0.78) / 0.22)
+}
+
 /* ─── Generators ─── */
 
 export function makeCoins(count: number, fallDistance: number, timeScale: number): Coin[] {
@@ -62,11 +107,14 @@ export function makeCoins(count: number, fallDistance: number, timeScale: number
     const layer: 'bg' | 'fg' = i % 4 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
 
-    const startX = stream + randBetween(-16, 16)
-    const fallDist = fallDistance * randBetween(0.65, 0.75)
-    const wobbleAmp = randBetween(6, 15) * (Math.random() > 0.5 ? 1 : -1)
-    const wobbleFreq = randBetween(1.5, 2.8)
-    const bounceH = fallDist * randBetween(0.1, 0.2)
+    const motion: CoinMotion = {
+      startX: stream + randBetween(-16, 16),
+      fallDist: fallDistance * randBetween(0.65, 0.75),
+      wobbleAmp: randBetween(6, 15) * (Math.random() > 0.5 ? 1 : -1),
+      wobbleFreq: randBetween(1.5, 2.8),
+      bounceH: 0, // set below after fallDist is known
+    }
+    motion.bounceH = motion.fallDist * randBetween(0.1, 0.2)
     const basePeak = isBg ? 0.55 : 1.0
 
     const xs: number[] = []
@@ -75,28 +123,11 @@ export function makeCoins(count: number, fallDistance: number, timeScale: number
     const opacities: number[] = []
 
     for (const t of STOPS) {
-      if (t <= 0.65) {
-        const ft = t / 0.65
-        ys.push(fallDist * ft * ft)
-        xs.push(startX + wobbleAmp * Math.sin(wobbleFreq * Math.PI * ft))
-      } else if (t <= 0.86) {
-        const bt = (t - 0.65) / 0.21
-        ys.push(fallDist - bounceH * Math.sin(Math.PI * bt))
-        xs.push(startX + wobbleAmp * Math.sin(wobbleFreq * Math.PI) * (1 - bt * 0.3))
-      } else {
-        const st = (t - 0.86) / 0.14
-        ys.push(fallDist - bounceH * 0.12 * Math.sin(Math.PI * st))
-        xs.push(startX + wobbleAmp * Math.sin(wobbleFreq * Math.PI) * 0.7 * (1 - st))
-      }
-
-      if (t < 0.05) scales.push(0.3 + 0.7 * (t / 0.05))
-      else if (t < 0.65) scales.push(1.0)
-      else if (t < 0.86) scales.push(0.85 + 0.15 * Math.cos((Math.PI * (t - 0.65)) / 0.21))
-      else scales.push(0.85 - 0.55 * ((t - 0.86) / 0.14))
-
-      if (t < 0.05) opacities.push(basePeak * (t / 0.05))
-      else if (t < 0.78) opacities.push(basePeak)
-      else opacities.push(basePeak * Math.max(0, 1 - (t - 0.78) / 0.22))
+      const pos = positionAtStop(t, motion)
+      xs.push(pos.x)
+      ys.push(pos.y)
+      scales.push(scaleAtStop(t))
+      opacities.push(opacityAtStop(t, basePeak))
     }
 
     coins.push({
