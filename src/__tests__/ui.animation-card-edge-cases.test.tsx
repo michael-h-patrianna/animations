@@ -4,12 +4,15 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+const initialLayoutState = useLayoutStore.getState()
+
 beforeEach(() => {
   vi.useFakeTimers()
-  useLayoutStore.setState({ showProfiler: false })
+  useLayoutStore.setState({ ...initialLayoutState, showProfiler: false })
 })
 
 afterEach(() => {
+  useLayoutStore.setState(initialLayoutState)
   vi.clearAllTimers()
   vi.useRealTimers()
 })
