@@ -3,6 +3,7 @@
  * Manages panel visibility and theme state.
  */
 
+import { ensureFontLoaded } from '@/lib/fontLoader'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -151,6 +152,7 @@ export const useLayoutStore = create<LayoutStore>()(
         set({ accent })
       },
       setPreviewFont: (previewFont) => {
+        ensureFontLoaded(previewFont)
         set({ previewFont })
       },
       setReducedMotion: (reducedMotion) => {
@@ -196,7 +198,12 @@ export const useLayoutStore = create<LayoutStore>()(
 function syncFontToRoot(font: PreviewFont) {
   document.documentElement.style.setProperty('--pf-preview-font', font)
 }
+
+// On init: ensure any persisted non-default font has its @font-face injected
+// before the CSS variable is applied, so the browser has the declaration ready.
+ensureFontLoaded(useLayoutStore.getState().previewFont)
 syncFontToRoot(useLayoutStore.getState().previewFont)
+
 useLayoutStore.subscribe((state, prev) => {
   if (state.previewFont !== prev.previewFont) syncFontToRoot(state.previewFont)
 })
