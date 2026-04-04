@@ -330,39 +330,6 @@ export async function resolveAnimationSource(
   return tabs
 }
 
-/**
- * Constructs a `GroupExport` from Vite `import.meta.glob` results.
- *
- * Replaces the manual import/lazy/map boilerplate in group `index.ts` files.
- * Each group index calls this with its glob results, reducing ~200 lines of
- * mechanical code to ~15 lines.
- *
- * @example
- * ```ts
- * import type { GroupMetadata } from '@/types/animation'
- * import { buildGroupExport } from '@/lib/groupBuilder'
- *
- * const metadata: GroupMetadata = {
- *   id: 'standard-effects',
- *   title: 'Standard effects',
- * }
- *
- * export const groupExport = buildGroupExport(
- *   metadata,
- *   import.meta.glob('./framer/*.tsx'),
- *   import.meta.glob<{ metadata: AnimationMetadata }>('./framer/*.meta.ts', { eager: true }),
- *   import.meta.glob('./css/*.tsx'),
- *   import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true }),
- *   {
- *     framerTsx: import.meta.glob<string>('./framer/*.tsx', { query: '?raw', import: 'default' }),
- *     framerCss: import.meta.glob<string>('./framer/*.css', { query: '?raw', import: 'default' }),
- *     cssTsx: import.meta.glob<string>('./css/*.tsx', { query: '?raw', import: 'default' }),
- *     cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),
- *     shared: import.meta.glob<string>('./*.{ts,tsx}', { query: '?raw', import: 'default' }),
- *   }
- * )
- * ```
- */
 /** Optional raw source glob results passed to `buildGroupExport`. */
 type RawSourceGlobs = {
   framerTsx?: Record<string, RawSourceLoader>

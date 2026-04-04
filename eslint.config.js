@@ -462,6 +462,8 @@ export default defineConfig([
       'jsdoc/require-jsdoc': 'off',
       // E2E describe blocks are inherently long — tests are sequential user flows
       'max-lines-per-function': 'off',
+      'sonarjs/cognitive-complexity': 'off',
+      'max-depth': 'off',
       '@typescript-eslint/strict-boolean-expressions': 'off',
       // E2E tests use color name strings ('cyan', 'magenta') as accent/theme
       // identifiers in test data — not as hardcoded color values in UI code.
