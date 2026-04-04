@@ -9,7 +9,7 @@
  * Comic Sans MS is a system font and needs no @font-face declaration.
  */
 
-/** Fonts that are already in fonts.css — no injection needed. */
+/** Fonts preloaded in fonts.css or provided by the OS — no runtime injection needed. */
 const EAGER_FONTS = new Set(['Inter', 'Lato', 'Comic Sans MS'])
 
 /** Tracks which fonts have already been injected to prevent duplicates. */
@@ -69,6 +69,7 @@ function buildFontCSS(font: string): string | null {
  * Idempotent — safe to call on every font change.
  */
 export function ensureFontLoaded(font: string): void {
+  if (typeof document === 'undefined') return
   if (EAGER_FONTS.has(font) || injected.has(font)) return
 
   const css = buildFontCSS(font)

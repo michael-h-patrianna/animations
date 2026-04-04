@@ -174,8 +174,8 @@ export function preloadLazyGroup(groupId: string): void {
   const loader = loaderRegistry.get(groupId)
   if (!loader) return
 
-  // Fire and forget - populate cache
-  void loadLazyGroup(groupId)
+  // Fire and forget — populate cache; swallow errors since normal navigation retries
+  void loadLazyGroup(groupId).catch(() => {})
 }
 
 /**
