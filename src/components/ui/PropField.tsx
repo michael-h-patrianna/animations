@@ -419,6 +419,27 @@ function isDisabledByCondition(config: PropConfig, allValues?: Record<string, un
   )
 }
 
+function coerceNumber(value: unknown, fallback: number): number {
+  return typeof value === 'number' ? value : fallback
+}
+
+function coerceString(value: unknown, fallback: string): string {
+  return typeof value === 'string' ? value : fallback
+}
+
+function coerceBoolean(value: unknown, fallback: boolean): boolean {
+  return typeof value === 'boolean' ? value : fallback
+}
+
+function coerceStringArray(value: unknown, fallback: string[]): string[] {
+  return Array.isArray(value) ? (value as string[]) : fallback
+}
+
+function coerceSelectValue(value: unknown, config: PropConfig & { type: 'select' }): string {
+  if (typeof value === 'string') return value
+  return config.default ?? config.options[0]?.value ?? ''
+}
+
 function PropFieldComponent({ config, value, onChange, allValues }: PropFieldProps) {
   if (config.disabled || isDisabledByCondition(config, allValues))
     return <DisabledField config={config} />
@@ -430,7 +451,7 @@ function PropFieldComponent({ config, value, onChange, allValues }: PropFieldPro
       return (
         <NumberField
           config={config}
-          value={typeof value === 'number' ? value : (config.default ?? 0)}
+          value={coerceNumber(value, config.default ?? 0)}
           onChange={handleChange as (v: number) => void}
         />
       )
@@ -438,7 +459,7 @@ function PropFieldComponent({ config, value, onChange, allValues }: PropFieldPro
       return (
         <StringField
           config={config}
-          value={typeof value === 'string' ? value : (config.default ?? '')}
+          value={coerceString(value, config.default ?? '')}
           onChange={handleChange as (v: string) => void}
         />
       )
@@ -446,7 +467,7 @@ function PropFieldComponent({ config, value, onChange, allValues }: PropFieldPro
       return (
         <BooleanField
           config={config}
-          value={typeof value === 'boolean' ? value : (config.default ?? false)}
+          value={coerceBoolean(value, config.default ?? false)}
           onChange={handleChange as (v: boolean) => void}
         />
       )
@@ -462,9 +483,7 @@ function PropFieldComponent({ config, value, onChange, allValues }: PropFieldPro
       return (
         <SelectField
           config={config}
-          value={
-            typeof value === 'string' ? value : (config.default ?? config.options[0]?.value ?? '')
-          }
+          value={coerceSelectValue(value, config)}
           onChange={handleChange as (v: string) => void}
         />
       )
@@ -472,7 +491,7 @@ function PropFieldComponent({ config, value, onChange, allValues }: PropFieldPro
       return (
         <ImageField
           config={config}
-          value={typeof value === 'string' ? value : (config.default ?? '')}
+          value={coerceString(value, config.default ?? '')}
           onChange={handleChange as (v: string) => void}
         />
       )
@@ -480,7 +499,7 @@ function PropFieldComponent({ config, value, onChange, allValues }: PropFieldPro
       return (
         <ImagesField
           config={config}
-          value={Array.isArray(value) ? (value as string[]) : (config.default ?? [])}
+          value={coerceStringArray(value, config.default ?? [])}
           onChange={handleChange as (v: string[]) => void}
         />
       )
@@ -488,9 +507,7 @@ function PropFieldComponent({ config, value, onChange, allValues }: PropFieldPro
       return (
         <ColorsField
           config={config}
-          value={resolveColorArray(
-            Array.isArray(value) ? (value as string[]) : (config.default ?? [])
-          )}
+          value={resolveColorArray(coerceStringArray(value, config.default ?? []))}
           onChange={handleChange as (v: string[]) => void}
         />
       )

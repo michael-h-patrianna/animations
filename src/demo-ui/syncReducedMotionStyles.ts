@@ -36,39 +36,48 @@ export function syncReducedMotionStyles(): void {
   style.textContent = mirrored.join('\n')
 }
 
+/** Mirrors the inner rules of a reduced-motion media query under the data-attribute scope. */
+function mirrorMediaRuleContents(mediaRule: CSSMediaRule, out: string[]): void {
+  for (const inner of mediaRule.cssRules) {
+    if (inner instanceof CSSStyleRule) {
+      const scopedSelector = inner.selectorText
+        .split(',')
+        .map((s) => `${SCOPE} ${s.trim()}`)
+        .join(', ')
+      const cssText = inner.cssText
+      const braceStart = cssText.indexOf('{')
+      const body = braceStart >= 0 ? cssText.slice(braceStart) : `{ ${inner.style.cssText} }`
+      out.push(`${scopedSelector} ${body}`)
+    }
+    // @keyframes inside the media query — emit globally so the scoped
+    // style rules above can reference the reduced keyframe names.
+    if (inner instanceof CSSKeyframesRule) {
+      out.push(inner.cssText)
+    }
+  }
+}
+
+function isReducedMotionMedia(rule: CSSRule): rule is CSSMediaRule {
+  return (
+    rule instanceof CSSMediaRule && /prefers-reduced-motion:\s*reduce/i.test(rule.conditionText)
+  )
+}
+
+function hasNestedRules(rule: CSSRule): boolean {
+  return (
+    !(rule instanceof CSSMediaRule) &&
+    'cssRules' in rule &&
+    ((rule as CSSGroupingRule).cssRules?.length ?? 0) > 0
+  )
+}
+
 function extractReducedMotionRules(rules: CSSRuleList, out: string[]): void {
   for (const rule of rules) {
-    if (
-      rule instanceof CSSMediaRule &&
-      /prefers-reduced-motion:\s*reduce/i.test(rule.conditionText)
-    ) {
-      for (const inner of rule.cssRules) {
-        if (inner instanceof CSSStyleRule) {
-          // Scope every selector under the data-attribute
-          const scopedSelector = inner.selectorText
-            .split(',')
-            .map((s) => `${SCOPE} ${s.trim()}`)
-            .join(', ')
-          // Extract declaration block from cssText (preserves !important)
-          const cssText = inner.cssText
-          const braceStart = cssText.indexOf('{')
-          const body = braceStart >= 0 ? cssText.slice(braceStart) : `{ ${inner.style.cssText} }`
-          out.push(`${scopedSelector} ${body}`)
-        }
-        // @keyframes inside the media query — emit globally so the scoped
-        // style rules above can reference the reduced keyframe names.
-        if (inner instanceof CSSKeyframesRule) {
-          out.push(inner.cssText)
-        }
-      }
+    if (isReducedMotionMedia(rule)) {
+      mirrorMediaRuleContents(rule, out)
     }
-
     // Recurse into @layer, @supports, etc. — skip the media rules we already handled
-    if (
-      !(rule instanceof CSSMediaRule) &&
-      'cssRules' in rule &&
-      ((rule as CSSGroupingRule).cssRules?.length ?? 0) > 0
-    ) {
+    if (hasNestedRules(rule)) {
       extractReducedMotionRules((rule as CSSGroupingRule).cssRules, out)
     }
   }
