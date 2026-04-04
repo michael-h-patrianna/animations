@@ -1,3 +1,4 @@
+import { reportAppError } from '@/services/errorTracking'
 import type {
   Animation,
   AnimationExport,
@@ -174,8 +175,12 @@ export function preloadLazyGroup(groupId: string): void {
   const loader = loaderRegistry.get(groupId)
   if (!loader) return
 
-  // Fire and forget - populate cache
-  void loadLazyGroup(groupId)
+  // Fire-and-forget warmup: clear poisoned cache entry on failure so navigation can retry
+  void loadLazyGroup(groupId).catch((cause) => {
+    groupCache.delete(groupId)
+    const error = cause instanceof Error ? cause : new Error(String(cause))
+    reportAppError({ type: 'GROUP_LOAD_FAILURE', groupId, cause: error, timestamp: Date.now() })
+  })
 }
 
 /**
