@@ -35,6 +35,20 @@ export default defineConfig({
             return 'vendor'
           }
 
+          // Utility functions and asset URL strings must live in a stable shared chunk.
+          //
+          // Without explicit routing, Rollup may absorb these into dynamic group chunks
+          // (e.g. colors.ts into timer-effects-framer, image URLs into celebration-effects-framer),
+          // which forces the entry to statically import those dynamic chunks — bloating the
+          // initial load with 300KB+ of animation code the user may never visit.
+          if (id.includes('/src/utils/')) return 'shared-utils'
+
+          // Image asset modules (webp/png/svg) are URL-string-only — tiny per file but
+          // numerous. Pinning them to one shared chunk prevents the same URL constant from
+          // being duplicated across both the static entry chain and a dynamic group chunk,
+          // which would create a false static import from the entry to that group chunk.
+          if (id.match(/\/src\/assets\/.*\.(webp|png|jpg|jpeg|svg)$/)) return 'assets-manifest'
+
           // Category index files → main bundle (lightweight registration code)
           if (
             id.includes('/src/components/rewards/index') ||
