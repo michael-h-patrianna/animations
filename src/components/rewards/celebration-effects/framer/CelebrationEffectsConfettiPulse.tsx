@@ -91,6 +91,54 @@ function opacityAt(t: number, peak: number): number {
   return peak * (0.5 - 0.5 * ((t - 0.7) / 0.3))
 }
 
+/* ─── Particle helpers ─── */
+
+function layerScale(isBg: boolean, base: number): number {
+  return isBg ? base * 0.7 : base
+}
+
+function pickPeakScale(isBg: boolean): number {
+  return isBg ? randBetween(0.5, 0.8) : randBetween(0.7, 1.1)
+}
+
+function pickDuration(isBg: boolean, timeScale: number): number {
+  const base = isBg ? randBetween(1.3, 1.7) : randBetween(1.0, 1.4)
+  return base * timeScale
+}
+
+function computeKeyframes(
+  spawnR: number,
+  endR: number,
+  angle: number,
+  peakScale: number,
+  peakOp: number
+): { xs: number[]; ys: number[]; scales: number[]; opacities: number[] } {
+  const xs: number[] = []
+  const ys: number[] = []
+  const scales: number[] = []
+  const opacities: number[] = []
+
+  for (const t of STOPS) {
+    const r = spawnR + (endR - spawnR) * easeOutQuad(t)
+    const gravity = t > 0.45 ? Math.pow((t - 0.45) / 0.55, 2) * 35 : 0
+    xs.push(Math.cos(angle) * r)
+    ys.push(Math.sin(angle) * r + gravity)
+    scales.push(scaleAt(t, peakScale))
+    opacities.push(opacityAt(t, peakOp))
+  }
+
+  return { xs, ys, scales, opacities }
+}
+
+function resolveImageUrl(
+  hasImages: boolean,
+  images: readonly string[],
+  particleId: number
+): string | undefined {
+  if (!hasImages) return undefined
+  return images[particleId % images.length]
+}
+
 /* ─── Generators ─── */
 
 function buildWaves(colors: readonly string[]): WaveConfig[] {
@@ -151,41 +199,26 @@ function makeParticles(
       const isBg = layer === 'bg'
 
       const angle = deg2rad((j / waveCount) * 360 + randBetween(-10, 10))
-      const spawnR = randBetween(wave.spawnRMin, wave.spawnRMax) * (isBg ? 0.7 : 1)
-      const endR = spawnR + randBetween(wave.driftMin, wave.driftMax) * (isBg ? 0.7 : 1)
-      const peakScale = isBg ? randBetween(0.5, 0.8) : randBetween(0.7, 1.1)
+      const spawnR = layerScale(isBg, randBetween(wave.spawnRMin, wave.spawnRMax))
+      const endR = spawnR + layerScale(isBg, randBetween(wave.driftMin, wave.driftMax))
+      const peakScale = pickPeakScale(isBg)
       const peakOp = isBg ? 0.5 : 1
 
       const waveReachFraction = spawnR / (wave.maxScale * 20)
       const spawnDelay = (wave.delay + waveReachFraction * 0.3) * timeScale
 
-      const xs: number[] = []
-      const ys: number[] = []
-      const scales: number[] = []
-      const opacities: number[] = []
-
-      for (const t of STOPS) {
-        const r = spawnR + (endR - spawnR) * easeOutQuad(t)
-        const gravity = t > 0.45 ? Math.pow((t - 0.45) / 0.55, 2) * 35 : 0
-        xs.push(Math.cos(angle) * r)
-        ys.push(Math.sin(angle) * r + gravity)
-        scales.push(scaleAt(t, peakScale))
-        opacities.push(opacityAt(t, peakOp))
-      }
+      const kf = computeKeyframes(spawnR, endR, angle, peakScale, peakOp)
 
       const particleId = id++
       particles.push({
         id: particleId,
         shape: pickRandom(CONFETTI_SHAPES),
         color: colors[(wi * waveCount + j) % colors.length]!,
-        imageUrl: hasImages ? images[particleId % images.length] : undefined,
-        xs,
-        ys,
-        scales,
-        opacities,
+        imageUrl: resolveImageUrl(hasImages, images, particleId),
+        ...kf,
         rotZ: randBetween(-200, 200),
         delay: spawnDelay + randBetween(0, 0.03) * timeScale,
-        dur: (isBg ? randBetween(1.3, 1.7) : randBetween(1.0, 1.4)) * timeScale,
+        dur: pickDuration(isBg, timeScale),
         layer,
       })
     }

@@ -102,6 +102,11 @@ const STOPS = Array.from({ length: NUM_STOPS }, (_, i) => i / (NUM_STOPS - 1))
 
 /* ─── Helpers ─── */
 
+/** Determine depth layer from particle index. */
+function assignLayer(index: number): 'bg' | 'fg' {
+  return index % 3 === 0 ? 'bg' : 'fg'
+}
+
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
 
 /** Scale envelope for trail particles. */
@@ -134,7 +139,7 @@ function makeRays(): Ray[] {
 
   for (const burst of BURSTS) {
     for (let j = 0; j < RAYS_PER_BURST; j++) {
-      const layer: 'bg' | 'fg' = j % 3 === 0 ? 'bg' : 'fg'
+      const layer = assignLayer(j)
       const isBg = layer === 'bg'
       rays.push({
         id: id++,
@@ -153,19 +158,49 @@ function makeRays(): Ray[] {
   return rays
 }
 
+/** Sample trail path positions along STOPS with gravity droop. */
+function sampleTrailPath(
+  burst: BurstConfig,
+  angleRad: number,
+  maxDist: number,
+  peakScale: number,
+  peakOp: number
+): { xs: number[]; ys: number[]; scales: number[]; opacities: number[] } {
+  const xs: number[] = []
+  const ys: number[] = []
+  const scales: number[] = []
+  const opacities: number[] = []
+
+  for (const t of STOPS) {
+    const r = maxDist * easeOutCubic(t)
+    const gravity = t > 0.5 ? Math.pow((t - 0.5) / 0.5, 2) * 35 : 0
+    xs.push(burst.cx + Math.sin(angleRad) * r)
+    ys.push(burst.cy + -Math.cos(angleRad) * r + gravity)
+    scales.push(trailScaleAt(t, peakScale))
+    opacities.push(trailOpacityAt(t, peakOp))
+  }
+
+  return { xs, ys, scales, opacities }
+}
+
+/** Resolve the image URL for a trail particle. */
+function resolveTrailImage(images: readonly string[], trailId: number): string | undefined {
+  if (images.length === 0) return undefined
+  return images[trailId % images.length]
+}
+
 /**
  * 10 trail confetti particles per burst — fly outward along ray paths then
  * droop with gravity. Positions sampled at 12 stops.
  * Trail directions use "screen-clockwise from up" to match rays.
  */
 function makeTrails(images: readonly string[]): Trail[] {
-  const hasImages = images.length > 0
   const trails: Trail[] = []
   let id = 0
 
   for (const burst of BURSTS) {
     for (let j = 0; j < TRAILS_PER_BURST; j++) {
-      const layer: 'bg' | 'fg' = j % 3 === 0 ? 'bg' : 'fg'
+      const layer = assignLayer(j)
       const isBg = layer === 'bg'
 
       /* Screen-clockwise angle (0°=up). Convert for x,y: x=sin(a), y=-cos(a) */
@@ -175,30 +210,14 @@ function makeTrails(images: readonly string[]): Trail[] {
       const peakScale = isBg ? randBetween(0.5, 0.8) : randBetween(0.7, 1.1)
       const peakOp = isBg ? 0.5 : 1
 
-      const xs: number[] = []
-      const ys: number[] = []
-      const scales: number[] = []
-      const opacities: number[] = []
-
-      for (const t of STOPS) {
-        const r = maxDist * easeOutCubic(t)
-        const gravity = t > 0.5 ? Math.pow((t - 0.5) / 0.5, 2) * 35 : 0
-        xs.push(burst.cx + Math.sin(angleRad) * r)
-        ys.push(burst.cy + -Math.cos(angleRad) * r + gravity)
-        scales.push(trailScaleAt(t, peakScale))
-        opacities.push(trailOpacityAt(t, peakOp))
-      }
-
+      const path = sampleTrailPath(burst, angleRad, maxDist, peakScale, peakOp)
       const trailId = id++
       trails.push({
         id: trailId,
         shape: pickRandom(CONFETTI_SHAPES),
         color: burst.colors[j % burst.colors.length]!,
-        imageUrl: hasImages ? images[trailId % images.length] : undefined,
-        xs,
-        ys,
-        scales,
-        opacities,
+        imageUrl: resolveTrailImage(images, trailId),
+        ...path,
         rotZ: randBetween(-180, 180),
         delay: burst.delay + 0.04 + j * 0.015 + randBetween(0, 0.02),
         dur: isBg ? randBetween(1.4, 1.8) : randBetween(1.1, 1.5),

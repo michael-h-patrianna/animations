@@ -63,6 +63,12 @@ const STOPS = Array.from({ length: NUM_STOPS }, (_, i) => i / (NUM_STOPS - 1))
 
 /* ─── Generators ─── */
 
+function scaleAtTime(t: number): number {
+  if (t < 0.08) return 0.4 + 0.6 * (t / 0.08)
+  if (t < 0.55) return 1.0
+  return 1.0 - 0.65 * ((t - 0.55) / 0.45)
+}
+
 function makeCoins(count: number, timeScale: number): Coin[] {
   const coins: Coin[] = []
 
@@ -88,9 +94,7 @@ function makeCoins(count: number, timeScale: number): Coin[] {
       xs.push(vx * t)
       ys.push(vy * t + 0.5 * gravity * t * t)
 
-      if (t < 0.08) scales.push(0.4 + 0.6 * (t / 0.08))
-      else if (t < 0.55) scales.push(1.0)
-      else scales.push(1.0 - 0.65 * ((t - 0.55) / 0.45))
+      scales.push(scaleAtTime(t))
 
       const basePeak = isBg ? 0.55 : 1.0
       if (t < 0.06) opacities.push(basePeak * (t / 0.06))

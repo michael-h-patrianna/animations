@@ -84,13 +84,66 @@ function opacityAt(t: number, peak: number): number {
 
 /* ─── Generators ─── */
 
+function gravityAt(t: number): number {
+  return t > 0.65 ? Math.pow((t - 0.65) / 0.35, 2) * 55 : 0
+}
+
+function buildSpiralParticle(
+  id: number,
+  j: number,
+  armBase: number,
+  colors: readonly string[],
+  images: readonly string[],
+  timeScale: number
+): SpiralParticle {
+  const layer: 'bg' | 'fg' = j % 3 === 0 ? 'bg' : 'fg'
+  const isBg = layer === 'bg'
+
+  const startAngle = armBase + randBetween(-8, 8)
+  const totalOrbit = randBetween(620, 840)
+  const maxRadius = randBetween(85, 150) * (isBg ? 0.65 : 1)
+  const peakScale = isBg ? randBetween(0.55, 0.85) : randBetween(0.75, 1.15)
+  const peakOp = isBg ? 0.5 : 1
+
+  const xs: number[] = []
+  const ys: number[] = []
+  const scales: number[] = []
+  const opacities: number[] = []
+
+  for (const t of STOPS) {
+    const a = deg2rad(startAngle + totalOrbit * t)
+    const r = maxRadius * easeOutCubic(t)
+    xs.push(Math.cos(a) * r)
+    ys.push(Math.sin(a) * r + gravityAt(t))
+    scales.push(scaleAt(t, peakScale))
+    opacities.push(opacityAt(t, peakOp))
+  }
+
+  const hasImages = images.length > 0
+  return {
+    id,
+    shape: pickRandom(CONFETTI_SHAPES),
+    color: colors[id % colors.length]!,
+    imageUrl: hasImages ? images[id % images.length] : undefined,
+    xs,
+    ys,
+    scales,
+    opacities,
+    rotX: randBetween(-130, 130),
+    rotY: randBetween(-110, 110),
+    rotZ: randBetween(-240, 240),
+    delay: (j * 0.03 + randBetween(0, 0.01)) * timeScale,
+    dur: (isBg ? randBetween(2.2, 2.8) : randBetween(1.8, 2.4)) * timeScale,
+    layer,
+  }
+}
+
 function makeParticles(
   count: number,
   colors: readonly string[],
   images: readonly string[],
   timeScale: number
 ): SpiralParticle[] {
-  const hasImages = images.length > 0
   const particles: SpiralParticle[] = []
   const perArm = Math.ceil(count / NUM_ARMS)
 
@@ -99,47 +152,8 @@ function makeParticles(
     const armCount = Math.min(perArm, count - arm * perArm)
 
     for (let j = 0; j < armCount; j++) {
-      const i = arm * perArm + j
-      const layer: 'bg' | 'fg' = j % 3 === 0 ? 'bg' : 'fg'
-      const isBg = layer === 'bg'
-
-      const startAngle = armBase + randBetween(-8, 8)
-      const totalOrbit = randBetween(620, 840)
-      const maxRadius = randBetween(85, 150) * (isBg ? 0.65 : 1)
-      const peakScale = isBg ? randBetween(0.55, 0.85) : randBetween(0.75, 1.15)
-      const peakOp = isBg ? 0.5 : 1
-
-      const xs: number[] = []
-      const ys: number[] = []
-      const scales: number[] = []
-      const opacities: number[] = []
-
-      for (const t of STOPS) {
-        const a = deg2rad(startAngle + totalOrbit * t)
-        const r = maxRadius * easeOutCubic(t)
-        const gravity = t > 0.65 ? Math.pow((t - 0.65) / 0.35, 2) * 55 : 0
-        xs.push(Math.cos(a) * r)
-        ys.push(Math.sin(a) * r + gravity)
-        scales.push(scaleAt(t, peakScale))
-        opacities.push(opacityAt(t, peakOp))
-      }
-
-      particles.push({
-        id: i,
-        shape: pickRandom(CONFETTI_SHAPES),
-        color: colors[i % colors.length]!,
-        imageUrl: hasImages ? images[i % images.length] : undefined,
-        xs,
-        ys,
-        scales,
-        opacities,
-        rotX: randBetween(-130, 130),
-        rotY: randBetween(-110, 110),
-        rotZ: randBetween(-240, 240),
-        delay: (j * 0.03 + randBetween(0, 0.01)) * timeScale,
-        dur: (isBg ? randBetween(2.2, 2.8) : randBetween(1.8, 2.4)) * timeScale,
-        layer,
-      })
+      const id = arm * perArm + j
+      particles.push(buildSpiralParticle(id, j, armBase, colors, images, timeScale))
     }
   }
 

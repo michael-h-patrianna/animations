@@ -268,10 +268,10 @@ export default defineConfig([
       // reuse value and would break the self-contained component contract.
       'max-lines-per-function': 'off',
       // Animation components have branchy render logic: many optional props each
-      // producing conditional JSX fragments. High cognitive complexity is inherent
-      // to the single-component portability contract, not a refactoring signal.
-      'sonarjs/cognitive-complexity': 'off',
-      'max-depth': 'off',
+      // producing conditional JSX fragments. Higher cognitive complexity limit
+      // accommodates the single-component portability contract.
+      'sonarjs/cognitive-complexity': ['error', 25],
+      'max-depth': ['error', 5],
       // Animation files may exceed the global 500-line limit but are capped at 450
       // (skip blanks + comments). Components beyond this should extract config,
       // hooks, or sub-components into a sibling *Config.ts or *Parts.tsx file.
