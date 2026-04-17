@@ -3,6 +3,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { Button } from './Button'
 import { sx } from '@/demo-ui/lib/sx'
 import { useLayoutStore, type LayoutStore } from '@/demo-ui/stores/layoutStore'
+import { useScrollLock } from '@/hooks/useScrollLock'
 
 /** Props for the Modal component. */
 export interface ModalProps {
@@ -111,14 +112,9 @@ export const Modal: React.FC<ModalProps> = ({
     return () => dialog.removeEventListener('close', handleClose)
   }, [onClose])
 
-  useEffect(() => {
-    if (!isOpen) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = prev
-    }
-  }, [isOpen])
+  // Delegate body scroll locking to the shared reference-counted hook so
+  // stacked modals / drawers don't clobber each other's overflow state.
+  useScrollLock(isOpen)
 
   return (
     <dialog
