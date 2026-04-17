@@ -13,25 +13,27 @@ This entire project was vibecoded with [Claude Code](https://claude.ai/claude-co
 
 ## Quick start
 
+Requires **pnpm >= 10**. Install via `corepack enable` or `npm install -g pnpm`.
+
 ```bash
-npm install
-npm run dev        # http://localhost:3000
+pnpm install
+pnpm run dev        # http://localhost:3000
 ```
 
 ## Commands
 
-| Command                    | Purpose                         |
-| -------------------------- | ------------------------------- |
-| `npm run dev`              | Dev server (port 3000)          |
-| `npm run build`            | Production build (`tsc` + Vite) |
-| `npm run lint`             | ESLint + Stylelint              |
-| `npm run type-check`       | TypeScript strict check         |
-| `npm test`                 | Vitest unit tests               |
-| `npm run test:coverage`    | Unit tests with coverage        |
-| `npm run test:e2e`         | Playwright E2E (3 browsers)     |
-| `npm run format:check`     | Prettier format check           |
-| `npm run build:check-size` | Bundle size budget check        |
-| `npm run lighthouse`       | Lighthouse CI (perf + a11y)     |
+| Command                     | Purpose                         |
+| --------------------------- | ------------------------------- |
+| `pnpm run dev`              | Dev server (port 3000)          |
+| `pnpm run build`            | Production build (`tsc` + Vite) |
+| `pnpm run lint`             | ESLint + Stylelint              |
+| `pnpm run type-check`       | TypeScript strict check         |
+| `pnpm test`                 | Vitest unit tests               |
+| `pnpm run test:coverage`    | Unit tests with coverage        |
+| `pnpm run test:e2e`         | Playwright E2E (3 browsers)     |
+| `pnpm run format:check`     | Prettier format check           |
+| `pnpm run build:check-size` | Bundle size budget check        |
+| `pnpm run lighthouse`       | Lighthouse CI (perf + a11y)     |
 
 ## Architecture
 
@@ -93,7 +95,7 @@ Animations are classified by **portability tier** (1-4) indicating what you need
    } satisfies AnimationMetadata
    ```
 
-3. Run `npm test` — smoke tests and lint rules verify registration automatically.
+3. Run `pnpm test` — smoke tests and lint rules verify registration automatically.
 
 ## Quality gates
 

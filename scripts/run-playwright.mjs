@@ -2,7 +2,7 @@
 import { spawn } from 'node:child_process'
 
 const args = process.argv.slice(2)
-const child = spawn('npx', ['playwright', 'test', ...args], {
+const child = spawn('pnpm', ['exec', 'playwright', 'test', ...args], {
   stdio: 'inherit',
 })
 

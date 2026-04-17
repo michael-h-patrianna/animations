@@ -14,7 +14,7 @@ const env = {
   ...process.env,
 }
 
-const child = spawn('npx', ['vitest', '--watch'], {
+const child = spawn('pnpm', ['exec', 'vitest', '--watch'], {
   stdio: 'inherit',
   env,
 })

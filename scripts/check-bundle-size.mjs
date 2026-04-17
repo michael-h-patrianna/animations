@@ -3,7 +3,7 @@
 /**
  * Bundle size budget checker.
  *
- * Runs after `npm run build` and verifies that the main entry chunks
+ * Runs after `pnpm run build` and verifies that the main entry chunks
  * stay within defined size budgets. Fails with exit code 1 if any
  * budget is exceeded.
  *

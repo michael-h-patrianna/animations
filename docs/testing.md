@@ -10,19 +10,19 @@
 
 ```bash
 # Unit tests (fast, use this most often)
-npm test                    # Single run, exits when done
-npm run test:coverage       # With coverage report
+pnpm test                    # Single run, exits when done
+pnpm run test:coverage       # With coverage report
 
 # Watch mode (ONLY for interactive debugging)
-ALLOW_VITEST_WATCH=1 npm run test:watch
+ALLOW_VITEST_WATCH=1 pnpm run test:watch
 
 # E2E tests (slower, requires browser)
-npm run test:e2e            # Headless
-npm run test:e2e:headed     # Visible browser
-npm run test:e2e:report     # View HTML report
+pnpm run test:e2e            # Headless
+pnpm run test:e2e:headed     # Visible browser
+pnpm run test:e2e:report     # View HTML report
 ```
 
-**CRITICAL**: Never use watch mode in automated workflows. Always use `npm test`.
+**CRITICAL**: Never use watch mode in automated workflows. Always use `pnpm test`.
 
 ---
 

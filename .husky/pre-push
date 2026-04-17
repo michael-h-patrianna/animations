@@ -1,2 +1,2 @@
-npm run build
-npm run build:check-size
+pnpm run build
+pnpm run build:check-size
