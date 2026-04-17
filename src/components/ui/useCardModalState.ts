@@ -7,8 +7,8 @@ import { logger } from '@/services/logger'
 import type { SourceTab } from '@/types/animation'
 import { useCallback, useEffect, useRef, type ReactNode } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
-import { useCodeViewer } from './useCodeViewer'
-import { usePreviewModal } from './usePreviewModal'
+import { useCodeViewer } from '@/components/ui/useCodeViewer'
+import { usePreviewModal } from '@/components/ui/usePreviewModal'
 
 // ── Shared Types ─────────────────────────────────────────────────────────
 

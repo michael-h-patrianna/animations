@@ -139,7 +139,9 @@ export async function loadLazyGroup(groupId: string): Promise<LazyGroupResult> {
 
   const loader = loaderRegistry.get(groupId)
   if (!loader) {
-    throw new Error(`[lazyGroupRegistry] No loader registered for "${groupId}"`)
+    const error = new Error(`[lazyGroupRegistry] No loader registered for "${groupId}"`)
+    reportAppError({ type: 'GROUP_LOAD_FAILURE', groupId, cause: error, timestamp: Date.now() })
+    throw error
   }
 
   const promise = loader()

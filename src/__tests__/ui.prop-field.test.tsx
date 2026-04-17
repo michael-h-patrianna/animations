@@ -62,7 +62,7 @@ describe('PropField', () => {
     expect(onChange).toHaveBeenLastCalledWith('duration', 250)
   })
 
-  it('renders a bare number input (no slider) and forwards edits through onChange(name, value)', async () => {
+  it('renders a bare number input (no slider) and forwards edits through onChange(name, value)', () => {
     const onChange = vi.fn()
     const config: PropConfig = {
       type: 'number',
@@ -75,11 +75,10 @@ describe('PropField', () => {
     const input = screen.getByDisplayValue('5') as HTMLInputElement
     expect(input.value).toBe('5')
 
-    await userEvent.type(input, '7')
-    expect(onChange).toHaveBeenCalled()
-    const [name, nextValue] = onChange.mock.calls.at(-1)!
-    expect(name).toBe('count')
-    expect(nextValue).toEqual(expect.any(Number))
+    // Pin the exact parsed value rather than `expect.any(Number)`, which would
+    // silently accept NaN if the input-to-number coercion regressed.
+    fireEvent.change(input, { target: { value: '7' } })
+    expect(onChange).toHaveBeenLastCalledWith('count', 7)
   })
 
   // ── String field ──────────────────────────────────────────────────────

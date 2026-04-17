@@ -174,7 +174,11 @@ describe('collectSweepGroups', () => {
     }
   })
 
-  it('reuses a single sweep group across animations sharing the same config even when they declare multiple animatable props', () => {
+  it('reuses a single sweep group per prop across animations sharing the same config even when they declare multiple animatable props', () => {
+    // Each animation declares TWO animatable props sharing the same config
+    // across animations. collectSweepGroups must emit one group per prop and
+    // each group must drive both animations — without this, a regression that
+    // keys groups by animation instead of by (animation, prop) would pass.
     const make = (id: string): Animation => ({
       id: id as Animation['id'],
       title: id,
@@ -193,12 +197,25 @@ describe('collectSweepGroups', () => {
           max: 10,
           step: 1,
         },
+        {
+          type: 'number',
+          name: 'other',
+          label: 'Other',
+          animatable: true,
+          min: 0,
+          max: 20,
+          step: 2,
+        },
       ],
     })
 
     const result = collectSweepGroups([make('a1'), make('a2')])
-    expect(result.size).toBe(1)
-    expect([...result.values()][0]!.animationIds).toEqual(['a1', 'a2'])
+    expect(result.size).toBe(2)
+    const propsDriven = [...result.values()].map((g) => g.config.propName).sort()
+    expect(propsDriven).toEqual(['other', 'shared'])
+    for (const group of result.values()) {
+      expect(group.animationIds).toEqual(['a1', 'a2'])
+    }
   })
 })
 

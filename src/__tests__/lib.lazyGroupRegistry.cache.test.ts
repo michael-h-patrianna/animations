@@ -72,11 +72,10 @@ describe('loadLazyGroup cache invariants', () => {
   it('preloadLazyGroup swallows failures and also evicts the cache', async () => {
     preloadLazyGroup('retry-fixture-framer')
 
-    // Let the microtask queue drain so the rejection + eviction resolves.
-    await new Promise<void>((resolve) => queueMicrotask(resolve))
-    await new Promise<void>((resolve) => queueMicrotask(resolve))
-
-    expect(isGroupCached('retry-fixture-framer')).toBe(false)
+    // Wait for the rejection + eviction to complete before asserting.
+    await vi.waitFor(() => {
+      expect(isGroupCached('retry-fixture-framer')).toBe(false)
+    })
     expect(attempt).toBe(1)
 
     behavior = 'succeed'
