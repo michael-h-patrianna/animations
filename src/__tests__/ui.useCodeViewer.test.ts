@@ -216,7 +216,7 @@ describe('useCodeViewer', () => {
 
       const networkError = new Error('network failure')
       const loader = vi.fn().mockRejectedValue(networkError)
-      const { result } = renderHook(() => useCodeViewer(loader))
+      const { result } = renderHook(() => useCodeViewer(loader, 'lights__circle-static-1'))
 
       await act(async () => {
         await result.current.open()
@@ -228,11 +228,37 @@ describe('useCodeViewer', () => {
       expect(result.current.sources).toBeNull()
       // Error state exposes the failure message for UI display
       expect(result.current.error).toBe('network failure')
-      // reportAppError logs a structured SOURCE_LOAD_FAILURE event via logger.error
+      // reportAppError logs a SOURCE_LOAD_FAILURE event attributed to the supplied animationId
       expect(logSpy).toHaveBeenCalledOnce()
       expect(logSpy).toHaveBeenCalledWith(
         expect.stringContaining('SOURCE_LOAD_FAILURE'),
-        expect.objectContaining({ event: expect.objectContaining({ type: 'SOURCE_LOAD_FAILURE' }) })
+        expect.objectContaining({
+          event: expect.objectContaining({
+            type: 'SOURCE_LOAD_FAILURE',
+            animationId: 'lights__circle-static-1',
+          }),
+        })
+      )
+
+      logSpy.mockRestore()
+    })
+
+    it('falls back to animationId: "unknown" when the caller omits it (telemetry-safe default)', async () => {
+      const { logger } = await import('@/services/logger')
+      const logSpy = vi.spyOn(logger, 'error').mockImplementation(() => {})
+
+      const loader = vi.fn().mockRejectedValue(new Error('boom'))
+      const { result } = renderHook(() => useCodeViewer(loader))
+
+      await act(async () => {
+        await result.current.open()
+      })
+
+      expect(logSpy).toHaveBeenCalledWith(
+        expect.stringContaining('SOURCE_LOAD_FAILURE'),
+        expect.objectContaining({
+          event: expect.objectContaining({ animationId: 'unknown' }),
+        })
       )
 
       logSpy.mockRestore()

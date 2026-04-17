@@ -11,11 +11,13 @@ import { useCallback, useRef, useState } from 'react'
  * modal is not reopened. This prevents the jarring "modal pops back open"
  * behavior when a user dismisses before sources arrive.
  *
- * Error observability: when the sourceLoader fails, `error` is set with the
- * failure message. Callers can use this to show a toast or inline error.
- * The error is cleared on the next successful open.
+ * Error observability: when the sourceLoader fails, the failure is reported
+ * via `reportAppError` with the supplied `animationId` so telemetry can
+ * attribute source load errors to a specific animation. The hook also sets
+ * `error` with the failure message so the caller can render a toast. The
+ * error is cleared on the next successful open.
  */
-export const useCodeViewer = (sourceLoader?: () => Promise<SourceTab[]>) => {
+export const useCodeViewer = (sourceLoader?: () => Promise<SourceTab[]>, animationId?: string) => {
   const [isOpen, setIsOpen] = useState(false)
   const [sources, setSources] = useState<SourceTab[] | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -33,7 +35,7 @@ export const useCodeViewer = (sourceLoader?: () => Promise<SourceTab[]>) => {
         const cause = err instanceof Error ? err : new Error('Unknown error loading source code')
         reportAppError({
           type: 'SOURCE_LOAD_FAILURE',
-          animationId: 'unknown',
+          animationId: animationId ?? 'unknown',
           cause,
           timestamp: Date.now(),
         })
@@ -45,7 +47,7 @@ export const useCodeViewer = (sourceLoader?: () => Promise<SourceTab[]>) => {
     if (openIdRef.current === id) {
       setIsOpen(true)
     }
-  }, [sourceLoader, sources])
+  }, [sourceLoader, sources, animationId])
 
   const close = useCallback(() => {
     // Invalidate any pending open() so its setIsOpen(true) becomes a no-op

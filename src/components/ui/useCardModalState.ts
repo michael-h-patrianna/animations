@@ -93,7 +93,7 @@ function useCodeViewerErrorToast(error: string | null) {
 
 /** Orchestrates all modal-related hooks for a card. */
 export function useCardModalState(animationId: string, sourceLoader?: () => Promise<SourceTab[]>) {
-  const codeViewer = useCodeViewer(sourceLoader)
+  const codeViewer = useCodeViewer(sourceLoader, animationId)
   const preview = usePreviewModal()
   const { opaque } = useAutoPreview(animationId, preview)
   const { handleCopyLink } = useCopyLink(animationId)
