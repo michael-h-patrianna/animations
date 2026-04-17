@@ -164,7 +164,7 @@ Shared infrastructure files at group root must match `SKIP_PATTERN` in `src/lib/
 2. Create subfolders: `framer/` and `css/`
 3. Create `shared.css` with group-level layout styles
 4. Add the group to the manifest in `scripts/codegen/generate-group-indexes.mjs`
-5. Run `npm run generate:groups` to create the `index.ts`
+5. Run `pnpm run generate:groups` to create the `index.ts`
 6. Add animations to subfolders
 7. Import and add to category's `index.ts`
 

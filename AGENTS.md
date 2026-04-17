@@ -36,20 +36,20 @@ Refactoring playbook: `docs/reports/animation-refactoring-playbook.md`
 
 ## Commands
 
-| Command                   | Purpose                                                                     |
-| ------------------------- | --------------------------------------------------------------------------- |
-| `npm run dev`             | Dev server (already running — do not start another)                         |
-| `npm test`                | Unit tests (single run)                                                     |
-| `npm run test:coverage`   | Unit tests with coverage                                                    |
-| `npm run test:e2e`        | Playwright E2E (headless)                                                   |
-| `npm run test:e2e:headed` | Playwright E2E (visible browser)                                            |
-| `npm run type-check`      | TypeScript validation                                                       |
-| `npm run lint`            | ESLint + Stylelint                                                          |
-| `npm run lint:css`        | Stylelint only                                                              |
-| `npm run lint:fix`        | Auto-fix lint issues                                                        |
-| `npm run build`           | Production build (`tsc` + Vite)                                             |
-| `npx vite build`          | Build without `tsc` gate                                                    |
-| `npm run validate`        | Full quality gate (type-check + lint + format + test + build + bundle-size) |
+| Command                    | Purpose                                                                     |
+| -------------------------- | --------------------------------------------------------------------------- |
+| `pnpm run dev`             | Dev server (already running — do not start another)                         |
+| `pnpm test`                | Unit tests (single run)                                                     |
+| `pnpm run test:coverage`   | Unit tests with coverage                                                    |
+| `pnpm run test:e2e`        | Playwright E2E (headless)                                                   |
+| `pnpm run test:e2e:headed` | Playwright E2E (visible browser)                                            |
+| `pnpm run type-check`      | TypeScript validation                                                       |
+| `pnpm run lint`            | ESLint + Stylelint                                                          |
+| `pnpm run lint:css`        | Stylelint only                                                              |
+| `pnpm run lint:fix`        | Auto-fix lint issues                                                        |
+| `pnpm run build`           | Production build (`tsc` + Vite)                                             |
+| `pnpm exec vite build`     | Build without `tsc` gate                                                    |
+| `pnpm run validate`        | Full quality gate (type-check + lint + format + test + build + bundle-size) |
 
 ## Data Flow
 

@@ -29,7 +29,7 @@ const COMPONENTS = resolve(ROOT, 'src/components')
 // When adding a new group:
 //   1. Create the group folder with framer/ and css/ subdirs
 //   2. Add an entry here
-//   3. Run `npm run generate:groups`
+//   3. Run `pnpm run generate:groups`
 //   4. Register the group in the category index.ts
 
 const GROUPS = [
@@ -269,7 +269,7 @@ if (errors > 0) {
 
 if (isCheck) {
   if (stale > 0) {
-    console.error(`\n${stale} file(s) stale. Run: npm run generate:groups`)
+    console.error(`\n${stale} file(s) stale. Run: pnpm run generate:groups`)
     process.exit(1)
   }
   console.log(`All ${GROUPS.length} group index files are up to date.`)

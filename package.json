@@ -20,8 +20,10 @@
     "tailwindcss"
   ],
   "engines": {
-    "node": ">=24"
+    "node": ">=24",
+    "pnpm": ">=10"
   },
+  "packageManager": "pnpm@10.15.1",
   "type": "module",
   "sideEffects": [
     "**/*.css",
@@ -52,10 +54,12 @@
     "generate:groups": "node scripts/codegen/generate-group-indexes.mjs",
     "generate:groups:check": "node scripts/codegen/generate-group-indexes.mjs --check",
     "lighthouse": "lhci autorun",
-    "validate": "npm run generate:groups:check && npm run type-check && npm run lint && npm run format:check && npm test && npm run build && npm run build:check-size",
+    "validate": "pnpm run generate:groups:check && pnpm run type-check && pnpm run lint && pnpm run format:check && pnpm test && pnpm run build && pnpm run build:check-size",
     "prepare": "husky"
   },
   "dependencies": {
+    "@shikijs/langs": "^4.0.2",
+    "@shikijs/themes": "^4.0.2",
     "@tailwindcss/postcss": "^4.2.0",
     "motion": "^12.34.3",
     "react": "^19.2.4",
@@ -73,6 +77,11 @@
     },
     "brace-expansion": ">=1.1.13",
     "tmp": ">=0.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint",

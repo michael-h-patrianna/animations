@@ -86,17 +86,17 @@ scripts/
 ### Test Commands
 
 ```bash
-npm test                  # Run all Vitest tests (single run; cleanup runs first)
-npm run test:e2e          # Run Playwright tests (headless Chromium)
-npm run test:e2e:headed   # Run Playwright with visible Chromium
-npm run type-check        # TypeScript validation
+pnpm test                  # Run all Vitest tests (single run; cleanup runs first)
+pnpm run test:e2e          # Run Playwright tests (headless Chromium)
+pnpm run test:e2e:headed   # Run Playwright with visible Chromium
+pnpm run type-check        # TypeScript validation
 ```
 
 ### Test Stability
 
 The current tooling does **not** inject special deterministic environment variables from the wrapper scripts. Stability comes from a smaller set of explicit controls:
 
-- `cleanup-vitest.mjs` runs before `npm test`, `npm run test:watch`, and `npm run test:coverage` to remove lingering Vitest workers.
+- `cleanup-vitest.mjs` runs before `pnpm test`, `pnpm run test:watch`, and `pnpm run test:coverage` to remove lingering Vitest workers.
 - `vitest.config.ts` uses `happy-dom` and `src/setupTests.ts` to install consistent DOM API shims such as `IntersectionObserver`, `ResizeObserver`, and Web Animations fallbacks.
 - Timing-sensitive unit tests opt into `vi.useFakeTimers()` rather than relying on global clock overrides.
 - Playwright uses stable DOM/layout assertions, CI-only retries, and first-retry traces instead of a multi-browser matrix or screenshot diffs by default.
@@ -142,7 +142,7 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: devices['Desktop Chrome'] }],
   webServer: {
-    command: 'npm run dev -- --host 127.0.0.1 --port 5173',
+    command: 'pnpm run dev -- --host 127.0.0.1 --port 5173',
     url: 'http://127.0.0.1:5173',
     reuseExistingServer: !process.env.CI,
   },

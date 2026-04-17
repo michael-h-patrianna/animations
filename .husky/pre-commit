@@ -1,2 +1,5 @@
-npx lint-staged
-npm run type-check
+#!/usr/bin/env sh
+set -e
+
+pnpm exec lint-staged
+pnpm run type-check

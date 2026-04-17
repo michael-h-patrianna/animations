@@ -19,32 +19,36 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       - name: Dependency audit
-        run: npm audit --audit-level=moderate
+        run: pnpm audit --audit-level=moderate
 
       - name: Type check
-        run: npm run type-check
+        run: pnpm run type-check
 
       - name: Lint (ESLint + Stylelint)
-        run: npm run lint
+        run: pnpm run lint
 
-      # IMMUTABLE: must be `npm run format` (--write), NOT format:check.
+      # IMMUTABLE: must be `pnpm run format` (--write), NOT format:check.
       # Pre-commit hook runs lint-staged which formats on commit, but AI agents
       # and manual edits can bypass hooks. CI auto-formats so the build never
       # fails on whitespace — the subsequent `git diff --exit-code` would catch
       # meaningful drift if needed. Do NOT change to format:check.
       - name: Format (Prettier)
-        run: npm run format
+        run: pnpm run format
 
       - name: Unit tests with coverage
-        run: npm run test:coverage
+        run: pnpm run test:coverage
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v6
@@ -63,14 +67,14 @@ jobs:
           fail_ci_if_error: false
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Bundle size check
-        run: npm run build:check-size
+        run: pnpm run build:check-size
 
   # E2E tests disabled in CI — cancel-in-progress kills long-running
   # Playwright runs on every push, so they never complete. Run locally
-  # with `npm run test:e2e` before merging.
+  # with `pnpm run test:e2e` before merging.
 
   lighthouse:
     name: Lighthouse CI
@@ -81,18 +85,22 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Lighthouse CI
-        run: npm run lighthouse
+        run: pnpm run lighthouse
 
       - name: Upload Lighthouse report
         uses: actions/upload-artifact@v6

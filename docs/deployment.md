@@ -10,14 +10,16 @@
 
 ### 1. Install Dependencies
 
+Requires **pnpm >= 10**.
+
 ```bash
-npm install
+pnpm install
 ```
 
 ### 2. Start Dev Server
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Access at `http://localhost:3000` (configured in `vite.config.ts`). E2E tests run on port 5173 via `playwright.config.ts` webServer override for test isolation.
@@ -29,7 +31,7 @@ Access at `http://localhost:3000` (configured in `vite.config.ts`). E2E tests ru
 ### Build Command
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 **Output**: `dist/` folder.
@@ -37,7 +39,7 @@ npm run build
 ### Preview Production Build
 
 ```bash
-npm run preview
+pnpm run preview
 ```
 
 Runs a local server serving the `dist/` folder.
@@ -55,7 +57,7 @@ Pushing to the `main` branch triggers a Vercel deployment (if configured).
 ### Manual Deployment
 
 ```bash
-npx vercel --prod
+pnpm dlx vercel --prod
 ```
 
 ---
@@ -76,10 +78,10 @@ npx vercel --prod
 
 ## Quick Cheatsheet
 
-| Task       | Command              |
-| ---------- | -------------------- |
-| Start Dev  | `npm run dev`        |
-| Type Check | `npm run type-check` |
-| Lint       | `npm run lint`       |
-| Build      | `npm run build`      |
-| Test       | `npm test`           |
+| Task       | Command               |
+| ---------- | --------------------- |
+| Start Dev  | `pnpm run dev`        |
+| Type Check | `pnpm run type-check` |
+| Lint       | `pnpm run lint`       |
+| Build      | `pnpm run build`      |
+| Test       | `pnpm test`           |

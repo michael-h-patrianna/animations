@@ -14,7 +14,8 @@ const env = {
   ...process.env,
 }
 
-const child = spawn('npx', ['vitest', '--watch'], {
+const pnpmBin = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
+const child = spawn(pnpmBin, ['exec', 'vitest', '--watch'], {
   stdio: 'inherit',
   env,
 })

@@ -6,8 +6,8 @@
  * committed baselines. Both Framer rendering and CSS/Framer card-count parity
  * are verified for all 18 groups across 5 categories.
  *
- * Run with: npm run test:e2e -- --project=chromium visual-regression
- * Update baselines: npm run test:e2e -- --project=chromium visual-regression --update-snapshots
+ * Run with: pnpm run test:e2e -- --project=chromium visual-regression
+ * Update baselines: pnpm run test:e2e -- --project=chromium visual-regression --update-snapshots
  */
 
 import { test, expect } from './fixtures/catalog.fixture'
