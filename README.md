@@ -13,12 +13,20 @@ This entire project was vibecoded with [Claude Code](https://claude.ai/claude-co
 
 ## Quick start
 
-Requires **pnpm >= 10**. Install via `corepack enable` or `npm install -g pnpm`.
+Requires **pnpm >= 10**. `package.json` pins the exact version via `packageManager`, so `corepack enable` is the recommended install — it resolves and caches the pinned version automatically.
 
 ```bash
+corepack enable           # or: npm install -g pnpm
 pnpm install
-pnpm run dev        # http://localhost:3000
+pnpm run dev              # http://localhost:3000
+pnpm exec playwright install   # one-time — needed before `pnpm run test:e2e`
 ```
+
+`playwright` has no postinstall, so browser binaries are not downloaded by `pnpm install`. Run `pnpm exec playwright install` once per clone before executing E2E tests.
+
+### Dependency build scripts (pnpm v10)
+
+pnpm v10 blocks install-time build scripts by default. The allowlist lives under `pnpm.onlyBuiltDependencies` in `package.json` — currently `esbuild` (used by Vite). When adding or updating a devDependency that ships a `preinstall`/`install`/`postinstall` script, run `pnpm ignored-builds` after `pnpm install`; if the package appears there and its build step is needed, add it to `onlyBuiltDependencies` in the same PR. Review this list on dependency bumps to avoid silent breakage.
 
 ## Commands
 
