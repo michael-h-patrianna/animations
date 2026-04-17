@@ -41,11 +41,21 @@ jobs:
 
       # IMMUTABLE: must be `pnpm run format` (--write), NOT format:check.
       # Pre-commit hook runs lint-staged which formats on commit, but AI agents
-      # and manual edits can bypass hooks. CI auto-formats so the build never
-      # fails on whitespace — the subsequent `git diff --exit-code` would catch
-      # meaningful drift if needed. Do NOT change to format:check.
+      # and manual edits can bypass hooks. CI runs the formatter in write mode
+      # so the human-facing error message points at the fix ("run pnpm run
+      # format locally and push") rather than at Prettier's opaque diff output.
       - name: Format (Prettier)
         run: pnpm run format
+
+      # Fail the build when CI's auto-format produced any changes. This turns
+      # the ratchet on: formatting drift on a PR branch is a hard gate, not a
+      # silent in-runner rewrite that disappears when the runner tears down.
+      - name: Verify no formatting drift
+        run: |
+          if ! git diff --exit-code; then
+            echo "::error title=Formatting drift detected::Run 'pnpm run format' locally and commit the result."
+            exit 1
+          fi
 
       - name: Unit tests with coverage
         run: pnpm run test:coverage
