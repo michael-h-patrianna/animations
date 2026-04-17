@@ -1,6 +1,6 @@
 import type { ErrorInfo, ReactNode } from 'react'
 import { Component } from 'react'
-import { reportAppError, reportRuntimeError } from '@/services/errorTracking'
+import { reportAppError } from '@/services/errorTracking'
 
 /**
  * Props for ErrorBoundary component
@@ -168,8 +168,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       componentStack: errorInfo.componentStack ?? undefined,
       timestamp: Date.now(),
     })
-    // Legacy reporter for backward compatibility with host apps
-    reportRuntimeError(error, errorInfo)
   }
 
   /** Reset error state and attempt to recover */

@@ -72,7 +72,7 @@ export type AppError =
   | MetadataValidationError
 
 // ============================================================================
-// Legacy Reporter (backward compat)
+// Host Reporter Bridge
 // ============================================================================
 
 type RuntimeErrorReporter = (error: Error, errorInfo: ErrorInfo) => void
@@ -88,18 +88,14 @@ const getRuntimeErrorReporter = (): RuntimeErrorReporter | null => {
   return typeof reporter === 'function' ? reporter : null
 }
 
-/**
- * @deprecated Use `reportAppError` instead. Kept for backward compatibility
- * with host apps that set `__PF_ANIM_RUNTIME_ERROR_REPORTER__`.
- */
-export const reportRuntimeError = (error: Error, errorInfo: ErrorInfo): void => {
+function forwardToHostReporter(cause: Error, componentStack: string | null): void {
   if (!import.meta.env.PROD) return
 
   const reporter = getRuntimeErrorReporter()
   if (!reporter) return
 
   try {
-    reporter(error, errorInfo)
+    reporter(cause, { componentStack })
   } catch (reportError) {
     logger.error('Runtime error reporter failed:', reportError)
   }
@@ -130,21 +126,18 @@ function formatErrorMessage(error: AppError): string {
  *
  * In development: logs the formatted message and structured data via the logger.
  * In production: logs via the logger sink (which the host app can configure)
- * and forwards render crashes to the legacy `__PF_ANIM_RUNTIME_ERROR_REPORTER__`.
+ * and forwards render crashes to the host reporter attached at
+ * `window.__PF_ANIM_RUNTIME_ERROR_REPORTER__`.
+ *
+ * The host reporter forwarding is the *only* integration point into the host
+ * application's telemetry — there is no separate public API. Callers must use
+ * this function, not call the host reporter directly, so every forward is
+ * accompanied by a logger entry.
  */
 export function reportAppError(error: AppError): void {
   logger.error(formatErrorMessage(error), { event: error })
 
-  // Forward render crashes to the legacy reporter for backward compatibility
-  if (error.type === 'ANIMATION_RENDER_CRASH' && import.meta.env.PROD) {
-    const reporter = getRuntimeErrorReporter()
-    if (reporter) {
-      const errorInfo: ErrorInfo = { componentStack: error.componentStack ?? null }
-      try {
-        reporter(error.cause, errorInfo)
-      } catch (reportError) {
-        logger.error('Runtime error reporter failed:', reportError)
-      }
-    }
+  if (error.type === 'ANIMATION_RENDER_CRASH') {
+    forwardToHostReporter(error.cause, error.componentStack ?? null)
   }
 }
