@@ -64,19 +64,15 @@ export type LazyGroupLoader = () => Promise<LazyGroupResult>
 
 /**
  * Cache entry for a loaded group.
+ * Failed loads are removed from the cache entirely, so there is no
+ * "error state" — if an entry exists, it is either in-flight or resolved.
  */
 export interface GroupCacheEntry {
-  /** Promise of the loading operation (for deduplication) */
+  /** Promise of the loading operation (for deduplication while in-flight). */
   promise: Promise<LazyGroupResult>
 
-  /** Resolved result (undefined until loaded) */
+  /** Resolved result (undefined until loaded). */
   result?: LazyGroupResult
-
-  /** Error if loading failed */
-  error?: Error
-
-  /** Timestamp when loading started */
-  loadedAt?: number
 }
 
 /**

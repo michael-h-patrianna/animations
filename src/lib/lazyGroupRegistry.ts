@@ -117,45 +117,45 @@ function registerLazyCategory(
 
 /**
  * Loads a group by ID, with caching.
- * Returns the cached result if already loaded.
+ *
+ * Cache policy:
+ *   - Successful loads are cached forever (modules are immutable after import).
+ *   - In-flight loads are deduplicated: concurrent callers share a single promise.
+ *   - Failed loads are evicted from the cache so the next call retries from scratch.
+ *     Both the failure and its retry are reported to the structured error pipeline.
  *
  * @param groupId - Full group ID with tech suffix
  * @returns Promise resolving to the loaded group result
- * @throws Error if no loader registered for the group
+ * @throws Error if no loader registered for the group, or if the loader rejects
  */
 export async function loadLazyGroup(groupId: string): Promise<LazyGroupResult> {
-  // Check cache first
   const cached = groupCache.get(groupId)
   if (cached?.result) {
     return cached.result
   }
-
-  // If already loading, return the existing promise
   if (cached?.promise) {
     return cached.promise
   }
 
-  // Get the loader
   const loader = loaderRegistry.get(groupId)
   if (!loader) {
     throw new Error(`[lazyGroupRegistry] No loader registered for "${groupId}"`)
   }
 
-  // Start loading
   const promise = loader()
     .then((result) => {
       const entry = groupCache.get(groupId)
       if (entry) {
         entry.result = result
-        entry.loadedAt = Date.now()
       }
       return result
     })
-    .catch((error) => {
-      const entry = groupCache.get(groupId)
-      if (entry) {
-        entry.error = error instanceof Error ? error : new Error(String(error))
-      }
+    .catch((cause) => {
+      // Evict the poisoned entry so a subsequent call retries the loader from scratch
+      // instead of re-subscribing to the same rejected promise.
+      groupCache.delete(groupId)
+      const error = cause instanceof Error ? cause : new Error(String(cause))
+      reportAppError({ type: 'GROUP_LOAD_FAILURE', groupId, cause: error, timestamp: Date.now() })
       throw error
     })
 
@@ -167,19 +167,16 @@ export async function loadLazyGroup(groupId: string): Promise<LazyGroupResult> {
  * Preloads a group into cache without waiting for the result.
  * Useful for predictive loading (e.g., on hover).
  *
- * @param groupId - Full group ID with tech suffix
+ * Failures are handled by `loadLazyGroup` (cache eviction + structured
+ * reporting); the extra `.catch` here exists only to stop the rejection
+ * escaping as an unhandled-promise warning.
  */
 export function preloadLazyGroup(groupId: string): void {
   if (groupCache.has(groupId)) return
+  if (!loaderRegistry.has(groupId)) return
 
-  const loader = loaderRegistry.get(groupId)
-  if (!loader) return
-
-  // Fire-and-forget warmup: clear poisoned cache entry on failure so navigation can retry
-  void loadLazyGroup(groupId).catch((cause) => {
-    groupCache.delete(groupId)
-    const error = cause instanceof Error ? cause : new Error(String(cause))
-    reportAppError({ type: 'GROUP_LOAD_FAILURE', groupId, cause: error, timestamp: Date.now() })
+  void loadLazyGroup(groupId).catch(() => {
+    /* reported + evicted inside loadLazyGroup */
   })
 }
 
