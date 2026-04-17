@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi } from 'vitest'
 import { PropField } from '@/components/ui/PropField'
@@ -37,7 +37,8 @@ describe('PropField', () => {
 
   // ── Number field ──────────────────────────────────────────────────────
 
-  it('renders number field with slider when min/max provided', () => {
+  it('renders a range slider with the current value, range, step, and unit — and forwards edits', () => {
+    const onChange = vi.fn()
     const config: PropConfig = {
       type: 'number',
       name: 'duration',
@@ -47,28 +48,42 @@ describe('PropField', () => {
       step: 10,
       unit: 'ms',
     }
-    render(<PropField config={config} value={500} onChange={vi.fn()} />)
+    render(<PropField config={config} value={500} onChange={onChange} />)
 
-    // Slider renders with data-testid
-    const field = screen.getByTestId('prop-field-duration')
-    expect(field).toBeInTheDocument()
+    const range = screen.getByRole('slider') as HTMLInputElement
+    expect(range.min).toBe('0')
+    expect(range.max).toBe('1000')
+    expect(range.step).toBe('10')
+    expect(range.value).toBe('500')
+    // Unit suffix is rendered next to the numeric display
+    expect(document.body.textContent).toContain('ms')
+
+    fireEvent.change(range, { target: { value: '250' } })
+    expect(onChange).toHaveBeenLastCalledWith('duration', 250)
   })
 
-  it('renders number field with input when no min/max', () => {
+  it('renders a bare number input (no slider) and forwards edits through onChange(name, value)', () => {
+    const onChange = vi.fn()
     const config: PropConfig = {
       type: 'number',
       name: 'count',
       label: 'Count',
     }
-    render(<PropField config={config} value={5} onChange={vi.fn()} />)
+    render(<PropField config={config} value={5} onChange={onChange} />)
 
-    const field = screen.getByTestId('prop-field-count')
-    expect(field).toBeInTheDocument()
+    expect(screen.queryByRole('slider')).toBeNull()
+    const input = screen.getByDisplayValue('5') as HTMLInputElement
+    expect(input.value).toBe('5')
+
+    // Pin the exact parsed value rather than `expect.any(Number)`, which would
+    // silently accept NaN if the input-to-number coercion regressed.
+    fireEvent.change(input, { target: { value: '7' } })
+    expect(onChange).toHaveBeenLastCalledWith('count', 7)
   })
 
   // ── String field ──────────────────────────────────────────────────────
 
-  it('renders string field with current value', async () => {
+  it('renders a text input with the current value and forwards edits through onChange(name, value)', async () => {
     const onChange = vi.fn()
     const config: PropConfig = {
       type: 'string',
@@ -78,28 +93,35 @@ describe('PropField', () => {
     }
     render(<PropField config={config} value="World" onChange={onChange} />)
 
-    const field = screen.getByTestId('prop-field-title')
-    expect(field).toBeInTheDocument()
+    const input = screen.getByDisplayValue('World') as HTMLInputElement
+    expect(input.value).toBe('World')
+
+    await userEvent.type(input, '!')
+    expect(onChange).toHaveBeenLastCalledWith('title', 'World!')
   })
 
   // ── Boolean field ─────────────────────────────────────────────────────
 
-  it('renders boolean field as switch', () => {
+  it('renders a switch with the correct checked state and toggles through onChange(name, value)', async () => {
+    const onChange = vi.fn()
     const config: PropConfig = {
       type: 'boolean',
       name: 'loop',
       label: 'Loop',
       default: false,
     }
-    render(<PropField config={config} value={true} onChange={vi.fn()} />)
+    render(<PropField config={config} value={true} onChange={onChange} />)
 
-    const field = screen.getByTestId('prop-field-loop')
-    expect(field).toBeInTheDocument()
+    const switchEl = screen.getByRole('switch')
+    expect(switchEl).toHaveAttribute('aria-checked', 'true')
+
+    await userEvent.click(switchEl)
+    expect(onChange).toHaveBeenLastCalledWith('loop', false)
   })
 
   // ── Color field ───────────────────────────────────────────────────────
 
-  it('renders color field', () => {
+  it('renders a color picker populated with the current hex value', () => {
     const config: PropConfig = {
       type: 'color',
       name: 'bg',
@@ -109,12 +131,23 @@ describe('PropField', () => {
     render(<PropField config={config} value="#00ff00" onChange={vi.fn()} />)
 
     const field = screen.getByTestId('prop-field-bg')
-    expect(field).toBeInTheDocument()
+    expect(field.textContent).toContain('Background')
+    // The color picker exposes the hex either as an input value or as a style swatch.
+    // eslint-disable-next-line testing-library/no-node-access -- color-picker internals have no data-testid
+    const inputs = field.querySelectorAll<HTMLInputElement>('input')
+    // eslint-disable-next-line testing-library/no-node-access -- color-picker internals have no data-testid
+    const styled = field.querySelectorAll<HTMLElement>('[style]')
+    const exposesValue =
+      Array.from(inputs).some((el) => el.value.toLowerCase() === '#00ff00') ||
+      Array.from(styled).some((el) =>
+        (el.getAttribute('style') ?? '').toLowerCase().includes('00ff00')
+      )
+    expect(exposesValue).toBe(true)
   })
 
   // ── Select field ──────────────────────────────────────────────────────
 
-  it('renders select field with options', () => {
+  it('renders a select whose trigger exposes the currently selected option label', () => {
     const config: PropConfig = {
       type: 'select',
       name: 'ease',
@@ -128,26 +161,30 @@ describe('PropField', () => {
     render(<PropField config={config} value="ease-out" onChange={vi.fn()} />)
 
     const field = screen.getByTestId('prop-field-ease')
-    expect(field).toBeInTheDocument()
+    expect(field.textContent).toContain('Ease Out')
   })
 
   // ── Image field ───────────────────────────────────────────────────────
 
-  it('renders image field with placeholder', () => {
+  it('renders an image URL input pre-populated with the current value and updates via onChange(name, value)', async () => {
+    const onChange = vi.fn()
     const config: PropConfig = {
       type: 'image',
       name: 'src',
       label: 'Source',
     }
-    render(<PropField config={config} value="/img/hero.png" onChange={vi.fn()} />)
+    render(<PropField config={config} value="/img/hero.png" onChange={onChange} />)
 
-    const field = screen.getByTestId('prop-field-src')
-    expect(field).toBeInTheDocument()
+    const input = screen.getByDisplayValue('/img/hero.png') as HTMLInputElement
+    expect(input.value).toBe('/img/hero.png')
+
+    await userEvent.type(input, '!')
+    expect(onChange).toHaveBeenLastCalledWith('src', '/img/hero.png!')
   })
 
   // ── Images array field ────────────────────────────────────────────────
 
-  it('renders images array field with add button', async () => {
+  it('renders one input per image in the array and appends a new entry via Add image', async () => {
     const onChange = vi.fn()
     const config: PropConfig = {
       type: 'images',
@@ -158,10 +195,9 @@ describe('PropField', () => {
     }
     render(<PropField config={config} value={['/a.png', '/b.png']} onChange={onChange} />)
 
-    const field = screen.getByTestId('prop-field-gallery')
-    expect(field).toBeInTheDocument()
+    expect((screen.getByDisplayValue('/a.png') as HTMLInputElement).value).toBe('/a.png')
+    expect((screen.getByDisplayValue('/b.png') as HTMLInputElement).value).toBe('/b.png')
 
-    // Click "Add image" button
     const user = userEvent.setup()
     const addBtn = screen.getByRole('button', { name: /add image/i })
     await user.click(addBtn)
@@ -200,7 +236,7 @@ describe('PropField', () => {
 
   // ── Colors array field ────────────────────────────────────────────────
 
-  it('renders colors array field with add button', async () => {
+  it('renders one color control per palette entry and appends via Add color', async () => {
     const onChange = vi.fn()
     const config: PropConfig = {
       type: 'colors',
@@ -210,7 +246,7 @@ describe('PropField', () => {
     render(<PropField config={config} value={['#ff0000']} onChange={onChange} />)
 
     const field = screen.getByTestId('prop-field-palette')
-    expect(field).toBeInTheDocument()
+    expect(field.textContent).toContain('Palette')
 
     const user = userEvent.setup()
     const addBtn = screen.getByRole('button', { name: /add color/i })
@@ -237,7 +273,7 @@ describe('PropField', () => {
 
   // ── Style object field ────────────────────────────────────────────────
 
-  it('renders style-object fields', () => {
+  it('renders style-object fields with per-field labels', () => {
     const config: PropConfig = {
       type: 'style-object',
       name: 'style',
@@ -256,7 +292,7 @@ describe('PropField', () => {
     )
 
     const field = screen.getByTestId('prop-field-style')
-    expect(field).toBeInTheDocument()
+    expect(field.textContent).toContain('Custom Style')
 
     // Both sub-fields rendered as children of the parent field
     const fieldScope = within(field)
@@ -266,7 +302,7 @@ describe('PropField', () => {
 
   // ── Fallback to defaults ──────────────────────────────────────────────
 
-  it('uses default value when passed value has wrong type', () => {
+  it('falls back to the declared default when the incoming value is not a number', () => {
     const onChange = vi.fn()
     const config: PropConfig = {
       type: 'number',
@@ -276,11 +312,10 @@ describe('PropField', () => {
       max: 100,
       default: 50,
     }
-    // Pass a string where number expected
+    // Pass a string where number expected — PropField should coerce to the default
     render(<PropField config={config} value={'not-a-number' as unknown} onChange={onChange} />)
 
-    // Should not crash — falls back to default
-    const field = screen.getByTestId('prop-field-speed')
-    expect(field).toBeInTheDocument()
+    const range = screen.getByRole('slider') as HTMLInputElement
+    expect(range.value).toBe('50')
   })
 })

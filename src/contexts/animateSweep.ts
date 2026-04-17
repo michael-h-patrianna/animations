@@ -26,26 +26,29 @@ export function collectSweepGroups(
   if (!animations) return groups
 
   for (const anim of animations) {
-    const prop = anim.props?.find(
-      (p): p is NumberPropConfig => p.type === 'number' && !!p.animatable
-    )
-    if (!prop) continue
+    const animatableProps =
+      anim.props?.filter((p): p is NumberPropConfig => p.type === 'number' && !!p.animatable) ?? []
 
-    const config: SweepConfig = {
-      propName: prop.name,
-      min: prop.min ?? 0,
-      max: prop.max ?? 1,
-      step: prop.step ?? 0.01,
-      pause: prop.animatePause ?? 1200,
-      duration: prop.animateDuration ?? 4000,
-      style: prop.animateStyle ?? 'steps',
-    }
-    const key = serializeSweepConfig(config)
-    const group = groups.get(key)
-    if (group) {
-      group.animationIds.push(anim.id)
-    } else {
-      groups.set(key, { config, animationIds: [anim.id] })
+    // An animation may declare multiple animatable number props; drive each
+    // one through its own sweep config. Timers are deduplicated by config so
+    // animations sharing identical sweeps still share a single timer.
+    for (const prop of animatableProps) {
+      const config: SweepConfig = {
+        propName: prop.name,
+        min: prop.min ?? 0,
+        max: prop.max ?? 1,
+        step: prop.step ?? 0.01,
+        pause: prop.animatePause ?? 1200,
+        duration: prop.animateDuration ?? 4000,
+        style: prop.animateStyle ?? 'steps',
+      }
+      const key = serializeSweepConfig(config)
+      const group = groups.get(key)
+      if (group) {
+        if (!group.animationIds.includes(anim.id)) group.animationIds.push(anim.id)
+      } else {
+        groups.set(key, { config, animationIds: [anim.id] })
+      }
     }
   }
 

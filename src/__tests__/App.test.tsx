@@ -109,11 +109,18 @@ describe('App', () => {
     expect(framerRadio[0]).toHaveAttribute('aria-checked', 'true')
   })
 
-  it('renders the left panel visible by default', () => {
+  it('renders the left panel visible by default with sidebar categories populated', async () => {
     renderApp()
 
     const leftPanel = screen.getByTestId('left-panel')
-    expect(leftPanel).toBeInTheDocument()
+    expect(leftPanel).toHaveAttribute('data-testid', 'left-panel')
+    // Each of the 5 categories must be reachable via its section testid.
+    for (const categoryId of ['base', 'dialogs', 'progress', 'realtime', 'rewards']) {
+      expect(await screen.findByTestId(`sidebar-section-${categoryId}`)).toHaveAttribute(
+        'data-testid',
+        `sidebar-section-${categoryId}`
+      )
+    }
   })
 
   it('renders clickable left-panel group entries with pointer cursor affordance', async () => {
@@ -214,11 +221,13 @@ describe('App', () => {
     expect(framerCount).toBeGreaterThanOrEqual(2)
   })
 
-  it('renders group section with correct data-testid', async () => {
+  it('renders group section with the expected testid and at least two animation cards inside it', async () => {
     renderApp('/standard-effects-framer')
 
     const section = await screen.findByTestId('group-section-group-standard-effects-framer')
-    expect(section).toBeInTheDocument()
+    expect(section).toHaveAttribute('data-testid', 'group-section-group-standard-effects-framer')
+    // eslint-disable-next-line testing-library/no-node-access -- scoped structural check
+    expect(section.querySelectorAll('[data-testid="card-title"]').length).toBeGreaterThanOrEqual(2)
   })
 
   it('handles animation filter in URL', async () => {

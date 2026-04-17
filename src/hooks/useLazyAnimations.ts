@@ -1,6 +1,5 @@
 import '@/components/lazyBootstrap'
 import { getLazyNavCatalog, isGroupCached, loadLazyGroup } from '@/lib/lazyGroupRegistry'
-import { reportAppError } from '@/services/errorTracking'
 import type { Group } from '@/types/animation'
 import type { LazyAnimationsResult } from '@/types/lazy'
 import { useCallback, useMemo, useRef, useState, useTransition } from 'react'
@@ -56,6 +55,11 @@ export function useLazyAnimations(): LazyAnimationsResult {
       try {
         const result = await loadLazyGroup(groupId)
 
+        // Discard stale responses: if the user navigated away (A → B) while
+        // this request was in flight, `currentGroupIdRef.current` now points
+        // at a different groupId and we must not overwrite it with A's result.
+        if (currentGroupIdRef.current !== groupId) return
+
         // Wrap state updates in a transition so React keeps showing the
         // previous group while the new one prepares to render.
         startTransition(() => {
@@ -63,9 +67,13 @@ export function useLazyAnimations(): LazyAnimationsResult {
           setError(undefined)
         })
       } catch (err) {
-        const cause = err instanceof Error ? err : new Error(String(err))
-        reportAppError({ type: 'GROUP_LOAD_FAILURE', groupId, cause, timestamp: Date.now() })
-        setError(cause)
+        // Same stale-guard on the error path — we don't want a delayed failure
+        // from a group the user has already navigated past to replace the
+        // current success state.
+        if (currentGroupIdRef.current !== groupId) return
+        // Structured reporting happens inside loadLazyGroup. Surface the error
+        // to the UI state so consumers can render a retry affordance.
+        setError(err instanceof Error ? err : new Error(String(err)))
       }
     },
     [startTransition]

@@ -2,21 +2,19 @@ import type { ErrorInfo } from 'react'
 import type { AppError } from '@/services/errorTracking'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-// We need to test with import.meta.env.PROD toggled.
-// Vitest doesn't easily toggle import.meta.env.PROD, so we mock it via vi.stubEnv.
+// Toggling import.meta.env.PROD requires vi.stubEnv plus a fresh module import
+// per test so the frozen env is read by the newly-loaded module graph.
 
 type WindowWithReporter = Window & {
   __PF_ANIM_RUNTIME_ERROR_REPORTER__?: (error: Error, errorInfo: ErrorInfo) => void
 }
 
 const testError = new Error('test component crash')
-const testErrorInfo: ErrorInfo = { componentStack: '\n  at Foo\n  at Bar' }
 
-describe('reportRuntimeError', () => {
-  let reportRuntimeError: typeof import('@/services/errorTracking').reportRuntimeError
+describe('reportAppError — host reporter forwarding', () => {
+  let reportAppError: typeof import('@/services/errorTracking').reportAppError
 
   beforeEach(async () => {
-    // Fresh import each test to reset module-level state
     vi.resetModules()
   })
 
@@ -25,68 +23,138 @@ describe('reportRuntimeError', () => {
     delete (window as WindowWithReporter).__PF_ANIM_RUNTIME_ERROR_REPORTER__
   })
 
-  it('does nothing in non-production mode', async () => {
+  it('does not forward ANIMATION_RENDER_CRASH to host reporter in dev', async () => {
     vi.stubEnv('PROD', false)
     const mod = await import('@/services/errorTracking')
-    reportRuntimeError = mod.reportRuntimeError
+    reportAppError = mod.reportAppError
 
     const reporter = vi.fn()
     ;(window as WindowWithReporter).__PF_ANIM_RUNTIME_ERROR_REPORTER__ = reporter
 
-    reportRuntimeError(testError, testErrorInfo)
+    reportAppError({
+      type: 'ANIMATION_RENDER_CRASH',
+      animationId: 'modal-base__scale-gentle-pop',
+      cause: testError,
+      componentStack: '\n  at Foo',
+      timestamp: 1000,
+    })
 
     expect(reporter).not.toHaveBeenCalled()
   })
 
-  it('calls window reporter in production mode', async () => {
+  it('forwards ANIMATION_RENDER_CRASH to host reporter exactly once in prod', async () => {
     vi.stubEnv('PROD', true)
     const mod = await import('@/services/errorTracking')
-    reportRuntimeError = mod.reportRuntimeError
+    reportAppError = mod.reportAppError
 
     const reporter = vi.fn()
     ;(window as WindowWithReporter).__PF_ANIM_RUNTIME_ERROR_REPORTER__ = reporter
 
-    reportRuntimeError(testError, testErrorInfo)
+    reportAppError({
+      type: 'ANIMATION_RENDER_CRASH',
+      animationId: 'modal-base__scale-gentle-pop',
+      cause: testError,
+      componentStack: '\n  at Foo\n  at Bar',
+      timestamp: 2000,
+    })
 
     expect(reporter).toHaveBeenCalledOnce()
-    expect(reporter).toHaveBeenCalledWith(testError, testErrorInfo)
+    expect(reporter).toHaveBeenCalledWith(testError, { componentStack: '\n  at Foo\n  at Bar' })
   })
 
-  it('does nothing in production when no reporter is registered', async () => {
+  it('forwards with componentStack: null when omitted', async () => {
     vi.stubEnv('PROD', true)
     const mod = await import('@/services/errorTracking')
-    reportRuntimeError = mod.reportRuntimeError
+    reportAppError = mod.reportAppError
 
-    // No reporter on window — should not throw
-    expect(() => reportRuntimeError(testError, testErrorInfo)).not.toThrow()
+    const reporter = vi.fn()
+    ;(window as WindowWithReporter).__PF_ANIM_RUNTIME_ERROR_REPORTER__ = reporter
+
+    reportAppError({
+      type: 'ANIMATION_RENDER_CRASH',
+      animationId: 'x__y',
+      cause: testError,
+      timestamp: 3000,
+    })
+
+    expect(reporter).toHaveBeenCalledWith(testError, { componentStack: null })
   })
 
-  it('catches and logs reporter errors instead of propagating', async () => {
+  it('does not forward non-crash error types to host reporter', async () => {
+    vi.stubEnv('PROD', true)
+    const mod = await import('@/services/errorTracking')
+    reportAppError = mod.reportAppError
+
+    const reporter = vi.fn()
+    ;(window as WindowWithReporter).__PF_ANIM_RUNTIME_ERROR_REPORTER__ = reporter
+
+    reportAppError({
+      type: 'GROUP_LOAD_FAILURE',
+      groupId: 'modal-base-framer',
+      cause: testError,
+      timestamp: 4000,
+    })
+    reportAppError({
+      type: 'SOURCE_LOAD_FAILURE',
+      animationId: 'x__y',
+      cause: testError,
+      timestamp: 5000,
+    })
+    reportAppError({
+      type: 'METADATA_VALIDATION_ERROR',
+      filePath: 'x.meta.ts',
+      violations: ['bad'],
+      timestamp: 6000,
+    })
+
+    expect(reporter).not.toHaveBeenCalled()
+  })
+
+  it('tolerates a missing host reporter in production', async () => {
+    vi.stubEnv('PROD', true)
+    const mod = await import('@/services/errorTracking')
+    reportAppError = mod.reportAppError
+
+    expect(() =>
+      reportAppError({
+        type: 'ANIMATION_RENDER_CRASH',
+        animationId: 'x__y',
+        cause: testError,
+        timestamp: 7000,
+      })
+    ).not.toThrow()
+  })
+
+  it('catches host reporter exceptions and logs them instead of propagating', async () => {
     vi.stubEnv('PROD', true)
     const [mod, loggerMod] = await Promise.all([
       import('@/services/errorTracking'),
       import('@/services/logger'),
     ])
-    reportRuntimeError = mod.reportRuntimeError
+    reportAppError = mod.reportAppError
 
     const logCalls: { level: string; message: string; args: unknown[] }[] = []
     loggerMod.logger.setSink((level, message, ...args) => {
       logCalls.push({ level, message, args })
     })
-
-    const brokenReporter = vi.fn(() => {
+    ;(window as WindowWithReporter).__PF_ANIM_RUNTIME_ERROR_REPORTER__ = () => {
       throw new Error('reporter internal failure')
-    })
-    ;(window as WindowWithReporter).__PF_ANIM_RUNTIME_ERROR_REPORTER__ = brokenReporter
+    }
 
-    // Should not throw, even though the reporter throws
-    expect(() => reportRuntimeError(testError, testErrorInfo)).not.toThrow()
+    expect(() =>
+      reportAppError({
+        type: 'ANIMATION_RENDER_CRASH',
+        animationId: 'x__y',
+        cause: testError,
+        timestamp: 8000,
+      })
+    ).not.toThrow()
 
-    // Should log the error via logger
-    expect(logCalls).toHaveLength(1)
-    expect(logCalls[0]!.level).toBe('error')
-    expect(logCalls[0]!.message).toBe('Runtime error reporter failed:')
-    expect((logCalls[0]!.args[0] as Error).message).toBe('reporter internal failure')
+    // 1. the app-error summary 2. the reporter-failed entry
+    expect(logCalls.map((c) => c.message)).toContain('Runtime error reporter failed:')
+    const reporterLog = logCalls.find((c) => c.message === 'Runtime error reporter failed:')!
+    expect(reporterLog.level).toBe('error')
+    expect((reporterLog.args[0] as Error).message).toBe('reporter internal failure')
 
     loggerMod.logger.resetSink()
   })
@@ -94,17 +162,22 @@ describe('reportRuntimeError', () => {
   it('ignores non-function values on window.__PF_ANIM_RUNTIME_ERROR_REPORTER__', async () => {
     vi.stubEnv('PROD', true)
     const mod = await import('@/services/errorTracking')
-    reportRuntimeError = mod.reportRuntimeError
-
-    // Set to a non-function value
+    reportAppError = mod.reportAppError
     ;(window as WindowWithReporter).__PF_ANIM_RUNTIME_ERROR_REPORTER__ =
       'not a function' as unknown as (error: Error, errorInfo: ErrorInfo) => void
 
-    expect(() => reportRuntimeError(testError, testErrorInfo)).not.toThrow()
+    expect(() =>
+      reportAppError({
+        type: 'ANIMATION_RENDER_CRASH',
+        animationId: 'x__y',
+        cause: testError,
+        timestamp: 9000,
+      })
+    ).not.toThrow()
   })
 })
 
-describe('reportAppError', () => {
+describe('reportAppError — logger output', () => {
   let reportAppError: typeof import('@/services/errorTracking').reportAppError
 
   beforeEach(async () => {
