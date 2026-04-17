@@ -239,8 +239,16 @@ function useAnimatePreview(animations: Animation[] | undefined) {
       return
     }
 
+    // Deep-merge at the per-animation level so multiple sweeps targeting
+    // different props on the same animation do not overwrite one another.
     const emit = (update: PerAnimationValues) => {
-      setAnimatedValues((prev) => ({ ...prev, ...update }))
+      setAnimatedValues((prev) => {
+        const next: PerAnimationValues = { ...prev }
+        for (const [animId, propValues] of Object.entries(update)) {
+          next[animId] = { ...(prev[animId] ?? {}), ...propValues }
+        }
+        return next
+      })
     }
 
     const cleanups: (() => void)[] = []

@@ -132,6 +132,74 @@ describe('collectSweepGroups', () => {
     const result = collectSweepGroups([anim])
     expect(result.size).toBe(0)
   })
+
+  it('drives every animatable number prop per animation', () => {
+    // An animation declaring two animatable number props must produce two
+    // sweep configs so both props receive values during the animate loop.
+    const anim: Animation = {
+      id: 'a1' as Animation['id'],
+      title: 'a1',
+      description: '',
+      categoryId: 'test' as Animation['categoryId'],
+      groupId: 'test-framer' as Animation['groupId'],
+      urlSlugFramer: '',
+      urlSlugCss: '',
+      props: [
+        {
+          type: 'number',
+          name: 'primary',
+          label: 'Primary',
+          animatable: true,
+          min: 0,
+          max: 100,
+          step: 1,
+        },
+        {
+          type: 'number',
+          name: 'secondary',
+          label: 'Secondary',
+          animatable: true,
+          min: 0,
+          max: 50,
+          step: 1,
+        },
+      ],
+    }
+    const result = collectSweepGroups([anim])
+    expect(result.size).toBe(2)
+    const propsDriven = [...result.values()].map((g) => g.config.propName).sort()
+    expect(propsDriven).toEqual(['primary', 'secondary'])
+    for (const group of result.values()) {
+      expect(group.animationIds).toEqual(['a1'])
+    }
+  })
+
+  it('reuses a single sweep group across animations sharing the same config even when they declare multiple animatable props', () => {
+    const make = (id: string): Animation => ({
+      id: id as Animation['id'],
+      title: id,
+      description: '',
+      categoryId: 'test' as Animation['categoryId'],
+      groupId: 'test-framer' as Animation['groupId'],
+      urlSlugFramer: '',
+      urlSlugCss: '',
+      props: [
+        {
+          type: 'number',
+          name: 'shared',
+          label: 'Shared',
+          animatable: true,
+          min: 0,
+          max: 10,
+          step: 1,
+        },
+      ],
+    })
+
+    const result = collectSweepGroups([make('a1'), make('a2')])
+    expect(result.size).toBe(1)
+    expect([...result.values()][0]!.animationIds).toEqual(['a1', 'a2'])
+  })
 })
 
 // ---------------------------------------------------------------------------
