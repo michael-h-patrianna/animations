@@ -83,7 +83,7 @@ describe('loadLazyGroup cache invariants', () => {
     expect(result.group.id).toBe('retry-fixture-framer')
   })
 
-  it('throws synchronously-rejecting if no loader is registered for the id', async () => {
+  it('rejects when no loader is registered for the id', async () => {
     await expect(loadLazyGroup('does-not-exist-framer')).rejects.toThrow(
       /No loader registered for "does-not-exist-framer"/
     )
