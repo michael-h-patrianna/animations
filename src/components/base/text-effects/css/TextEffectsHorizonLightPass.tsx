@@ -10,7 +10,7 @@ interface TextEffectsHorizonLightPassProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css into your app.
+ * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react (uses Web Animations API for per-letter cascade).
  * RN: Not applicable. Use framer variant for RN portability.
  */

@@ -1,3 +1,9 @@
+/**
+ * Standalone: Copy this file + TextEffectsVerbTwirling.module.css + SharedGraphemeSplitter.ts into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
+ */
+
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbTwirling.module.css'
 import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'

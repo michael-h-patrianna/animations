@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css into your app.
+ * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Port with Reanimated/Moti — transforms/opacity/color, custom delay per index.
  */

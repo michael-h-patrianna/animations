@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsWaveText.module.css into your app.
+ * Standalone: Copy this file + TextEffectsWaveText.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Port with Moti infinite loop on translateY/scale/rotate per character.
  */

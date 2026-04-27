@@ -1,3 +1,9 @@
+/**
+ * Standalone: Copy this file + TextEffectsVerbFalling.module.css + SharedGraphemeSplitter.ts into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
+ */
+
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbFalling.module.css'
 import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'

@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import styles from './TextEffectsCharacterReveal.module.css'
 import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
@@ -14,7 +14,7 @@ interface TextEffectsCharacterRevealProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsCharacterReveal.module.css into your app.
+ * Standalone: Copy this file + TextEffectsCharacterReveal.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
@@ -24,6 +24,8 @@ function TextEffectsCharacterRevealComponent({
   color,
   subtitleColor,
 }: TextEffectsCharacterRevealProps) {
+  const chars = useMemo(() => splitGraphemes(text), [text])
+
   return (
     <div
       className={styles['pf-tfx-char-reveal-container']}
@@ -40,7 +42,7 @@ function TextEffectsCharacterRevealComponent({
       <div className={styles['pf-tfx-char-reveal-text-container']}>
         {/* Shadow text layer */}
         <div className={styles['pf-tfx-char-reveal-shadow-text']}>
-          {splitGraphemes(text).map((char, index) => (
+          {chars.map((char, index) => (
             <span
               key={`shadow-${index}`}
               className={styles['pf-tfx-char-reveal-shadow-char']}
@@ -53,7 +55,7 @@ function TextEffectsCharacterRevealComponent({
 
         {/* Main golden text layer */}
         <div className={styles['pf-tfx-char-reveal-main-text']}>
-          {splitGraphemes(text).map((char, index) => (
+          {chars.map((char, index) => (
             <span
               key={index}
               className={styles['pf-tfx-char-reveal-main-char']}

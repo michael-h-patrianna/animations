@@ -1,7 +1,7 @@
 /**
  * Typewriter text reveal with blinking cursor — CSS variant.
  *
- * Copy-paste files: this file + TextEffectsTypewriter.module.css
+ * Copy-paste files: this file + TextEffectsTypewriter.module.css + SharedGraphemeSplitter.ts
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

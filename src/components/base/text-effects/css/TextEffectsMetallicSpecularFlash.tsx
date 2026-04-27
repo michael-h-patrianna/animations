@@ -10,7 +10,7 @@ interface TextEffectsMetallicSpecularFlashProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.module.css into your app.
+ * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

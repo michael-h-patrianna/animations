@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsTypewriter.module.css into your app.
+ * Standalone: Copy this file + TextEffectsTypewriter.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Port cursor blink with Moti useAnimatedStyle infinite loop.
  */

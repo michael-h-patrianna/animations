@@ -10,7 +10,7 @@ interface TextEffectsLightSweepDrawProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsLightSweepDraw.module.css into your app.
+ * Standalone: Copy this file + TextEffectsLightSweepDraw.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

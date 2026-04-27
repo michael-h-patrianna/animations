@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.module.css into your app.
+ * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Port variants/timing to Reanimated/Moti — transforms/opacity/color only.
  */

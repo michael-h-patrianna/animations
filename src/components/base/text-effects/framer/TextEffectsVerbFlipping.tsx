@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFlipping.module.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbFlipping.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Port with Moti — apply perspective inline on the animated element.
  */

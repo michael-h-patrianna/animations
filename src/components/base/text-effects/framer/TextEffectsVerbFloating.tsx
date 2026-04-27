@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFloating.module.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbFloating.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */

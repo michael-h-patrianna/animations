@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsCharacterReveal.module.css into your app.
+ * Standalone: Copy this file + TextEffectsCharacterReveal.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Port shadow/main layers with Moti MotiView stacking + stagger.
  */
