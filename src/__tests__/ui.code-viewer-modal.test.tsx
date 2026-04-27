@@ -285,5 +285,33 @@ describe('CodeViewerModal', () => {
     })
   })
 
+  describe('highlighter failure', () => {
+    it('falls back to raw source when highlightCode rejects (no permanent loading state)', async () => {
+      const { highlightCode } = (await import('@/lib/highlighter')) as {
+        highlightCode: ReturnType<typeof vi.fn>
+      }
+      try {
+        // Force the highlighter to reject — simulates shiki module load failure
+        // or its cached-rejection behavior across calls within a session.
+        highlightCode.mockRejectedValueOnce(new Error('shiki failed'))
+        highlightCode.mockRejectedValueOnce(new Error('shiki failed'))
+        highlightCode.mockRejectedValueOnce(new Error('shiki failed'))
+
+        render(<CodeViewerModal {...defaultProps} />)
+
+        // The body MUST eventually render readable code — even if unhighlighted —
+        // and not stay stuck on "Loading syntax highlighting..." forever.
+        const body = await screen.findByTestId('code-body')
+        expect(body).toBeVisible()
+        expect(body).toHaveTextContent(componentSource.code)
+      } finally {
+        // Guarantee the default mock is restored for subsequent tests, even if
+        // assertions above failed.
+        highlightCode.mockReset()
+        highlightCode.mockResolvedValue('<pre><code>highlighted</code></pre>')
+      }
+    })
+  })
+
   // Edge case tests removed — native <dialog> content not accessible in happy-dom.
 })

@@ -104,7 +104,7 @@ function TextEffectsWaveRevealComponent({
             style={{ color: line.color }}
             variants={lineVariants}
           >
-            {line.text.split('').map((char, charIndex) => (
+            {Array.from(line.text).map((char, charIndex) => (
               <m.span
                 key={`${lineIndex}-${charIndex}`}
                 className={styles['pf-wave-reveal-fm__char']}

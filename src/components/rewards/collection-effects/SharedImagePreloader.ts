@@ -17,24 +17,52 @@ export function useImagePreloader(
   images?: string[],
   timeoutMs = DEFAULT_TIMEOUT_MS
 ): { ready: boolean; timedOut: boolean } {
-  const [ready, setReady] = useState(!images || images.length === 0)
+  // Stabilize the images reference by content. Callers that pass an inline
+  // array on every render (or strict-mode double-renders) would otherwise
+  // re-trigger the preload effect on every render, even when the URLs are
+  // identical. Comparing by joined content ensures the effect only re-runs
+  // when the URL set actually changes.
+  const imagesKey = (images ?? []).join('\x01')
+  // Clone on assignment so callers that mutate the same array reference in place
+  // still produce a fresh array identity here. Without the clone, Object.is
+  // comparison in the effect dep below would treat a mutated-in-place array as
+  // unchanged even though `imagesKey` legitimately differs.
+  const stableImagesRef = useRef<string[] | undefined>(images ? [...images] : images)
+  const prevKeyRef = useRef<string | null>(null)
+  if (prevKeyRef.current !== imagesKey) {
+    prevKeyRef.current = imagesKey
+    stableImagesRef.current = images ? [...images] : images
+  }
+  const stableImages = stableImagesRef.current
+
+  const [ready, setReady] = useState(!stableImages || stableImages.length === 0)
   const [timedOut, setTimedOut] = useState(false)
-  const cancelledRef = useRef(false)
+
+  // Reset gate state when the image set changes (during render, not in effect).
+  // Using `prevImages !== stableImages` keeps this a no-op for renders where the
+  // content is unchanged, so it never cascades on the timer-fired re-render.
+  const [prevImages, setPrevImages] = useState(stableImages)
+  if (prevImages !== stableImages) {
+    setPrevImages(stableImages)
+    setReady(stableImages === undefined || stableImages.length === 0)
+    setTimedOut(false)
+  }
 
   useEffect(() => {
-    if (images === undefined || images.length === 0) return
+    if (stableImages === undefined || stableImages.length === 0) return
 
-    cancelledRef.current = false
+    // Per-effect-run flag — captured by the closures below — so a stale
+    // promise from a previous image set cannot flip ready=true on the new one.
+    let cancelled = false
 
     const timeout = globalThis.setTimeout(() => {
-      if (!cancelledRef.current) {
-        setTimedOut(true)
-        setReady(true)
-      }
+      if (cancelled) return
+      setTimedOut(true)
+      setReady(true)
     }, timeoutMs)
 
     Promise.all(
-      images.map(
+      stableImages.map(
         (src) =>
           new Promise<void>((resolve) => {
             const img = new Image()
@@ -44,17 +72,16 @@ export function useImagePreloader(
           })
       )
     ).then(() => {
-      if (!cancelledRef.current) {
-        globalThis.clearTimeout(timeout)
-        setReady(true)
-      }
+      if (cancelled) return
+      globalThis.clearTimeout(timeout)
+      setReady(true)
     })
 
     return () => {
-      cancelledRef.current = true
+      cancelled = true
       globalThis.clearTimeout(timeout)
     }
-  }, [images, timeoutMs])
+  }, [stableImages, timeoutMs])
 
   return { ready, timedOut }
 }

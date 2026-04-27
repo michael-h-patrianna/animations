@@ -57,7 +57,7 @@ function TextEffectsWaveRevealComponent({
               className={styles['pf-tfx-wave-reveal-line']}
               style={{ color: line.color, '--line-index': lineIndex } as React.CSSProperties}
             >
-              {line.text.split('').map((char, charIndex) => (
+              {Array.from(line.text).map((char, charIndex) => (
                 <span
                   key={charIndex}
                   className={styles['pf-tfx-wave-reveal-char']}

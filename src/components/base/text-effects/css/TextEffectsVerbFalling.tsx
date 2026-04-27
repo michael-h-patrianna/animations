@@ -1,5 +1,12 @@
+/**
+ * Standalone: Copy this file + TextEffectsVerbFalling.module.css + SharedGraphemeSplitter.ts into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
+ */
+
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbFalling.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbFallingProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -28,7 +35,7 @@ function TextEffectsVerbFallingComponent({
   stepDelay = 0.05,
   color,
 }: TextEffectsVerbFallingProps) {
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

@@ -212,4 +212,91 @@ describe('useImagePreloader', () => {
       expect(result.current.ready).toBe(true)
     })
   })
+
+  describe('images change mid-flight', () => {
+    it('drops ready back to false when the images array swaps to a new set', async () => {
+      const initial = ['a.png']
+      const { result, rerender } = renderHook(({ images }) => useImagePreloader(images), {
+        initialProps: { images: initial },
+      })
+
+      await act(async () => {
+        imageInstances[0]!.onload?.()
+        await vi.advanceTimersByTimeAsync(0)
+      })
+      expect(result.current.ready).toBe(true)
+
+      // Swap to a fresh set — ready must drop until the new images load.
+      rerender({ images: ['b.png'] })
+      expect(result.current.ready).toBe(false)
+      expect(result.current.timedOut).toBe(false)
+
+      const newImage = imageInstances[imageInstances.length - 1]!
+      expect(newImage.src).toBe('b.png')
+
+      await act(async () => {
+        newImage.onload?.()
+        await vi.advanceTimersByTimeAsync(0)
+      })
+      expect(result.current.ready).toBe(true)
+    })
+
+    it('a stale onload from the previous image set must not flip ready back to true', async () => {
+      const { result, rerender } = renderHook(({ images }) => useImagePreloader(images), {
+        initialProps: { images: ['old.png'] },
+      })
+
+      const oldImage = imageInstances[0]!
+      // Swap before the old image loads.
+      rerender({ images: ['new.png'] })
+      expect(result.current.ready).toBe(false)
+
+      // Old onload arrives late — must be ignored by the per-effect cancelled flag.
+      await act(async () => {
+        oldImage.onload?.()
+        await vi.advanceTimersByTimeAsync(0)
+      })
+      expect(result.current.ready).toBe(false)
+
+      // New onload finally arrives — now ready can flip true.
+      const newImage = imageInstances[imageInstances.length - 1]!
+      expect(newImage.src).toBe('new.png')
+      await act(async () => {
+        newImage.onload?.()
+        await vi.advanceTimersByTimeAsync(0)
+      })
+      expect(result.current.ready).toBe(true)
+    })
+
+    it('clears stale timedOut flag when new images replace a timed-out set', () => {
+      const { result, rerender } = renderHook(({ images }) => useImagePreloader(images, 500), {
+        initialProps: { images: ['slow.png'] },
+      })
+
+      act(() => {
+        vi.advanceTimersByTime(600)
+      })
+      expect(result.current.timedOut).toBe(true)
+      expect(result.current.ready).toBe(true)
+
+      rerender({ images: ['fresh.png'] })
+      expect(result.current.timedOut).toBe(false)
+      expect(result.current.ready).toBe(false)
+    })
+
+    it('collapses to ready=true when images is swapped to an empty array', async () => {
+      const { result, rerender } = renderHook(({ images }) => useImagePreloader(images, 500), {
+        initialProps: { images: ['slow.png'] as string[] },
+      })
+
+      act(() => {
+        vi.advanceTimersByTime(600)
+      })
+      expect(result.current.timedOut).toBe(true)
+
+      rerender({ images: [] })
+      expect(result.current.ready).toBe(true)
+      expect(result.current.timedOut).toBe(false)
+    })
+  })
 })

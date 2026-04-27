@@ -1,5 +1,12 @@
+/**
+ * Standalone: Copy this file + TextEffectsVerbFlipping.module.css + SharedGraphemeSplitter.ts into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
+ */
+
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbFlipping.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbFlippingProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -23,7 +30,7 @@ function TextEffectsVerbFlippingComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsVerbFlippingProps) {
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

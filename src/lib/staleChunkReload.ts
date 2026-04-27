@@ -21,6 +21,30 @@ function isChunkLoadError(error: unknown): boolean {
 }
 
 /**
+ * Best-effort sessionStorage access. Sandboxed iframes (no `allow-same-origin`),
+ * older Safari private mode, and certain embedded WebViews can throw on any
+ * `sessionStorage` access — even reading the flag. Treating those failures as
+ * "no flag" keeps the original control flow alive instead of replacing the
+ * underlying chunk error with a SecurityError or QuotaExceededError.
+ */
+function readReloadFlag(): boolean {
+  try {
+    return sessionStorage.getItem(RELOAD_KEY) !== null
+  } catch {
+    return false
+  }
+}
+
+function writeReloadFlag(): void {
+  try {
+    sessionStorage.setItem(RELOAD_KEY, '1')
+  } catch {
+    // Storage unavailable — the reload still happens; the flag just won't
+    // suppress an infinite loop. Better than crashing on the way out.
+  }
+}
+
+/**
  * Wraps a dynamic import promise with stale-chunk detection.
  * On chunk load failure, reloads the page once. If already reloaded,
  * rethrows so the app's error handling takes over.
@@ -29,8 +53,8 @@ export async function importWithReload<T>(importFn: () => Promise<T>): Promise<T
   try {
     return await importFn()
   } catch (error) {
-    if (isChunkLoadError(error) && !sessionStorage.getItem(RELOAD_KEY)) {
-      sessionStorage.setItem(RELOAD_KEY, '1')
+    if (isChunkLoadError(error) && !readReloadFlag()) {
+      writeReloadFlag()
       window.location.reload()
       // Never resolves — reload is in progress
       return new Promise(() => {})
@@ -41,5 +65,10 @@ export async function importWithReload<T>(importFn: () => Promise<T>): Promise<T
 
 /** Clears the reload flag on successful page load. Call once at app startup. */
 export function clearStaleChunkFlag(): void {
-  sessionStorage.removeItem(RELOAD_KEY)
+  try {
+    sessionStorage.removeItem(RELOAD_KEY)
+  } catch {
+    // Storage unavailable — nothing to clear, and we must not throw from app
+    // bootstrap (main.tsx calls this synchronously at module init).
+  }
 }

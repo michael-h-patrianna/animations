@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFloating.module.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbFloating.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbFloating.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbFloatingProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -21,7 +22,7 @@ function TextEffectsVerbFloatingComponent({
   color,
 }: TextEffectsVerbFloatingProps) {
   const prefersReducedMotion = useReducedMotion()
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

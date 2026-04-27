@@ -177,7 +177,7 @@ function TextEffectsComboCounterComponent({
         </div>
 
         <div className={styles['pf-tfx-combo-text-wrapper']}>
-          {label.split('').map((char, index) => (
+          {Array.from(label).map((char, index) => (
             <span key={index} className={styles['pf-tfx-combo-letter']}>
               {char}
             </span>

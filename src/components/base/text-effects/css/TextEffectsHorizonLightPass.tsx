@@ -1,5 +1,6 @@
 import { memo, useEffect, useMemo, useRef } from 'react'
 import styles from './TextEffectsHorizonLightPass.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsHorizonLightPassProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -9,7 +10,7 @@ interface TextEffectsHorizonLightPassProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css into your app.
+ * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react (uses Web Animations API for per-letter cascade).
  * RN: Not applicable. Use framer variant for RN portability.
  */
@@ -20,7 +21,7 @@ function TextEffectsHorizonLightPassComponent({
   const containerRef = useRef<HTMLDivElement>(null)
   const lettersRef = useRef<HTMLSpanElement[]>([])
 
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   useEffect(() => {
     const container = containerRef.current

@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DemoButton } from '@/components/demo-blocks'
 
 import cardPackBackImage from '@/assets/card-pack/card-back.webp'
@@ -273,17 +273,28 @@ function useCardPackState(cardCount: number) {
     setCollected(true)
   }, [])
 
+  // Per-card "already flashed" memory keeps a high-rarity flip from re-firing
+  // when an unrelated re-render (e.g. burstedCards updating) replays the effect.
+  // The ref is reset (in a commit-phase effect, not during render) whenever a
+  // fresh pack is dealt so the next pack's high-rarity flips fire again instead
+  // of being suppressed by stale indices.
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
+  const [flashKey, setFlashKey] = useState(0)
+  const flashedRef = useRef<boolean[]>([])
   useEffect(() => {
-    const timeoutIds: number[] = []
+    flashedRef.current = []
+  }, [cards])
+  useEffect(() => {
     flipped.forEach((isFlipped, i) => {
-      if (isFlipped && !burstedCards[i] && cards[i]!.rarity >= 4) {
-        setActiveFlash(cards[i]!.rarity)
-        timeoutIds.push(window.setTimeout(() => setActiveFlash(null), 400))
-      }
+      if (!isFlipped) return
+      if (flashedRef.current[i] === true) return
+      const card = cards[i]
+      if (!card || card.rarity < 4) return
+      flashedRef.current[i] = true
+      setActiveFlash(card.rarity)
+      setFlashKey((k) => k + 1)
     })
-    return () => timeoutIds.forEach((t) => window.clearTimeout(t))
-  }, [flipped, burstedCards, cards])
+  }, [flipped, cards])
 
   const [showConfetti, setShowConfetti] = useState(false)
   useEffect(() => {
@@ -326,6 +337,7 @@ function useCardPackState(cardCount: number) {
     showCollect,
     handleCollect,
     activeFlash,
+    flashKey,
     showConfetti,
     arrivalDust,
     edgeSparks,
@@ -355,6 +367,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
     showCollect,
     handleCollect,
     activeFlash,
+    flashKey,
     showConfetti,
     arrivalDust,
     edgeSparks,
@@ -416,7 +429,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
         <div className={styles['pf-card-pack-css__inspect-overlay']} onClick={handleDismiss} />
       )}
 
-      {activeFlash != null && <ScreenFlash rarity={activeFlash as CardRarity} />}
+      {activeFlash != null && <ScreenFlash key={flashKey} rarity={activeFlash as CardRarity} />}
       {collected && <CollectBurst />}
 
       {showCollect && !collected && (

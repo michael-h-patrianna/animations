@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsMetallicSpecularFlash.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsMetallicSpecularFlashProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -9,7 +10,7 @@ interface TextEffectsMetallicSpecularFlashProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.module.css into your app.
+ * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
@@ -17,7 +18,7 @@ function TextEffectsMetallicSpecularFlashComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsMetallicSpecularFlashProps) {
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

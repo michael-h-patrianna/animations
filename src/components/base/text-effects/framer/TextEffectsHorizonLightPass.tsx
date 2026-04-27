@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css into your app.
+ * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Port with Reanimated/Moti — transforms/opacity/color, custom delay per index.
  */
@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsHorizonLightPass.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsHorizonLightPassProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -21,7 +22,7 @@ function TextEffectsHorizonLightPassComponent({
   color,
 }: TextEffectsHorizonLightPassProps) {
   const prefersReducedMotion = useReducedMotion()
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   const reducedContainerVariants: Variants = {
     hidden: { opacity: 0 },

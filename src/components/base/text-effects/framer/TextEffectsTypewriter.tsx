@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsTypewriter.module.css into your app.
+ * Standalone: Copy this file + TextEffectsTypewriter.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Port cursor blink with Moti useAnimatedStyle infinite loop.
  */
@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsTypewriter.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsTypewriterProps {
   /** @default 'LOADING SYSTEM...' */
@@ -27,7 +28,7 @@ function TextEffectsTypewriterComponent({
   color,
 }: TextEffectsTypewriterProps) {
   const prefersReducedMotion = useReducedMotion()
-  const chars = useMemo(() => text.split(''), [text])
+  const chars = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

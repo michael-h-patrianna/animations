@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFalling.module.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbFalling.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbFalling.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbFallingProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -24,7 +25,7 @@ function TextEffectsVerbFallingComponent({
   color,
 }: TextEffectsVerbFallingProps) {
   const prefersReducedMotion = useReducedMotion()
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

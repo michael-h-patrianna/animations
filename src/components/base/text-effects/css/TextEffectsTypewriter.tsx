@@ -1,13 +1,14 @@
 /**
  * Typewriter text reveal with blinking cursor — CSS variant.
  *
- * Copy-paste files: this file + TextEffectsTypewriter.module.css
+ * Copy-paste files: this file + TextEffectsTypewriter.module.css + SharedGraphemeSplitter.ts
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsTypewriter.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsTypewriterProps {
   /** @default 'LOADING SYSTEM...' */
@@ -26,7 +27,7 @@ function TextEffectsTypewriterComponent({
   cursor = '|',
   color,
 }: TextEffectsTypewriterProps) {
-  const chars = useMemo(() => text.split(''), [text])
+  const chars = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

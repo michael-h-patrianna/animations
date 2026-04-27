@@ -69,12 +69,88 @@ export { buildPropDefaults, hasDirtyPropOverrides } from '@/contexts/inspectorPr
 
 // ── Overrides & Replay ─────────────────────────────────────────────────────
 
-/** Returns true if a persisted image value is a Vite-bundled asset path that may be stale. */
-function isStaleAssetUrl(value: unknown, type: 'image' | 'images'): boolean {
-  if (type === 'image') return typeof value === 'string' && value.startsWith('/assets/')
-  return (
-    Array.isArray(value) && value.some((u) => typeof u === 'string' && u.startsWith('/assets/'))
-  )
+/**
+ * Matches `/assets/<name>-<hash>.<ext>[?...]`, capturing the trailing hash. Vite
+ * emits content-hashed asset URLs in this shape (e.g. `card-alpaca-CJXW0pSs.webp`)
+ * and the hash flips on every redeploy.
+ */
+const VITE_ASSET_SHAPE_RE = /^\/assets\/.+-([A-Za-z0-9_-]{8,})\.[A-Za-z0-9]+(?:\?.*)?$/
+
+/**
+ * Returns true if a string is a Vite content-hashed asset URL that may go
+ * stale across deploys. User-typed paths (e.g. `/assets/my-custom-coin.png`,
+ * which is all lowercase kebab-case) are deliberately rejected — we never want
+ * to clobber a path the user explicitly chose. The hash heuristic: random
+ * base64-like strings always carry mixed case or a digit, while kebab-case
+ * filenames are pure lowercase.
+ */
+function isHashedAssetPath(value: unknown): value is string {
+  if (typeof value !== 'string') return false
+  const match = VITE_ASSET_SHAPE_RE.exec(value)
+  if (!match) return false
+  const hash = match[1]!
+  const hasUpper = /[A-Z]/.test(hash)
+  const hasLower = /[a-z]/.test(hash)
+  const hasDigit = /[0-9]/.test(hash)
+  return (hasUpper && hasLower) || hasDigit
+}
+
+/**
+ * Refreshes stale Vite asset URLs in a persisted image value while preserving
+ * user-supplied URLs (external, or unhashed `/assets/...` paths). For 'images'
+ * arrays, refreshes per-element so a mixed array (some hashed assets, some
+ * user URLs) keeps the user entries while updating the hashed assets.
+ *
+ * Returns the original `persisted` reference when nothing needs refreshing,
+ * letting callers detect a no-op via reference equality.
+ */
+function refreshStaleAssets(persisted: unknown, fresh: unknown, type: 'image' | 'images'): unknown {
+  if (type === 'image') {
+    return isHashedAssetPath(persisted) && fresh !== undefined ? fresh : persisted
+  }
+  if (!Array.isArray(persisted)) return persisted
+  const freshArray = Array.isArray(fresh) ? fresh : []
+  let mutated = false
+  const next = persisted.map((element, i) => {
+    if (!isHashedAssetPath(element)) return element
+    const candidate = freshArray[i]
+    if (candidate === undefined || candidate === element) return element
+    mutated = true
+    return candidate
+  })
+  return mutated ? next : persisted
+}
+
+/**
+ * Returns persisted overrides with stale Vite asset URLs refreshed against the
+ * current build's defaults. Caller passes the persisted record and the current
+ * prop config; the function only computes fresh defaults when there is at least
+ * one image-typed prop, and returns the original `persisted` reference when no
+ * refresh was needed.
+ */
+function applyStaleAssetRefresh(
+  persisted: Record<string, unknown>,
+  propsConfig: PropConfig[] | undefined,
+  animationId: string
+): Record<string, unknown> {
+  const imageProps = (propsConfig ?? []).filter((p) => p.type === 'image' || p.type === 'images')
+  if (imageProps.length === 0) return persisted
+
+  const freshDefaults = buildPropDefaults(propsConfig, animationId)
+  const refreshedEntries: Array<readonly [string, unknown]> = []
+  for (const prop of imageProps) {
+    if (!(prop.name in freshDefaults)) continue
+    const original = persisted[prop.name]
+    const refreshed = refreshStaleAssets(
+      original,
+      freshDefaults[prop.name],
+      prop.type as 'image' | 'images'
+    )
+    if (refreshed !== original) refreshedEntries.push([prop.name, refreshed])
+  }
+  return refreshedEntries.length > 0
+    ? { ...persisted, ...Object.fromEntries(refreshedEntries) }
+    : persisted
 }
 
 /** Manages per-animation prop overrides and replay version counters. Persists overrides to localStorage. */
@@ -113,30 +189,10 @@ function useOverridesAndReplay() {
     (animationId: string, propsConfig?: PropConfig[]) => {
       const persisted = overridesByAnimationId[animationId]
       if (persisted == null) return buildPropDefaults(propsConfig, animationId)
-
-      // `image` and `images` props may hold Vite content-hashed asset URLs
-      // (e.g. `/assets/coin-CjCfGiJU.webp`) that become stale — and 404 — after a
-      // redeploy. Replace them with fresh defaults when the stored value looks like
-      // a bundled asset path. User-supplied external URLs (e.g. `https://…`) are
-      // preserved as-is because users expect their custom input to stick.
-      const imageProps = (propsConfig ?? []).filter(
-        (p) => p.type === 'image' || p.type === 'images'
-      )
-      if (imageProps.length === 0) return persisted
-
-      const freshDefaults = buildPropDefaults(propsConfig, animationId)
-
-      const staleImageEntries = imageProps
-        .filter(
-          (p) =>
-            p.name in freshDefaults &&
-            isStaleAssetUrl(persisted[p.name], p.type as 'image' | 'images')
-        )
-        .map((p) => [p.name, freshDefaults[p.name]] as const)
-
-      return staleImageEntries.length > 0
-        ? { ...persisted, ...Object.fromEntries(staleImageEntries) }
-        : persisted
+      // `image` and `images` props may hold Vite content-hashed asset URLs that
+      // 404 after a redeploy. Refresh per-element so user-supplied external
+      // URLs sitting alongside an asset URL in an `images` array survive.
+      return applyStaleAssetRefresh(persisted, propsConfig, animationId)
     },
     [overridesByAnimationId]
   )
