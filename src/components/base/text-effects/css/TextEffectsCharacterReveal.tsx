@@ -39,7 +39,7 @@ function TextEffectsCharacterRevealComponent({
       <div className={styles['pf-tfx-char-reveal-text-container']}>
         {/* Shadow text layer */}
         <div className={styles['pf-tfx-char-reveal-shadow-text']}>
-          {text.split('').map((char, index) => (
+          {Array.from(text).map((char, index) => (
             <span
               key={`shadow-${index}`}
               className={styles['pf-tfx-char-reveal-shadow-char']}
@@ -52,7 +52,7 @@ function TextEffectsCharacterRevealComponent({
 
         {/* Main golden text layer */}
         <div className={styles['pf-tfx-char-reveal-main-text']}>
-          {text.split('').map((char, index) => (
+          {Array.from(text).map((char, index) => (
             <span
               key={index}
               className={styles['pf-tfx-char-reveal-main-char']}

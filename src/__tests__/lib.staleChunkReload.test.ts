@@ -104,4 +104,69 @@ describe('clearStaleChunkFlag', () => {
     clearStaleChunkFlag()
     expect(sessionStorage.getItem(RELOAD_KEY)).toBeNull()
   })
+
+  it('does not throw when sessionStorage.removeItem throws (sandboxed iframe / restricted webview)', () => {
+    const removeSpy = vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      throw new DOMException('Access denied', 'SecurityError')
+    })
+    expect(() => clearStaleChunkFlag()).not.toThrow()
+    removeSpy.mockRestore()
+  })
+})
+
+describe('storage-unavailable resilience', () => {
+  let reloadSpy: ReturnType<typeof vi.fn>
+
+  beforeEach(() => {
+    reloadSpy = vi.fn()
+    Object.defineProperty(window, 'location', {
+      value: { ...window.location, reload: reloadSpy },
+      writable: true,
+      configurable: true,
+    })
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('triggers reload on chunk error even when sessionStorage.getItem throws', async () => {
+    const getSpy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new DOMException('Access denied', 'SecurityError')
+    })
+    const setSpy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      // setItem may also throw in restricted contexts — must not surface either.
+      throw new DOMException('QuotaExceededError', 'QuotaExceededError')
+    })
+    const chunkError = new TypeError('Failed to fetch dynamically imported module /chunk.js')
+
+    const raceResult = await Promise.race([
+      importWithReload(() => Promise.reject(chunkError)).then(() => 'resolved'),
+      new Promise<string>((resolve) => setTimeout(() => resolve('timed-out'), 50)),
+    ])
+
+    // The original chunk error must NOT be replaced by a SecurityError;
+    // reload should still fire because the flag is treated as "not set".
+    expect(reloadSpy).toHaveBeenCalledOnce()
+    expect(raceResult).toBe('timed-out')
+
+    getSpy.mockRestore()
+    setSpy.mockRestore()
+  })
+
+  it('rethrows the original chunk error (not a SecurityError) when reload is suppressed and storage is broken', async () => {
+    // Reload is suppressed by mocking getItem to return the flag — but a
+    // throwing setItem must NOT replace the original chunk error on rethrow.
+    const getSpy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => '1')
+    const setSpy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('QuotaExceededError', 'QuotaExceededError')
+    })
+    const chunkError = new TypeError('Failed to fetch dynamically imported module /chunk.js')
+
+    await expect(importWithReload(() => Promise.reject(chunkError))).rejects.toBe(chunkError)
+    expect(reloadSpy).not.toHaveBeenCalled()
+
+    getSpy.mockRestore()
+    setSpy.mockRestore()
+  })
 })

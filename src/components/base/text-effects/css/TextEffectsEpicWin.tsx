@@ -31,7 +31,7 @@ function TextEffectsEpicWinComponent({
 
         {/* Main metallic gradient text with per-character animation */}
         <div className={styles['pf-tfe-epic-win__main-text']}>
-          {text.split('').map((char, index) => (
+          {Array.from(text).map((char, index) => (
             <span
               key={index}
               className={styles['pf-tfe-epic-win__char']}

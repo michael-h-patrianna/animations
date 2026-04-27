@@ -26,7 +26,7 @@ function TextEffectsTypewriterComponent({
   cursor = '|',
   color,
 }: TextEffectsTypewriterProps) {
-  const chars = useMemo(() => text.split(''), [text])
+  const chars = useMemo(() => Array.from(text), [text])
 
   return (
     <div

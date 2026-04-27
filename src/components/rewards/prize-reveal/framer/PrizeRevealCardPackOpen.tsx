@@ -1,6 +1,6 @@
 import { AnimatePresence, MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
-import { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import styles from './PrizeRevealCardPackOpen.module.css'
 import cardPackBackImage from '@/assets/card-pack/card-back.webp'
@@ -228,17 +228,24 @@ function useCardPackState(cardCount: number) {
     setCollected(true)
   }, [])
 
+  // Per-card "already flashed" memory keeps a high-rarity flip from re-firing
+  // when downstream effects (burstedCards) re-render the host. Without the ref,
+  // the activeFlash effect re-running cancelled its own clear-timeout and the
+  // ScreenFlash CSS animation never restarted for cards 2..N.
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
+  const [flashKey, setFlashKey] = useState(0)
+  const flashedRef = useRef<boolean[]>([])
   useEffect(() => {
-    const timeoutIds: number[] = []
     flipped.forEach((isFlipped, i) => {
-      if (isFlipped && !burstedCards[i] && cards[i]!.rarity >= 4) {
-        setActiveFlash(cards[i]!.rarity)
-        timeoutIds.push(window.setTimeout(() => setActiveFlash(null), 400))
-      }
+      if (!isFlipped) return
+      if (flashedRef.current[i] === true) return
+      const card = cards[i]
+      if (!card || card.rarity < 4) return
+      flashedRef.current[i] = true
+      setActiveFlash(card.rarity)
+      setFlashKey((k) => k + 1)
     })
-    return () => timeoutIds.forEach((t) => window.clearTimeout(t))
-  }, [flipped, burstedCards, cards])
+  }, [flipped, cards])
 
   const [showConfetti, setShowConfetti] = useState(false)
   useEffect(() => {
@@ -263,6 +270,7 @@ function useCardPackState(cardCount: number) {
     showCollect,
     handleCollect,
     activeFlash,
+    flashKey,
     showConfetti,
   }
 }
@@ -338,6 +346,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
     showCollect,
     handleCollect,
     activeFlash,
+    flashKey,
     showConfetti,
   } = useCardPackState(cardCount)
 
@@ -393,7 +402,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
           />
         )}
       </AnimatePresence>
-      {activeFlash != null && <ScreenFlash rarity={activeFlash as 4 | 5} />}
+      {activeFlash != null && <ScreenFlash key={flashKey} rarity={activeFlash as 4 | 5} />}
       {collected && <CollectBurst />}
       {showCollect && !collected && (
         <DemoButton

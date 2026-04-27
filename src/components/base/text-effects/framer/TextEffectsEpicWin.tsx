@@ -18,7 +18,7 @@ interface TextEffectsEpicWinProps {
 
 function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEpicWinProps) {
   const prefersReducedMotion = useReducedMotion()
-  const chars = useMemo(() => text.split(''), [text])
+  const chars = useMemo(() => Array.from(text), [text])
 
   return (
     <div

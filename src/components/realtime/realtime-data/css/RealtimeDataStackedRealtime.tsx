@@ -36,6 +36,44 @@ interface RealtimeDataStackedRealtimeProps {
   inactiveColor?: string
 }
 
+const animateRowEntrance = (
+  rowEl: HTMLDivElement | null | undefined,
+  valueEl: HTMLSpanElement | null | undefined,
+  index: number,
+  isActive: boolean,
+  duration: number,
+  staggerDelay: number,
+  activeColor: string,
+  inactiveColor: string
+) => {
+  const offsetX = index % 2 === 0 ? -16 : 16
+
+  if (rowEl) {
+    rowEl.animate(
+      [
+        { transform: `translateX(${offsetX}px)`, opacity: 0 },
+        { transform: 'translateX(0)', opacity: 1 },
+      ],
+      {
+        duration,
+        delay: index * staggerDelay,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        fill: 'forwards',
+      }
+    )
+  }
+
+  if (valueEl) {
+    const targetColor = isActive ? activeColor : inactiveColor
+    valueEl.animate([{ color: activeColor }, { color: targetColor }], {
+      duration: 400,
+      delay: index * staggerDelay + 200,
+      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      fill: 'forwards',
+    })
+  }
+}
+
 const animateRowsIn = (
   items: StatEntry[],
   rowEls: Array<HTMLDivElement | null>,
@@ -43,38 +81,24 @@ const animateRowsIn = (
   duration: number,
   staggerDelay: number,
   activeColor: string,
-  inactiveColor: string
+  inactiveColor: string,
+  indices?: number[]
 ) => {
-  items.forEach((item, index) => {
-    const rowEl = rowEls[index]
-    const valueEl = valueEls[index]
-    const offsetX = index % 2 === 0 ? -16 : 16
-
-    if (rowEl) {
-      rowEl.animate(
-        [
-          { transform: `translateX(${offsetX}px)`, opacity: 0 },
-          { transform: 'translateX(0)', opacity: 1 },
-        ],
-        {
-          duration,
-          delay: index * staggerDelay,
-          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          fill: 'forwards',
-        }
-      )
-    }
-
-    if (valueEl) {
-      const targetColor = item.active === true ? activeColor : inactiveColor
-      valueEl.animate([{ color: activeColor }, { color: targetColor }], {
-        duration: 400,
-        delay: index * staggerDelay + 200,
-        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        fill: 'forwards',
-      })
-    }
-  })
+  const targetIndices = indices ?? items.map((_, i) => i)
+  for (const index of targetIndices) {
+    const item = items[index]
+    if (!item) continue
+    animateRowEntrance(
+      rowEls[index],
+      valueEls[index],
+      index,
+      item.active === true,
+      duration,
+      staggerDelay,
+      activeColor,
+      inactiveColor
+    )
+  }
 }
 
 const animateRowsOut = (rowEls: Array<HTMLDivElement | null>) => {
@@ -102,9 +126,13 @@ function RealtimeDataStackedRealtimeComponent({
   const rowRef = useRef<Array<HTMLDivElement | null>>([])
   const valueRef = useRef<Array<HTMLSpanElement | null>>([])
   const prevVisibleRef = useRef<boolean | null>(null)
+  const prevLabelsRef = useRef<string[]>([])
 
   useEffect(() => {
+    const currentLabels = items.map((item) => item.label)
+
     if (visible && prevVisibleRef.current !== visible) {
+      // Visibility transition: animate the whole list in.
       animateRowsIn(
         items,
         rowRef.current,
@@ -116,8 +144,30 @@ function RealtimeDataStackedRealtimeComponent({
       )
     } else if (!visible && prevVisibleRef.current !== null && prevVisibleRef.current !== visible) {
       animateRowsOut(rowRef.current)
+    } else if (visible) {
+      // Already visible: any newly mounted row (label not in the previous set)
+      // would otherwise stay stuck at the inline opacity:0 because no
+      // animation has run on it. Animate just those new indices.
+      const prevLabelSet = new Set(prevLabelsRef.current)
+      const newIndices: number[] = []
+      currentLabels.forEach((label, idx) => {
+        if (!prevLabelSet.has(label)) newIndices.push(idx)
+      })
+      if (newIndices.length > 0) {
+        animateRowsIn(
+          items,
+          rowRef.current,
+          valueRef.current,
+          duration,
+          staggerDelay,
+          activeColor,
+          inactiveColor,
+          newIndices
+        )
+      }
     }
     prevVisibleRef.current = visible
+    prevLabelsRef.current = currentLabels
   }, [visible, items, duration, staggerDelay, activeColor, inactiveColor])
 
   return (

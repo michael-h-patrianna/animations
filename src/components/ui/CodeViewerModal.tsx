@@ -22,6 +22,14 @@ function stripShikiBackground(html: string): string {
     .replace(/background:[^;"]+;?/g, 'background: transparent;')
 }
 
+/** Escapes raw source for safe HTML rendering when syntax highlighting is unavailable. */
+function escapeHtmlForFallback(code: string): string {
+  return `<pre><code>${code
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')}</code></pre>`
+}
+
 /** Highlights all source tabs and tracks loading state. */
 function useHighlightedSources(sources: SourceTab[]) {
   const [highlighted, setHighlighted] = useState<string[]>([])
@@ -34,13 +42,28 @@ function useHighlightedSources(sources: SourceTab[]) {
   useEffect(() => {
     let cancelled = false
     async function run() {
-      const results = await Promise.all(
-        sourcesRef.current.map((tab) =>
-          highlightCode(cleanSourceForDisplay(tab.code), tab.language).then(stripShikiBackground)
+      const cleanedSources = sourcesRef.current.map((tab) => ({
+        ...tab,
+        cleaned: cleanSourceForDisplay(tab.code),
+      }))
+      try {
+        const results = await Promise.all(
+          cleanedSources.map((tab) =>
+            highlightCode(tab.cleaned, tab.language).then(stripShikiBackground)
+          )
         )
-      )
-      if (!cancelled) {
-        setHighlighted(results)
+        if (!cancelled) {
+          setHighlighted(results)
+          setLoading(false)
+        }
+      } catch (err) {
+        // Shiki failed to load (network error, cached rejection from a prior
+        // failure). Without this guard, loading stays true forever and the
+        // modal is stuck. Fall back to escaped raw source — readable, just
+        // unhighlighted — and drop the loading state so the user sees code.
+        if (cancelled) return
+        logger.warn('Code viewer: syntax highlighting unavailable — showing raw source', err)
+        setHighlighted(cleanedSources.map((tab) => escapeHtmlForFallback(tab.cleaned)))
         setLoading(false)
       }
     }

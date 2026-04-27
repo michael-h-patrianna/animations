@@ -208,7 +208,7 @@ function TextEffectsComboCounterComponent({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2, delay: 0.1 }}
         >
-          {label.split('').map((char, index) => (
+          {Array.from(label).map((char, index) => (
             <m.span
               key={index}
               className={styles['pf-combo-fm__text-char']}

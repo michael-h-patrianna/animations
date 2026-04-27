@@ -27,7 +27,7 @@ function TextEffectsCharacterRevealComponent({
   subtitleColor,
 }: TextEffectsCharacterRevealProps) {
   const prefersReducedMotion = useReducedMotion()
-  const chars = useMemo(() => text.split(''), [text])
+  const chars = useMemo(() => Array.from(text), [text])
 
   return (
     <div

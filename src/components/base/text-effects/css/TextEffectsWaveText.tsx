@@ -34,7 +34,7 @@ function TextEffectsWaveTextComponent({
       }
     >
       <div className={styles['pf-tfx-wave-text-wrapper']}>
-        {text.split('').map((char, index) => {
+        {Array.from(text).map((char, index) => {
           const delay = index * charDelay
           const isSpace = char === ' '
 
