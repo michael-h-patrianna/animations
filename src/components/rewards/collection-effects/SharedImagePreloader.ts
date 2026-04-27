@@ -23,11 +23,15 @@ export function useImagePreloader(
   // identical. Comparing by joined content ensures the effect only re-runs
   // when the URL set actually changes.
   const imagesKey = (images ?? []).join('\x01')
-  const stableImagesRef = useRef<string[] | undefined>(images)
+  // Clone on assignment so callers that mutate the same array reference in place
+  // still produce a fresh array identity here. Without the clone, Object.is
+  // comparison in the effect dep below would treat a mutated-in-place array as
+  // unchanged even though `imagesKey` legitimately differs.
+  const stableImagesRef = useRef<string[] | undefined>(images ? [...images] : images)
   const prevKeyRef = useRef<string | null>(null)
   if (prevKeyRef.current !== imagesKey) {
     prevKeyRef.current = imagesKey
-    stableImagesRef.current = images
+    stableImagesRef.current = images ? [...images] : images
   }
   const stableImages = stableImagesRef.current
 

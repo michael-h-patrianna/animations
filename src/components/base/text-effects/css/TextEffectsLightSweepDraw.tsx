@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsLightSweepDraw.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsLightSweepDrawProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -17,7 +18,7 @@ function TextEffectsLightSweepDrawComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsLightSweepDrawProps) {
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

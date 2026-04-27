@@ -42,6 +42,9 @@ function useHighlightedSources(sources: SourceTab[]) {
   useEffect(() => {
     let cancelled = false
     async function run() {
+      // Reset to loading on every effect run so a `sources` swap doesn't leave
+      // the body rendering stale highlighted HTML with `loading=false`.
+      setLoading(true)
       const cleanedSources = sourcesRef.current.map((tab) => ({
         ...tab,
         cleaned: cleanSourceForDisplay(tab.code),

@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbTwirling.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbTwirlingProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -23,7 +24,7 @@ function TextEffectsVerbTwirlingComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsVerbTwirlingProps) {
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

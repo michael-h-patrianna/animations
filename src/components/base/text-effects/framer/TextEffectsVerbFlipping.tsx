@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbFlipping.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbFlippingProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -21,7 +22,7 @@ function TextEffectsVerbFlippingComponent({
   color,
 }: TextEffectsVerbFlippingProps) {
   const prefersReducedMotion = useReducedMotion()
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

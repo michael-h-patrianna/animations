@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { easeOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsCharacterReveal.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsCharacterRevealProps {
   /** Main text to reveal. @default 'ACHIEVEMENT' */
@@ -27,7 +28,7 @@ function TextEffectsCharacterRevealComponent({
   subtitleColor,
 }: TextEffectsCharacterRevealProps) {
   const prefersReducedMotion = useReducedMotion()
-  const chars = useMemo(() => Array.from(text), [text])
+  const chars = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

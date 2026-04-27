@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbJumping.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbJumpingProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -28,7 +29,7 @@ function TextEffectsVerbJumpingComponent({
   stepDelay = 0.06,
   color,
 }: TextEffectsVerbJumpingProps) {
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

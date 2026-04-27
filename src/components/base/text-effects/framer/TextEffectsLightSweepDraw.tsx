@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsLightSweepDraw.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsLightSweepDrawProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -21,7 +22,7 @@ function TextEffectsLightSweepDrawComponent({
   color,
 }: TextEffectsLightSweepDrawProps) {
   const prefersReducedMotion = useReducedMotion()
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   const containerVariants: Variants = prefersReducedMotion
     ? {

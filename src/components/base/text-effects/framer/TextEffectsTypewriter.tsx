@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsTypewriter.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsTypewriterProps {
   /** @default 'LOADING SYSTEM...' */
@@ -27,7 +28,7 @@ function TextEffectsTypewriterComponent({
   color,
 }: TextEffectsTypewriterProps) {
   const prefersReducedMotion = useReducedMotion()
-  const chars = useMemo(() => Array.from(text), [text])
+  const chars = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbFloating.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbFloatingProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -23,7 +24,7 @@ function TextEffectsVerbFloatingComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsVerbFloatingProps) {
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

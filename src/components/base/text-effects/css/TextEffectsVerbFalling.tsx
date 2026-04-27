@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbFalling.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbFallingProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -28,7 +29,7 @@ function TextEffectsVerbFallingComponent({
   stepDelay = 0.05,
   color,
 }: TextEffectsVerbFallingProps) {
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

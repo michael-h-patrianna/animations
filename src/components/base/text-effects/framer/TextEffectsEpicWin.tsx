@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { easeOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsEpicWin.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsEpicWinProps {
   /** @default 'EPIC WIN' */
@@ -18,7 +19,7 @@ interface TextEffectsEpicWinProps {
 
 function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEpicWinProps) {
   const prefersReducedMotion = useReducedMotion()
-  const chars = useMemo(() => Array.from(text), [text])
+  const chars = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

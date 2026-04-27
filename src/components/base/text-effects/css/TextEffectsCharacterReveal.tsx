@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import styles from './TextEffectsCharacterReveal.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsCharacterRevealProps {
   /** Main text to reveal. @default 'ACHIEVEMENT' */
@@ -39,7 +40,7 @@ function TextEffectsCharacterRevealComponent({
       <div className={styles['pf-tfx-char-reveal-text-container']}>
         {/* Shadow text layer */}
         <div className={styles['pf-tfx-char-reveal-shadow-text']}>
-          {Array.from(text).map((char, index) => (
+          {splitGraphemes(text).map((char, index) => (
             <span
               key={`shadow-${index}`}
               className={styles['pf-tfx-char-reveal-shadow-char']}
@@ -52,7 +53,7 @@ function TextEffectsCharacterRevealComponent({
 
         {/* Main golden text layer */}
         <div className={styles['pf-tfx-char-reveal-main-text']}>
-          {Array.from(text).map((char, index) => (
+          {splitGraphemes(text).map((char, index) => (
             <span
               key={index}
               className={styles['pf-tfx-char-reveal-main-char']}

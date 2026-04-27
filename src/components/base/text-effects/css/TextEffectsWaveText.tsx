@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import styles from './TextEffectsWaveText.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsWaveTextProps {
   /** Text content to animate with wave motion. */
@@ -34,7 +35,7 @@ function TextEffectsWaveTextComponent({
       }
     >
       <div className={styles['pf-tfx-wave-text-wrapper']}>
-        {Array.from(text).map((char, index) => {
+        {splitGraphemes(text).map((char, index) => {
           const delay = index * charDelay
           const isSpace = char === ' '
 

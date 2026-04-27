@@ -165,6 +165,10 @@ describe('storage-unavailable resilience', () => {
 
     await expect(importWithReload(() => Promise.reject(chunkError))).rejects.toBe(chunkError)
     expect(reloadSpy).not.toHaveBeenCalled()
+    // Suppressed-reload path must rethrow without ever attempting to write the
+    // flag — otherwise a regression could replace the original chunk error
+    // with a storage-write error.
+    expect(setSpy).not.toHaveBeenCalled()
 
     getSpy.mockRestore()
     setSpy.mockRestore()

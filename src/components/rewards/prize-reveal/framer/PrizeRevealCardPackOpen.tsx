@@ -229,12 +229,17 @@ function useCardPackState(cardCount: number) {
   }, [])
 
   // Per-card "already flashed" memory keeps a high-rarity flip from re-firing
-  // when downstream effects (burstedCards) re-render the host. Without the ref,
-  // the activeFlash effect re-running cancelled its own clear-timeout and the
-  // ScreenFlash CSS animation never restarted for cards 2..N.
+  // when an unrelated re-render (e.g. burstedCards updating) replays the effect.
+  // The ref is reset whenever a fresh pack is dealt so the next pack's high-rarity
+  // flips fire again instead of being suppressed by stale indices.
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
   const [flashKey, setFlashKey] = useState(0)
   const flashedRef = useRef<boolean[]>([])
+  const cardsRef = useRef(cards)
+  if (cardsRef.current !== cards) {
+    cardsRef.current = cards
+    flashedRef.current = []
+  }
   useEffect(() => {
     flipped.forEach((isFlipped, i) => {
       if (!isFlipped) return

@@ -8,6 +8,7 @@ import * as m from 'motion/react-m'
 import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbJumping.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 interface TextEffectsVerbJumpingProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -24,7 +25,7 @@ function TextEffectsVerbJumpingComponent({
   color,
 }: TextEffectsVerbJumpingProps) {
   const prefersReducedMotion = useReducedMotion()
-  const letters = useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => splitGraphemes(text), [text])
 
   return (
     <div

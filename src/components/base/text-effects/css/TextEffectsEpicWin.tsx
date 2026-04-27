@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import styles from './TextEffectsEpicWin.module.css'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 
 /**
  * Standalone: Copy this file + TextEffectsEpicWin.module.css into your app.
@@ -31,7 +32,7 @@ function TextEffectsEpicWinComponent({
 
         {/* Main metallic gradient text with per-character animation */}
         <div className={styles['pf-tfe-epic-win__main-text']}>
-          {Array.from(text).map((char, index) => (
+          {splitGraphemes(text).map((char, index) => (
             <span
               key={index}
               className={styles['pf-tfe-epic-win__char']}

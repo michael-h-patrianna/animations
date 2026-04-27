@@ -82,7 +82,7 @@ describe('getPropOverrides — stale asset refresh', () => {
         type: 'images',
         name: 'particleImages',
         label: 'Particle Images',
-        default: ['/assets/coin-NEW.webp'],
+        default: ['/assets/coin-NEWhashBB.webp'],
         maxItems: 5,
       },
     ])
@@ -91,7 +91,7 @@ describe('getPropOverrides — stale asset refresh', () => {
       STORAGE_KEY,
       JSON.stringify({
         [animation.id]: {
-          particleImages: ['/assets/coin-OLD.webp', 'https://custom.example/sparkle.png'],
+          particleImages: ['/assets/coin-OLDhashAA.webp', 'https://custom.example/sparkle.png'],
         },
       })
     )
@@ -99,7 +99,7 @@ describe('getPropOverrides — stale asset refresh', () => {
     const overrides = readOverrides(animation)
 
     expect(overrides?.particleImages).toEqual([
-      '/assets/coin-NEW.webp',
+      '/assets/coin-NEWhashBB.webp',
       'https://custom.example/sparkle.png',
     ])
   })
@@ -110,7 +110,7 @@ describe('getPropOverrides — stale asset refresh', () => {
         type: 'images',
         name: 'particleImages',
         label: 'Particle Images',
-        default: ['/assets/coin-NEW.webp'],
+        default: ['/assets/coin-NEWhashBB.webp'],
         maxItems: 5,
       },
     ])
@@ -127,13 +127,38 @@ describe('getPropOverrides — stale asset refresh', () => {
     expect(overrides?.particleImages).toEqual(userArray)
   })
 
+  it('preserves user-typed unhashed /assets/ paths instead of clobbering them with build defaults', () => {
+    // A user can manually point an `image` prop at a stable, unhashed asset
+    // path (e.g. one they ship in /public). The refresh logic must only treat
+    // Vite-emitted content-hashed URLs as stale — paths without the hash
+    // pattern are user choices and must survive a redeploy.
+    const animation = makeAnimation([
+      {
+        type: 'image',
+        name: 'coinImage',
+        label: 'Coin Image',
+        default: '/assets/coin-NEWhashBB.webp',
+      },
+    ])
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        [animation.id]: { coinImage: '/assets/my-custom-coin.png' },
+      })
+    )
+
+    const overrides = readOverrides(animation)
+    expect(overrides?.coinImage).toBe('/assets/my-custom-coin.png')
+  })
+
   it('keeps user-supplied items past the freshDefaults length intact', () => {
     const animation = makeAnimation([
       {
         type: 'images',
         name: 'particleImages',
         label: 'Particle Images',
-        default: ['/assets/coin-NEW.webp'],
+        default: ['/assets/coin-NEWhashBB.webp'],
         maxItems: 5,
       },
     ])
@@ -143,7 +168,7 @@ describe('getPropOverrides — stale asset refresh', () => {
       JSON.stringify({
         [animation.id]: {
           particleImages: [
-            '/assets/coin-OLD.webp',
+            '/assets/coin-OLDhashAA.webp',
             'https://custom.example/a.png',
             'https://custom.example/b.png',
           ],
@@ -153,7 +178,7 @@ describe('getPropOverrides — stale asset refresh', () => {
 
     const overrides = readOverrides(animation)
     expect(overrides?.particleImages).toEqual([
-      '/assets/coin-NEW.webp',
+      '/assets/coin-NEWhashBB.webp',
       'https://custom.example/a.png',
       'https://custom.example/b.png',
     ])
