@@ -1,5 +1,7 @@
 # Animation Showcase
 
+Vercel Preview: https://animations-nine-sandy.vercel.app/
+
 [![CI](https://github.com/michael-haufschild-gib/animations/actions/workflows/ci.yml/badge.svg)](https://github.com/michael-haufschild-gib/animations/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/michael-haufschild-gib/animations/graph/badge.svg)](https://codecov.io/gh/michael-haufschild-gib/animations)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
