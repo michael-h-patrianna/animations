@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Two-layer stagger entrance: pop-scale step indicators + rotate-morph content panels — CSS variant.
  *
  * Copy-paste files: this file + TileAnimationsWizardScaleRotate.module.css

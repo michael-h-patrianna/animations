@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 import { animationTitleIndexPlugin } from './vite/plugins/animationTitleIndexPlugin'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   server: {
     // Dev server on 3000; E2E tests (playwright.config.ts) start a separate
     // server on 5173 so tests never conflict with a running dev instance.
@@ -15,9 +15,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/src',
-      // Enable React Profiler in production builds so render-time badges work.
-      // Overhead: ~0.12ms per frame with 12 profiled components. Zero when toggled off.
-      'react-dom/client': 'react-dom/profiling',
+      // Opt into React Profiler only for explicit profile builds.
+      ...(mode === 'profile' ? { 'react-dom/client': 'react-dom/profiling' } : {}),
     },
   },
   build: {
@@ -76,4 +75,4 @@ export default defineConfig({
       },
     },
   },
-})
+}))

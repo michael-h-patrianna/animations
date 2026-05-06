@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Dramatic 3-2-1-GO! countdown burst with expanding ring, pulsing glow,
  * and radial particle explosion on each step — CSS variant.
  *

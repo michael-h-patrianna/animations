@@ -159,20 +159,20 @@ describe('blendColors', () => {
 })
 
 describe('addTransparency', () => {
-  it('returns full opacity at alpha 100', () => {
-    expect(addTransparency('#ff0000', 100)).toBe('rgba(255, 0, 0, 1)')
+  it('returns full opacity at alpha 1', () => {
+    expect(addTransparency('#ff0000', 1)).toBe('rgba(255, 0, 0, 1)')
   })
 
   it('returns full transparency at alpha 0', () => {
     expect(addTransparency('#ff0000', 0)).toBe('rgba(255, 0, 0, 0)')
   })
 
-  it('returns 50% opacity at alpha 50', () => {
-    expect(addTransparency('#ff0000', 50)).toBe('rgba(255, 0, 0, 0.5)')
+  it('returns 50% opacity at alpha 0.5', () => {
+    expect(addTransparency('#ff0000', 0.5)).toBe('rgba(255, 0, 0, 0.5)')
   })
 
-  it('clamps alpha above 100 to 1', () => {
-    expect(addTransparency('#ff0000', 200)).toBe('rgba(255, 0, 0, 1)')
+  it('clamps alpha above 1 to 1', () => {
+    expect(addTransparency('#ff0000', 2)).toBe('rgba(255, 0, 0, 1)')
   })
 
   it('clamps alpha below 0 to 0', () => {
@@ -180,18 +180,18 @@ describe('addTransparency', () => {
   })
 
   it('handles 3-char hex', () => {
-    expect(addTransparency('#f00', 75)).toBe('rgba(255, 0, 0, 0.75)')
+    expect(addTransparency('#f00', 0.75)).toBe('rgba(255, 0, 0, 0.75)')
   })
 
   it('preserves exact RGB values from input color', () => {
-    const result = addTransparency('#1a2b3c', 50)
+    const result = addTransparency('#1a2b3c', 0.5)
     expect(result).toBe('rgba(26, 43, 60, 0.5)')
   })
 
-  it('handles alpha at boundaries: 0 and 100 produce clean values', () => {
-    // Alpha 0 → 0 (not 0.0 or similar), alpha 100 → 1 (not 1.0)
+  it('handles alpha at boundaries: 0 and 1 produce clean values', () => {
+    // Alpha 0 -> 0 (not 0.0 or similar), alpha 1 -> 1 (not 1.0)
     expect(addTransparency('#ff0000', 0)).toMatch(/,\s*0\)$/)
-    expect(addTransparency('#ff0000', 100)).toMatch(/,\s*1\)$/)
+    expect(addTransparency('#ff0000', 1)).toMatch(/,\s*1\)$/)
   })
 })
 
@@ -425,7 +425,7 @@ describe('color utility mathematical precision', () => {
     expect(result1).toMatch(/^rgba\(\d+, \d+, \d+, [\d.]+\)$/)
     expect(result1).not.toContain('e')
 
-    const result2 = addTransparency('#ff0000', 99.9)
+    const result2 = addTransparency('#ff0000', 0.999)
     expect(result2).toMatch(/^rgba\(\d+, \d+, \d+, [\d.]+\)$/)
     expect(result2).not.toContain('e')
   })
@@ -569,7 +569,7 @@ describe('color parsing — modern CSS4 space-separated syntax', () => {
   it('addTransparency handles rgba() with space-separated input (falls back to gold)', () => {
     // rgba(255 0 0 / 0.5) is not matched by the comma regex
     // parseColor falls back to FALLBACK_COLOR
-    const result = addTransparency('rgba(255 0 0 / 0.5)', 50)
+    const result = addTransparency('rgba(255 0 0 / 0.5)', 0.5)
     // Should still return a valid rgba string (using fallback gold color)
     expect(result).toMatch(/^rgba\(\d+, \d+, \d+, [\d.]+\)$/)
   })

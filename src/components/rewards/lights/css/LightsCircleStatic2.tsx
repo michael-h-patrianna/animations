@@ -1,3 +1,8 @@
+/**
+ * CSS variant.
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
+ */
 import type { CSSProperties } from 'react'
 import { useMemo } from 'react'
 import styles from './LightsCircleStatic2.module.css'

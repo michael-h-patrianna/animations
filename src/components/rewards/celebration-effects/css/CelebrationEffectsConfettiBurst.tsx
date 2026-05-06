@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Multi-layered confetti explosion with depth layers, 3D tumble, and sparkles — CSS variant.
  *
  * Copy-paste files: this file + CelebrationEffectsConfettiBurst.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css

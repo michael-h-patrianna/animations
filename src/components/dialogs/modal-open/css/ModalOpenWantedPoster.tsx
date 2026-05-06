@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Modal unrolls like a scroll at viewport center — CSS variant.
  * Uses Web Animations API for height reveal. No position movement.
  */

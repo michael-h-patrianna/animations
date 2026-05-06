@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Bounce Fill Progress Bar (CSS variant)
  *
  * CSS keyframe version. In demo mode plays a one-shot bounce fill with

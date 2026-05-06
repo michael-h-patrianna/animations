@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Pill countdown with organic heartbeat pulse effect — CSS variant.
  * Heartbeat rate and glow intensity increase as time runs out via CSS classes.
  *

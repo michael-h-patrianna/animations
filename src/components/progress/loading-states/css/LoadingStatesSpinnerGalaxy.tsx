@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Spinning disc with two orbiting stars that pulse — CSS variant.
  *
  * Copy-paste files: this file + LoadingStatesSpinnerGalaxy.module.css + ../SharedDefaults.ts

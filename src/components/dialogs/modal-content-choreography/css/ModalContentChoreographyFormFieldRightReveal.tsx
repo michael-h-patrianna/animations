@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Modal with right-slide form field reveal — CSS variant.
  *
  * Copy-paste files: this file + ModalContentChoreographyFormFieldRightReveal.module.css + ../shared.css + ../SharedTypes.ts

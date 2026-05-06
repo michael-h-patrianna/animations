@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Stagger-reveals child elements one by one on mount — CSS variant.
  *
  * Copy-paste files: this file + TileAnimationsStaggerInview.module.css

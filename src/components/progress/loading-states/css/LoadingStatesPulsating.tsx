@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Two concentric rings expanding outward from center and fading — CSS variant.
  *
  * Copy-paste files: this file + LoadingStatesPulsating.module.css + ../SharedDefaults.ts

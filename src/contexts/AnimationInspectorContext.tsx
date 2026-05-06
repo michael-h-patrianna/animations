@@ -174,6 +174,7 @@ function useOverridesAndReplay() {
     persistTimerRef.current = setTimeout(() => {
       persistOverrides(overridesByAnimationId)
     }, PERSIST_DEBOUNCE_MS)
+    // NOTE: trailing change before unmount may not persist; cleanup preserves current debounced behavior.
     return () => clearTimeout(persistTimerRef.current)
   }, [overridesByAnimationId])
 

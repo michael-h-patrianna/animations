@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Floating number that pops in, drifts upward, and fades out — CSS variant.
  * Color is determined by the numeric value and configurable thresholds.
  *

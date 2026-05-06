@@ -197,14 +197,15 @@ function generateGroupIndex(group, { hasSharedCss }) {
     "  import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true }),"
   )
   lines.push('  {')
-  lines.push(
-    "    framerTsx: import.meta.glob<string>('./framer/*.tsx', { query: '?raw', import: 'default' }),"
-  )
+  lines.push("    framerTsx: import.meta.glob<string>('./framer/*.{ts,tsx}', {")
+  lines.push("      query: '?raw',")
+  lines.push("      import: 'default',")
+  lines.push('    }),')
   lines.push(
     "    framerCss: import.meta.glob<string>('./framer/*.css', { query: '?raw', import: 'default' }),"
   )
   lines.push(
-    "    cssTsx: import.meta.glob<string>('./css/*.tsx', { query: '?raw', import: 'default' }),"
+    "    cssTsx: import.meta.glob<string>('./css/*.{ts,tsx}', { query: '?raw', import: 'default' }),"
   )
   lines.push(
     "    cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),"

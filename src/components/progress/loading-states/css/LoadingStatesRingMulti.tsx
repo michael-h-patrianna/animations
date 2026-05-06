@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Three concentric rings spinning at different speeds and directions — CSS variant.
  *
  * Copy-paste files: this file + LoadingStatesRingMulti.module.css + ../SharedDefaults.ts

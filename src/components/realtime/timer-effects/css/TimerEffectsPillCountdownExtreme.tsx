@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Pill countdown with intense buzz-shake effect and aggressive color transitions — CSS variant.
  * Buzzes at landmark seconds and every second in the final 10.
  *

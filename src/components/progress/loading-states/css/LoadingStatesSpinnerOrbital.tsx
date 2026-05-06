@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * A glowing satellite dot orbiting a dashed ring — CSS variant.
  *
  * Copy-paste files: this file + LoadingStatesSpinnerOrbital.module.css + ../SharedDefaults.ts

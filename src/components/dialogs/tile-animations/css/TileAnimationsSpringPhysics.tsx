@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Spring-physics stagger entrance with CSS hover-lift and tap-press transitions — CSS variant.
  *
  * Copy-paste files: this file + TileAnimationsSpringPhysics.module.css

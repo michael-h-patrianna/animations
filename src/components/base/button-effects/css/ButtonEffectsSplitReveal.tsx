@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Split Reveal — button text separates to reveal hidden content on click.
  *
  * Copy-paste files: this file + ButtonEffectsSplitReveal.module.css

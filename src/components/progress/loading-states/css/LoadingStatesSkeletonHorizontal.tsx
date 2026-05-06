@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Horizontal skeleton — even-width stacked shimmer lines — CSS variant.
  *
  * Uses the .pf-skeleton class from shared.css. For custom layouts, just add

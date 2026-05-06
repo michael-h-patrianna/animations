@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Stacked key-value rows that animate in/out with alternating slide directions
  * and staggered timing — CSS variant using Web Animations API.
  * Toggle the `visible` prop to trigger entrance/exit.

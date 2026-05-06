@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Large countdown number with continuous pulse and depleting underline bar — CSS variant.
  * The number pulses via CSS keyframes while the underline shrinks via custom property.
  *

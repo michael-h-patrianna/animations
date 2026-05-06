@@ -6,6 +6,7 @@ import { extraRules } from './extra-rules.js'
 import { perfRules } from './perf-rules.js'
 import { portabilityRules } from './portability-rules.js'
 import { checkCssForAnimations, getFilename, isAnimationFile, isInFramer } from './rule-helpers.js'
+import { stripVarFallbacks } from './strip-var-fallbacks.js'
 import { testingRules } from './testing-rules.js'
 
 /**
@@ -38,23 +39,6 @@ const rules = {
       const embeddedHex = /#(?:[0-9a-fA-F]{3,4}){1,2}(?!\w)/
       const embeddedRgb = /rgba?\s*\(/i
       const embeddedHsl = /hsla?\s*\(/i
-
-      // Strip var() fallback values before checking for hardcoded colors.
-      // var(--color, #fff) is intentional portability, not a hardcoded color.
-      // Handles nested: var(--a, var(--b, #fff)) by stripping innermost first.
-      function stripVarFallbacks(str) {
-        let result = str
-        // Iteratively strip var(--name, fallback) → var(--name) to remove fallback values
-        let prev
-        do {
-          prev = result
-          result = result.replace(
-            /var\(\s*--[\w-]+\s*,\s*(?:[^()]*|\([^()]*\))*\)/g,
-            'var(--stripped)'
-          )
-        } while (result !== prev)
-        return result
-      }
 
       return {
         Literal(node) {

@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Auto-dismiss wrapper — bouncy scale-in, subtle pulse during visible, scale-down exit. CSS variant.
  *
  * Copy-paste files: this file + SharedTypes.ts

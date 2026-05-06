@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Windswept confetti shower with 3D tumble, depth layers, and afterglow sparkles — CSS variant.
  * Particles fall from emitY to the bottom of a boundary element (viewport by default),
  * adapting to any container size. 11-point gravity curve for smooth motion at any distance.

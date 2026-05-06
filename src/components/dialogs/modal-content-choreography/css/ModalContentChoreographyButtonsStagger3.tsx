@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Modal with staggered button reveal (3-button default) — CSS variant.
  *
  * Copy-paste files: this file + ModalContentChoreographyButtonsStagger3.module.css + ../shared.css + ../SharedTypes.ts

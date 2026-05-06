@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Source emits particles, target attracts them like a magnet — CSS variant.
  *
  * Visual narrative matches the framer variant:

@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Shockwave — wraps any element with concentric rings expanding from click point.
  *
  * Copy-paste files: this file + ButtonEffectsShockwave.module.css

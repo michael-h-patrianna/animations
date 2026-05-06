@@ -549,6 +549,13 @@ export default defineConfig([
       ],
     },
   },
+  // Extracted UI entry points delegate their stable selectors to child controls.
+  {
+    files: ['src/components/ui/PropField.tsx'],
+    rules: {
+      'animation-rules/require-data-testid': 'off',
+    },
+  },
   {
     files: ['src/demo-ui/components/ui/DropdownMenuItems.tsx'],
     rules: {
@@ -611,8 +618,9 @@ export default defineConfig([
   // not hardcoded animation styling. Meta prop defaults are consumer-facing values.
   {
     files: [
-      'src/components/ui/PropField.tsx',
+      'src/components/ui/PropField*.tsx',
       'src/components/ui/propFieldUtils.ts',
+      'src/components/ui/propFieldValue.ts',
       'src/components/**/*.meta.ts',
     ],
     rules: {
@@ -626,8 +634,12 @@ export default defineConfig([
     files: [
       'src/demo-ui/components/ui/ColorPicker.tsx',
       'src/demo-ui/components/ui/ColorPickerPanel.tsx',
+      'src/demo-ui/components/ui/ColorPickerPanel*.tsx',
+      'src/demo-ui/components/ui/colorPickerPanel*.ts',
       'src/demo-ui/components/ui/ColorGradientPicker.tsx',
       'src/demo-ui/components/ui/GradientEditor.tsx',
+      'src/demo-ui/components/ui/Gradient*.tsx',
+      'src/demo-ui/components/ui/gradientEditor*.ts',
       'src/demo-ui/lib/colors/**/*.ts',
     ],
     rules: {

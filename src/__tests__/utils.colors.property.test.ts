@@ -17,6 +17,9 @@ const hexColor = fc
 /** Arbitrary for percentage values 0-100 */
 const percentage = fc.integer({ min: 0, max: 100 })
 
+/** Arbitrary for alpha values 0-1 */
+const alphaValue = fc.double({ min: 0, max: 1, noNaN: true })
+
 /** Arbitrary for temperature shift values -50 to 50 */
 const temperatureShift = fc.integer({ min: -50, max: 50 })
 
@@ -106,7 +109,7 @@ describe('blendColors — property-based', () => {
 describe('addTransparency — property-based', () => {
   it('always produces a valid rgba() string', () => {
     fc.assert(
-      fc.property(hexColor, fc.integer({ min: -100, max: 200 }), (color, alpha) => {
+      fc.property(hexColor, fc.double({ min: -2, max: 3, noNaN: true }), (color, alpha) => {
         const result = addTransparency(color, alpha)
         expect(result).toMatch(/^rgba\(\d+, \d+, \d+, [\d.]+\)$/)
       })
@@ -115,11 +118,17 @@ describe('addTransparency — property-based', () => {
 
   it('alpha is always clamped to [0, 1]', () => {
     fc.assert(
-      fc.property(hexColor, fc.integer({ min: -1000, max: 1000 }), (color, alpha) => {
+      fc.property(hexColor, fc.double({ min: -2, max: 3, noNaN: true }), (color, alpha) => {
         const result = addTransparency(color, alpha)
         const match = result.match(/,\s*([\d.]+)\)$/)
         const parsedAlpha = parseFloat(match![1]!)
-        const expectedAlpha = Math.max(0, Math.min(1, alpha / 100))
+        const clampedAlpha = Math.max(0, Math.min(1, alpha))
+        const expectedAlpha =
+          clampedAlpha <= 0.000001
+            ? 0
+            : clampedAlpha >= 0.999999
+              ? 1
+              : Number(clampedAlpha.toFixed(6))
         expect(parsedAlpha).toBe(expectedAlpha)
       })
     )
@@ -127,7 +136,7 @@ describe('addTransparency — property-based', () => {
 
   it('preserves RGB channels from input color', () => {
     fc.assert(
-      fc.property(hexColor, percentage, (color, alpha) => {
+      fc.property(hexColor, alphaValue, (color, alpha) => {
         const result = addTransparency(color, alpha)
         const match = result.match(/^rgba\((\d+), (\d+), (\d+)/)!
         const r = parseInt(match[1]!)

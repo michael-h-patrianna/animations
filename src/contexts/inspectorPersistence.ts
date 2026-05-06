@@ -2,10 +2,11 @@
  * localStorage persistence for animation inspector prop overrides.
  *
  * Handles serialization, validation, and debounced writes.
- * Corrupted data is silently discarded and overwritten on next persist.
+ * Corrupted data is discarded with a dev-visible warning and overwritten on next persist.
  */
 
 import * as v from 'valibot'
+import { logger } from '@/services/logger'
 
 type PropOverridesByAnimationId = Record<string, Record<string, unknown>>
 
@@ -25,9 +26,10 @@ export function loadPersistedOverrides(): PropOverridesByAnimationId {
     if (raw == null) return {}
     const parsed: unknown = JSON.parse(raw)
     return v.parse(PersistedOverridesSchema, parsed)
-  } catch {
+  } catch (err) {
     // JSON parse error, Valibot validation failure, or localStorage unavailable.
     // Return empty — the next debounced persist will overwrite with valid data.
+    logger.warn('[inspectorPersistence] Failed to load persisted inspector overrides', err)
     return {}
   }
 }
@@ -41,8 +43,9 @@ export function persistOverrides(overrides: PropOverridesByAnimationId): void {
     } else {
       localStorage.removeItem(OVERRIDES_STORAGE_KEY)
     }
-  } catch {
-    // Quota exceeded or unavailable — silently degrade
+  } catch (err) {
+    // Quota exceeded or unavailable — degrade without throwing.
+    logger.warn('[inspectorPersistence] Failed to persist inspector overrides', err)
   }
 }
 

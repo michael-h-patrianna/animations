@@ -16,10 +16,7 @@ function makeMeta(id: string, overrides?: Partial<AnimationMetadata>): Animation
 }
 
 describe('resolveAnimationSource — advanced scenarios', () => {
-  it('does NOT resolve bare CSS imports (import "../shared.css") as source tabs', async () => {
-    // Bare CSS imports (without `from`) are side-effect-only imports used for styling.
-    // The extractRelativeImports regex only matches `from '...'` patterns.
-    // This documents the current behavior: shared.css is not included as a tab.
+  it('resolves bare CSS imports (import "./shared.css") as source tabs', async () => {
     const tsxSource = `import '../shared.css'\nimport { helper } from '@/Config'\nexport function MyAnim() { return <div /> }`
     const componentCss = `.pf-my-anim { opacity: 1; }`
     const configCode = `export const helper = true`
@@ -42,13 +39,11 @@ describe('resolveAnimationSource — advanced scenarios', () => {
 
     const tabs = await resolveAnimationSource(undefined, result.css['g__my-anim']!)
 
-    // Should have: Component, CSS (component), Config.ts — but NOT shared.css
-    expect(tabs).toHaveLength(3)
+    expect(tabs).toHaveLength(4)
     expect(tabs[0]!.label).toBe('Component')
     expect(tabs[1]!.label).toBe('CSS')
-    expect(tabs[2]!.label).toBe('Config.ts')
-    // shared.css is not included because bare imports are not parsed
-    expect(tabs.map((t) => t.label)).not.toContain('shared.css')
+    expect(tabs.map((t) => t.label)).toContain('Config.ts')
+    expect(tabs.map((t) => t.label)).toContain('shared.css')
   })
 
   it('handles both variants importing the same shared file without duplication', async () => {
@@ -101,7 +96,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
   })
 
   it('resolves same-directory helper imports from css/ subdir alongside component CSS', async () => {
-    const tsxSource = `import { helper } from './HelperUtils'\nexport function A() { return <div /> }`
+    const tsxSource = `import { helper } from './CardPackOpenParts'\nexport function A() { return <div /> }`
     const helperCode = `export function helper() {}`
 
     const result = buildGroupExport(
@@ -113,7 +108,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
       {
         cssTsx: {
           './css/A.tsx': vi.fn().mockResolvedValue(tsxSource),
-          './css/HelperUtils.tsx': vi.fn().mockResolvedValue(helperCode),
+          './css/CardPackOpenParts.tsx': vi.fn().mockResolvedValue(helperCode),
         },
         // CSS file matches the component basename (A.css)
         cssCss: { './css/A.css': vi.fn().mockResolvedValue('.foo { color: red }') },
@@ -125,7 +120,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     // Component TSX + Component CSS + helper
     expect(labels).toContain('Component')
     expect(labels).toContain('CSS')
-    expect(labels).toContain('HelperUtils.tsx')
+    expect(labels).toContain('CardPackOpenParts.tsx')
   })
 
   it('handles concurrent calls for the same entry without corrupting results', async () => {

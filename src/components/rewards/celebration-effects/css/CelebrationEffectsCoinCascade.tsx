@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Jackpot Cascade — coins pour from 3 streams with gravity and bounce — CSS variant.
  * Falls from emitY to the bottom of a boundary element (viewport by default),
  * adapting to any container size.

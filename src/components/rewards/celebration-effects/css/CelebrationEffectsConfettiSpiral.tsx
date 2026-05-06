@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Dynamic tornado confetti — particles orbit center in 3 spiral arms — CSS variant.
  *
  * Copy-paste files: this file + CelebrationEffectsConfettiSpiral.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css

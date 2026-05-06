@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Standalone: Copy this file + TextEffectsVerbTwirling.module.css + SharedGraphemeSplitter.ts into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.

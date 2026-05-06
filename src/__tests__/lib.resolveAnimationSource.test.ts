@@ -188,7 +188,7 @@ describe('resolveAnimationSource', () => {
   })
 
   it('includes helper files from within framer/css subdirs', async () => {
-    const tsxSource = `import { HelperFn } from './XpAccumulationHelpers'\nexport function XpBar() { return <div /> }`
+    const tsxSource = `import { HelperFn } from './CardPackOpenParts'\nexport function XpBar() { return <div /> }`
     const helperSource = `export function HelperFn() { return 42 }`
 
     const result = buildGroupExport(
@@ -200,7 +200,7 @@ describe('resolveAnimationSource', () => {
       {
         cssTsx: {
           './css/XpBar.tsx': vi.fn().mockResolvedValue(tsxSource),
-          './css/XpAccumulationHelpers.tsx': vi.fn().mockResolvedValue(helperSource),
+          './css/CardPackOpenParts.tsx': vi.fn().mockResolvedValue(helperSource),
         },
       }
     )
@@ -210,7 +210,7 @@ describe('resolveAnimationSource', () => {
     expect(tabs).toHaveLength(2)
     expect(tabs[0]!.label).toBe('Component')
     expect(tabs[1]).toEqual({
-      label: 'XpAccumulationHelpers.tsx',
+      label: 'CardPackOpenParts.tsx',
       code: helperSource,
       language: 'tsx',
     })
@@ -283,7 +283,7 @@ describe('resolveAnimationSource', () => {
   })
 
   it('correctly resolves same-directory helper imports from css subdir', async () => {
-    const tsxSource = `import { helper } from './SharedUtils'\nexport function A() {}`
+    const tsxSource = `import { helper } from './CardPackOpenParts'\nexport function A() {}`
     const helperSource = `export function helper() {}`
 
     const result = buildGroupExport(
@@ -295,15 +295,19 @@ describe('resolveAnimationSource', () => {
       {
         cssTsx: {
           './css/A.tsx': vi.fn().mockResolvedValue(tsxSource),
-          './css/SharedUtils.tsx': vi.fn().mockResolvedValue(helperSource),
+          './css/CardPackOpenParts.tsx': vi.fn().mockResolvedValue(helperSource),
         },
       }
     )
 
     const tabs = await resolveAnimationSource(undefined, result.css['g__a']!)
-    const helperTab = tabs.find((t) => t.label === 'SharedUtils.tsx')
+    const helperTab = tabs.find((t) => t.label === 'CardPackOpenParts.tsx')
     expect(helperTab).toEqual(
-      expect.objectContaining({ code: helperSource, label: 'SharedUtils.tsx', language: 'tsx' })
+      expect.objectContaining({
+        code: helperSource,
+        label: 'CardPackOpenParts.tsx',
+        language: 'tsx',
+      })
     )
   })
 

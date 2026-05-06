@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Starburst / Radial Rays — CSS variant.
  * Rotating ray wedges meant to sit behind content.
  *

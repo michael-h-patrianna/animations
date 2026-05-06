@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Modal launches up from trigger, slams down to center — CSS variant.
  * Uses Web Animations API for all transforms.
  */

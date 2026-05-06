@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Notification dot — elastic bounce entrance with idle bob. CSS variant.
  *
  * Copy-paste files: this file + UpdateIndicatorsHomeIconDotBounce.module.css + ../shared.css + ../SharedTypes.ts

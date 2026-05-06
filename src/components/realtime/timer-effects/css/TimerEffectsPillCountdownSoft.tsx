@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Pill countdown with quiet, breathing-style pulse at key thresholds — CSS variant.
  * Pulses at every 10s mark and each of the last 5 seconds.
  *

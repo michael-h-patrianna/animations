@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Ripple — expanding light circle on click via CSS background-size transition.
  * Adds .pf-ripple to a DemoButton; a ::after pseudo-element handles the effect.
  *

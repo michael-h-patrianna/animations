@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * A colored border-top arc spinning continuously — CSS variant.
  *
  * Copy-paste files: this file + LoadingStatesSpinner.module.css + ../SharedDefaults.ts

@@ -13,9 +13,26 @@
 import { RuleTester } from 'eslint'
 import { describe, it, expect } from 'vitest'
 import { rules } from '../../eslint-rules/animation-rules.js'
+import { stripVarFallbacks } from '../../eslint-rules/strip-var-fallbacks.js'
 
 const ruleTester = new RuleTester({
   languageOptions: { ecmaVersion: 2022, sourceType: 'module' },
+})
+
+// ── stripVarFallbacks ───────────────────────────────────────────────────
+
+describe('stripVarFallbacks', () => {
+  it('removes var fallbacks while preserving template interpolation text', () => {
+    expect(stripVarFallbacks('color: var(--fg, #fff) ${token};')).toBe(
+      'color: var(--stripped) ${token};'
+    )
+  })
+
+  it('removes nested function fallbacks', () => {
+    expect(stripVarFallbacks('box-shadow: 0 0 4px var(--shadow, rgb(0, 0, 0));')).toBe(
+      'box-shadow: 0 0 4px var(--stripped);'
+    )
+  })
 })
 
 // ── no-hardcoded-colors ──────────────────────────────────────────────────
@@ -35,6 +52,10 @@ describe('no-hardcoded-colors', () => {
         code: 'const x = "var(--color, #fff)"',
         filename: 'src/components/rewards/collection-effects/framer/Foo.tsx',
       },
+      {
+        code: 'const x = `color: var(--color, #fff); transform: translateX(${offset}px)`',
+        filename: 'src/components/rewards/collection-effects/framer/Foo.tsx',
+      },
     ],
     invalid: [
       {
@@ -49,6 +70,11 @@ describe('no-hardcoded-colors', () => {
       },
       {
         code: 'const x = "border: 1px solid #fff"',
+        filename: 'src/components/rewards/collection-effects/framer/Foo.tsx',
+        errors: [{ message: /Hardcoded color/ }],
+      },
+      {
+        code: 'const x = `color: ${token}; border-color: #fff`',
         filename: 'src/components/rewards/collection-effects/framer/Foo.tsx',
         errors: [{ message: /Hardcoded color/ }],
       },
@@ -259,6 +285,54 @@ describe('no-cross-category-imports', () => {
         code: 'import { foo } from "@/components/dialogs/modal-base/SharedUtils"',
         filename: 'src/components/rewards/collection-effects/framer/Foo.tsx',
         errors: [{ message: /Cross-category import/ }],
+      },
+    ],
+  })
+})
+
+// ── no-implicit-demo-block-styles ───────────────────────────────────────
+
+describe('no-implicit-demo-block-styles', () => {
+  const jsxLanguageOptions = {
+    parserOptions: { ecmaFeatures: { jsx: true } },
+  }
+
+  ruleTester.run('no-implicit-demo-block-styles', rules['no-implicit-demo-block-styles'], {
+    valid: [
+      {
+        code: 'import "@/components/demo-blocks/demo-blocks.css"\nexport function Foo() { return <div className="pf-demo-button" /> }',
+        filename: 'src/components/base/lint-fixture/css/Foo.tsx',
+        languageOptions: jsxLanguageOptions,
+      },
+      {
+        code: 'import "../../../demo-blocks/demo-blocks.css"\nexport function Foo() { return <div className="pf-demo-button" /> }',
+        filename: 'src/components/base/lint-fixture/framer/Foo.tsx',
+        languageOptions: jsxLanguageOptions,
+      },
+      {
+        code: 'import { DemoButton } from "@/components/demo-blocks"\nexport function Foo() { return <div className="pf-demo-button" /> }',
+        filename: 'src/components/base/lint-fixture/css/Foo.tsx',
+        languageOptions: jsxLanguageOptions,
+      },
+    ],
+    invalid: [
+      {
+        code: 'import "@/components/demo-blocks/demo-blocks.css-extra"\nexport function Foo() { return <div className="pf-demo-button" /> }',
+        filename: 'src/components/base/lint-fixture/css/Foo.tsx',
+        languageOptions: jsxLanguageOptions,
+        errors: [{ message: /does not explicitly load demo-block styles/ }],
+      },
+      {
+        code: 'import "@/components/foo/demo-blocks/demo-blocks.css-extra"\nexport function Foo() { return <div className="pf-demo-button" /> }',
+        filename: 'src/components/base/lint-fixture/css/Foo.tsx',
+        languageOptions: jsxLanguageOptions,
+        errors: [{ message: /does not explicitly load demo-block styles/ }],
+      },
+      {
+        code: 'import "../../../demo-blocks/demo-blocks.css-extra"\nexport function Foo() { return <div className="pf-demo-button" /> }',
+        filename: 'src/components/base/lint-fixture/framer/Foo.tsx',
+        languageOptions: jsxLanguageOptions,
+        errors: [{ message: /does not explicitly load demo-block styles/ }],
       },
     ],
   })
