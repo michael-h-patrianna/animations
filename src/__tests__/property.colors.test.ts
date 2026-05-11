@@ -38,6 +38,9 @@ const shortHexColor = fc
 /** Arbitrary for percentage values 0-100. */
 const percentage = fc.integer({ min: 0, max: 100 })
 
+/** Arbitrary for alpha values 0-1. */
+const alphaValue = fc.double({ min: 0, max: 1, noNaN: true })
+
 /** Arbitrary for color temperature shift values. */
 const tempShift = fc.integer({ min: -50, max: 50 })
 
@@ -147,7 +150,7 @@ describe('blendColors — property-based', () => {
 describe('addTransparency — property-based', () => {
   it('always returns a valid rgba() string', () => {
     fc.assert(
-      fc.property(hexColor, percentage, (color, alpha) => {
+      fc.property(hexColor, alphaValue, (color, alpha) => {
         const result = addTransparency(color, alpha)
         expect(result).toMatch(/^rgba\(\d+, \d+, \d+, [\d.]+\)$/)
       })
@@ -156,7 +159,7 @@ describe('addTransparency — property-based', () => {
 
   it('alpha is clamped to [0, 1]', () => {
     fc.assert(
-      fc.property(hexColor, fc.integer({ min: -100, max: 200 }), (color, alpha) => {
+      fc.property(hexColor, fc.double({ min: -2, max: 3, noNaN: true }), (color, alpha) => {
         const result = addTransparency(color, alpha)
         const match = result.match(/rgba\(\d+, \d+, \d+, ([\d.]+)\)/)
         const a = parseFloat(match![1]!)
@@ -166,10 +169,10 @@ describe('addTransparency — property-based', () => {
     )
   })
 
-  it('at alpha=100 produces alpha=1', () => {
+  it('at alpha=1 produces alpha=1', () => {
     fc.assert(
       fc.property(hexColor, (color) => {
-        const result = addTransparency(color, 100)
+        const result = addTransparency(color, 1)
         expect(result).toMatch(/rgba\(\d+, \d+, \d+, 1\)$/)
       })
     )

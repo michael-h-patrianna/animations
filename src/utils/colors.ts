@@ -13,6 +13,13 @@ function clampRange(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value))
 }
 
+function clampAlpha(value: number): number {
+  const alpha = clampRange(value, 0, 1)
+  if (alpha <= 0.000001) return 0
+  if (alpha >= 0.999999) return 1
+  return Number(alpha.toFixed(6))
+}
+
 function formatHexColor({ r, g, b }: RGB): string {
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
 }
@@ -318,13 +325,13 @@ export function blendColors(color1: string, color2: string, percentage: number):
  * Works in both web and React Native environments
  *
  * @param color - Color value (hex/rgb/rgba/var)
- * @param alpha - Transparency (0-100)
+ * @param alpha - Opacity alpha (0-1)
  * @returns RGBA color string
  */
 export function addTransparency(color: string, alpha: number): string {
   const { r, g, b } = parseColor(color)
 
-  return formatRgba(r, g, b, Math.max(0, Math.min(1, alpha / 100)))
+  return formatRgba(r, g, b, clampAlpha(alpha))
 }
 
 /**
@@ -436,27 +443,27 @@ export function calculateBulbColors(onColor: string) {
     onGradient: onGradientColor,
 
     // Transparency variations for glows and shadows (use warm color)
-    onGlow100: addTransparency(warmOnColor, 100),
-    onGlow95: addTransparency(warmOnColor, 95),
-    onGlow90: addTransparency(warmOnColor, 90),
-    onGlow80: addTransparency(warmOnColor, 80),
-    onGlow75: addTransparency(warmOnColor, 75),
-    onGlow70: addTransparency(warmOnColor, 70),
-    onGlow65: addTransparency(warmOnColor, 65),
-    onGlow60: addTransparency(warmOnColor, 60),
-    onGlow55: addTransparency(warmOnColor, 55),
-    onGlow50: addTransparency(warmOnColor, 50),
-    onGlow45: addTransparency(warmOnColor, 45),
-    onGlow40: addTransparency(warmOnColor, 40),
-    onGlow35: addTransparency(warmOnColor, 35),
-    onGlow30: addTransparency(warmOnColor, 30),
+    onGlow100: addTransparency(warmOnColor, 1),
+    onGlow95: addTransparency(warmOnColor, 0.95),
+    onGlow90: addTransparency(warmOnColor, 0.9),
+    onGlow80: addTransparency(warmOnColor, 0.8),
+    onGlow75: addTransparency(warmOnColor, 0.75),
+    onGlow70: addTransparency(warmOnColor, 0.7),
+    onGlow65: addTransparency(warmOnColor, 0.65),
+    onGlow60: addTransparency(warmOnColor, 0.6),
+    onGlow55: addTransparency(warmOnColor, 0.55),
+    onGlow50: addTransparency(warmOnColor, 0.5),
+    onGlow45: addTransparency(warmOnColor, 0.45),
+    onGlow40: addTransparency(warmOnColor, 0.4),
+    onGlow35: addTransparency(warmOnColor, 0.35),
+    onGlow30: addTransparency(warmOnColor, 0.3),
 
     // White glow for special effects
     whiteGlow100: formatRgba(255, 255, 255, 1),
 
-    offGlow40: addTransparency(offColor, 40),
-    offGlow35: addTransparency(offColor, 35),
-    offGlow30: addTransparency(offColor, 30),
+    offGlow40: addTransparency(offColor, 0.4),
+    offGlow35: addTransparency(offColor, 0.35),
+    offGlow30: addTransparency(offColor, 0.3),
   }
 }
 
