@@ -34,6 +34,7 @@ interface AnimationInspectorContextValue {
   clearSelection: () => void
   isSelected: (animationId: string) => boolean
   getPropOverrides: (animationId: string, propsConfig?: PropConfig[]) => Record<string, unknown>
+  getBasePropOverrides: (animationId: string, propsConfig?: PropConfig[]) => Record<string, unknown>
   setPropOverride: (
     animationId: string,
     propsConfig: PropConfig[] | undefined,
@@ -427,6 +428,7 @@ export function AnimationInspectorProvider({
       clearSelection,
       isSelected,
       getPropOverrides,
+      getBasePropOverrides: getBaseOverrides,
       setPropOverride,
       resetPropOverrides,
       getReplayVersion,
@@ -441,6 +443,7 @@ export function AnimationInspectorProvider({
       clearSelection,
       isSelected,
       getPropOverrides,
+      getBaseOverrides,
       setPropOverride,
       resetPropOverrides,
       getReplayVersion,

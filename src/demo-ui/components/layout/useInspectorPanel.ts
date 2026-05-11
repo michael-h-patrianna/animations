@@ -10,6 +10,7 @@ export function useInspectorPanel() {
   const {
     selectedAnimation,
     getPropOverrides,
+    getBasePropOverrides,
     setPropOverride,
     resetPropOverrides,
     replayAnimation,
@@ -25,6 +26,14 @@ export function useInspectorPanel() {
     [selectedAnimation, getPropOverrides]
   )
 
+  const basePropOverrides = useMemo(
+    () =>
+      selectedAnimation != null
+        ? getBasePropOverrides(selectedAnimation.id, selectedAnimation.props)
+        : undefined,
+    [selectedAnimation, getBasePropOverrides]
+  )
+
   const editableProps = useMemo(
     () => selectedAnimation?.props?.filter((prop) => prop.disabled !== true) ?? [],
     [selectedAnimation]
@@ -36,8 +45,8 @@ export function useInspectorPanel() {
   )
 
   const isDirty =
-    selectedAnimation != null && propOverrides != null
-      ? hasDirtyPropOverrides(propOverrides, selectedAnimation.props, selectedAnimation.id)
+    selectedAnimation != null && basePropOverrides != null
+      ? hasDirtyPropOverrides(basePropOverrides, selectedAnimation.props, selectedAnimation.id)
       : false
 
   const handlePropChange = useCallback(

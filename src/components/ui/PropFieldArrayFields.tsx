@@ -1,8 +1,23 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import { Button } from '@/demo-ui/components/ui/Button'
 import { ColorPicker } from '@/demo-ui/components/ui/ColorPicker'
 import { Input } from '@/demo-ui/components/ui/Input'
 import type { PropConfig } from '@/types/animation'
+
+let nextStableId = 0
+function newKey(): string {
+  return `sk-${String(nextStableId++)}`
+}
+
+function useStableKeys(length: number) {
+  const keysRef = useRef<string[]>([])
+  while (keysRef.current.length < length) keysRef.current.push(newKey())
+  if (keysRef.current.length > length) keysRef.current.length = length
+  const removeKey = useCallback((index: number) => {
+    keysRef.current.splice(index, 1)
+  }, [])
+  return { keys: keysRef.current, removeKey }
+}
 
 /**
  *
@@ -16,6 +31,8 @@ export function ImagesField({
   value: string[]
   onChange: (v: string[]) => void
 }) {
+  const { keys, removeKey } = useStableKeys(value.length)
+
   const addItem = useCallback(() => {
     if (config.maxItems != null && value.length >= config.maxItems) return
     onChange([...value, ''])
@@ -23,9 +40,10 @@ export function ImagesField({
 
   const removeItem = useCallback(
     (index: number) => {
+      removeKey(index)
       onChange(value.filter((_, i) => i !== index))
     },
-    [value, onChange]
+    [value, onChange, removeKey]
   )
 
   const updateItem = useCallback(
@@ -42,7 +60,7 @@ export function ImagesField({
       <label className="text-xs font-medium text-text-secondary">{config.label}</label>
       <div className="flex flex-col gap-1">
         {value.map((item, i) => (
-          <div key={`img-${String(i)}`} className="flex items-center gap-1">
+          <div key={keys[i]} className="flex items-center gap-1">
             <Input
               value={item}
               onChange={(e) => updateItem(i, e.target.value)}
@@ -87,6 +105,8 @@ export function ColorsField({
   value: string[]
   onChange: (v: string[]) => void
 }) {
+  const { keys, removeKey } = useStableKeys(value.length)
+
   const addItem = useCallback(() => {
     if (config.maxItems != null && value.length >= config.maxItems) return
     // eslint-disable-next-line animation-rules/no-hardcoded-colors -- default white for new color stop
@@ -95,9 +115,10 @@ export function ColorsField({
 
   const removeItem = useCallback(
     (index: number) => {
+      removeKey(index)
       onChange(value.filter((_, i) => i !== index))
     },
-    [value, onChange]
+    [value, onChange, removeKey]
   )
 
   const updateItem = useCallback(
@@ -114,7 +135,7 @@ export function ColorsField({
       <label className="text-xs font-medium text-text-secondary">{config.label}</label>
       <div className="flex flex-wrap gap-1.5">
         {value.map((color, i) => (
-          <div key={`color-${String(i)}`} className="flex items-center gap-1">
+          <div key={keys[i]} className="flex items-center gap-1">
             <ColorPicker value={color} onChange={(v) => updateItem(i, v)} />
             <Button
               variant="ghost"

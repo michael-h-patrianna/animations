@@ -1,5 +1,5 @@
+import type { CSSProperties } from 'react'
 import { m as MotionEl } from 'motion/react'
-import { sx } from '@/demo-ui/lib/sx'
 import { CHECKERBOARD, ICON_PROPS } from '@/demo-ui/components/ui/colorPickerPanelConstants'
 
 /** Before/after color swatch with eyedropper and clipboard actions. */
@@ -14,19 +14,23 @@ export function PanelHeader({
   onEyedropper: () => void
   onCopy: () => void
 }) {
+  const swatchVars = {
+    '--swatch-checker': `url(${CHECKERBOARD})`,
+    '--swatch-initial': initialColor,
+    '--swatch-current': value,
+  } as CSSProperties
+
   return (
     <div className="flex items-center justify-between gap-2">
       <div className="flex items-center gap-2 bg-[var(--bg-hover)] rounded-full p-0.5 border border-border-subtle">
         <div
           className="relative w-12 h-6 rounded-full overflow-hidden flex cursor-help"
           title="Original vs New"
+          style={swatchVars}
         >
-          <div
-            className="absolute inset-0 -z-10"
-            style={sx({ backgroundImage: `url(${CHECKERBOARD})`, opacity: 0.4 })}
-          />
-          <div className="w-1/2 h-full" style={sx({ backgroundColor: initialColor })} />
-          <div className="w-1/2 h-full" style={sx({ backgroundColor: value })} />
+          <div className="absolute inset-0 -z-10 bg-[image:var(--swatch-checker)] opacity-40" />
+          <div className="w-1/2 h-full bg-[var(--swatch-initial)]" />
+          <div className="w-1/2 h-full bg-[var(--swatch-current)]" />
         </div>
       </div>
       <div className="flex items-center gap-1">
