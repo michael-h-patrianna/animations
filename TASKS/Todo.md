@@ -30,8 +30,9 @@ Process:
 Constraints:
 
 - No Python.
-- No scripts.
-- No generators, codegen, shell loops, bulk rewrites, or automated "speed up" edits.
+- No custom automation scripts, codegen, or looped bulk edits. One-off verification commands (`rg`, `grep`, single-run tools) are allowed.
+- No generators, shell loops, bulk rewrites, or automated "speed-up" edits.
+- Do not manually edit generated group index files — add `.tsx` and `.meta.ts` files to auto-discovery directories instead.
 - Use `rg` only for search.
 - Do not modify Framer or CSS baselines unless a blocking baseline bug is proven; if so, stop and report it instead of widening scope.
 - Do not add features, cards, catalog scaffolding, or unrelated refactors.

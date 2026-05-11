@@ -158,7 +158,7 @@ interface GroupNameVariantNameProps extends GroupNameSceneProps {
 
 function GroupNameVariantNameComponent(props: GroupNameVariantNameProps) {
   const scene = useMemo<PixiSceneFactory<GroupNameVariantNameProps>>(
-    () => (context, sceneProps) => createGroupNameScene(context, sceneProps),
+    () => createGroupNameScene,
     []
   )
 

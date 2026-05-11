@@ -24,8 +24,6 @@ import { useSaturationDrag } from '@/demo-ui/components/ui/useSaturationDrag'
 export interface ColorPickerPanelProps {
   value: string
   onChange: (value: string) => void
-  /** Optional label - only shown when `showHeader` is true. */
-  label?: string
   alpha?: number
   onChangeAlpha?: (alpha: number) => void
   disableAlpha?: boolean

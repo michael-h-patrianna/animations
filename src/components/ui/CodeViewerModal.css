@@ -1,5 +1,5 @@
-/* stylelint-disable animation-rules/no-hardcoded-colors -- Shiki github-dark theme token colors mapped to CSS classes for CSP-safe syntax highlighting */
 /* ── Code body ──────────────────────────────────────────────────────── */
+/* stylelint-disable animation-rules/no-hardcoded-colors -- Shiki github-dark theme token colors mapped to CSS classes for CSP-safe syntax highlighting */
 
 [data-demo-ui] .code-modal__content,
 [data-demo-ui] .code-modal__body,
@@ -118,6 +118,7 @@
 [data-demo-ui] .code-modal__body .shiki-font-underline-strikethrough {
   text-decoration-line: underline line-through;
 }
+/* stylelint-enable animation-rules/no-hardcoded-colors */
 
 [data-demo-ui] .code-modal__loading {
   display: flex;

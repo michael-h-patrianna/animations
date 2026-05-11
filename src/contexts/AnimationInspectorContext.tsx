@@ -162,7 +162,12 @@ function useOverridesAndReplay() {
 
   // Debounced persistence — ref-based timer survives re-renders
   const persistTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const latestOverridesRef = useRef<PropOverridesByAnimationId>(overridesByAnimationId)
   const isInitialMountRef = useRef(true)
+
+  useEffect(() => {
+    latestOverridesRef.current = overridesByAnimationId
+  }, [overridesByAnimationId])
 
   useEffect(() => {
     // Skip writing back the value we just loaded on mount
@@ -174,9 +179,18 @@ function useOverridesAndReplay() {
     persistTimerRef.current = setTimeout(() => {
       persistOverrides(overridesByAnimationId)
     }, PERSIST_DEBOUNCE_MS)
-    // NOTE: trailing change before unmount may not persist; cleanup preserves current debounced behavior.
     return () => clearTimeout(persistTimerRef.current)
   }, [overridesByAnimationId])
+
+  // Flush any pending persist on unmount so the latest edit is never lost.
+  useEffect(() => {
+    return () => {
+      if (persistTimerRef.current !== undefined) {
+        clearTimeout(persistTimerRef.current)
+        persistOverrides(latestOverridesRef.current)
+      }
+    }
+  }, [])
 
   const ensureOverrides = useCallback((animationId: string, propsConfig?: PropConfig[]) => {
     const defaults = buildPropDefaults(propsConfig, animationId)

@@ -2,9 +2,7 @@ import { m as MotionEl } from 'motion/react'
 import { sx } from '@/demo-ui/lib/sx'
 import { CHECKERBOARD, ICON_PROPS } from '@/demo-ui/components/ui/colorPickerPanelConstants'
 
-/**
- *
- */
+/** Before/after color swatch with eyedropper and clipboard actions. */
 export function PanelHeader({
   initialColor,
   value,

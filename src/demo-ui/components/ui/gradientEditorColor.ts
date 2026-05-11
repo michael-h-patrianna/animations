@@ -1,16 +1,14 @@
 import type { GradientStop } from '@/types/gradient'
+import { CHECKERBOARD } from '@/demo-ui/components/ui/colorPickerPanelConstants'
+
+export { CHECKERBOARD }
 
 export const MIN_STOPS = 2
 export const MAX_STOPS = 8
 export const MARKER_SIZE = 16
 export const MARKER_HIT_SIZE = 28
 
-export const CHECKERBOARD =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg=='
-
-/**
- *
- */
+/** Linearly interpolates a color at a position between sorted gradient stops. */
 export function interpolateColorAtPosition(sortedStops: GradientStop[], position: number): string {
   // eslint-disable-next-line animation-rules/no-hardcoded-colors -- fallback white for empty gradient
   if (sortedStops.length === 0) return '#ffffff'

@@ -116,7 +116,7 @@ interface AnimationMetadata {
   description: string // Short description
   tags: string[] // Searchable tags
   category: string // Top-level category
-  group: string // Runtime group variant (framer/css/pixijs)
+  group: string // Injected by build — authors omit this
   infiniteAnimation?: boolean // Auto-loop flag
   disableReplay?: boolean // Hide replay button
 }

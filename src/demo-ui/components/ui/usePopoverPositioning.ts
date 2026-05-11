@@ -33,9 +33,7 @@ function getViewportRect(): ViewportRect {
   }
 }
 
-/**
- *
- */
+/** Clamps a popover position to stay within viewport bounds with padding. */
 export function clampPopoverPosition(
   position: Pick<PositionRect, 'top' | 'left'>,
   popoverRect: Pick<PositionRect, 'width' | 'height'>
@@ -157,15 +155,15 @@ export function usePopoverPositioning({
         surface.getBoundingClientRect()
       )
       manualPositionRef.current = nextPosition
-      dragX.set(0)
-      dragY.set(0)
+      dragX.jump(0)
+      dragY.jump(0)
       applyPopoverPosition(nextPosition)
       return
     }
 
     const nextPosition = computePopoverPosition(trigger, surface, side, align, offset)
-    dragX.set(0)
-    dragY.set(0)
+    dragX.jump(0)
+    dragY.jump(0)
     applyPopoverPosition(nextPosition)
   }, [
     applyPopoverPosition,

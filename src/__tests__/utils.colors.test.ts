@@ -566,11 +566,8 @@ describe('color parsing — modern CSS4 space-separated syntax', () => {
     }
   })
 
-  it('addTransparency handles rgba() with space-separated input (falls back to gold)', () => {
-    // rgba(255 0 0 / 0.5) is not matched by the comma regex
-    // parseColor falls back to FALLBACK_COLOR
+  it('addTransparency parses space-separated rgba() input', () => {
     const result = addTransparency('rgba(255 0 0 / 0.5)', 0.5)
-    // Should still return a valid rgba string (using fallback gold color)
-    expect(result).toMatch(/^rgba\(\d+, \d+, \d+, [\d.]+\)$/)
+    expect(result).toBe('rgba(255, 0, 0, 0.5)')
   })
 })

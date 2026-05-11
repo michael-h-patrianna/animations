@@ -40,7 +40,7 @@ The "Schema" is defined by the TypeScript interfaces in `src/types/animation.ts`
 ### Create (Add New Animation)
 
 1. Create `ComponentName.tsx` in `src/components/<category>/<group>/framer/` and `css/`.
-2. Create `ComponentName.meta.ts` alongside it with metadata export.
+2. Create `ComponentName.meta.ts` alongside each `.tsx` file with metadata export.
 3. For embedded-game variants, also create `pixijs/ComponentName.tsx` and `pixijs/ComponentName.meta.ts`, then opt the group into `pixijs` in the category index.
 4. **No manual group index registration required.** `import.meta.glob` in the generated group `index.ts` discovers new files automatically.
 

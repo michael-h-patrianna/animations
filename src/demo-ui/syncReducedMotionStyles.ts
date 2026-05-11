@@ -36,20 +36,20 @@ function getReducedMotionSheet(): CSSStyleSheet | null {
  * load new CSS (detected via MutationObserver on <head>).
  */
 export function syncReducedMotionStyles(): void {
-  const sheet = getReducedMotionSheet()
-  if (!sheet) return
+  const targetSheet = getReducedMotionSheet()
+  if (!targetSheet) return
 
   const mirrored: string[] = []
 
-  for (const sheet of document.styleSheets) {
+  for (const docSheet of document.styleSheets) {
     try {
-      extractReducedMotionRules(sheet.cssRules, mirrored)
+      extractReducedMotionRules(docSheet.cssRules, mirrored)
     } catch {
       // Cross-origin stylesheets throw SecurityError — skip
     }
   }
 
-  sheet.replaceSync(mirrored.join('\n'))
+  targetSheet.replaceSync(mirrored.join('\n'))
 }
 
 function isQuoteChar(ch: string): ch is '"' | "'" {

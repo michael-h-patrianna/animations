@@ -49,11 +49,13 @@ describe('AppNavigationContext', () => {
   it('throws when consumed outside AppNavigationContext provider', () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
 
-    expect(() => renderHook(() => useAppNavigation())).toThrow(
-      'useAppNavigation must be used within an AppNavigationContext provider'
-    )
-
-    spy.mockRestore()
+    try {
+      expect(() => renderHook(() => useAppNavigation())).toThrow(
+        'useAppNavigation must be used within an AppNavigationContext provider'
+      )
+    } finally {
+      spy.mockRestore()
+    }
   })
 
   it('exposes navigation state and handlers to consumers', () => {

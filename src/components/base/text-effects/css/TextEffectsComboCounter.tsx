@@ -7,6 +7,7 @@
  */
 
 import { memo, useEffect, useMemo, useRef } from 'react'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 import styles from './TextEffectsComboCounter.module.css'
 
 interface Milestone {
@@ -179,7 +180,7 @@ function TextEffectsComboCounterComponent({
         </div>
 
         <div className={styles['pf-tfx-combo-text-wrapper']}>
-          {Array.from(label).map((char, index) => (
+          {splitGraphemes(label).map((char, index) => (
             <span key={index} className={styles['pf-tfx-combo-letter']}>
               {char}
             </span>

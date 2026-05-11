@@ -31,7 +31,14 @@ describe('vercel CSP config', () => {
   it('does not allow unsafe-inline styles', () => {
     const policy = getContentSecurityPolicy(readVercelConfig())
 
-    expect(policy).toContain("style-src 'self'")
-    expect(policy).not.toContain("'unsafe-inline'")
+    const styleSrc = policy
+      .split(';')
+      .map((directive) => directive.trim())
+      .find((directive) => directive.startsWith('style-src '))
+
+    if (!styleSrc) throw new Error('Missing style-src directive in CSP')
+
+    expect(styleSrc).toContain("'self'")
+    expect(styleSrc).not.toContain("'unsafe-inline'")
   })
 })

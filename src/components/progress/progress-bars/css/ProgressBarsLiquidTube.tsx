@@ -10,7 +10,12 @@
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import styles from './ProgressBarsLiquidTube.module.css'
 
-export function ProgressBarsLiquidTube({ progress, className, style }: ProgressBarProps) {
+export function ProgressBarsLiquidTube({
+  progress,
+  className,
+  style,
+  ariaLabel = 'Progress',
+}: ProgressBarProps & { ariaLabel?: string }) {
   const displayProgress = progress ?? 0
   const percent = displayProgress * 100
 
@@ -23,7 +28,7 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
       <div
         className={styles['pf-liquid-tube__glass']}
         role="progressbar"
-        aria-label="Progress"
+        aria-label={ariaLabel}
         aria-valuenow={Math.round(percent)}
         aria-valuemin={0}
         aria-valuemax={100}

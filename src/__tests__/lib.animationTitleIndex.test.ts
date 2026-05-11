@@ -18,9 +18,15 @@ describe('animationTitleIndex', () => {
     expect(countMatchingAnimations('modal-base', 'SCALE')).toBe(1)
   })
 
-  it('does not leak matches across groups or empty queries', () => {
+  it('does not leak matches across groups', () => {
     expect(countMatchingAnimations('modal-base', 'pulse')).toBe(0)
+  })
+
+  it('returns 0 for empty queries', () => {
     expect(countMatchingAnimations('lights', '')).toBe(0)
+  })
+
+  it('returns 0 for unknown groups', () => {
     expect(countMatchingAnimations('unknown', 'slide')).toBe(0)
   })
 })

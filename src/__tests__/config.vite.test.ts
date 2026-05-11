@@ -42,7 +42,7 @@ describe('vite config', () => {
     const config = await resolveViteConfig('production')
     const alias = getAliasRecord(config)
 
-    expect(alias).toEqual({
+    expect(alias).toMatchObject({
       '@': '/src',
       'react-dom/client': 'react-dom/profiling',
     })

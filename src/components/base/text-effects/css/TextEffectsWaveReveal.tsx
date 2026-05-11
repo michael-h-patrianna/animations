@@ -4,6 +4,7 @@
  * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  */
 import { memo } from 'react'
+import { splitGraphemes } from '@/components/base/text-effects/SharedGraphemeSplitter'
 import styles from './TextEffectsWaveReveal.module.css'
 
 interface TextEffectsWaveRevealProps {
@@ -62,7 +63,7 @@ function TextEffectsWaveRevealComponent({
               className={styles['pf-tfx-wave-reveal-line']}
               style={{ color: line.color, '--line-index': lineIndex } as React.CSSProperties}
             >
-              {Array.from(line.text).map((char, charIndex) => (
+              {splitGraphemes(line.text).map((char, charIndex) => (
                 <span
                   key={charIndex}
                   className={styles['pf-tfx-wave-reveal-char']}

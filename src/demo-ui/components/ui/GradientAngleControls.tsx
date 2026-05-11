@@ -1,9 +1,7 @@
 import type { LinearGradientValue } from '@/types/gradient'
 import { interpolateColorAtPosition } from '@/demo-ui/components/ui/gradientEditorColor'
 
-/**
- *
- */
+/** Gradient angle slider and number input (0–359°). */
 export function AngleControl({
   angle,
   onChange,
@@ -17,7 +15,7 @@ export function AngleControl({
       <input
         type="range"
         min={0}
-        max={360}
+        max={359}
         step={1}
         value={angle}
         onChange={(e) => onChange(parseInt(e.target.value, 10))}
@@ -44,9 +42,7 @@ export function AngleControl({
   )
 }
 
-/**
- *
- */
+/** Adds a new color stop midway between the last two stops. */
 export function AddStopButton({
   value,
   onAdd,
