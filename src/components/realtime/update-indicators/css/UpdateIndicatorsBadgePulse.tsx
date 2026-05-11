@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Animated badge — continuous glowing pulse to signal unseen content. CSS variant.
  *
  * Copy-paste files: this file + UpdateIndicatorsBadgePulse.module.css + ../shared.css

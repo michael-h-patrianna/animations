@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Radial particle burst from a configurable origin — CSS variant.
  *
  * Copy-paste files: this file + CollectionEffectsCoinBurst.module.css + SharedTypes.ts +

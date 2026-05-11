@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Screen Flash / Impact Flash — CSS variant.
  * Full-container overlay that fires once on mount with a brief peak hold, then fades.
  *

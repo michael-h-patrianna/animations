@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Triple shockwave pulse — 3 expanding energy waves deposit confetti — CSS variant.
  *
  * Copy-paste files: this file + CelebrationEffectsConfettiPulse.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css

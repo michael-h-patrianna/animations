@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Sequential slide-from-right stagger entrance for a list of panels — CSS variant.
  *
  * Copy-paste files: this file + TileAnimationsWizardSlideStack.module.css

@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Catalog display for the Radial Pulse CSS effect.
  * Consumer product: StandardEffectsRadialPulse.module.css — use documented HTML structure.
  */

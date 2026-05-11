@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Sci-Fi Loader Progress Bar (CSS variant)
  *
  * Files to copy: this file + ProgressBarsSciFiLoader.module.css + ../SharedTypes.ts

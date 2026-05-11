@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Modal with spotlight-sweep list reveal — CSS variant.
  *
  * Copy-paste files: this file + ModalContentChoreographyListSpotlight.module.css + ../shared.css + ../SharedTypes.ts

@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Timer pill with color transition and periodic shake reminders — CSS variant.
  * Background shifts through phase colors. Shakes at configurable intervals via CSS animation replay.
  *

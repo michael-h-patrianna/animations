@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Two concentric rings spinning in opposite directions — CSS variant.
  *
  * Copy-paste files: this file + LoadingStatesSpinnerDualRing.module.css + ../SharedDefaults.ts

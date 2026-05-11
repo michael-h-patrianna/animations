@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Rotate-scale morph entrance for side-by-side comparison panes — CSS variant.
  *
  * Copy-paste files: this file + TileAnimationsComparisonMorph.module.css

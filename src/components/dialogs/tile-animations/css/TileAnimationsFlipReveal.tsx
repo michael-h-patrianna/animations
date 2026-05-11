@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Click-to-flip cards with 3D perspective reveal, staggered entrance — CSS variant.
  *
  * Copy-paste files: this file + TileAnimationsFlipReveal.module.css

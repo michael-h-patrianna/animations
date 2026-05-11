@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Live status dot — continuously pulsing indicator for real-time/active state. CSS variant.
  *
  * Copy-paste files: this file + UpdateIndicatorsLivePing.module.css + ../shared.css

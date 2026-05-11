@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Auto-dismiss wrapper — wipes in from right with slide, wipes out after timeout. CSS variant.
  *
  * Copy-paste files: this file + SharedTypes.ts

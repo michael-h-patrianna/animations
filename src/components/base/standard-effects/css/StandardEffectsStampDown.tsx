@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Stamp Down / Impact Land — CSS variant.
  * Consumer product: StandardEffectsStampDown.module.css — import styles and apply styles['pf-stamp-down'].
  *

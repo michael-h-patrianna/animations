@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Thin Progress Line (CSS variant)
  *
  * CSS keyframe version. In demo mode plays a one-shot sweep with photon trail,

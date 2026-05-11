@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * 3D-tilt stagger entrance with CSS hover and tap transitions — CSS variant.
  *
  * Copy-paste files: this file + TileAnimationsMagneticHover.module.css

@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Triple starburst — 3 staggered firework explosions with spark rays — CSS variant.
  *
  * Copy-paste files: this file + CelebrationEffectsFireworksTriple.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css

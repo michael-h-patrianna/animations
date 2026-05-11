@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Catalog display for the Jitter CSS effect.
  * Consumer product: ButtonEffectsJitter.module.css — import styles and apply styles['pf-jitter'].
  */

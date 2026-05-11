@@ -1,3 +1,8 @@
+/**
+ * CSS variant.
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
+ */
 import { memo, useEffect, useState } from 'react'
 
 import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'

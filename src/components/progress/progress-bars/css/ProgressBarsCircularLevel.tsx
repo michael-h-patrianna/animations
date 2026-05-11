@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Circular Level Progress — CSS variant
  *
  * SVG ring progress with level-up detection, CSS transition-driven fill,

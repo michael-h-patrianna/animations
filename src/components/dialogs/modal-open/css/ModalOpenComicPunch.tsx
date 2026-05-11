@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Modal punches in from trigger with squash-stretch impact — CSS variant.
  * Uses Web Animations API for all transforms.
  */

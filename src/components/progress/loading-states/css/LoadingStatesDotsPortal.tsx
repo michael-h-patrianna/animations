@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Three dots that converge to a center point and scale down, then return — CSS variant.
  *
  * Copy-paste files: this file + LoadingStatesDotsPortal.module.css + ../SharedDefaults.ts

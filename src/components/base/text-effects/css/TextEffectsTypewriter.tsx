@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Typewriter text reveal with blinking cursor — CSS variant.
  *
  * Copy-paste files: this file + TextEffectsTypewriter.module.css + SharedGraphemeSplitter.ts

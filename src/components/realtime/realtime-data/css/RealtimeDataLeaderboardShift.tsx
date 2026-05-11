@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Reactive leaderboard that animates position transitions when items change
  * — CSS variant using Web Animations API.
  *

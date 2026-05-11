@@ -1,4 +1,6 @@
 /**
+ * Reduced-motion note: catalog-only data-reduced-motion mirroring supplements
+ * OS @media (prefers-reduced-motion) rules; consumers do not need to copy it.
  * Chrysanthemum Ring — embers converge, ring ignites, everything explodes — CSS variant.
  *
  * Copy-paste files: this file + CelebrationEffectsFireworksRing.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
