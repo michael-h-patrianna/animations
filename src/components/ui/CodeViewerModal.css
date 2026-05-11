@@ -1,3 +1,4 @@
+/* stylelint-disable animation-rules/no-hardcoded-colors -- Shiki github-dark theme token colors mapped to CSS classes for CSP-safe syntax highlighting */
 /* ── Code body ──────────────────────────────────────────────────────── */
 
 [data-demo-ui] .code-modal__content,
@@ -13,11 +14,109 @@
   line-height: 1.6;
   overflow-x: auto;
   background: transparent;
+  color: #e1e4e8;
 }
 
 /* Shiki HTML is normalized in JS so the glass surface can show through */
 [data-demo-ui] .code-modal__body .shiki {
   background: transparent;
+  color: #e1e4e8;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-24292e {
+  color: #24292e;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-2f363d {
+  color: #2f363d;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-6a737d {
+  color: #6a737d;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-79b8ff {
+  color: #79b8ff;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-85e89d {
+  color: #85e89d;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-9ecbff {
+  color: #9ecbff;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-b392f0 {
+  color: #b392f0;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-d1d5da {
+  color: #d1d5da;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-dbedff {
+  color: #dbedff;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-e1e4e8 {
+  color: #e1e4e8;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-f97583 {
+  color: #f97583;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-fdaeb7 {
+  color: #fdaeb7;
+}
+
+[data-demo-ui] .code-modal__body .shiki-fg-ffab70 {
+  color: #ffab70;
+}
+
+[data-demo-ui] .code-modal__body .shiki-bg-144620 {
+  background-color: #144620;
+}
+
+[data-demo-ui] .code-modal__body .shiki-bg-24292e {
+  background-color: #24292e;
+}
+
+[data-demo-ui] .code-modal__body .shiki-bg-79b8ff {
+  background-color: #79b8ff;
+}
+
+[data-demo-ui] .code-modal__body .shiki-bg-86181d {
+  background-color: #86181d;
+}
+
+[data-demo-ui] .code-modal__body .shiki-bg-c24e00 {
+  background-color: #c24e00;
+}
+
+[data-demo-ui] .code-modal__body .shiki-bg-f97583 {
+  background-color: #f97583;
+}
+
+[data-demo-ui] .code-modal__body .shiki-font-italic {
+  font-style: italic;
+}
+
+[data-demo-ui] .code-modal__body .shiki-font-bold {
+  font-weight: 700;
+}
+
+[data-demo-ui] .code-modal__body .shiki-font-underline {
+  text-decoration-line: underline;
+}
+
+[data-demo-ui] .code-modal__body .shiki-font-strikethrough {
+  text-decoration-line: line-through;
+}
+
+[data-demo-ui] .code-modal__body .shiki-font-underline-strikethrough {
+  text-decoration-line: underline line-through;
 }
 
 [data-demo-ui] .code-modal__loading {

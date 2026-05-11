@@ -7,8 +7,28 @@
  * Animation CSS files keep portable @media queries — this is catalog-only glue.
  */
 
-const STYLE_ID = 'catalog-reduced-motion-mirror'
 const SCOPE = "[data-reduced-motion='reduce']"
+
+let reducedMotionSheet: CSSStyleSheet | null = null
+
+function supportsConstructableStylesheets(): boolean {
+  return (
+    typeof CSSStyleSheet !== 'undefined' &&
+    typeof CSSStyleSheet.prototype.replaceSync === 'function' &&
+    typeof Document !== 'undefined' &&
+    'adoptedStyleSheets' in Document.prototype
+  )
+}
+
+function getReducedMotionSheet(): CSSStyleSheet | null {
+  if (!supportsConstructableStylesheets()) return null
+
+  reducedMotionSheet ??= new CSSStyleSheet()
+  if (!document.adoptedStyleSheets.includes(reducedMotionSheet)) {
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, reducedMotionSheet]
+  }
+  return reducedMotionSheet
+}
 
 /**
  * Scan all stylesheets and mirror prefers-reduced-motion rules under a
@@ -16,12 +36,8 @@ const SCOPE = "[data-reduced-motion='reduce']"
  * load new CSS (detected via MutationObserver on <head>).
  */
 export function syncReducedMotionStyles(): void {
-  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null
-  if (!style) {
-    style = document.createElement('style')
-    style.id = STYLE_ID
-    document.head.appendChild(style)
-  }
+  const sheet = getReducedMotionSheet()
+  if (!sheet) return
 
   const mirrored: string[] = []
 
@@ -33,7 +49,7 @@ export function syncReducedMotionStyles(): void {
     }
   }
 
-  style.textContent = mirrored.join('\n')
+  sheet.replaceSync(mirrored.join('\n'))
 }
 
 function isQuoteChar(ch: string): ch is '"' | "'" {
