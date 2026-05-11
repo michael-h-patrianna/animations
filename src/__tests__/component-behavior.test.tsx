@@ -7,7 +7,7 @@
  * correct structure, reflect prop values, and handle edge cases?
  */
 import { render, screen, waitFor } from '@testing-library/react'
-import { Suspense } from 'react'
+import { Suspense, type HTMLAttributes, type ReactNode, type Ref } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import fmCoinBurstStyles from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst.module.css'
@@ -17,19 +17,17 @@ import fmProgressThinStyles from '@/components/progress/progress-bars/framer/Pro
 
 vi.mock('motion/react', () => ({
   useReducedMotion: () => false,
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
+  AnimatePresence: ({ children }: { children: ReactNode }) => children,
 }))
 
-vi.mock('motion/react-m', async () => {
-  const React = await import('react')
-
+vi.mock('motion/react-m', () => {
   function MockMotionDiv(
-    props: React.HTMLAttributes<HTMLDivElement> & {
+    props: HTMLAttributes<HTMLDivElement> & {
       initial?: unknown
       animate?: unknown
       transition?: unknown
       onAnimationComplete?: () => void
-      ref?: React.Ref<HTMLDivElement>
+      ref?: Ref<HTMLDivElement>
     }
   ) {
     const {

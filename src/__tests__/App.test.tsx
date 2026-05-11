@@ -44,8 +44,8 @@ afterEach(() => {
   document.body.style.overflow = ''
 })
 
-const renderApp = (initialRoute = '/') =>
-  render(
+const renderApp = async (initialRoute = '/') => {
+  const view = render(
     <CodeModeProvider>
       <MemoryRouter initialEntries={[initialRoute]}>
         <Routes>
@@ -54,10 +54,13 @@ const renderApp = (initialRoute = '/') =>
       </MemoryRouter>
     </CodeModeProvider>
   )
+  expect(await screen.findByTestId('topbar-title')).toBeInTheDocument()
+  return view
+}
 
 describe('App', () => {
-  it('renders top bar and navigation toggle', () => {
-    renderApp()
+  it('renders top bar and navigation toggle', async () => {
+    await renderApp()
 
     expect(screen.getByTestId('top-bar')).toHaveAttribute('data-app-shell', 'bar')
     expect(screen.getByTestId('toggle-left-panel')).toHaveAttribute(
@@ -66,15 +69,15 @@ describe('App', () => {
     )
   })
 
-  it('renders the editor shell with a backdrop layer for glass surfaces', () => {
-    renderApp()
+  it('renders the editor shell with a backdrop layer for glass surfaces', async () => {
+    await renderApp()
 
     // eslint-disable-next-line testing-library/no-node-access -- checking demo-ui root element
     expect(document.querySelector('[data-demo-ui]')).toHaveClass('pf-shell-backdrop')
   })
 
-  it('uses dark-blue theme with blue accent by default', () => {
-    renderApp()
+  it('uses dark-blue theme with blue accent by default', async () => {
+    await renderApp()
 
     // eslint-disable-next-line testing-library/no-node-access -- verifying app shell theme attributes
     const demoUiRoot = document.querySelector('[data-demo-ui]')
@@ -86,8 +89,8 @@ describe('App', () => {
     expect(demoUiStyles).toContain('--tw-border-style: solid;')
   })
 
-  it('positions the top bar above the pane stack so content can scroll under it', () => {
-    renderApp()
+  it('positions the top bar above the pane stack so content can scroll under it', async () => {
+    await renderApp()
 
     // eslint-disable-next-line testing-library/no-node-access -- verifying DOM structure
     expect(screen.getByTestId('top-bar').parentElement).toHaveClass(
@@ -98,8 +101,8 @@ describe('App', () => {
     expect(screen.getByTestId('editor-center-pane')).toHaveClass('pt-16')
   })
 
-  it('renders code mode switch in the left panel', () => {
-    renderApp()
+  it('renders code mode switch in the left panel', async () => {
+    await renderApp()
 
     const switches = screen.getAllByTestId('code-mode-switch')
     expect(switches.length).toBeGreaterThanOrEqual(1)
@@ -110,7 +113,7 @@ describe('App', () => {
   })
 
   it('renders the left panel visible by default with sidebar categories populated', async () => {
-    renderApp()
+    await renderApp()
 
     const leftPanel = screen.getByTestId('left-panel')
     expect(leftPanel).toHaveAttribute('data-testid', 'left-panel')
@@ -124,21 +127,21 @@ describe('App', () => {
   })
 
   it('renders clickable left-panel group entries with pointer cursor affordance', async () => {
-    renderApp()
+    await renderApp()
 
     const firstGroupEntry = await screen.findByTestId('sidebar-group-standard-effects')
     expect(firstGroupEntry).toHaveClass('cursor-pointer')
   })
 
   it('renders animation cards from the real catalog', async () => {
-    renderApp()
+    await renderApp()
 
     const cardTitles = await screen.findAllByTestId('card-title')
     expect(cardTitles.length).toBeGreaterThanOrEqual(5)
   })
 
   it('shows the empty inspector message when the right panel is opened without a selection', async () => {
-    renderApp('/collection-effects-framer')
+    await renderApp('/collection-effects-framer')
 
     fireEvent.click(screen.getByTestId('toggle-right-panel'))
 
@@ -146,7 +149,7 @@ describe('App', () => {
   })
 
   it('opens and populates the inspector when an animation card is selected', async () => {
-    renderApp('/collection-effects-framer')
+    await renderApp('/collection-effects-framer')
 
     const cardTitles = await screen.findAllByTestId('card-title')
     fireEvent.click(cardTitles[0]!)
@@ -155,14 +158,14 @@ describe('App', () => {
     expect(rightPanel).toHaveAttribute('data-testid', 'right-panel')
   })
 
-  it('renders with a specific group route parameter', () => {
-    renderApp('/standard-effects-framer')
+  it('renders with a specific group route parameter', async () => {
+    await renderApp('/standard-effects-framer')
 
     expect(screen.getByTestId('top-bar')).toHaveAttribute('data-app-shell', 'bar')
   })
 
   it('uses the topbar base group title in the sidebar', async () => {
-    renderApp('/tile-animations-framer')
+    await renderApp('/tile-animations-framer')
 
     const topbarTitle = await screen.findByTestId('topbar-title')
     const sidebarGroup = await screen.findByTestId('sidebar-group-tile-animations')
@@ -173,8 +176,8 @@ describe('App', () => {
     expect(sidebarGroup).toHaveTextContent(currentGroupTitle!)
   })
 
-  it('renders GitHub link with security attributes', () => {
-    renderApp()
+  it('renders GitHub link with security attributes', async () => {
+    await renderApp()
 
     const githubLinks = screen.getAllByRole('link', { name: 'View source on GitHub' })
     expect(githubLinks.length).toBe(1)
@@ -189,7 +192,7 @@ describe('App', () => {
 
   it('renders different animation titles for different route groups', async () => {
     // Render at specific group route
-    const { unmount } = renderApp('/standard-effects-framer')
+    const { unmount } = await renderApp('/standard-effects-framer')
     const firstGroupTitles = (await screen.findAllByTestId('card-title')).map(
       (el) => el.textContent
     )
@@ -197,7 +200,7 @@ describe('App', () => {
     unmount()
 
     // Render at a different group
-    renderApp('/modal-base-framer')
+    await renderApp('/modal-base-framer')
     const secondGroupTitles = (await screen.findAllByTestId('card-title')).map(
       (el) => el.textContent
     )
@@ -209,11 +212,11 @@ describe('App', () => {
   })
 
   it('framer and css variants of same group show same number of cards', async () => {
-    const { unmount: u1 } = renderApp('/standard-effects-framer')
+    const { unmount: u1 } = await renderApp('/standard-effects-framer')
     const framerCount = (await screen.findAllByTestId('card-title')).length
     u1()
 
-    renderApp('/standard-effects-css')
+    await renderApp('/standard-effects-css')
     const cssCount = (await screen.findAllByTestId('card-title')).length
 
     // Both tech variants should render the same number of animations
@@ -222,7 +225,7 @@ describe('App', () => {
   })
 
   it('renders group section with the expected testid and at least two animation cards inside it', async () => {
-    renderApp('/standard-effects-framer')
+    await renderApp('/standard-effects-framer')
 
     const section = await screen.findByTestId('group-section-group-standard-effects-framer')
     expect(section).toHaveAttribute('data-testid', 'group-section-group-standard-effects-framer')
@@ -231,7 +234,7 @@ describe('App', () => {
   })
 
   it('handles animation filter in URL', async () => {
-    renderApp('/standard-effects-framer?animation=standard-effects__bounce')
+    await renderApp('/standard-effects-framer?animation=standard-effects__bounce')
 
     const filterBanner = await screen.findByTestId('filter-banner')
     expect(filterBanner).toBeInTheDocument()

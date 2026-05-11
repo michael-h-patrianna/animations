@@ -106,6 +106,15 @@ describe('stylelint: no-hardcoded-colors', () => {
     expect(result.warnings).toHaveLength(0)
   })
 
+  it('allows var() fallback values that contain template interpolation text', async () => {
+    const result = await lintWithRule(
+      '.a { color: var(--text-primary, ${fallbackColor}); }',
+      ruleName,
+      noHardcodedColorsRule
+    )
+    expect(result.warnings).toHaveLength(0)
+  })
+
   it('rejects hardcoded hex', async () => {
     const result = await lintWithRule('.a { color: #ff0000; }', ruleName, noHardcodedColorsRule)
     expect(result.warnings).toHaveLength(1)
@@ -115,6 +124,15 @@ describe('stylelint: no-hardcoded-colors', () => {
   it('rejects hardcoded rgb()', async () => {
     const result = await lintWithRule(
       '.a { background-color: rgb(255, 0, 0); }',
+      ruleName,
+      noHardcodedColorsRule
+    )
+    expect(result.warnings).toHaveLength(1)
+  })
+
+  it('rejects hardcoded colors in static template literal text', async () => {
+    const result = await lintWithRule(
+      '.a { background: ${token} #fff; }',
       ruleName,
       noHardcodedColorsRule
     )

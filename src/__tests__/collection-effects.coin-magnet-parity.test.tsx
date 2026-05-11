@@ -1,4 +1,5 @@
 import { render, waitFor } from '@testing-library/react'
+import type { HTMLAttributes, Ref } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 interface RecordedMotionDiv {
@@ -25,10 +26,8 @@ vi.mock('motion/react', () => ({
   useReducedMotion: () => false,
 }))
 
-vi.mock('motion/react-m', async () => {
-  const React = await import('react')
-
-  interface MockMotionDivProps extends React.HTMLAttributes<HTMLDivElement> {
+vi.mock('motion/react-m', () => {
+  interface MockMotionDivProps extends HTMLAttributes<HTMLDivElement> {
     initial?: unknown
     animate?: unknown
     transition?: unknown
@@ -44,7 +43,7 @@ vi.mock('motion/react-m', async () => {
     onAnimationComplete: _onAnimationComplete,
     ref,
     ...rest
-  }: MockMotionDivProps & { ref?: React.Ref<HTMLDivElement> }) {
+  }: MockMotionDivProps & { ref?: Ref<HTMLDivElement> }) {
     recordedMotionDivs.push({
       className: typeof className === 'string' ? className : undefined,
       transition,

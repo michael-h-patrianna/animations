@@ -70,10 +70,11 @@ describe('CardModals', () => {
         preview={closedPreview()}
         previewPosition="center"
         opaque={false}
-        children={childFn}
         controlProps={defaultControlProps}
         propOverrides={{}}
-      />
+      >
+        {childFn}
+      </CardModals>
     )
 
     expect(screen.queryByTestId('code-viewer-modal')).toBeNull()
@@ -94,10 +95,11 @@ describe('CardModals', () => {
         preview={closedPreview()}
         previewPosition="center"
         opaque={false}
-        children={childFn}
         controlProps={defaultControlProps}
         propOverrides={{}}
-      />
+      >
+        {childFn}
+      </CardModals>
     )
 
     const modal = screen.getByTestId('code-viewer-modal')
@@ -118,10 +120,11 @@ describe('CardModals', () => {
         preview={closedPreview()}
         previewPosition="center"
         opaque={false}
-        children={childFn}
         controlProps={defaultControlProps}
         propOverrides={{}}
-      />
+      >
+        {childFn}
+      </CardModals>
     )
 
     expect(screen.queryByTestId('code-viewer-modal')).toBeNull()
@@ -141,10 +144,11 @@ describe('CardModals', () => {
         preview={preview}
         previewPosition="center"
         opaque={false}
-        children={childFn}
         controlProps={defaultControlProps}
         propOverrides={{}}
-      />
+      >
+        {childFn}
+      </CardModals>
     )
 
     const modal = screen.getByTestId('preview-modal')

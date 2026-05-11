@@ -3,6 +3,7 @@
  * Verifies render output, prop wiring, overlay structure, and parity.
  */
 import { render, screen } from '@testing-library/react'
+import type { HTMLAttributes, Ref } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
 import { metadata as framerMeta } from '@/components/base/standard-effects/framer/StandardEffectsScreenFlash.meta'
@@ -12,15 +13,13 @@ vi.mock('motion/react', () => ({
   useReducedMotion: () => false,
 }))
 
-vi.mock('motion/react-m', async () => {
-  const React = await import('react')
-
+vi.mock('motion/react-m', () => {
   function MockMotionDiv(
-    props: React.HTMLAttributes<HTMLDivElement> & {
+    props: HTMLAttributes<HTMLDivElement> & {
       initial?: unknown
       animate?: unknown
       transition?: unknown
-      ref?: React.Ref<HTMLDivElement>
+      ref?: Ref<HTMLDivElement>
     }
   ) {
     const { children, initial: _i, animate: _a, transition: _t, ref, ...rest } = props
