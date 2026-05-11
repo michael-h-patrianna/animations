@@ -18,7 +18,7 @@ The Animation Catalog project needed a robust animation library to power hundred
 Alternatives considered:
 
 1. **React Spring**: Physics-based animations, good performance
-2. **GSAP**: Industry-standard, powerful but requires license for commercial use
+2. **GSAP**: Industry-standard, powerful imperative animation engine
 3. **CSS Animations + React Transition Group**: Native performance but limited flexibility
 4. **Framer Motion**: Declarative, powerful, excellent DX
 
@@ -69,16 +69,18 @@ We chose **Framer Motion** as the primary animation driver for the following rea
 ### GSAP
 
 - **Pros**: Most powerful, industry-standard
-- **Cons**: Licensing for commercial use, less React-idiomatic
+- **Cons**: Less React-idiomatic for DOM component variants; better suited here for PixiJS scene timelines per ADR-010
 
 ### CSS Animations
 
 - **Pros**: Native performance, zero JS overhead
 - **Cons**: Limited flexibility, hard to orchestrate complex sequences
 
-## Notes
+## Scope Note
 
-- We also maintain CSS-based versions of some animations for comparison
+- This ADR governs the React/Motion runtime used for portable web and React Native-starting-point variants.
+- ADR-010 adds PixiJS + GSAP as a separate embedded-game runtime. That does not change Motion's role for Moti/Reanimated portability.
+- We also maintain CSS-based versions of animations for web comparison and zero-JS animation examples.
 - Framer Motion v10+ uses lazy loading which improves initial bundle size
 - Consider React Spring for specific physics-based effects if needed
 

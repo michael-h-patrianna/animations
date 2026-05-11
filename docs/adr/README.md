@@ -27,6 +27,7 @@ Each ADR follows this structure:
 - [ADR-007: Auto-Discovery via import.meta.glob](./ADR-007-auto-discovery-glob.md)
 - [ADR-008: Lint Config Integrity Enforcement](./ADR-008-lint-integrity-enforcement.md)
 - [ADR-009: Modal-Open Demo Separation](./ADR-009-modal-open-demo-separation.md)
+- [ADR-010: PixiJS + GSAP Runtime for Embedded Games](./ADR-010-pixijs-gsap-runtime.md)
 
 ## Creating New ADRs
 

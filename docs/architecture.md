@@ -2,7 +2,7 @@
 
 **Purpose**: Instructions for where to put code and what patterns to follow in this animation library.
 
-**Tech Stack**: React 19 + Motion (Framer Motion v12) + Vite 7 + TypeScript 5.9 + Tailwind CSS v4
+**Tech Stack**: React 19 + Motion (Framer Motion v12) + PixiJS v8 + GSAP + Vite 7 + TypeScript 5.9 + Tailwind CSS v4
 
 ---
 
@@ -22,6 +22,10 @@ src/
 │   │       │   ├── ComponentName.tsx      # Animation component
 │   │       │   ├── ComponentName.meta.ts  # Metadata export
 │   │       │   └── ComponentName.module.css # Animation styles (CSS Modules)
+│   │       ├── pixijs/          # Optional PixiJS + GSAP animations for embedded games
+│   │       │   ├── ComponentName.tsx      # React wrapper around Pixi scene
+│   │       │   ├── ComponentName.meta.ts  # Metadata export with urlSlugPixijs
+│   │       │   └── Shared*.ts             # Copy-pasteable scene recipes/helpers
 │   │       ├── shared.css       # Shared group styles
 │   │       └── MockContent.tsx  # Demo content components
 │   ├── ui/                      # Catalog UI components
@@ -33,12 +37,14 @@ src/
 ├── types/                       # TypeScript types (see animation.ts for core types)
 ├── lib/                         # Build helpers (groupBuilder, lazyGroupRegistry, sourceTransform, etc.)
 ├── motion/                      # Shared motion primitives
+├── pixijs/                      # Shared PixiAnimationHost, GSAP PixiPlugin registration, canvas helpers
 └── __tests__/                   # Unit tests
 ```
 
 **Decision tree**:
 
-- Creating new animation? → `src/components/<category>/<group>/{framer|css}/`
+- Creating new baseline animation? → `src/components/<category>/<group>/{framer|css}/`
+- Creating embedded-game animation? → add `src/components/<category>/<group>/pixijs/` and opt the group into `pixijs`
 - Creating UI component? → `src/components/ui/`
 - Creating React hook? → `src/hooks/`
 - Creating data service? → `src/services/`
@@ -132,6 +138,45 @@ function GroupNameVariantNameComponent({
 export const GroupNameVariantName = memo(GroupNameVariantNameComponent)
 ```
 
+**PixiJS + GSAP** (`src/components/<category>/<group>/pixijs/GroupNameVariantName.tsx`):
+
+```typescript
+/**
+ * [One-line description] — PixiJS + GSAP variant.
+ *
+ * Copy-paste files: this file + SharedGroupNamePixiScenes.ts + src/pixijs/PixiAnimationHost.tsx + src/pixijs/pixiText.ts
+ * Runtime deps: react, pixi.js, gsap
+ */
+
+import { memo, useMemo } from 'react'
+import { PixiAnimationHost, type PixiSceneFactory } from '@/pixijs/PixiAnimationHost'
+import { createGroupNameScene, type GroupNameSceneProps } from './SharedGroupNamePixiScenes'
+
+interface GroupNameVariantNameProps extends GroupNameSceneProps {
+  text?: string
+}
+
+function GroupNameVariantNameComponent(props: GroupNameVariantNameProps) {
+  const scene = useMemo<PixiSceneFactory<GroupNameVariantNameProps>>(
+    () => (context, sceneProps) => createGroupNameScene(context, sceneProps),
+    []
+  )
+
+  return (
+    <PixiAnimationHost
+      animationId="group-name__variant-name"
+      createScene={scene}
+      props={props}
+      ariaLabel="Group name variant animation"
+    />
+  )
+}
+
+export const GroupNameVariantName = memo(GroupNameVariantNameComponent)
+```
+
+PixiJS variants in the catalog use one canvas per visible card through `PixiAnimationHost`. A game consumer can copy the scene factory and call it against an existing game `Application`/stage instead of mounting a separate React canvas. Keep scene factories free of catalog UI assumptions.
+
 ### Step 2: Create the Metadata File
 
 ```typescript
@@ -141,6 +186,7 @@ export const metadata = {
   id: 'group-name__variant-name', // MUST match data-animation-id
   urlSlugFramer: '/group-name-framer?animation=group-name__variant-name',
   urlSlugCss: '/group-name-css?animation=group-name__variant-name',
+  urlSlugPixijs: '/group-name-pixijs?animation=group-name__variant-name', // Only when pixijs/ exists
   title: 'Human Readable Title',
   description: 'What it does + what props are configurable.',
   tier: 2,
@@ -150,7 +196,7 @@ export const metadata = {
 
 ### Step 3: Done — No Manual Registration Required
 
-Group `index.ts` files use `buildGroupExport` with `import.meta.glob` for **automatic discovery**. Adding a `.tsx` component and its `.meta.ts` file to the `framer/` or `css/` directory is sufficient. No imports or index edits needed.
+Group `index.ts` files use `buildGroupExport` with `import.meta.glob` for **automatic discovery**. Adding a `.tsx` component and its `.meta.ts` file to the `framer/`, `css/`, or opted-in `pixijs/` directory is sufficient. No generated index edits needed.
 
 Shared infrastructure files at group root must match `SKIP_PATTERN` in `src/lib/groupBuilder.ts:31` — prefix with `Shared` or `Mock`.
 
@@ -161,14 +207,15 @@ Shared infrastructure files at group root must match `SKIP_PATTERN` in `src/lib/
 **Steps**:
 
 1. Create folder: `src/components/<category>/<new-group>/`
-2. Create subfolders: `framer/` and `css/`
-3. Create `shared.css` with group-level layout styles
-4. Add the group to the manifest in `scripts/codegen/generate-group-indexes.mjs`
-5. Run `pnpm run generate:groups` to create the `index.ts`
-6. Add animations to subfolders
-7. Import and add to category's `index.ts`
+2. Create baseline subfolders: `framer/` and `css/`
+3. Create optional `pixijs/` only when the group has embedded-game/WebView use cases
+4. Create `shared.css` with group-level layout styles
+5. Add the group to the manifest in `scripts/codegen/generate-group-indexes.mjs`
+6. Run `pnpm run generate:groups` to create the `index.ts`
+7. Add animations to subfolders
+8. Import and add to category's `index.ts`
 
-Group `index.ts` files are **generated** — do not create or edit them by hand. The manifest in `scripts/codegen/generate-group-indexes.mjs` is the single source of truth. The generator detects `shared.css` from the filesystem automatically.
+Group `index.ts` files are **generated** — do not create or edit them by hand. The manifest in `scripts/codegen/generate-group-indexes.mjs` is the single source of truth. The generator detects `shared.css` and `pixijs/` from the filesystem automatically.
 
 ---
 
@@ -193,8 +240,19 @@ const exampleGroupMeta: GroupMetadata = {
   demo: 'Description of group purpose',
 }
 
+const gameGroupMeta: GroupMetadata = {
+  id: 'game-group',
+  title: 'Game Group',
+  demo: 'PixiJS + GSAP embedded-game animations',
+}
+
 declareCategoryGroups('new-category', 'New Category Title', [
   { metadata: exampleGroupMeta, load: () => import('./example-group') },
+  {
+    metadata: gameGroupMeta,
+    load: () => import('./game-group'),
+    techs: ['framer', 'css', 'pixijs'],
+  },
 ])
 ```
 
@@ -224,6 +282,8 @@ Key patterns visible in templates above:
 | ---------------------------- | -------------------------------------------------------- |
 | Refactoring playbook         | `docs/reports/animation-refactoring-playbook.md`         |
 | Reference implementation     | `src/components/rewards/collection-effects/`             |
+| PixiJS host/helpers          | `src/pixijs/`                                            |
+| PixiJS text example          | `src/components/base/text-effects/pixijs/`               |
 | Tier 1-4 definitions         | Serena: `project_tier_definitions` (also in auto-memory) |
 | Animation design principles  | Serena: `animation_design_principles`                    |
 | Demo separation architecture | Auto-memory: `project_demo_separation`                   |

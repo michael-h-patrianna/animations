@@ -1,6 +1,6 @@
 # Animation Showcase Catalog
 
-Dual-implementation (CSS + Motion) animation library for a monetisation platform. Every animation exists as both a CSS/React and a Motion/React variant — the Motion variant serves as starting point for React Native (Moti) adaptation.
+Multi-runtime animation library for a monetisation platform. Every animation exists as CSS/React and Motion/React; selected embedded-game groups also expose PixiJS v8 + GSAP variants. Motion remains the React Native (Moti) starting point. PixiJS variants target games loaded in React Native WebViews, so they are not constrained by Moti portability rules.
 
 ## Quality Bar
 
@@ -15,18 +15,20 @@ Refactoring playbook: `docs/reports/animation-refactoring-playbook.md`
 
 ## Constraints
 
-| Constraint            | Rule                                                                                                                                                                                  |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Dual implementation   | Every animation has both `framer/` and `css/` variants                                                                                                                                |
-| Standalone components | No catalog-specific demo imports (`MockContent`, `DemoAnchors`, `isDemo`). `@/components/demo-blocks` OK — portable UI primitives that ship with the animation                        |
-| Auto-discovery        | Adding `.tsx` + `.meta.ts` to `framer/` or `css/` is sufficient — no index edits                                                                                                      |
-| No global CSS         | Styles scoped to group (`shared.css`) or component (`.module.css` file)                                                                                                               |
-| Motion import         | `import * as m from 'motion/react-m'` (never `framer-motion`)                                                                                                                         |
-| Path aliases          | Always use `@/` imports, never relative `../` chains                                                                                                                                  |
-| Metadata co-location  | `.meta.ts` next to component — no external config files                                                                                                                               |
-| Component purity      | Animation components render only animation DOM — no cards, titles, replay, or demo anchors. Demo-blocks (`DemoButton`, `DemoModal`, etc.) are animation content, not demo scaffolding |
-| All props optional    | Components typed `ComponentType<Record<string, unknown>>` — must work with zero props                                                                                                 |
-| CSS/framer conflict   | Resolved by CSS Modules — class names are locally scoped, eliminating cross-variant animation bleed                                                                                   |
+| Constraint            | Rule                                                                                                                                                                                |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Runtime coverage      | `framer/` + `css/` are baseline for every animation. Add `pixijs/` only for game/WebView groups and opt the group into `techs: ['framer', 'css', 'pixijs']`.                        |
+| Standalone components | No catalog-specific demo imports (`MockContent`, `DemoAnchors`, `isDemo`). `@/components/demo-blocks` OK — portable UI primitives that ship with the animation                      |
+| PixiJS portability    | PixiJS variants must be copy-pasteable into a PixiJS + GSAP game: list component, scene, host/helper files, and runtime deps in the file header.                                    |
+| Auto-discovery        | Adding `.tsx` + `.meta.ts` to `framer/`, `css/`, or opted-in `pixijs/` is sufficient — no generated index edits                                                                     |
+| No global CSS         | Styles scoped to group (`shared.css`) or component (`.module.css` file). PixiJS animation visuals belong in canvas objects, not global CSS.                                         |
+| Motion import         | `import * as m from 'motion/react-m'` (never `framer-motion`)                                                                                                                       |
+| PixiJS runtime        | Use `PixiAnimationHost` for catalog cards. Use GSAP timelines for orchestration; avoid unmanaged ticker loops, per-frame text rasterization, and unbounded display-object creation. |
+| Path aliases          | Always use `@/` imports, never relative `../` chains                                                                                                                                |
+| Metadata co-location  | `.meta.ts` next to component. PixiJS metadata includes `urlSlugPixijs: '/<group>-pixijs?animation=<id>'`.                                                                           |
+| Component purity      | Animation components render only animation DOM/canvas — no cards, titles, replay, or demo anchors. Demo-blocks (`DemoButton`, `DemoModal`, etc.) are animation content.             |
+| All props optional    | Components typed `ComponentType<Record<string, unknown>>` — must work with zero props                                                                                               |
+| CSS/framer conflict   | Resolved by CSS Modules — class names are locally scoped, eliminating cross-variant animation bleed                                                                                 |
 
 ## Required Reading
 
@@ -71,7 +73,7 @@ Given animation id `modal-base__scale-gentle-pop`:
 
 1. Group = `modal-base` → find group folder under a category
 2. Category = `dialogs` → `src/components/dialogs/modal-base/`
-3. Component = PascalCase of id → `ModalBaseScaleGentlePop.tsx` in `framer/` or `css/`
+3. Component = PascalCase of id → `ModalBaseScaleGentlePop.tsx` in `framer/`, `css/`, or opted-in `pixijs/`
 
 ## Group Name Lookup
 

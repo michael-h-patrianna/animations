@@ -144,26 +144,26 @@ if (scrollHeight > clientHeight) {
 
 Production components expose these `data-*` and `aria-*` attributes for E2E automation. Do not remove them.
 
-| Attribute                            | Element                               | Purpose                            |
-| ------------------------------------ | ------------------------------------- | ---------------------------------- |
-| `data-testid="top-bar"`              | Top bar `<div>`                       | Locate the top navigation bar      |
-| `data-testid="left-panel"`           | Left panel `<m.div>` in EditorLayout  | Locate the left sidebar panel      |
-| `data-testid="right-panel"`          | Right panel `<m.div>` in EditorLayout | Locate the right inspector panel   |
-| `data-testid="toggle-left-panel"`    | Button in EditorTopBar                | Toggle left panel visibility       |
-| `data-testid="toggle-right-panel"`   | Button in EditorTopBar                | Toggle right panel visibility      |
-| `data-testid="code-mode-switch"`     | ToggleGroup in EditorLeftPanel        | Switch between Framer/CSS mode     |
-| `data-testid="sidebar-section-{id}"` | ControlGroup in EditorLeftPanel       | Category section in sidebar nav    |
-| `data-testid="sidebar-subnav-{id}"`  | `<nav>` in EditorLeftPanel            | Group links within a category      |
-| `data-testid="sidebar-group-{id}"`   | `<button>` in EditorLeftPanel         | Individual group nav link          |
-| `data-active`                        | Active sidebar group `<button>`       | Marks the currently selected group |
-| `data-animation-id`                  | Animation root element                | Identifies animation components    |
-| `data-testid="card-canvas"`          | AnimationCard wrapper                 | Animation card display area        |
-| `data-testid="demo-stage"`           | Demo stage `<div>`                    | Animation rendering stage          |
-| `data-testid="card-title"`           | Card header                           | Animation title text               |
-| `data-testid="topbar-title"`         | Top bar center                        | Current group name and count       |
-| `data-testid="menu-view"`            | VIEW dropdown trigger                 | Theme/accent settings menu         |
-| `data-testid="github-link"`          | GitHub `<a>`                          | External repository link           |
-| `aria-expanded`                      | Category toggle, panel toggle         | Reflects open/closed state         |
+| Attribute                            | Element                               | Purpose                               |
+| ------------------------------------ | ------------------------------------- | ------------------------------------- |
+| `data-testid="top-bar"`              | Top bar `<div>`                       | Locate the top navigation bar         |
+| `data-testid="left-panel"`           | Left panel `<m.div>` in EditorLayout  | Locate the left sidebar panel         |
+| `data-testid="right-panel"`          | Right panel `<m.div>` in EditorLayout | Locate the right inspector panel      |
+| `data-testid="toggle-left-panel"`    | Button in EditorTopBar                | Toggle left panel visibility          |
+| `data-testid="toggle-right-panel"`   | Button in EditorTopBar                | Toggle right panel visibility         |
+| `data-testid="code-mode-switch"`     | ToggleGroup in EditorLeftPanel        | Switch between Framer/CSS/PixiJS mode |
+| `data-testid="sidebar-section-{id}"` | ControlGroup in EditorLeftPanel       | Category section in sidebar nav       |
+| `data-testid="sidebar-subnav-{id}"`  | `<nav>` in EditorLeftPanel            | Group links within a category         |
+| `data-testid="sidebar-group-{id}"`   | `<button>` in EditorLeftPanel         | Individual group nav link             |
+| `data-active`                        | Active sidebar group `<button>`       | Marks the currently selected group    |
+| `data-animation-id`                  | Animation root element                | Identifies animation components       |
+| `data-testid="card-canvas"`          | AnimationCard wrapper                 | Animation card display area           |
+| `data-testid="demo-stage"`           | Demo stage `<div>`                    | Animation rendering stage             |
+| `data-testid="card-title"`           | Card header                           | Animation title text                  |
+| `data-testid="topbar-title"`         | Top bar center                        | Current group name and count          |
+| `data-testid="menu-view"`            | VIEW dropdown trigger                 | Theme/accent settings menu            |
+| `data-testid="github-link"`          | GitHub `<a>`                          | External repository link              |
+| `aria-expanded`                      | Category toggle, panel toggle         | Reflects open/closed state            |
 
 ---
 
@@ -207,6 +207,13 @@ test.describe('Feature Name', () => {
 - Max 4 test workers in parallel. Do NOT change `maxWorkers` in vitest.config.ts.
 - Call `cleanup()` from @testing-library/react in afterEach.
 - Do not generate 1000+ data points in a single test.
+
+## PixiJS Test Policy
+
+- Unit tests should verify PixiJS metadata, URL suffixes, registry loading, and source tabs. Do not rely on happy-dom to prove WebGL/canvas rendering.
+- Component tests that mount `PixiAnimationHost` must mock absent browser APIs and destroy Pixi applications after assertions.
+- Canvas rendering, nonblank pixels, and interaction checks belong in Playwright E2E or browser-driven tests.
+- Do not add `waitForTimeout` sleeps for GSAP timelines. Wait for observable canvas/state conditions.
 
 ---
 

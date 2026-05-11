@@ -40,18 +40,20 @@ The shared `utils.ts` files contain pure math helpers (`randBetween`, `deg2rad`,
 
 **Every animation component must be extractable by copying only its own files.** The set of files required is:
 
-- The component `.tsx` file (in `framer/` or `css/`)
+- The component `.tsx` file (in `framer/`, `css/`, or `pixijs/`)
 - Its `.meta.ts` metadata file
 - Its `.css` file (CSS variants only)
-- Any `*Parts.tsx` sub-component file that is exclusively used by this animation
+- Any listed `*Parts.tsx`, `Shared*.ts`, host, or helper file needed by the copied animation
 
-Shared code at the group level is permitted only for **demo scaffolding** — content and layout that exists solely for the catalog showcase and would be replaced by the consumer's own UI.
+Shared code at the group level is permitted only when it is either **demo scaffolding** or an **explicit copy-paste dependency** listed in the animation file header and shown in source tabs. Hidden animation dependencies are forbidden.
 
 ### What must be self-contained
 
 **CSS classes that define the animation's visual structure.** If removing a CSS class breaks the animation (not the demo wrapper), that class must live in the animation's own `.css` file or be defined inline.
 
-**Sub-components that are part of the animation.** A `CrystalShatterParts.tsx` that only serves `PrizeRevealCrystalShatter.tsx` is fine at the group level — it moves with the animation. A `utils.ts` that serves 20 animations is not self-contained.
+**Sub-components that are part of the animation.** A `CrystalShatterParts.tsx` that only serves `PrizeRevealCrystalShatter.tsx` is fine at the group level — it moves with the animation. Shared helpers are allowed only when the file header/source viewer makes them part of the copied dependency closure.
+
+**PixiJS scene and host helpers.** PixiJS variants may share `Shared*PixiScenes.ts` and `src/pixijs/*` helpers because the copied unit is a dependency closure, not a single file. The scene factory must still be usable in a consumer's existing PixiJS `Application`.
 
 **Color palettes and design tokens used by the animation.** If an animation references `CELEBRATION_COLORS` or `GOLDEN_COLORS`, those values must be inlined or co-located, not imported from a shared group utility.
 
@@ -104,4 +106,4 @@ Apply this test: **if a consumer copies the animation into their own project and
 - `modal-celebrations/shared.css` — primary violation (216 lines of animation infrastructure)
 - `modal-celebrations/utils.ts` — shared math helpers and color palettes across 20 imports
 - ADR-005 — related constraint on portable animation properties
-- `eslint-rules/extra-rules.js` (`require-dual-implementation`) — enforces that each animation exists in both framer/ and css/ but does not enforce self-containment
+- `eslint-rules/extra-rules.js` (`require-dual-implementation`) — enforces baseline framer/css coverage but does not enforce self-containment
