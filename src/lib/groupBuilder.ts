@@ -28,9 +28,66 @@ type SourceLoaders = {
 }
 const sourceLoaderRegistry = new WeakMap<AnimationExport, SourceLoaders>()
 
-/** Files to skip when scanning glob results — not animation components. */
-const SKIP_PATTERN =
-  /^(?:Mock|index|Shared|Premium|.*(?:Helper|Parts|Components|cardSets|utils|fireworkModel|FlipCard))/
+/** Exact non-animation helper files present in animation group folders. */
+export const GROUP_HELPER_FILE_NAMES = [
+  'ArcanePortalConfig.ts',
+  'ArcanePortalParts.tsx',
+  'BubblePopTrajectory.ts',
+  'CardPackArrivalParts.tsx',
+  'CardPackBurstParts.tsx',
+  'CardPackOpenCardParts.tsx',
+  'CardPackOpenParts.tsx',
+  'CardPackParts.tsx',
+  'CoinCascadeParticles.ts',
+  'ComicPunchTrajectory.ts',
+  'CrystalShatterConfig.ts',
+  'CrystalShatterParts.tsx',
+  'FlipCardComponents.tsx',
+  'FlyInTrajectory.ts',
+  'SharedCardPackTypes.ts',
+  'SharedCelebrationTypes.ts',
+  'SharedContentDefaults.tsx',
+  'SharedDefaults.ts',
+  'SharedDemoTriggers.tsx',
+  'SharedFallbackCoin.tsx',
+  'SharedFallbackParticle.tsx',
+  'SharedFireworksRingModel.ts',
+  'SharedFormat.ts',
+  'SharedGraphemeSplitter.ts',
+  'SharedImagePreloader.ts',
+  'SharedModalOpenLogic.ts',
+  'SharedModalPlaceholder.tsx',
+  'SharedOpenModalPlaceholder.tsx',
+  'SharedParticleUtils.ts',
+  'SharedPillPhaseTheme.ts',
+  'SharedPresets.ts',
+  'SharedSkeleton.tsx',
+  'SharedTimer.ts',
+  'SharedToastPlaceholder.tsx',
+  'SharedTypes.ts',
+  'SlamDownTrajectory.ts',
+  'cardSets.ts',
+  'fireworkModel.ts',
+  'shared.css',
+  'utils.ts',
+] as const
+
+const GROUP_HELPER_FILE_NAME_SET = new Set<string>(GROUP_HELPER_FILE_NAMES)
+
+function sourceBaseName(fileName: string): string {
+  return fileName.replace(/\.meta\.ts$|\.module\.css$|\.css$|\.tsx?$/, '')
+}
+
+const GROUP_HELPER_BASE_NAME_SET = new Set<string>(GROUP_HELPER_FILE_NAMES.map(sourceBaseName))
+
+/** Returns true for exact helper filenames, or matching helper basenames such as `.meta.ts`. */
+export function isKnownGroupHelperFileName(fileName: string): boolean {
+  const normalized = fileName.replace(/^.*\//, '')
+  return (
+    GROUP_HELPER_FILE_NAME_SET.has(normalized) ||
+    GROUP_HELPER_BASE_NAME_SET.has(sourceBaseName(normalized))
+  )
+}
 
 /**
  * Extracts the base filename from a Vite glob-matched path.
@@ -39,7 +96,7 @@ const SKIP_PATTERN =
  * `'./framer/StandardEffectsBounce.tsx'`      → `'StandardEffectsBounce'`
  */
 function baseNameFromPath(path: string): string {
-  return path.replace(/^.*\//, '').replace(/\.meta\.ts$|\.module\.css$|\.css$|\.tsx?$/, '')
+  return sourceBaseName(path.replace(/^.*\//, ''))
 }
 
 /** Extracts the filename with extension from a glob path. `'./framer/Foo.tsx'` → `'Foo.tsx'` */
@@ -68,7 +125,7 @@ function findRawLoader(
 
 /**
  * Collects non-component (helper/utility) raw source loaders from a subdir glob result.
- * These are files matched by the glob but skipped by SKIP_PATTERN during component registration.
+ * These are exact helper files matched by the glob but skipped during component registration.
  */
 function collectHelperLoaders(
   rawTsxLoaders?: Record<string, RawSourceLoader>,
@@ -76,18 +133,43 @@ function collectHelperLoaders(
 ): Record<string, RawSourceLoader> {
   const helpers: Record<string, RawSourceLoader> = {}
   for (const [path, loader] of Object.entries(rawTsxLoaders ?? {})) {
-    const baseName = baseNameFromPath(path)
-    if (SKIP_PATTERN.test(baseName)) {
+    if (isKnownGroupHelperFileName(filenameFromPath(path))) {
       helpers[path] = loader
     }
   }
   for (const [path, loader] of Object.entries(rawCssLoaders ?? {})) {
-    const baseName = baseNameFromPath(path)
-    if (SKIP_PATTERN.test(baseName)) {
+    if (isKnownGroupHelperFileName(filenameFromPath(path))) {
       helpers[path] = loader
     }
   }
   return helpers
+}
+
+const VALID_REACT_OBJECT_TYPES = new Set([
+  Symbol.for('react.memo'),
+  Symbol.for('react.forward_ref'),
+])
+
+function isValidComponentExport(value: unknown): boolean {
+  if (typeof value === 'function') return true
+  if (typeof value !== 'object' || value === null) return false
+  return VALID_REACT_OBJECT_TYPES.has((value as { $$typeof?: symbol }).$$typeof!)
+}
+
+function validateComponentExport(
+  module: Record<string, unknown>,
+  exportName: string,
+  componentPath: string
+): void {
+  const exported = module[exportName]
+  if (isValidComponentExport(exported)) return
+
+  const availableExports = Object.keys(module).sort()
+  throw new Error(
+    `[groupBuilder] Invalid component export "${exportName}" in ${componentPath}. ` +
+      `Expected a React component export matching the component filename. ` +
+      `Available exports: ${availableExports.length > 0 ? availableExports.join(', ') : '(none)'}`
+  )
 }
 
 /**
@@ -110,7 +192,7 @@ function buildAnimationMap(
 
   for (const [metaPath, metaModule] of Object.entries(metaModules)) {
     const baseName = baseNameFromPath(metaPath)
-    if (SKIP_PATTERN.test(baseName)) continue
+    if (isKnownGroupHelperFileName(filenameFromPath(metaPath))) continue
 
     const meta = metaModule.metadata
 
@@ -136,9 +218,14 @@ function buildAnimationMap(
     const exportName = baseName
 
     const component = lazy(() =>
-      loader().then((m) => ({
-        default: m[exportName] as ComponentType<Record<string, unknown>>,
-      }))
+      loader().then((m) => {
+        if (import.meta.env.DEV) {
+          validateComponentExport(m, exportName, componentPath)
+        }
+        return {
+          default: m[exportName] as ComponentType<Record<string, unknown>>,
+        }
+      })
     )
 
     const entry: AnimationExport = { component, metadata: meta }
@@ -173,7 +260,8 @@ function buildAnimationMap(
  * Matches import paths from `from '...'` statements.
  * Captures relative paths (`../Foo`, `./Foo`) and `@/` alias paths.
  */
-const IMPORT_PATH_RE = /\bfrom\s+['"](\.\.\/?[^'"]+|\.\/[^'"]+|@\/[^'"]+)['"]/g
+const IMPORT_PATH_RE =
+  /\bfrom\s+['"](\.\.\/?[^'"]+|\.\/[^'"]+|@\/[^'"]+)['"]|\bimport\s+['"](\.\.\/?[^'"]+|\.\/[^'"]+|@\/[^'"]+)['"]/g
 
 /** Files that should not appear as shared tabs (demo scaffolding). */
 const MOCK_IMPORT_RE = /Mock/
@@ -186,7 +274,7 @@ const MOCK_IMPORT_RE = /Mock/
 function extractGroupImports(source: string): string[] {
   const paths = new Set<string>()
   for (const match of source.matchAll(IMPORT_PATH_RE)) {
-    const importPath = match[1]!
+    const importPath = (match[1] ?? match[2])!
     if (!MOCK_IMPORT_RE.test(importPath)) {
       paths.add(importPath)
     }
@@ -238,6 +326,9 @@ function findSharedLoader(
       }
     }
     return undefined
+  }
+  if (shared[resolvedPath]) {
+    return { path: resolvedPath, loader: shared[resolvedPath] }
   }
   for (const ext of ['.ts', '.tsx', '.css']) {
     const candidate = resolvedPath + ext

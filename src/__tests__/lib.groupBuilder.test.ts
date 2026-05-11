@@ -1,8 +1,98 @@
-import { buildGroupExport } from '@/lib/groupBuilder'
+import {
+  GROUP_HELPER_FILE_NAMES,
+  buildGroupExport,
+  isKnownGroupHelperFileName,
+  resolveAnimationSource,
+} from '@/lib/groupBuilder'
+import { render, screen, waitFor } from '@testing-library/react'
+import { Component, Suspense, createElement, memo, type ReactNode } from 'react'
 import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
 import { describe, expect, it, vi } from 'vitest'
 
 const groupMeta: GroupMetadata = { id: 'test-group', title: 'Test Group' }
+
+const groupRootSourceModules = import.meta.glob<string>(
+  '/src/components/{base,dialogs,progress,realtime,rewards}/*/*.{ts,tsx}',
+  { query: '?raw', import: 'default', eager: true }
+)
+const groupSubdirTsModules = import.meta.glob<string>(
+  '/src/components/{base,dialogs,progress,realtime,rewards}/*/{framer,css}/*.ts',
+  { query: '?raw', import: 'default', eager: true }
+)
+const groupSubdirTsxModules = import.meta.glob<string>(
+  '/src/components/{base,dialogs,progress,realtime,rewards}/*/{framer,css}/*.tsx',
+  { query: '?raw', import: 'default', eager: true }
+)
+const groupSubdirMetaModules = import.meta.glob<string>(
+  '/src/components/{base,dialogs,progress,realtime,rewards}/*/{framer,css}/*.meta.ts',
+  { query: '?raw', import: 'default', eager: true }
+)
+const groupSubdirCssModules = import.meta.glob<string>(
+  '/src/components/{base,dialogs,progress,realtime,rewards}/*/{framer,css}/*.css',
+  { query: '?raw', import: 'default', eager: true }
+)
+const groupSubdirComponentBases = new Set(
+  Object.keys(groupSubdirMetaModules).map((path) => path.replace(/\.meta\.ts$/, ''))
+)
+
+function fileName(path: string): string {
+  return path.replace(/^.*\//, '')
+}
+
+function discoverActualHelperFileNames(): string[] {
+  const names = new Set<string>()
+
+  for (const path of Object.keys(groupRootSourceModules)) {
+    const name = fileName(path)
+    if (name !== 'index.ts') {
+      names.add(name)
+    }
+  }
+
+  for (const path of Object.keys(groupSubdirTsModules)) {
+    const name = fileName(path)
+    if (!name.endsWith('.meta.ts')) {
+      names.add(name)
+    }
+  }
+
+  for (const path of Object.keys(groupSubdirTsxModules)) {
+    if (!groupSubdirComponentBases.has(path.replace(/\.tsx$/, ''))) {
+      names.add(fileName(path))
+    }
+  }
+
+  for (const path of Object.keys(groupSubdirCssModules)) {
+    const name = fileName(path)
+    if (
+      !name.endsWith('.module.css') &&
+      !groupSubdirComponentBases.has(path.replace(/\.css$/, ''))
+    ) {
+      names.add(name)
+    }
+  }
+
+  return [...names].sort()
+}
+
+class TestErrorBoundary extends Component<
+  { children: ReactNode; onError: (error: Error) => void },
+  { error: Error | null }
+> {
+  state = { error: null }
+
+  static getDerivedStateFromError(error: Error): { error: Error } {
+    return { error }
+  }
+
+  componentDidCatch(error: Error): void {
+    this.props.onError(error)
+  }
+
+  render(): ReactNode {
+    return this.state.error ? null : this.props.children
+  }
+}
 
 function makeMeta(id: string, overrides?: Partial<AnimationMetadata>): AnimationMetadata {
   return {
@@ -36,17 +126,18 @@ describe('buildGroupExport', () => {
     )
   })
 
-  it('skips files matching SKIP_PATTERN', () => {
+  it('skips exact helper files during registration', () => {
     const components = {
-      './framer/MockContent.tsx': () => Promise.resolve({ MockContent: () => null }),
-      './framer/SharedParts.tsx': () => Promise.resolve({ SharedParts: () => null }),
-      './framer/IndexHelper.tsx': () => Promise.resolve({ IndexHelper: () => null }),
+      './framer/CardPackOpenCardParts.tsx': () =>
+        Promise.resolve({ CardPackOpenCardParts: () => null }),
+      './framer/CardPackOpenParts.tsx': () => Promise.resolve({ CardPackOpenParts: () => null }),
       './framer/RealAnim.tsx': () => Promise.resolve({ RealAnim: () => null }),
     }
     const meta = {
-      './framer/MockContent.meta.ts': { metadata: makeMeta('g__mock-content') },
-      './framer/SharedParts.meta.ts': { metadata: makeMeta('g__shared-parts') },
-      './framer/IndexHelper.meta.ts': { metadata: makeMeta('g__index-helper') },
+      './framer/CardPackOpenCardParts.meta.ts': {
+        metadata: makeMeta('g__card-pack-open-card-parts'),
+      },
+      './framer/CardPackOpenParts.meta.ts': { metadata: makeMeta('g__card-pack-open-parts') },
       './framer/RealAnim.meta.ts': { metadata: makeMeta('g__real-anim') },
     }
 
@@ -88,18 +179,22 @@ describe('buildGroupExport', () => {
     expect(result.metadata).toBe(groupMeta)
   })
 
-  it('skips files matching each segment of SKIP_PATTERN', () => {
+  it('matches every helper file currently present in group folders', () => {
+    const actualHelperFileNames = discoverActualHelperFileNames()
+
+    expect(actualHelperFileNames).toEqual([...GROUP_HELPER_FILE_NAMES].sort())
+    expect(actualHelperFileNames.filter((name) => !isKnownGroupHelperFileName(name))).toEqual([])
+  })
+
+  it('does not skip regex-like names unless they are explicit helper files', () => {
     const cases: Array<{ name: string; shouldSkip: boolean }> = [
-      { name: 'MockContent', shouldSkip: true }, // ^Mock
-      { name: 'SharedLayout', shouldSkip: true }, // ^Shared
-      { name: 'PremiumCard', shouldSkip: true }, // ^Premium
-      { name: 'BurstComponents', shouldSkip: true }, // .*Components
-      { name: 'cardSets', shouldSkip: true }, // .*cardSets
-      { name: 'fireworkModel', shouldSkip: true }, // .*fireworkModel
-      { name: 'FieldHelper', shouldSkip: true }, // .*Helper
-      { name: 'LayoutParts', shouldSkip: true }, // .*Parts
-      { name: 'indexSomething', shouldSkip: true }, // ^index
-      { name: 'utils', shouldSkip: true }, // .*utils
+      { name: 'MockContent', shouldSkip: false },
+      { name: 'SharedLayout', shouldSkip: false },
+      { name: 'PremiumCard', shouldSkip: false },
+      { name: 'BurstComponents', shouldSkip: false },
+      { name: 'FieldHelper', shouldSkip: false },
+      { name: 'LayoutParts', shouldSkip: false },
+      { name: 'CardPackOpenParts', shouldSkip: true },
       { name: 'RealAnimation', shouldSkip: false },
       { name: 'ModalBaseScaleGentlePop', shouldSkip: false },
     ]
@@ -284,15 +379,21 @@ describe('buildGroupExport', () => {
 })
 
 describe('buildGroupExport lazy component contract', () => {
-  it('creates React.lazy components that use the filename as the export name', () => {
+  it('creates React.lazy components that use the filename as the export name', async () => {
     // This tests the core assumption: the component module exports a named export
     // matching the filename. If the file is AnimAlpha.tsx, the module must have
     // an export named "AnimAlpha".
+    const onError = vi.fn()
     const result = buildGroupExport(
       groupMeta,
       {
         './framer/AnimAlpha.tsx': () =>
-          Promise.resolve({ AnimAlpha: () => 'rendered', OtherExport: () => 'wrong' }),
+          Promise.resolve({
+            AnimAlpha: memo(() =>
+              createElement('div', { 'data-testid': 'anim-alpha' }, 'AnimAlpha rendered')
+            ),
+            OtherExport: () => 'wrong',
+          }),
       },
       { './framer/AnimAlpha.meta.ts': { metadata: makeMeta('g__alpha') } },
       {},
@@ -302,32 +403,58 @@ describe('buildGroupExport lazy component contract', () => {
     const lazyComponent = result.framer['g__alpha']!.component
     // Verify it's a lazy component
     expect(lazyComponent).toHaveProperty('$$typeof', Symbol.for('react.lazy'))
+
+    render(
+      createElement(
+        TestErrorBoundary,
+        { onError },
+        createElement(Suspense, { fallback: null }, createElement(lazyComponent))
+      )
+    )
+
+    expect(await screen.findByTestId('anim-alpha')).toHaveTextContent('AnimAlpha rendered')
+    expect(onError).not.toHaveBeenCalled()
   })
 
-  it('handles component loaders that return empty modules gracefully', async () => {
-    // If the module has no matching export, React.lazy will receive undefined
-    // as the default export. This is a production bug we want to document.
-    const result = buildGroupExport(
-      groupMeta,
-      {
-        './framer/NoExport.tsx': () => Promise.resolve({}),
-      },
-      { './framer/NoExport.meta.ts': { metadata: makeMeta('g__no-export') } },
-      {},
-      {}
-    )
+  it('throws a dev error when the expected named export is missing', async () => {
+    const onError = vi.fn()
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    try {
+      const result = buildGroupExport(
+        groupMeta,
+        {
+          './framer/NoExport.tsx': () => Promise.resolve({}),
+        },
+        { './framer/NoExport.meta.ts': { metadata: makeMeta('g__no-export') } },
+        {},
+        {}
+      )
 
-    // The entry is created (buildGroupExport doesn't validate the loader's return value)
-    expect(result.framer['g__no-export']!.component).toHaveProperty(
-      '$$typeof',
-      Symbol.for('react.lazy')
-    )
+      render(
+        createElement(
+          TestErrorBoundary,
+          { onError },
+          createElement(
+            Suspense,
+            { fallback: null },
+            createElement(result.framer['g__no-export']!.component)
+          )
+        )
+      )
+
+      await waitFor(() => expect(onError).toHaveBeenCalledOnce())
+      const error = onError.mock.calls[0]![0] as Error
+
+      expect(error.message).toContain('Invalid component export "NoExport"')
+      expect(error.message).toContain('./framer/NoExport.tsx')
+      expect(error.message).toContain('Available exports: (none)')
+    } finally {
+      consoleError.mockRestore()
+    }
   })
 
   describe('collectHelperLoaders and shared pool merging', () => {
-    it('includes CSS helper files (matching SKIP_PATTERN) in the shared pool', () => {
-      // A CSS file named MockStyles.css matches SKIP_PATTERN (starts with Mock)
-      // and should be collected as a helper, not registered as an animation
+    it('includes exact CSS helper files in the shared pool', async () => {
       const helperCssLoader = vi.fn().mockResolvedValue('.mock-helper {}')
 
       const result = buildGroupExport(
@@ -338,17 +465,16 @@ describe('buildGroupExport lazy component contract', () => {
         {},
         {
           framerTsx: {
-            './framer/RealAnim.tsx': vi.fn().mockResolvedValue('export function RealAnim() {}'),
+            './framer/RealAnim.tsx': vi
+              .fn()
+              .mockResolvedValue("import './shared.css'\nexport function RealAnim() {}"),
           },
-          framerCss: { './framer/MockStyles.css': helperCssLoader },
+          framerCss: { './framer/shared.css': helperCssLoader },
         }
       )
 
-      // The animation should be registered
-      expect(Object.keys(result.framer)).toEqual(['g__real-anim'])
-      // MockStyles.css is a helper — it gets merged into allShared via collectHelperLoaders
-      // We can't directly inspect the WeakMap, but we verify the entry exists
-      expect(result.framer['g__real-anim']!.metadata.id).toBe('g__real-anim')
+      const tabs = await resolveAnimationSource(result.framer['g__real-anim']!, undefined)
+      expect(tabs.map((tab) => tab.label)).toEqual(['Component', 'shared.css'])
     })
 
     it('merges framer and css helper loaders into the same shared pool', () => {
@@ -363,11 +489,11 @@ describe('buildGroupExport lazy component contract', () => {
         {
           framerTsx: {
             './framer/AnimA.tsx': vi.fn().mockResolvedValue('export function AnimA() {}'),
-            './framer/SharedUtils.tsx': vi.fn().mockResolvedValue('// framer helper'),
+            './framer/CardPackOpenParts.tsx': vi.fn().mockResolvedValue('// framer helper'),
           },
           cssTsx: {
             './css/AnimA.tsx': vi.fn().mockResolvedValue('export function AnimA() {}'),
-            './css/SharedUtils.tsx': vi.fn().mockResolvedValue('// css helper'),
+            './css/CardPackOpenParts.tsx': vi.fn().mockResolvedValue('// css helper'),
           },
         }
       )
@@ -378,7 +504,7 @@ describe('buildGroupExport lazy component contract', () => {
     })
 
     it('last-write-wins when framer and css have identically-pathed helper files', () => {
-      // If both framer/ and css/ contain ./SharedUtils.tsx, the allShared merger
+      // If both framer/ and css/ contain ./CardPackOpenParts.tsx, the allShared merger
       // uses object spread: { ...shared, ...framerHelpers, ...cssHelpers }
       // css helpers overwrite framer helpers with the same path key
       const framerHelper = vi.fn().mockResolvedValue('framer version')
@@ -394,12 +520,12 @@ describe('buildGroupExport lazy component contract', () => {
           framerTsx: {
             './framer/Anim.tsx': vi.fn().mockResolvedValue('export function Anim() {}'),
             // Same relative path from framer/ subdir
-            './framer/SharedUtils.tsx': framerHelper,
+            './framer/CardPackOpenParts.tsx': framerHelper,
           },
           cssTsx: {
             './css/Anim.tsx': vi.fn().mockResolvedValue('export function Anim() {}'),
             // Same relative path from css/ subdir — different key, so no collision
-            './css/SharedUtils.tsx': cssHelper,
+            './css/CardPackOpenParts.tsx': cssHelper,
           },
         }
       )
