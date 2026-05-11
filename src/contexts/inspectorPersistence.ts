@@ -28,7 +28,12 @@ export function loadPersistedOverrides(): PropOverridesByAnimationId {
     return v.parse(PersistedOverridesSchema, parsed)
   } catch (err) {
     // JSON parse error, Valibot validation failure, or localStorage unavailable.
-    // Return empty — the next debounced persist will overwrite with valid data.
+    // Remove the bad entry so subsequent mounts don't hit the same failure.
+    try {
+      localStorage.removeItem(OVERRIDES_STORAGE_KEY)
+    } catch {
+      // localStorage may be unavailable — ignore cleanup failure.
+    }
     logger.warn('[inspectorPersistence] Failed to load persisted inspector overrides', err)
     return {}
   }

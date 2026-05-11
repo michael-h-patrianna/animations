@@ -12,6 +12,7 @@ Four CSS layers with strict boundaries enforced by stylelint.
 | -------------------- | ----------------------------------------------- | ----------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------- |
 | Framer animation CSS | `framer/*.module.css`                           | `pf-*-fm`               | Banned (`@keyframes`, `animation`, `transition`)                        | Stylelint: `at-rule-disallowed-list`, `property-disallowed-list` |
 | CSS animation CSS    | `css/*.module.css` (per component)              | `pf-*`                  | Allowed                                                                 | —                                                                |
+| PixiJS canvas        | `pixijs/*.tsx`                                  | n/a                     | Canvas objects animated by GSAP. No global CSS animation dependencies.  | Code review + custom ESLint rules                                |
 | Demo-blocks          | `demo-blocks/demo-blocks.css`                   | `pf-demo-*`             | Banned in shared file; component-specific CSS (e.g. `DemoToast.css`) OK | Stylelint override                                               |
 | Demo-UI              | `demo-ui/`, `src/styles/`, `src/components/ui/` | `[data-demo-ui]` scoped | Allowed (catalog transitions, selection glow)                           | Attribute scoping                                                |
 
@@ -19,10 +20,9 @@ Four CSS layers with strict boundaries enforced by stylelint.
 
 ### What a consumer copies per animation
 
-1. `ComponentName.tsx` — the component
-2. `ComponentName.module.css` — its own animation styles (can have keyframes/transitions)
-3. Group `shared.css` — structural/visual foundation (no animation code)
-4. Shared `.ts`/`.tsx` — helpers, types, hooks
+1. Framer: `ComponentName.tsx` + listed shared `.ts`/`.tsx` files + runtime deps `react`, `motion`.
+2. CSS: `ComponentName.tsx` + `ComponentName.module.css` + listed shared files + runtime dep `react`.
+3. PixiJS: `ComponentName.tsx` + listed scene/helper files + `src/pixijs/*` host helpers + runtime deps `react`, `pixi.js`, `gsap`.
 
 Demo-blocks are not consumer-facing — they exist only to make the showcase work.
 
@@ -38,12 +38,14 @@ Demo-blocks are not consumer-facing — they exist only to make the showcase wor
 
 ## Import Rules
 
-| Import        | Correct                                      | Wrong                                                           |
-| ------------- | -------------------------------------------- | --------------------------------------------------------------- |
-| Framer Motion | `import * as m from 'motion/react-m'`        | `import { motion } from 'framer-motion'`                        |
-| Path aliases  | `import X from '@/components/X'`             | `import X from '../../../components/X'`                         |
-| Types         | `import type { X } from '@/types/animation'` | `import { X } from '@/types/animation'` (for type-only imports) |
-| Shared styles | `import '../shared.css'` (from group root)   | Importing CSS from other groups                                 |
+| Import        | Correct                                               | Wrong                                                           |
+| ------------- | ----------------------------------------------------- | --------------------------------------------------------------- |
+| Framer Motion | `import * as m from 'motion/react-m'`                 | `import { motion } from 'framer-motion'`                        |
+| PixiJS        | `import { Container, Graphics, Text } from 'pixi.js'` | Deep imports from Pixi internals                                |
+| GSAP          | `import { gsap } from 'gsap'`                         | Direct DOM animation in PixiJS variants                         |
+| Path aliases  | `import X from '@/components/X'`                      | `import X from '../../../components/X'`                         |
+| Types         | `import type { X } from '@/types/animation'`          | `import { X } from '@/types/animation'` (for type-only imports) |
+| Shared styles | `import '../shared.css'` (from group root)            | Importing CSS from other groups                                 |
 
 ## Animation Component Rules
 
@@ -51,7 +53,7 @@ Demo-blocks are not consumer-facing — they exist only to make the showcase wor
 - Root element has `data-animation-id` matching metadata `id` exactly
 - No presentation wrappers (cards, titles, replay buttons) — AnimationCard provides these
 - No `useState` for replay logic — parent remounts via key toggle
-- Every animation implemented twice: one in `framer/`, one in `css/`
+- Every animation has baseline `framer/` and `css/` variants. `pixijs/` is optional and only for groups registered with `techs: ['framer', 'css', 'pixijs']`
 - Metadata file (`.meta.ts`) required next to every component file (`.tsx`)
 - **Standalone**: no catalog-specific demo imports (`MockContent`, `DemoAnchors`, `isDemo` branches). `@/components/demo-blocks` imports ARE allowed — these are portable UI primitives (buttons, modals, lists, etc.) that ship with the animation as content. Demo UI orchestration (what to show, when) is rendered by the catalog layer via `demoMode` metadata, not by the component
 - **All props optional**: components typed `ComponentType<Record<string, unknown>>`. Sensible defaults when props omitted (container center for spatial, placeholder content for wrappers)
@@ -59,6 +61,9 @@ Demo-blocks are not consumer-facing — they exist only to make the showcase wor
 - **File header comment**: lists copy-paste files and runtime deps
 - **CSS Modules scoping**: All component CSS uses `.module.css` — class names are locally scoped, eliminating cross-variant animation bleed without manual `animation: 'none'` overrides
 - **CSS particle elements**: require `opacity: 0` + `animation-fill-mode: both` to prevent flash-of-visibility during delay
+- **PixiJS host**: Catalog variants use `PixiAnimationHost`; game consumers may reuse the scene factory inside an existing Pixi `Application`
+- **PixiJS performance**: Use GSAP timelines for orchestration. Pause when offscreen. Destroy timelines, textures, and display objects on unmount. Avoid unmanaged `app.ticker.add`, unbounded object creation, and per-frame text/style mutation.
+- **PixiJS text**: Create text sprites up front when possible. Counters may update text only when the displayed rounded value changes.
 
 ## TypeScript
 

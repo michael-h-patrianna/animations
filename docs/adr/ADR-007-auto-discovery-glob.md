@@ -6,7 +6,7 @@
 
 ## Context
 
-Each animation group requires registering both framer and CSS component variants along with their metadata and raw source files. Manual registration in group index files meant:
+Each animation group requires registering framer and CSS component variants, plus optional PixiJS variants, along with their metadata and raw source files. Manual registration in group index files meant:
 
 - ~200 lines of import/lazy/map boilerplate per group
 - Every new animation required editing the group index
@@ -15,7 +15,7 @@ Each animation group requires registering both framer and CSS component variants
 
 ## Decision
 
-Use Vite's `import.meta.glob` with `buildGroupExport()` (src/lib/groupBuilder.ts) for automatic component discovery. Adding a `.tsx` component and its `.meta.ts` metadata file to a `framer/` or `css/` directory is sufficient for registration. No index edits needed.
+Use Vite's `import.meta.glob` with `buildGroupExport()` (src/lib/groupBuilder.ts) for automatic component discovery. Adding a `.tsx` component and its `.meta.ts` metadata file to a `framer/`, `css/`, or generated `pixijs/` directory is sufficient for registration. No generated index edits needed.
 
 The `SKIP_PATTERN` regex (line 31 of groupBuilder.ts) excludes helper files (Mock*, Shared*, *Parts, *Components, etc.) from being treated as animation components.
 

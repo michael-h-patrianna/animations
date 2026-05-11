@@ -29,6 +29,8 @@ interface TileAnimationsSpringPhysicsProps {
   duration?: number
   /** Number of grid columns. Default 3. */
   columns?: number
+  /** Initial delay before first item animates in ms. Default 200. */
+  initialDelay?: number
 }
 
 function generatePlaceholders(count: number): ReactNode[] {
@@ -44,6 +46,7 @@ function TileAnimationsSpringPhysicsComponent({
   stagger = 100,
   duration = 800,
   columns = 3,
+  initialDelay = 200,
 }: TileAnimationsSpringPhysicsProps) {
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
@@ -68,7 +71,7 @@ function TileAnimationsSpringPhysicsComponent({
           key={i}
           className={`${styles['pf-spring-physics__item']} ${styles['pf-spring-physics__item--visible']}`}
           style={{
-            animationDelay: `${(200 + i * stagger) / 1000}s`,
+            animationDelay: `${(initialDelay + i * stagger) / 1000}s`,
             animationDuration: `${duration / 1000}s`,
           }}
           onAnimationEnd={handleAnimationEnd}

@@ -14,6 +14,7 @@ function clampRange(value: number, min: number, max: number): number {
 }
 
 function clampAlpha(value: number): number {
+  if (!Number.isFinite(value)) return value > 0 ? 1 : 0
   const alpha = clampRange(value, 0, 1)
   if (alpha <= 0.000001) return 0
   if (alpha >= 0.999999) return 1

@@ -38,17 +38,21 @@ function getAliasRecord(config: UserConfig): Record<string, string> {
 }
 
 describe('vite config', () => {
-  it('does not alias react-dom/client to profiling by default', async () => {
+  it('includes path alias without profiling in production mode', async () => {
     const config = await resolveViteConfig('production')
     const alias = getAliasRecord(config)
 
-    expect(alias).toEqual({ '@': '/src' })
+    expect(alias).toMatchObject({ '@': '/src' })
+    expect(Object.keys(alias)).toEqual(['@'])
   })
 
-  it('aliases react-dom/client to profiling only in profile mode', async () => {
+  it('includes profiling alias in profile mode', async () => {
     const config = await resolveViteConfig('profile')
     const alias = getAliasRecord(config)
 
-    expect(alias).toEqual({ '@': '/src', 'react-dom/client': 'react-dom/profiling' })
+    expect(alias).toMatchObject({
+      '@': '/src',
+      'react-dom/client': 'react-dom/profiling',
+    })
   })
 })

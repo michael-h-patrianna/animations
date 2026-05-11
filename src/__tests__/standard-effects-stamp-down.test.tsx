@@ -4,22 +4,20 @@
  * for both framer and CSS variants.
  */
 import { render, screen } from '@testing-library/react'
-import { Suspense } from 'react'
+import { Suspense, type HTMLAttributes, type Ref } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('motion/react', () => ({
   useReducedMotion: () => false,
 }))
 
-vi.mock('motion/react-m', async () => {
-  const React = await import('react')
-
+vi.mock('motion/react-m', () => {
   function MockMotionDiv(
-    props: React.HTMLAttributes<HTMLDivElement> & {
+    props: HTMLAttributes<HTMLDivElement> & {
       initial?: unknown
       animate?: unknown
       transition?: unknown
-      ref?: React.Ref<HTMLDivElement>
+      ref?: Ref<HTMLDivElement>
     }
   ) {
     const { children, initial: _i, animate: _a, transition: _t, ref, ...rest } = props

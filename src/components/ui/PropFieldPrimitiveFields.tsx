@@ -127,6 +127,7 @@ export function ColorField({
       </div>
     )
   }
+  /* eslint-disable animation-rules/no-hardcoded-colors -- fallback black for missing color value */
   const solidValue = typeof value === 'string' ? value : '#000000'
   return (
     <div data-testid={`prop-field-${config.name}`}>

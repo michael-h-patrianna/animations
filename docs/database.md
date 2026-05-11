@@ -27,10 +27,11 @@ The "Schema" is defined by the TypeScript interfaces in `src/types/animation.ts`
 - `metadata`: { id, title, tech, demo }
 - `framer`: Record<string, AnimationExport> (auto-discovered)
 - `css`: Record<string, AnimationExport> (auto-discovered)
+- `pixijs?`: Record<string, AnimationExport> (auto-discovered when `pixijs/` exists)
 
 **Animation Schema** (`.meta.ts` file):
 
-- `metadata`: { id, title, description, tags, disableReplay?, infinite?, controls?, prizeCountMax? }
+- `metadata`: { id, title, description, tags, urlSlugFramer?, urlSlugCss?, urlSlugPixijs?, disableReplay?, infinite?, controls?, prizeCountMax? }
 
 ---
 
@@ -38,9 +39,10 @@ The "Schema" is defined by the TypeScript interfaces in `src/types/animation.ts`
 
 ### Create (Add New Animation)
 
-1. Create `ComponentName.tsx` in `src/components/<category>/<group>/framer/` (and `css/`).
-2. Create `ComponentName.meta.ts` alongside it with metadata export.
-3. **No manual registration required.** `import.meta.glob` in the group's `index.ts` discovers new files automatically.
+1. Create `ComponentName.tsx` in `src/components/<category>/<group>/framer/` and `css/`.
+2. Create `ComponentName.meta.ts` alongside each `.tsx` file with metadata export.
+3. For embedded-game variants, also create `pixijs/ComponentName.tsx` and `pixijs/ComponentName.meta.ts`, then opt the group into `pixijs` in the category index.
+4. **No manual group index registration required.** `import.meta.glob` in the generated group `index.ts` discovers new files automatically.
 
 ### Read (Query)
 
@@ -67,7 +69,7 @@ The "Schema" is defined by the TypeScript interfaces in `src/types/animation.ts`
 
 - Convention: `group-name__variant-name` (e.g., `modal-base__scale-gentle-pop`)
 
-**Safety**: `buildRegistryFromCategories()` flattens the hierarchy. Duplicate IDs silently overwrite each other (CSS wins over Framer for the same ID). ID uniqueness is enforced by the `metadata-integrity.test.ts` test suite, which catches cross-group ID collisions, prefix mismatches, and duplicate IDs within tech variants.
+**Safety**: `buildRegistryFromCategories()` flattens the hierarchy. Duplicate IDs silently overwrite each other if not checked. ID uniqueness is enforced by the `metadata-integrity.test.ts` test suite, which catches cross-group ID collisions, prefix mismatches, and duplicate IDs within tech variants.
 
 ---
 
@@ -75,4 +77,4 @@ The "Schema" is defined by the TypeScript interfaces in `src/types/animation.ts`
 
 - **Don't** manually edit group `index.ts` files to register animations. Auto-discovery handles it.
 - **Don't** forget the `.meta.ts` file. The `require-animation-metadata` ESLint rule catches this.
-- **Don't** forget the dual implementation. The `require-dual-implementation` ESLint rule catches this.
+- **Don't** forget the baseline `framer/` + `css/` implementations. PixiJS is optional and group-level opt-in.

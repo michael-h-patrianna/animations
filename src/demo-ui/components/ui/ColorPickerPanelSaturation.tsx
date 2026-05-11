@@ -60,6 +60,7 @@ export function SaturationArea({
       className="w-full h-[160px] rounded-lg relative cursor-crosshair overflow-hidden shadow-lg ring-1 ring-border-default group"
       onMouseDown={onMouseDown}
       onKeyDown={handleKeyDown}
+      // eslint-disable-next-line animation-rules/no-hardcoded-colors -- dynamic HSL for saturation picker
       style={sx({ backgroundColor: `hsl(${String(hsv.h * 360)}, 100%, 50%)` })}
       role="application"
       aria-label={`Saturation ${String(Math.round(hsv.s * 100))}%, Brightness ${String(Math.round(hsv.v * 100))}%`}
@@ -121,9 +122,8 @@ export function ColorSliders({
           />
           <div
             className="absolute inset-0 z-1"
-            style={sx({
-              background: 'linear-gradient(to right, #ffffff, #000000)',
-            })}
+            // eslint-disable-next-line animation-rules/no-hardcoded-colors -- alpha channel gradient overlay
+            style={sx({ background: 'linear-gradient(to right, #ffffff, #000000)' })}
           />
           <MotionEl.input
             type="range"

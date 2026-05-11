@@ -14,14 +14,14 @@
 
 **Key Exports**:
 
-- `declareCategoryGroups(categoryId, title, groups)` — Registers all groups in a category with a single call. Creates framer/css lazy loaders and nav metadata.
+- `declareCategoryGroups(categoryId, title, groups)` — Registers all groups in a category with a single call. Creates lazy loaders and nav metadata for `framer` + `css` by default; add `techs: ['framer', 'css', 'pixijs']` for PixiJS groups.
 - `loadLazyGroup(groupId)` — Loads a group by ID with caching. Returns `LazyGroupResult`.
 - `getLazyNavCatalog()` — Returns the lightweight navigation catalog (no animation code, just IDs and titles).
 - `getLoadedGroupAnimations(groupId)` — Returns the `AnimationExport` map for an already-loaded group.
 
 ### Animation Registry (`src/components/animationRegistry.ts`)
 
-**Role**: Thin wrapper over the lazy group registry. Provides `getGroupAnimations(baseGroupId, tech)` for synchronous component lookup after a group has been loaded.
+**Role**: Thin wrapper over the lazy group registry. Provides `getGroupAnimations(baseGroupId, tech)` for synchronous component lookup after a group has been loaded. `tech` is `framer`, `css`, or `pixijs`.
 
 ### Data Flow
 
@@ -72,12 +72,12 @@ export function LightsCircleStatic1({
 
 ### Auto-Discovery
 
-New animations are discovered automatically via `import.meta.glob` in group `index.ts` files. Adding a new animation requires only two files:
+New animations are discovered automatically via `import.meta.glob` in generated group `index.ts` files. Adding a new variant requires only two files in the runtime folder:
 
 1. `ComponentName.tsx` — the animation component
 2. `ComponentName.meta.ts` — the metadata export
 
-No manual index editing required.
+Runtime folders are `framer/`, `css/`, and optional `pixijs/`. No manual group index editing required; run `pnpm run generate:groups` after adding a `pixijs/` folder so the generated index includes PixiJS globs.
 
 ---
 
@@ -86,3 +86,4 @@ No manual index editing required.
 - **Don't** hardcode animation data in UI components. Use `.meta.ts` files.
 - **Don't** try to `fetch('/api/...')`. This is a static app with no backend.
 - **Don't** manually edit group or category `index.ts` files. Auto-discovery handles registration.
+- **Don't** expose `pixijs/` in the sidebar unless the category registration includes `techs: ['framer', 'css', 'pixijs']`.

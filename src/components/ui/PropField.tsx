@@ -1,3 +1,4 @@
+/* eslint-disable animation-rules/require-data-testid -- delegating component; sub-components carry data-testid */
 import { memo } from 'react'
 import type { PropConfig } from '@/types/animation'
 import type { ColorOrGradient } from '@/types/gradient'

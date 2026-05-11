@@ -20,9 +20,7 @@ interface DragConstraints {
   bottom: number
 }
 
-/**
- *
- */
+/** Drag state and handlers returned by usePopoverDrag. */
 export interface PopoverDragState {
   manualPositionRef: RefObject<{ top: number; left: number } | null>
   isDraggingRef: RefObject<boolean>

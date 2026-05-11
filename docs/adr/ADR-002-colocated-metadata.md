@@ -12,7 +12,7 @@ With hundreds of animation components, we needed a way to:
 2. **Provide Metadata**: Associate each animation with title, description, tags, and configuration
 3. **Enable Discovery**: Allow users to browse and search animations effectively
 4. **Maintain Type Safety**: Ensure metadata is typed and validated
-5. **Support Multiple Variants**: Track Framer Motion vs CSS implementations
+5. **Support Multiple Variants**: Track Framer Motion, CSS, and optional PixiJS implementations
 
 Traditional approaches considered:
 
@@ -44,7 +44,7 @@ export function ButtonBounce() {
 }
 ```
 
-Group `index.ts` files use `buildGroupExport` with `import.meta.glob` for **automatic discovery** — adding a `.tsx` and `.meta.ts` file to `framer/` or `css/` is sufficient. The system then:
+Group `index.ts` files use `buildGroupExport` with `import.meta.glob` for **automatic discovery** — adding a `.tsx` and `.meta.ts` file to `framer/`, `css/`, or opted-in `pixijs/` is sufficient. The system then:
 
 1. Auto-discovers all component and metadata files via glob
 2. Extracts metadata from each `.meta.ts` file
@@ -88,6 +88,9 @@ src/components/
         ButtonPulse.tsx
       css/
         ButtonBounceCSS.tsx
+      pixijs/
+        ButtonBounce.tsx
+        ButtonBounce.meta.ts
 
   animationRegistry.ts           # Central registration
 
@@ -113,7 +116,7 @@ interface AnimationMetadata {
   description: string // Short description
   tags: string[] // Searchable tags
   category: string // Top-level category
-  group: string // Subcategory (framer/css)
+  group: string // Injected by build — authors omit this
   infiniteAnimation?: boolean // Auto-loop flag
   disableReplay?: boolean // Hide replay button
 }

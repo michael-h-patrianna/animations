@@ -9,6 +9,8 @@
  * Comic Sans MS is a system font and needs no @font-face declaration.
  */
 
+import { logger } from '@/services/logger'
+
 /** Fonts preloaded in fonts.css or provided by the OS — no runtime injection needed. */
 const EAGER_FONTS = new Set(['Inter', 'Lato', 'Comic Sans MS'])
 
@@ -103,6 +105,7 @@ export function ensureFontLoaded(font: string): void {
   if (import.meta.env.MODE === 'test') {
     injectTestFontStyle(font, css)
   } else if (!adoptFontCSS(css)) {
+    logger.warn(`[fontLoader] Constructable stylesheets unsupported; font "${font}" not loaded`)
     return
   }
 

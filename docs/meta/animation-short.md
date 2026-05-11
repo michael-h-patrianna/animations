@@ -74,16 +74,18 @@ Create animations that are pleasant, engaging, and emotionally resonant with use
 
 **Principle 9: Keep Web and Native Close Together**
 
-This is a **React web project** with future React Native portability as a requirement. Write web code that avoids RN-incompatible features.
+This is a **React web project** with future React Native portability for `framer/` and `css/`. Write those variants so they avoid RN-incompatible features.
 
 ### Current Stack
 
 - **Web**: Framer Motion, CSS, React (current implementation)
+- **Embedded games**: PixiJS v8 + GSAP inside a React-owned canvas, loaded in React Native through a WebView
 
 ### Future Compatibility
 
 - **React Native**: Will use Moti, Reanimated, react-native-linear-gradient
-- Web code must avoid features that don't translate to React Native
+- `framer/` and `css/` code must avoid features that don't translate to React Native
+- `pixijs/` code is WebView-only. It may use canvas-native PixiJS features when performance and cleanup are explicit.
 
 **✅ ALLOWED** (cross-platform safe):
 

@@ -2,9 +2,7 @@ import { m as MotionEl } from 'motion/react'
 import { sx } from '@/demo-ui/lib/sx'
 import { CHECKERBOARD } from '@/demo-ui/components/ui/colorPickerPanelConstants'
 
-/**
- *
- */
+/** Preset palette and recently used color swatches. */
 export function PaletteHistory({
   palette,
   history,
@@ -17,10 +15,10 @@ export function PaletteHistory({
   return (
     <div className="space-y-2 pt-1">
       <div className="flex gap-1 justify-between">
-        {palette.map((c) => (
+        {palette.map((c, i) => (
           <MotionEl.button
             data-testid="color-picker-hsv-change"
-            key={c}
+            key={`${i}-${c}`}
             onClick={() => {
               onSelect(c)
             }}
@@ -32,15 +30,15 @@ export function PaletteHistory({
       </div>
       {history.length > 0 && (
         <div className="flex gap-1.5 flex-wrap pt-2 border-t border-border-subtle">
-          {history.map((c) => (
+          {history.map((c, i) => (
             <MotionEl.button
               data-testid="color-picker-hsv-change-2"
-              key={c}
+              key={`${i}-${c}`}
               onClick={() => {
                 onSelect(c)
               }}
               className="w-5 h-5 rounded-full border border-border-default hover:scale-110 hover:border-border-strong transition-all shadow-sm relative overflow-hidden"
-              title="History"
+              title={c}
             >
               <div
                 className="absolute inset-0 -z-10"

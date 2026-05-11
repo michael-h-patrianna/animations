@@ -181,7 +181,7 @@ export const EditorTopBar: React.FC = () => {
         <a
           href={
             import.meta.env.VITE_GITHUB_URL ??
-            'https://github.com/michael-haufschild-gib/animations'
+            'https://github.com/Patrianna-Product/animation-prototypes'
           }
           target="_blank"
           rel="noopener noreferrer"

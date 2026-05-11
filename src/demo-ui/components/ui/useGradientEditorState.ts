@@ -43,7 +43,7 @@ export function useGradientEditorState(
     selectedIndex,
     editingStopColor,
     setEditingStopColor,
-    selectedStop: value.stops[selectedIndex],
+    selectedStop: value.stops[Math.min(selectedIndex, value.stops.length - 1)],
     handleStopPositionChange: useCallback(
       (index: number, position: number) => {
         emitChange(value.stops.map((s, i) => (i === index ? { ...s, position } : s)))

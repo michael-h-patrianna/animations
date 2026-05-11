@@ -33,9 +33,7 @@ function getViewportRect(): ViewportRect {
   }
 }
 
-/**
- *
- */
+/** Clamps a popover position to stay within viewport bounds with padding. */
 export function clampPopoverPosition(
   position: Pick<PositionRect, 'top' | 'left'>,
   popoverRect: Pick<PositionRect, 'width' | 'height'>
@@ -86,11 +84,41 @@ function computePopoverPosition(
   return clampPopoverPosition({ top, left }, popoverRect)
 }
 
+function applyPosition(
+  position: { top: number; left: number },
+  popoverRef: RefObject<HTMLDivElement | null>,
+  surfaceRef: RefObject<HTMLDivElement | null>,
+  setDragConstraints: (c: { left: number; right: number; top: number; bottom: number }) => void
+) {
+  const popover = popoverRef.current
+  const surface = surfaceRef.current
+  if (!popover || !surface) return
+
+  popover.style.top = `${String(position.top)}px`
+  popover.style.left = `${String(position.left)}px`
+
+  const surfaceRect = surface.getBoundingClientRect()
+  const maxLeft = Math.max(
+    VIEWPORT_PADDING,
+    window.innerWidth - surfaceRect.width - VIEWPORT_PADDING
+  )
+  const maxTop = Math.max(
+    VIEWPORT_PADDING,
+    window.innerHeight - surfaceRect.height - VIEWPORT_PADDING
+  )
+
+  setDragConstraints({
+    left: VIEWPORT_PADDING - position.left,
+    right: maxLeft - position.left,
+    top: VIEWPORT_PADDING - position.top,
+    bottom: maxTop - position.top,
+  })
+}
+
 /**
  * Positions an open popover and keeps drag constraints in sync with viewport bounds.
  *
  * @param options - Popover element refs, placement settings, and drag state.
- * @returns Nothing.
  */
 export function usePopoverPositioning({
   isOpen,
@@ -113,35 +141,17 @@ export function usePopoverPositioning({
   } = drag
 
   const applyPopoverPosition = useCallback(
-    (position: { top: number; left: number }) => {
-      const popover = popoverRef.current
-      const surface = surfaceRef.current
-      if (!popover || !surface) return
-
-      popover.style.top = `${String(position.top)}px`
-      popover.style.left = `${String(position.left)}px`
-
-      const surfaceRect = surface.getBoundingClientRect()
-      const maxLeft = Math.max(
-        VIEWPORT_PADDING,
-        window.innerWidth - surfaceRect.width - VIEWPORT_PADDING
-      )
-      const maxTop = Math.max(
-        VIEWPORT_PADDING,
-        window.innerHeight - surfaceRect.height - VIEWPORT_PADDING
-      )
-
-      setDragConstraints({
-        left: VIEWPORT_PADDING - position.left,
-        right: maxLeft - position.left,
-        top: VIEWPORT_PADDING - position.top,
-        bottom: maxTop - position.top,
-      })
-    },
+    (position: { top: number; left: number }) =>
+      applyPosition(position, popoverRef, surfaceRef, setDragConstraints),
     [popoverRef, surfaceRef, setDragConstraints]
   )
 
-  applyPositionRef.current = applyPopoverPosition
+  useLayoutEffect(() => {
+    applyPositionRef.current = applyPopoverPosition
+    return () => {
+      applyPositionRef.current = null
+    }
+  }, [applyPositionRef, applyPopoverPosition])
 
   const updatePosition = useCallback(() => {
     if (isDraggingRef.current) return
@@ -157,15 +167,15 @@ export function usePopoverPositioning({
         surface.getBoundingClientRect()
       )
       manualPositionRef.current = nextPosition
-      dragX.set(0)
-      dragY.set(0)
+      dragX.jump(0)
+      dragY.jump(0)
       applyPopoverPosition(nextPosition)
       return
     }
 
     const nextPosition = computePopoverPosition(trigger, surface, side, align, offset)
-    dragX.set(0)
-    dragY.set(0)
+    dragX.jump(0)
+    dragY.jump(0)
     applyPopoverPosition(nextPosition)
   }, [
     applyPopoverPosition,

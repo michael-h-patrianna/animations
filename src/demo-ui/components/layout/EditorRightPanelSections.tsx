@@ -10,6 +10,7 @@ import {
   REDUCED_MOTION_OPTIONS,
   useLayoutStore,
 } from '@/demo-ui/stores/layoutStore'
+import { isDisabledByCondition } from '@/components/ui/propFieldValue'
 import type { NumberPropConfig, PropConfig } from '@/types/animation'
 
 const ANIMATE_TOGGLE_OPTIONS = [
@@ -74,27 +75,33 @@ function AnimatableField({
   animateMode,
   onToggle,
   onChange,
+  allValues,
 }: {
   config: NumberPropConfig
   value: unknown
   animateMode: 'fixed' | 'animate'
   onToggle: (mode: 'fixed' | 'animate') => void
   onChange: (name: string, value: unknown) => void
+  allValues?: Record<string, unknown>
 }) {
-  const isAnimating = animateMode === 'animate'
+  const isConditionallyDisabled = isDisabledByCondition(config, allValues)
+  const isAnimating = !isConditionallyDisabled && animateMode === 'animate'
   return (
     <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]/35 p-3 space-y-2">
-      <ToggleGroup
-        options={ANIMATE_TOGGLE_OPTIONS}
-        value={animateMode}
-        onChange={onToggle}
-        ariaLabel={`${config.label} preview mode`}
-        data-testid={`animate-toggle-${config.name}`}
-      />
+      {!isConditionallyDisabled && (
+        <ToggleGroup
+          options={ANIMATE_TOGGLE_OPTIONS}
+          value={animateMode}
+          onChange={onToggle}
+          ariaLabel={`${config.label} preview mode`}
+          data-testid={`animate-toggle-${config.name}`}
+        />
+      )}
       <PropField
-        config={{ ...config, disabled: isAnimating ? true : config.disabled }}
+        config={{ ...config, disabled: isAnimating || isConditionallyDisabled || config.disabled }}
         value={value}
         onChange={onChange}
+        allValues={allValues}
       />
       {config.description != null && config.description !== '' && (
         <p className="mt-2 px-1 text-[11px] leading-relaxed text-text-tertiary">
@@ -191,6 +198,7 @@ export function PropRunField({
         animateMode={mode}
         onToggle={onAnimateToggle(first.name)}
         onChange={onChange}
+        allValues={propOverrides}
       />
     )
   }
@@ -233,8 +241,8 @@ export function GeneralSection() {
             data-testid="preview-font-select"
           />
           <p
-            className="px-1 text-[11px] leading-relaxed text-text-tertiary"
-            style={{ fontFamily: `${previewFont}, sans-serif` }}
+            className="px-1 text-[11px] leading-relaxed text-text-tertiary font-[family-name:var(--preview-font)]"
+            style={{ '--preview-font': `${previewFont}, sans-serif` } as React.CSSProperties}
           >
             Preview how animations look with {previewFont}.
           </p>

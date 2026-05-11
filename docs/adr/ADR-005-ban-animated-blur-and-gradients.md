@@ -6,7 +6,7 @@
 
 ## Context
 
-This project maintains dual implementations of every animation — CSS+React for web and Motion+React for future React Native portability via Moti/Reanimated. The framer/ variants are the canonical source that will be translated to native.
+This project maintains baseline CSS+React and Motion+React implementations of every animation. The `framer/` variants are the canonical source for future React Native portability via Moti/Reanimated. Optional `pixijs/` variants are embedded-game/WebView variants and are outside the React Native portability subset.
 
 React Native's animation ecosystem (Reanimated 3 + Moti) operates under hard constraints:
 
@@ -29,9 +29,11 @@ However, 13 inline `eslint-disable` suppressions exist across 8 files, all using
 
 ### What is banned
 
-**Blur as an animated property.** No animation may use `filter: blur()`, `backdrop-filter: blur()`, or any blur function in a value that changes over time (keyframes, motion values, transition targets). This applies to both framer/ and css/ variants.
+**Blur as an animated property.** No `framer/` or `css/` animation may use `filter: blur()`, `backdrop-filter: blur()`, or any blur function in a value that changes over time (keyframes, motion values, transition targets).
 
-**Radial and conic gradients as animated properties.** No animation may transition between gradient states, animate gradient stops, or use radial/conic gradients in motion values. This applies to both framer/ and css/ variants.
+**Radial and conic gradients as animated properties.** No `framer/` or `css/` animation may transition between gradient states, animate gradient stops, or use radial/conic gradients in motion values.
+
+**PixiJS exception.** `pixijs/` variants render into canvas for WebView games. They may use canvas-native blur, glow, masks, shaders, and gradients when the effect is performant and cleaned up correctly. Do not import those choices back into `framer/` or `css/`.
 
 **All blur and gradient usage in CSS files.** The Stylelint rules remain absolute — CSS files must not contain `blur()`, `radial-gradient()`, or `conic-gradient()` under any circumstances.
 
