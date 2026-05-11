@@ -155,7 +155,7 @@ const GROUPS = [
 
 // ── Template ─────────────────────────────────────────────────────────────────
 
-function generateGroupIndex(group, { hasSharedCss }) {
+function generateGroupIndex(group, { hasSharedCss, hasPixijs }) {
   const lines = []
 
   lines.push('/**')
@@ -197,6 +197,12 @@ function generateGroupIndex(group, { hasSharedCss }) {
     "  import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true }),"
   )
   lines.push('  {')
+  if (hasPixijs) {
+    lines.push("    pixijsComponents: import.meta.glob<Record<string, unknown>>('./pixijs/*.tsx'),")
+    lines.push(
+      "    pixijsMeta: import.meta.glob<{ metadata: AnimationMetadata }>('./pixijs/*.meta.ts', { eager: true }),"
+    )
+  }
   lines.push(
     "    framerTsx: import.meta.glob<string>('./framer/*.tsx', { query: '?raw', import: 'default' }),"
   )
@@ -209,6 +215,14 @@ function generateGroupIndex(group, { hasSharedCss }) {
   lines.push(
     "    cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),"
   )
+  if (hasPixijs) {
+    lines.push(
+      "    pixijsTsx: import.meta.glob<string>('./pixijs/*.tsx', { query: '?raw', import: 'default' }),"
+    )
+    lines.push(
+      "    pixijsCss: import.meta.glob<string>('./pixijs/*.css', { query: '?raw', import: 'default' }),"
+    )
+  }
   lines.push(
     "    shared: import.meta.glob<string>('./*.{ts,tsx}', { query: '?raw', import: 'default' }),"
   )
@@ -248,7 +262,8 @@ for (const group of GROUPS) {
   }
 
   const hasSharedCss = existsSync(resolve(groupDir, 'shared.css'))
-  const expected = generateGroupIndex(group, { hasSharedCss })
+  const hasPixijs = existsSync(resolve(groupDir, 'pixijs'))
+  const expected = generateGroupIndex(group, { hasSharedCss, hasPixijs })
 
   if (isCheck) {
     const actual = existsSync(indexPath) ? readFileSync(indexPath, 'utf8') : ''
