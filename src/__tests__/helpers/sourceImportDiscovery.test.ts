@@ -233,11 +233,7 @@ describe('real animation source import discovery', () => {
             }
           : {},
         subdir === 'framer'
-          ? {
-              [`./framer/${componentName}.meta.ts`]: {
-                metadata: makeMeta(`g__${componentName}`),
-              },
-            }
+          ? { [`./framer/${componentName}.meta.ts`]: { metadata: makeMeta(`g__${componentName}`) } }
           : {},
         subdir === 'css'
           ? {
@@ -268,5 +264,5 @@ describe('real animation source import discovery', () => {
     }
 
     expect(failures).toEqual([])
-  }, 15000)
+  })
 })

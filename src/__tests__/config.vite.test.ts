@@ -38,8 +38,16 @@ function getAliasRecord(config: UserConfig): Record<string, string> {
 }
 
 describe('vite config', () => {
-  it('includes path alias and profiling alias', async () => {
+  it('includes path alias without profiling in production mode', async () => {
     const config = await resolveViteConfig('production')
+    const alias = getAliasRecord(config)
+
+    expect(alias).toMatchObject({ '@': '/src' })
+    expect(Object.keys(alias)).toEqual(['@'])
+  })
+
+  it('includes profiling alias in profile mode', async () => {
+    const config = await resolveViteConfig('profile')
     const alias = getAliasRecord(config)
 
     expect(alias).toMatchObject({

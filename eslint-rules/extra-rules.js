@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync } from 'node:fs'
-import { basename, dirname, join } from 'node:path'
+import { basename, dirname, join, normalize } from 'node:path'
 
 import { checkCssForAnimations, getFilename, isAnimationFile, isInFramer } from './rule-helpers.js'
 
@@ -21,12 +21,19 @@ function extractImportsFromSource(source) {
 }
 
 function importsLoadDemoBlockStyles(imports) {
-  return imports.some(
-    (source) =>
-      typeof source === 'string' &&
-      (source.startsWith('@/components/demo-blocks') ||
-        source.includes('/demo-blocks/demo-blocks.css'))
-  )
+  const demoBlocksComponentPattern = /^@\/components\/demo-blocks(?:\/Demo[A-Z]\w*)?$/
+  const relativeDemoBlocksCssPattern = /^(?:(?:\.\.|\.)\/)*demo-blocks\/demo-blocks\.css$/
+
+  return imports.some((source) => {
+    if (typeof source !== 'string') return false
+
+    const normalizedSource = normalize(source).replaceAll('\\', '/')
+    return (
+      normalizedSource === '@/components/demo-blocks/demo-blocks.css' ||
+      demoBlocksComponentPattern.test(normalizedSource) ||
+      relativeDemoBlocksCssPattern.test(normalizedSource)
+    )
+  })
 }
 
 const extraRules = {

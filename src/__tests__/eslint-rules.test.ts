@@ -13,9 +13,26 @@
 import { RuleTester } from 'eslint'
 import { describe, it, expect } from 'vitest'
 import { rules } from '../../eslint-rules/animation-rules.js'
+import { stripVarFallbacks } from '../../eslint-rules/strip-var-fallbacks.js'
 
 const ruleTester = new RuleTester({
   languageOptions: { ecmaVersion: 2022, sourceType: 'module' },
+})
+
+// ── stripVarFallbacks ───────────────────────────────────────────────────
+
+describe('stripVarFallbacks', () => {
+  it('removes var fallbacks while preserving template interpolation text', () => {
+    expect(stripVarFallbacks('color: var(--fg, #fff) ${token};')).toBe(
+      'color: var(--stripped) ${token};'
+    )
+  })
+
+  it('removes nested function fallbacks', () => {
+    expect(stripVarFallbacks('box-shadow: 0 0 4px var(--shadow, rgb(0, 0, 0));')).toBe(
+      'box-shadow: 0 0 4px var(--stripped);'
+    )
+  })
 })
 
 // ── no-hardcoded-colors ──────────────────────────────────────────────────
@@ -300,8 +317,20 @@ describe('no-implicit-demo-block-styles', () => {
     ],
     invalid: [
       {
-        code: 'import "@/lib/utils"\nexport function Foo() { return <div className="pf-demo-button" /> }',
+        code: 'import "@/components/demo-blocks/demo-blocks.css-extra"\nexport function Foo() { return <div className="pf-demo-button" /> }',
         filename: 'src/components/base/lint-fixture/css/Foo.tsx',
+        languageOptions: jsxLanguageOptions,
+        errors: [{ message: /does not explicitly load demo-block styles/ }],
+      },
+      {
+        code: 'import "@/components/foo/demo-blocks/demo-blocks.css-extra"\nexport function Foo() { return <div className="pf-demo-button" /> }',
+        filename: 'src/components/base/lint-fixture/css/Foo.tsx',
+        languageOptions: jsxLanguageOptions,
+        errors: [{ message: /does not explicitly load demo-block styles/ }],
+      },
+      {
+        code: 'import "../../../demo-blocks/demo-blocks.css-extra"\nexport function Foo() { return <div className="pf-demo-button" /> }',
+        filename: 'src/components/base/lint-fixture/framer/Foo.tsx',
         languageOptions: jsxLanguageOptions,
         errors: [{ message: /does not explicitly load demo-block styles/ }],
       },

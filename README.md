@@ -1,5 +1,7 @@
 # Animation Showcase
 
+Vercel Preview: https://animations-nine-sandy.vercel.app/
+
 [![CI](https://github.com/michael-haufschild-gib/animations/actions/workflows/ci.yml/badge.svg)](https://github.com/michael-haufschild-gib/animations/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/michael-haufschild-gib/animations/graph/badge.svg)](https://codecov.io/gh/michael-haufschild-gib/animations)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -112,7 +114,7 @@ The CI pipeline enforces:
 - **TypeScript** strict mode with `noUncheckedIndexedAccess` and branded ID types
 - **30+ custom ESLint rules** enforcing animation portability (no hardcoded colors, dual implementation required, no CSS animations in Motion variants, no non-portable styles in `framer/`)
 - **6 custom Stylelint rules** (no blur, no conic gradients, no z-index magic numbers, no hardcoded colors in CSS)
-- **1250+ unit tests** (Vitest) with per-subsystem coverage thresholds (90% for hooks/lib/services)
+- **Vitest unit coverage** with per-subsystem thresholds; current coverage is published via the Codecov badge above
 - **Property-based tests** (fast-check) for color utilities, metadata validation, source transforms
 - **60+ E2E test specs** across Chromium, WebKit, and Firefox (Playwright)
 - **Bundle size budgets** per chunk — lazy-loaded animation groups stay within defined limits
